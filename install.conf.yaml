@@ -5,21 +5,9 @@
     ~/.config/i3status/config:
       create: true
       path: link/config/i3status/config
-    ~/.config/roxterm.sourceforge.net/Shortcuts/Default:
+    ~/.config/roxterm.sourceforge.net:
       create: true
-      path: link/config/roxterm.sourceforge.net/Shortcuts/Default
-    ~/.config/roxterm.sourceforge.net/Profiles/Default:
-      create: true
-      path: link/config/roxterm.sourceforge.net/Profiles/Default
-    ~/.config/roxterm.sourceforge.net/Colours/Default:
-      create: true
-      path: link/config/roxterm.sourceforge.net/Colours/Default
-    ~/.config/roxterm.sourceforge.net/Global:
-      create: true
-      path: link/config/roxterm.sourceforge.net/Global
-    ~/.config/roxterm.sourceforge.net/Global:
-      create: true
-      path: link/config/roxterm.sourceforge.net/Global
+      path: link/config/roxterm.sourceforge.net
     ~/.gitconfig: link/gitconfig
     ~/.git-prompt.sh: link/git-prompt.sh
     ~/.i3/config:

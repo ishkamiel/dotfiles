@@ -120,12 +120,14 @@ exec --no-startup-id xrdb -merge ~/.Xresources
 exec --no-startup-id yeahconsole
 exec --no-startup-id keychain
 exec --no-startup-id wicd-gtk -t -a
+exec --no-startup-id hash xbacklight && xbacklight -set 70
 
 #-------- App specific configs
 #
 # Fix floating dialogs and popups
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
+for_window [title="Preferences$"] floating enable
 #
 # Move apps to workspaces
 for_window [class="Firefox"] move workspace 3
