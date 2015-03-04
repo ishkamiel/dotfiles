@@ -27,9 +27,14 @@ if [ ${ASK} ]; then
 else
     yn='y'
 fi
+
 case $yn in
     [Yy]*) 
-        say_do "Scheduling aptitude installs..."
+        if [ ${ASK} ]; then 
+            say_do "Okay, scheduling aptitude installations..."
+        else
+            say_do "Scheduling aptitude installation of: ${PACKAGES[*]}"
+        fi
         sudo aptitude install -y --schedule-only ${PACKAGES[*]}
         ;;
     [Nn]*) 
