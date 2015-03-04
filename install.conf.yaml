@@ -10,6 +10,9 @@
     ~/.pentadactylrc: link/pentadactylrc
     ~/.vimrc: link/vimrc
     ~/.xmodmap_CapsEsc: link/xmodmap_CapsEsc
+    ~/.themes/Uncomplicated-Mint:
+      create: true
+      path: link/themes/Uncomplicated-Mint
 - shell: 
   -
     command: bash scripts/install_i3.sh
