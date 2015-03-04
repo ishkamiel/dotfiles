@@ -1,0 +1,212 @@
+let onWin = 0
+if has("win32") || has("win16")
+    let onWin = 1
+endif
+
+set nocompatible
+filetype off
+if onWin
+    let path='~/vimfiles/bundle'
+    set rtp+=~/vimfiles/bundle/Vundle.vim
+else
+    set rtp+=~/.vim/bundle/Vundle.vim
+endif
+call vundle#rc()
+
+Plugin 'gmarik/Vundle.vim'
+"Bundle 'tpope/vim-endwise'
+"Bundle 'tpope/vim-git'
+"Bundle 'tpope/vim-surround'
+
+Plugin 'majutsushi/tagbar'
+Plugin 'scrooloose/syntastic'
+Plugin 'scrooloose/NERDTree'
+Plugin 'kien/ctrlp.vim'
+Plugin 'tcomment'
+Plugin 'bling/vim-airline'
+Plugin 'guns/vim-clojure-static'
+Plugin 'maksimr/vim-jsbeautify'
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'tpope/vim-fugitive'
+Plugin 'reedes/vim-pencil'
+" Plugin 'jalcine/cmake.vim'
+
+"-------------------------------------------------------------------------------
+" Use Vim settings, rather then Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
+set nocompatible
+" Use plugins and indent
+syntax on
+filetype plugin indent on
+
+"-------------------------------------------------------------------------------
+" Various settings
+"-------------------------------------------------------------------------------
+set autochdir             		" change the current working directory
+" set autoread              	" read open files again when changed outside Vim
+" set autowrite             	" write a modified buffer on each :next , ...
+set backspace=indent,eol,start 	" allow backspacing over everything in insert mode
+set backup						" keep a backup file
+set browsedir=current   		" which directory to use for the file browser
+set foldlevel=999				" initially all folds open
+set history=50					" keep 50 lines of command line history
+set incsearch             		" use incremental search
+set nowrap                		" do not wrap lines
+set ruler						" show the cursor position all the time
+set shiftwidth=4         		" number of spaces to use for each step of indent
+set showcmd						" display incomplete commands
+set tabstop=4 	        		" number of spaces that a <Tab> in the file counts for
+set expandtab                   " insert spaces instead of tabs
+set visualbell 		           	" visual bell instead of beeping
+"set textwidth=90 	          	" text width for autoformatt stuff, or something
+
+
+set spelllang=en,sv
+
+" Switch syntax highlighting on, when the terminal has colors
+" Also switch on highlighting the last used search pattern.
+if &t_Co > 2 || has("gui_running")
+	syntax on
+	set hlsearch
+endif
+
+colorscheme elflord
+set guioptions-=m  "remove menu bar
+set guioptions-=T  "remove toolbar
+set guioptions-=r  "remove right-hand scroll bar
+set guioptions-=L  "remove left-hand scroll bar
+
+if onWin
+    set lines=40 columns=160
+endif
+
+set backupdir=~/.vimbackup,.,~/tmp
+set directory=~/.vimbackup,.,~/tmp
+if onWin
+    set backupdir=~/vimbackup
+    set directory=~/vimbackup
+endif
+
+set pastetoggle=<F9>
+
+set scrolloff=10
+
+" Uncomment the following to have Vim jump to the last position when
+" reopening a file
+if has("autocmd")
+   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+
+" make stuff
+"let &makeprg = 'if [ -f Makefile ]; then make; else make -C ..; fi'
+":map <f9> :make
+
+" disable arrow keys
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" LaTex and textfiles
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+autocmd BufRead,BufNewFile *.tex setlocal spell
+autocmd BufRead,BufNewFile *.tex setlocal wrap
+autocmd BufRead,BufNewFile *.tex setlocal textwidth=90
+autocmd BufRead,BufNewFile *.tex setlocal formatoptions=t1
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" C++
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim-jsbeatuify
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" map <c-r> :call JsBeautify()<cr>
+" or
+autocmd FileType javascript noremap <buffer>  <c-r> :call JsBeautify()<cr>
+" for html
+autocmd FileType html noremap <buffer> <c-r> :call HtmlBeautify()<cr>
+" for css or scss
+autocmd FileType css noremap <buffer> <c-r> :call CSSBeautify()<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" NERDTree
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" autocmd vimenter * NERDTree
+" map <C-n> :NERDTreeToggle<CR>
+" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+" autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+let g:NERDTreeWinSize=20
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" NERDTree_tabas
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:nerdtree_tabs_open_on_gui_startup=1
+let g:nerdtree_tabs_open_on_console_startup=1
+let g:nerdtree_tabs_no_startup_for_diff=1
+let g:nerdtree_tabs_smart_startup_focus=2
+let g:nerdtree_tabs_focus_on_files=1
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" airline
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:airline#extensions#tabline#enabled = 1
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" YouComepleteMe
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Set YouCompleteMe trigger key
+" let g:ycm_key_list_select_completion = ['<Down>']
+" let g:ycm_key_list_previous_completion = ['<Up>']
+let g:ycm_extra_conf_globlist = ['~/personal/*', '~/devel/*' ]
+let g:ycm_use_ultisnips_completer = 1
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" syntastic stuff
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_wq = 0
+
+let g:syntastic_check_on_open=1
+let g:syntastic_enable_signs=1
+let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_c_check_header = 1
+let syntastic_mode_map = { 'passive_filetypes': ['html'] } " don't check html
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" TagBar
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if onWin
+    let g:tagbar_ctags_bin = 'C:\Users\ishkamiel\Documents\installs\ctags\ctags.exe'
+endif
+"nmap <F8> :TagbarToggle<CR>
+nmap <F8> :TagbarOpenAutoClose<CR>
+" autocmd VimEnter * nested :call tagbar#autoopen(1)
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" UltiSnip
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+"let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsExpandTrigger="<c-o>"
+let g:UltiSnipsExpandTrigger="<c-l>"
+let g:UtliSnipsEditSplit="normal"
+" let g:UltiSnipsListSnippets="<c-Right>"
+" let g:UltiSnipsJumpForwardTrigger="<tab>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+" let g:UltiSnipsEditSplit="vertical"
+

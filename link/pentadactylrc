@@ -1,0 +1,20 @@
+set guioptions+=T
+"set showtabline=multitab
+
+" prevent automatic completion expanding
+set autocomplete=
+
+set! browser.tabs.closeWindowWithLastTab=false
+
+set passkeys+=mail.google.com:jk<Return>
+set passkeys+=www.google.com/reader:jkv<Return>
+
+set editor='gvim -f +<line> <file>'
+
+set scrolltime=10
+set scrollsteps=20
+
+map -b j 10j
+map -b k 10k
+
+" set defsearch=startpage

@@ -1,0 +1,15 @@
+- link: 
+    ~/.i3/config:
+      create: true
+      path: link/i3/config
+    ~/.bashrc: link/bashrc
+    ~/.pentadactylrc: link/pentadactylrc
+    ~/.vimrc: link/vimrc
+    ~/.bashrc: link/bashrc
+    ~/.xmodmap_CapsEsc: link/xmodmap_CapsEsc
+- shell: 
+  -
+    command: bash scripts/install_i3.sh
+    stdin: true 
+    stdout: true
+- clean: [ '~', '~/.config' ]

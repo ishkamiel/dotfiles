@@ -1,0 +1,135 @@
+set $mod Mod1
+
+#-------- Font setting
+#
+font pango:DejaVu Sans Mono 8
+
+#-------- Window focus
+#
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+#-------- Window movement
+#
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+#-------- Window fullscreen
+#
+bindsym $mod+f fullscreen
+
+#-------- Window layout and split
+#
+# floating_modifier $mod
+# bindsym $mod+b split h
+# bindsym $mod+v split v
+# bindsym $mod+s layout stacking
+# bindsym $mod+w layout tabbed
+# bindsym $mod+e layout toggle split
+# bindsym $mod+Shift+space floating toggle
+# bindsym $mod+space focus mode_toggle
+# bindsym $mod+a focus parent
+# bindsym $mod+d focus child
+
+#-------- Window resizing
+#
+mode "resize" {
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+#-------- Workspace switching
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+#-------- Status bar
+bar {
+    mode dock
+    # modifier $mod
+    position top
+    workspace_buttons no
+    binding_mode_indicator yes
+
+    status_command i3status
+}
+
+#-------- System commands
+#
+set $cmd_lock "i3lock -d -I 10 -c 000000 -e"
+set $cmd_exit "i3msg exit"
+set $cmd_restart "systemctl reboot"
+set $cmd_shutdown "systemctl poweroff -i"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+#bindsym $mod+Ctrl+l exec --no-startup-id $lockeri3lock
+bindsym $mod+Ctrl+l exec --no-startup-id $cmd_lock
+mode "system" {
+        bindsym l exec --no-startup-id $cmd_lock, mode "default"  
+        bindsym c reload, mode "default" 
+        bindsym r restart, mode "default"
+        bindsym Shift+e exec --no-startup-id $cmd_logout, mode "default" 
+        bindsym Shift+r exec --no-startup-id $cmd_restart, mode "default"
+        bindsym Shift+s exec --no-startup-id $cmd_shutdown, mode "default"
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+bindsym $mod+q mode "system"
+
+#-------- Application shortcuts
+#
+bindsym $mod+d exec dmenu_run
+bindsym $mod+Shift+q kill
+
+bindsym $mod+Return exec i3-sensible-terminal
+
+#-------- Autostart stuff
+#
+exec --no-startup-id xset dpms 600
+exec --no-startup-id xautolock -time 10 -locker "$cmd_lock"
+exec --no-startup-id feh --bg-fill '/home/ishkamiel/.wallpaper.png'
+exec --no-startup-id compton -c -G --vsync opengl --refresh-rate 60 --inactive-dim 0.5 --sw-opti
+exec --no-startup-id setxkbmap -layout fi -variant nodeadkeys -option caps:escape
+exec --no-startup-id xrdb -merge ~/.Xresources
+exec --no-startup-id yeahconsole
+exec --no-startup-id keychain
+exec --no-startup-id wicd-gtk -t -a
+
+#-------- App specific configs
+#
+# Fix floating dialogs and popups
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+#
+# Move apps to workspaces
+for_window [class="Firefox"] move workspace 3
+for_window [class="nuvolaplayer"] move workspace 4
+
+
+
