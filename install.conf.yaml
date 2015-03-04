@@ -11,6 +11,7 @@
       create: true
       path: link/i3/config
     ~/.pentadactylrc: link/pentadactylrc
+    ~/.profile: link/profile
     ~/.themes/Uncomplicated-Mint:
       create: true
       path: link/themes/Uncomplicated-Mint
@@ -33,7 +34,7 @@
     stdin: true 
     stdout: true
   -
-    command: sudo aptitude install
+    command: bash scripts/doInstalls.sh
     stdin: true 
     stdout: true
 - clean: [ '~', '~/.config' ]

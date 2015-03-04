@@ -51,21 +51,18 @@ GIT_PS1_SHOWCOLORHINTS=1
 source .git-prompt.sh
 source .bash-colors.sh
 
-#PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
-#PROMPT_COMMAND='__git_ps1 "[\u@\h:\w" "\\\$ "'
-#PROMPT_COMMAND='__git_ps1 "${Pd_chroot}${Pd_default}" " \n${Pd_time} \$ "'
-PROMPT_COMMAND='__git_ps1 "${Pd_time} ${Pd_jobs} ${Pd_chroot}${Pd_userNhost}" "\n${Pd_cwd} \$ "'
-
-export EDITOR='/usr/bin/vim'
+PROMPT_COMMAND='__git_ps1 "${BCyan}$(date +%H:%M)${Color_Off} ${Pd_jobs} ${Pd_chroot}${Pd_userNhost}" "\n${Pd_cwd} \$ "'
 
 export PATH="$PATH:$HOME/personal/bin"
 export PATH="$PATH:$HOME/bin"
 
-# rvm
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+export EDITOR='/usr/bin/vim'
 
+#-------- nvm
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
-nvm use 0.11
+#-------- rvm
+export PATH="$PATH:$HOME/.rvm/bin"
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
