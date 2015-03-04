@@ -35,9 +35,7 @@ do
     fi
 done
 
-if [ ${#IPACKAGES[@]} -eq 0 ]; then
-    say_info "Skipping, already installed..."
-else
+if [ ! ${#IPACKAGES[@]} -eq 0 ]; then
 
     if [ ${ASK} ]; then 
         say_info "Installing stuff for ${PACKAGE_DESCRIPTTION}:\n${IPACKAGES[*]}\nAre you sure?"
@@ -48,12 +46,11 @@ else
 
     case $yn in
         [Yy]*) 
-            if [ ${ASK} ]; then 
-                say_do "Okay, scheduling aptitude installations..."
-            else
-                say_do "Scheduling aptitude installation of: ${IPACKAGES[*]}"
-            fi
-            # sudo aptitude install -y --schedule-only ${IPACKAGES[*]}
+            # if [ ${ASK} ]; then 
+            #     say_do "Okay, scheduling aptitude installations..."
+            # else
+            #     say_do "Scheduling aptitude installation of: ${IPACKAGES[*]}"
+            # fi
 
             for var in "${IPACKAGES[@]}"
             do
@@ -61,9 +58,8 @@ else
             done
             ;;
         [Nn]*) 
-            #say_info "Okay, skipping installation..."
+            # say_info "Okay, skipping installation..."
             ;;
     esac
 fi
 
-echo "and here we are"
