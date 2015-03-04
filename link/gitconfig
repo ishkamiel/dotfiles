@@ -1,0 +1,15 @@
+[user]
+	name = Hans Liljestrand
+	editor = vim
+	email = ishkamiel@gmail.com
+
+[github]
+	name = ishkamiel
+	
+[alias]
+	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+
+[color]
+	ui = auto
+[push]
+	default = simple

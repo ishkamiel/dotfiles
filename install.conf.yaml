@@ -1,15 +1,30 @@
 - link: 
+    ~/.bashrc: link/bashrc
+    ~/.config/i3status/config:
+      create: true
+      path: link/config/i3status/config
+    ~/.gitconfig: link/gitconfig
     ~/.i3/config:
       create: true
       path: link/i3/config
-    ~/.bashrc: link/bashrc
     ~/.pentadactylrc: link/pentadactylrc
     ~/.vimrc: link/vimrc
-    ~/.bashrc: link/bashrc
     ~/.xmodmap_CapsEsc: link/xmodmap_CapsEsc
 - shell: 
   -
     command: bash scripts/install_i3.sh
+    stdin: true 
+    stdout: true
+  -
+    command: bash scripts/install_dev.sh
+    stdin: true 
+    stdout: true
+  -
+    command: bash scripts/install_ogreLibs.sh
+    stdin: true 
+    stdout: true
+  -
+    command: sudo aptitude install
     stdin: true 
     stdout: true
 - clean: [ '~', '~/.config' ]

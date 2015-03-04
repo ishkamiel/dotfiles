@@ -29,8 +29,8 @@ else
 fi
 case $yn in
     [Yy]*) 
-        say_do "Running aptitude..."
-        sudo aptitude install ${PACKAGES[*]}
+        say_do "Scheduling aptitude installs..."
+        sudo aptitude install -y --schedule-only ${PACKAGES[*]}
         ;;
     [Nn]*) 
         #say_info "Okay, skipping installation..."
