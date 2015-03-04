@@ -35,6 +35,7 @@
       path: link/vim/after/ftplugin
     ~/.vimrc: link/vimrc
     ~/.xmodmap_CapsEsc: link/xmodmap_CapsEsc
+    ~/.Xresources: link/Xresources
 - shell: 
   -
     command: bash scripts/install_i3.sh

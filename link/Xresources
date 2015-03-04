@@ -1,0 +1,10 @@
+yeahconsole*toggleKey: Alt+section
+yeahconsole*term: xterm
+yeahconsole*faceName: Monospace:size=12:antialias=true
+yeahconsole*consoleHeight: 20
+yeahconsole*aniDelay: 10
+yeahconsole*restart: 1
+xterm*faceName: Monospace:size=12:antialias=true
+xterm*saveLines: 4096
+xterm*termName: xterm-256color
+xterm*scrollBar: false
