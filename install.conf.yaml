@@ -7,7 +7,6 @@
       path: link/config/i3status/config
     ~/.gitconfig: link/gitconfig
     ~/.git-prompt.sh: link/git-prompt.sh
-    ~/.gconf/apps/guake: link/gconf/apps/guake
     ~/.i3/config:
       create: true
       path: link/i3/config
