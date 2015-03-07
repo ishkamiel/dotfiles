@@ -108,6 +108,14 @@ bindsym $mod+Shift+q kill
 
 bindsym $mod+Return exec gnome-terminal
 
+#-------- Volume controls
+#
+bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master toggle
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 10%+
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 10%-
+
+
+
 #-------- Autostart stuff
 #
 exec --no-startup-id xset dpms 600
