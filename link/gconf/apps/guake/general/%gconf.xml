@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<gconf>
+	<entry name="scroll_output" mtime="1425756600" type="bool" value="true"/>
+	<entry name="window_height" mtime="1425756574" type="int" value="60"/>
+	<entry name="mouse_display" mtime="1425756563" type="bool" value="true"/>
+	<entry name="display_n" mtime="1425756563" type="int" value="0"/>
+	<entry name="quick_open_command_line" mtime="1425756563" type="string">
+		<stringvalue>gedit %(file_path)s</stringvalue>
+	</entry>
+	<entry name="window_halignment" mtime="1425756563" type="int" value="0"/>
+	<entry name="window_width" mtime="1425756563" type="int" value="100"/>
+	<entry name="compat_delete" mtime="1425756563" type="string">
+		<stringvalue>delete-sequence</stringvalue>
+	</entry>
+	<entry name="compat_backspace" mtime="1425756563" type="string">
+		<stringvalue>ascii-delete</stringvalue>
+	</entry>
+	<entry name="use_default_font" mtime="1425756563" type="bool" value="true"/>
+	<entry name="scroll_keystroke" mtime="1425756563" type="bool" value="true"/>
+	<entry name="history_size" mtime="1425756563" type="int" value="1024"/>
+	<entry name="use_scrollbar" mtime="1425756598" type="bool" value="false"/>
+	<entry name="window_tabbar" mtime="1425416039" type="bool" value="false"/>
+	<entry name="window_losefocus" mtime="1425756563" type="bool" value="false"/>
+	<entry name="prompt_on_quit" mtime="1425756563" type="bool" value="true"/>
+	<entry name="use_popup" mtime="1425756563" type="bool" value="true"/>
+	<entry name="use_trayicon" mtime="1425756613" type="bool" value="false"/>
+</gconf>

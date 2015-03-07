@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<gconf>
+	<entry name="transparency" mtime="1425756563" type="int" value="80"/>
+</gconf>
