@@ -117,7 +117,8 @@ exec --no-startup-id feh --bg-fill '/home/ishkamiel/.wallpaper.png'
 exec --no-startup-id compton -c -G --vsync opengl --refresh-rate 60 --inactive-dim 0.5 --sw-opti
 exec --no-startup-id setxkbmap -layout fi -variant nodeadkeys -option caps:escape
 exec --no-startup-id xrdb -merge ~/.Xresources
-exec --no-startup-id yeahconsole
+#exec --no-startup-id yeahconsole
+exec --no-startup-id guake
 exec --no-startup-id keychain
 exec --no-startup-id wicd-gtk -t -a
 exec --no-startup-id hash xbacklight && xbacklight -set 70
@@ -128,6 +129,9 @@ exec --no-startup-id hash xbacklight && xbacklight -set 70
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 for_window [title="Preferences$"] floating enable
+for_window [class="Guake"] floating enable
+
+#for_window [window_name="Guake!"] floating enable
 #
 # Move apps to workspaces
 for_window [class="Firefox"] move workspace 3
