@@ -1,5 +1,77 @@
 <?xml version="1.0"?>
 <gconf>
+	<entry name="toggle_fullscreen" mtime="1425757265" type="string">
+		<stringvalue>F11</stringvalue>
+	</entry>
+	<entry name="new_tab" mtime="1425757258" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="close_tab" mtime="1425757258" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="rename_current_tab" mtime="1425757256" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="previous_tab" mtime="1425757254" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="next_tab" mtime="1425757253" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="search_on_web" mtime="1425757250" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="clipboard_paste" mtime="1425757245" type="string">
+		<stringvalue>&lt;Primary&gt;v</stringvalue>
+	</entry>
+	<entry name="clipboard_copy" mtime="1425757243" type="string">
+		<stringvalue>&lt;Primary&gt;c</stringvalue>
+	</entry>
+	<entry name="decrease_height" mtime="1425757236" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="increase_height" mtime="1425757235" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="zoom_in_alt" mtime="1425757235" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="zoom_in" mtime="1425757234" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="zoom_out" mtime="1425757233" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="switch_tab10" mtime="1425757232" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="switch_tab9" mtime="1425757230" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="switch_tab8" mtime="1425757230" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="switch_tab7" mtime="1425757229" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="switch_tab6" mtime="1425757229" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="switch_tab5" mtime="1425757228" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="switch_tab4" mtime="1425757228" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="switch_tab3" mtime="1425757228" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="switch_tab2" mtime="1425757227" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
+	<entry name="switch_tab1" mtime="1425757226" type="string">
+		<stringvalue>disabled</stringvalue>
+	</entry>
 	<entry name="quit" mtime="1425756593" type="string">
 		<stringvalue>disabled</stringvalue>
 	</entry>
