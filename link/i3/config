@@ -130,7 +130,8 @@ exec --no-startup-id xrdb -merge ~/.Xresources
 #exec --no-startup-id yeahconsole
 exec --no-startup-id guake
 exec --no-startup-id keychain
-exec --no-startup-id wicd-gtk -t -a
+#exec --no-startup-id wicd-gtk -t -a
+exec --no-startup-id nm-applet
 exec --no-startup-id hash xbacklight && xbacklight -set 70
 
 #-------- App specific configs
