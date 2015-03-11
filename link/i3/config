@@ -1,32 +1,29 @@
 set $mod Mod1
-
+#
 #-------- Font setting
 #
 font pango:DejaVu Sans Mono 8
-
 #-------- Window focus
 #
+focus_follows_mouse no 
 bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
-
-focus_follows_mouse no 
-
+#
 #-------- Window movement
 #
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
-
+#
 #-------- Window fullscreen
 #
 bindsym $mod+f fullscreen
-
+#
 #-------- Window layout and split
 #
-# floating_modifier $mod
 # bindsym $mod+b split h
 # bindsym $mod+v split v
 # bindsym $mod+s layout stacking
@@ -36,7 +33,7 @@ bindsym $mod+f fullscreen
 # bindsym $mod+space focus mode_toggle
 # bindsym $mod+a focus parent
 # bindsym $mod+d focus child
-
+#
 #-------- Window resizing
 #
 mode "resize" {
@@ -48,8 +45,10 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
-
+#
 #-------- Workspace switching
+#
+workspace_auto_back_and_forth yes
 bindsym $mod+1 workspace 1
 bindsym $mod+2 workspace 2
 bindsym $mod+3 workspace 3
@@ -70,18 +69,18 @@ bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
-
+#
 #-------- Status bar
+#
 bar {
     mode dock
     # modifier $mod
     position bottom
     workspace_buttons yes
     binding_mode_indicator yes
-
     status_command i3status
 }
-
+#
 #-------- System commands
 #
 set $cmd_lock "i3lock -d -I 10 -c 000000 -e"
@@ -102,40 +101,58 @@ mode "system" {
         bindsym Escape mode "default"
 }
 bindsym $mod+q mode "system"
-
-#-------- Application shortcuts
 #
-bindsym $mod+d exec dmenu_run
-bindsym $mod+Shift+q kill
-
-bindsym $mod+Return exec gnome-terminal
-bindsym $mod+n exec nautilus --no-desktop
-
 #-------- Volume controls
 #
 bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master toggle
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 10%+
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 10%-
-
-
-
+#
+#-------- mouse shortcuts
+#
+bindsym --release button2 kill
+bindsym button3 floating toggle
+bindsym $mod+button3 floating toggle
+floating_modifier $mod
+#
+#-------- window layout
+#
+new_window 1pixel
+new_float normal
+hide_edge_borders both
+#
+#-------- window colors
+#
+# class                 border  backgr. text    indicator
+client.focused          #4c7899 #285577 #ffffff #2e9ef4
+client.focused_inactive #333333 #5f676a #ffffff #484e50
+client.unfocused        #333333 #222222 #888888 #292d2e
+client.urgent           #2f343a #900000 #ffffff #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000
+#
 #-------- Autostart stuff
 #
 exec --no-startup-id xset dpms 600
-# exec --no-startup-id xss-lock -- i3lock -i background_image.png 
 exec --no-startup-id xautolock -time 10 -locker '\"$cmd_lock\"'
 exec --no-startup-id feh --bg-fill '/home/ishkamiel/.wallpaper.png'
 exec --no-startup-id compton -c -G --vsync opengl --refresh-rate 60 --inactive-dim 0.5 --sw-opti
 exec --no-startup-id setxkbmap -layout fi -variant nodeadkeys -option caps:escape
 exec --no-startup-id xrdb -merge ~/.Xresources
-#exec --no-startup-id yeahconsole
 exec --no-startup-id guake
-#exec --no-startup-id keychain
-#exec --no-startup-id gnome-keyring-daemon --start
-#exec --no-startup-id wicd-gtk -t -a
 exec --no-startup-id nm-applet
 exec --no-startup-id hash xbacklight && xbacklight -set 70
-
+#
+#-------- Application management
+#
+# run apps menu
+bindsym $mod+d exec dmenu_run
+# kill app shortcut
+bindsym $mod+Shift+q kill
+#
+# Application shortucts.
+bindsym $mod+Return exec gnome-terminal
+bindsym $mod+n exec nautilus --no-desktop
+#
 #-------- App specific configs
 #
 # Fix floating dialogs and popups
@@ -143,10 +160,7 @@ for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 for_window [title="Preferences$"] floating enable
 for_window [class="Guake"] floating enable
-
-#for_window [window_name="Guake!"] floating enable
 #
 # Move apps to workspaces
 for_window [class="Firefox"] move workspace 3
 for_window [class="nuvolaplayer"] move workspace 4
-
