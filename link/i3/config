@@ -109,6 +109,7 @@ bindsym $mod+d exec dmenu_run
 bindsym $mod+Shift+q kill
 
 bindsym $mod+Return exec gnome-terminal
+bindsym $mod+n exec nautilus --no-desktop
 
 #-------- Volume controls
 #
