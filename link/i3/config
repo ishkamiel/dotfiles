@@ -164,4 +164,5 @@ for_window [class="Guake"] floating enable
 #
 # Move apps to workspaces
 for_window [class="Firefox"] move workspace 3
+for_window [class="firefox"] move workspace 3
 for_window [class="nuvolaplayer"] move workspace 4
