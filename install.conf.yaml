@@ -23,6 +23,10 @@
     ~/.Xresources: link/Xresources
 - shell: 
   -
+    command: vim +PluginUpdate +qall
+    stdin: true 
+    stdout: true
+  -
     command: bash scripts/install_i3.sh
     stdin: true 
     stdout: true
