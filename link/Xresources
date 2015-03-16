@@ -5,7 +5,7 @@ Xcursor.size:  22
 
 ! yahconsole --------------------------------------------------------
 yeahconsole*toggleKey: Alt+section
-yeahconsole*term: xterm
+yeahconsole*term: urxvtc
 yeahconsole*faceName: Monospace:size=12:antialias=true
 yeahconsole*consoleHeight: 20
 yeahconsole*aniDelay: 10
@@ -22,7 +22,7 @@ xterm*dynamicColors: true
 xterm*utf8: 3
 
 ! rxvt-unicode ------------------------------------------------------
-URxvt.font: xft:Ubuntu Mono:antialias=true:size=13
+URxvt.font: xft:Ubuntu Mono:antialias=true:size=12
 URxvt*saveLines: 1024
 URxvt.scrollBar: false
 URxvt*fading:  60

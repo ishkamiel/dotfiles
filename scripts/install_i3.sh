@@ -4,9 +4,10 @@
 ASK=
 PACKAGE_DESCRIPTTION="i3 window manager"
 
-PACKAGES=( feh i3 guake compton gdm lxappearance xautolock
+PACKAGES=( feh i3 gdm lxappearance xautolock
 gnome-keyring 
 rxvt-unicode
+yeahconsole
 wicd-gtk
 )
 

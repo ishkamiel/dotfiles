@@ -21,6 +21,7 @@
     ~/.vimrc: link/vimrc
     ~/.xmodmap_CapsEsc: link/xmodmap_CapsEsc
     ~/.Xresources: link/Xresources
+    ~/.Xresources.thigreal: link/Xresources.thigreal
 - shell: 
   -
     command: vim +PluginUpdate +qall

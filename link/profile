@@ -19,8 +19,12 @@ fi
 # if starting i3 session
 if [ "$0" = "/etc/gdm/Xsession" -a "$DESKTOP_SESSION" = "i3" -o "$DESKTOP_SESSION" = "i3-with-shmlog" ]; then
     export $(gnome-keyring-daemon --start --components=ssh,secrets,keyring,pkcs11)
-    #export $(gnome-keyring-daemon -d --components=ssh,secrets)
-    #export $(gnome-keyring-daemon --start)
+    xrdb -merge ~/.Xresources &
+    if [ $(hostname) = 'thigreal' ]; then
+        xrdb -merge ~/.Xresources.thigreal &
+        xbacklight -set 70
+        synclient TouchpadOff=1
+    fi
 fi
 
 # LOG="$HOME/profile-invocations"
