@@ -156,7 +156,7 @@ bindsym $mod+Shift+q kill
 #
 # Application shortucts.
 bindsym $mod+Return exec urxvtc
-bindsym $mod+n exec nautilus --no-desktop
+bindsym $mod+n exec --no-startup-id pcmanfm
 #
 #-------- App specific configs
 #
