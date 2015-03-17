@@ -3,7 +3,7 @@
 Xcursor.theme: Adwaita
 Xcursor.size:  22
 
-! yahconsole --------------------------------------------------------
+! yeahconsole --------------------------------------------------------
 yeahconsole*toggleKey: Alt+section
 yeahconsole*term: urxvtc
 yeahconsole*faceName: Monospace:size=12:antialias=true

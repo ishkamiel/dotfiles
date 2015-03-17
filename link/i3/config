@@ -143,7 +143,7 @@ exec --no-startup-id setxkbmap -layout fi -variant nodeadkeys -option caps:escap
 #exec --no-startup-id nm-applet
 exec --no-startup-id wicd-client -t
 #exec --no-startup-id sleep 2 && guake
-exec --no-startup-id yeahconsole &
+#exec --no-startup-id yeahconsole &
 #exec --no-startup-id hash xbacklight && xbacklight -set 70
 #exec --no-startup-id hash synclient && synclient TouchpadOff=1
 #
