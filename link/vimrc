@@ -63,6 +63,8 @@ set tabstop=4 	        		" number of spaces that a <Tab> in the file counts for
 set expandtab                   " insert spaces instead of tabs
 set visualbell 		           	" visual bell instead of beeping
 "set textwidth=90 	          	" text width for autoformatt stuff, or something
+set mouse=a
+set ttymouse=xterm2             " fixes urxvt scrolling
 
 
 set spelllang=en,sv

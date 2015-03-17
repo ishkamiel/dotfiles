@@ -11,6 +11,9 @@
       create: true
       path: link/i3/config
     ~/.pentadactylrc: link/pentadactylrc
+    ~/.pentadactyl/plugins:
+      create: true
+      path: link/pentadactyl/plugins
     ~/.profile: link/profile
     ~/.themes/Uncomplicated-Mint:
       create: true
@@ -18,6 +21,9 @@
     ~/.vim/after/ftplugin:
       create: true
       path: link/vim/after/ftplugin
+    ~/.vim/spell:
+      create: true
+      path: link/vim/spell
     ~/.vimrc: link/vimrc
     ~/.xmodmap_CapsEsc: link/xmodmap_CapsEsc
     ~/.Xresources: link/Xresources
@@ -27,6 +33,10 @@
     command: vim +PluginUpdate +qall
     stdin: true 
     stdout: true
+  -
+    command: mkdir -p ~/.vimbackup
+    stdin: false 
+    stdout: false
   -
     command: bash scripts/install_i3.sh
     stdin: true 
