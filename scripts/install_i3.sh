@@ -7,6 +7,7 @@ PACKAGE_DESCRIPTTION="i3 window manager"
 PACKAGES=( feh i3 gdm lxappearance xautolock
 gnome-keyring 
 rxvt-unicode-256color
+pcmanfm
 yeahconsole
 wicd-gtk
 )
