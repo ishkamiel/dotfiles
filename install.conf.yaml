@@ -42,6 +42,10 @@
     stdin: true 
     stdout: true
   -
+    command: bash scripts/install_udk.sh
+    stdin: true 
+    stdout: true
+  -
     command: bash scripts/install_dev.sh
     stdin: true 
     stdout: true
