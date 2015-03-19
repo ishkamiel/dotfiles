@@ -25,12 +25,12 @@ if [ "$0" = "/etc/gdm/Xsession" -a "$DESKTOP_SESSION" = "i3" -o "$DESKTOP_SESSIO
     # start gnome-keyring-daemon and export variables
     export $(gnome-keyring-daemon --start --components=ssh,secrets,keyring,pkcs11)
 
-    xrdb -merge ~/.Xresources &
+    xrdb -merge ~/.Xresources
     # yeahconsole &
 
     # ------- Host specific stuff
     if [ $(hostname) = 'thigreal' ]; then
-        xrdb -merge ~/.Xresources.thigreal &
+        xrdb -merge ~/.Xresources.thigreal
         xbacklight -set 70 &
         synclient TouchpadOff=1 &
     fi
