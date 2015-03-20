@@ -9,7 +9,7 @@ yeahconsole*term: urxvtc
 yeahconsole*faceName: Monospace:size=12:antialias=true
 yeahconsole*consoleHeight: 20
 yeahconsole*aniDelay: 10
-yeahconsole*restart: 1
+yeahconsole*restart: 0
 
 ! xterm -------------------------------------------------------------
 !xterm*faceName: Ubuntu Mono for Powerline:antialias=true

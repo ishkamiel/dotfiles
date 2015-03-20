@@ -4,12 +4,11 @@
 ASK=
 PACKAGE_DESCRIPTTION="i3 window manager"
 
-PACKAGES=( feh i3 gdm lxappearance xautolock
+PACKAGES=( feh i3 xautolock
 gnome-keyring 
 rxvt-unicode-256color
 pcmanfm
 yeahconsole
-wicd-gtk
 )
 
 source $( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/lib/install_packages.sh
