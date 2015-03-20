@@ -38,10 +38,10 @@
     ~/.Xresources: link/Xresources
     ~/.Xresources.thigreal: link/Xresources.thigreal
 - shell: 
-  # -
-  #   command: vim +PluginUpdate +qall
-  #   stdin: true 
-  #   stdout: true
+  -
+    command: vim +PluginUpdate +qall
+    stdin: true 
+    stdout: true
   -
     command: mkdir -p ~/.vimbackup
     stdin: false 
