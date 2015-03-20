@@ -74,13 +74,15 @@ bindsym $mod+Shift+0 move container to workspace 10
 #-------- Status bar
 #
 bar {
-    mode dock
-    # modifier $mod
-    position bottom
+    #mode hide
+    tray_output none
+    position top
     workspace_buttons yes
+    mode dock
     binding_mode_indicator yes
     status_command i3status
 }
+
 #
 #-------- System commands
 #
@@ -134,26 +136,21 @@ client.urgent           #2f343a #900000 #ffffff #900000
 #
 #-------- Autostart stuff
 #
-#exec --no-startup-id xrdb -merge ~/.Xresources
-exec --no-startup-id urxvtd -q -o -f 
+exec --no-startup-id echo "$(date) i3 autostarting applications">>~/.pd_xlog
 exec --no-startup-id feh --bg-fill '/home/ishkamiel/.wallpaper.png'
-#exec --no-startup-id compton -c -G --vsync opengl --refresh-rate 60 --inactive-dim 0.5 --sw-opti
-exec --no-startup-id xset dpms 600
-exec --no-startup-id xautolock -time 10 -locker '\"$cmd_lock\"'
+exec --no-startup-id urxvtd -q -o -f 
+exec --no-startup-id yeahconsole
 exec --no-startup-id setxkbmap -layout fi -variant nodeadkeys -option caps:escape
-exec --no-startup-id nm-applet
-#exec --no-startup-id wicd-client -t
-#exec --no-startup-id sleep 2 && guake
-exec --no-startup-id sleep 2 && yeahconsole &
-#exec --no-startup-id hash xbacklight && xbacklight -set 70
-#exec --no-startup-id hash synclient && synclient TouchpadOff=1
+# exec --no-startup-id xset dpms 600
+# exec --no-startup-id xautolock -time 10 -locker '\"$cmd_lock\"'
+# exec --no-startup-id nm-applet
 #
 #-------- Application management
 #
 # run apps menu
-bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec dmenu_run -l 20
 # kill app shortcut
-bindsym $mod+Shift+q kill
+bindsym $mod+F4 kill
 #
 # Application shortucts.
 bindsym $mod+Return exec urxvtc

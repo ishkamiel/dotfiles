@@ -9,6 +9,7 @@ gnome-keyring
 rxvt-unicode-256color
 pcmanfm
 yeahconsole
+grive
 )
 
 source $( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/lib/install_packages.sh
