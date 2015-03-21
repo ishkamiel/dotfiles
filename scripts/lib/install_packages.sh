@@ -47,7 +47,7 @@ if [ ! ${#IPACKAGES[@]} -eq 0 ]; then
     case $yn in
         [Yy]*) 
             # if [ ${ASK} ]; then 
-            #     say_do "Okay, scheduling aptitude installations..."
+            #     say_do "Okay, scheduling apt-get installations..."
             # else
             #     say_do "Scheduling aptitude installation of: ${IPACKAGES[*]}"
             # fi

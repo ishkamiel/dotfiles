@@ -24,9 +24,9 @@ if [ -e ${INSTALL_SCHEDULE} ]; then
     if [ ${#PACKAGES[@]} -eq 0 ]; then
         say_info "Nothing to install..."
     else
-        say_do "Running aptitude to install: ${PACKAGES[*]}"
+        say_do "Running apt-get to install: ${PACKAGES[*]}"
 
-        if sudo aptitude install ${PACKAGES[*]}; then 
+        if sudo apt-get install ${PACKAGES[*]}; then 
             for var in "${PACKAGES[@]}"
             do
                 printf "%s\n" "${var}" >> "${INSTALL_HISTORY}"
