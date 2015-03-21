@@ -86,7 +86,8 @@ bar {
 #
 #-------- System commands
 #
-set $cmd_lock "i3lock -d -I 10 -c 000000 -e"
+#set $cmd_lock "i3lock -d -I 10 -c 000000 -e"
+set $cmd_lock "lxlock"
 set $cmd_logout "i3-msg exit"
 set $cmd_restart "sudo reboot"
 set $cmd_shutdown "sudo poweroff"
@@ -94,7 +95,7 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 bindsym $mod+Ctrl+l exec --no-startup-id $cmd_lock
 mode "system" {
         bindsym l exec --no-startup-id $cmd_lock, mode "default"  
-        bindsym q exec --no-startup-id lxsession-logout
+        bindsym q exec --no-startup-id lxsession-logout, mode "default"
         bindsym c reload, mode "default" 
         bindsym r restart, mode "default"
         bindsym Shift+e exec --no-startup-id $cmd_logout, mode "default" 
