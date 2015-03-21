@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+#git clone https://github.com/gmarik/Vundle.vim.git /home/ishkamiel/.vim/bundle/Vundle.vim
 #vim +PluginUpdate +qall
 
 use Getopt::Long;

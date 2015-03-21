@@ -39,13 +39,9 @@
     ~/.Xresources.thigreal: link/Xresources.thigreal
 - shell: 
   -
-    command: vim +PluginUpdate +qall
+    command: bash scripts/install_basics.sh
     stdin: true 
     stdout: true
-  -
-    command: mkdir -p ~/.vimbackup
-    stdin: false 
-    stdout: false
   -
     command: bash scripts/install_i3.sh
     stdin: true 
@@ -59,11 +55,15 @@
     stdin: true 
     stdout: true
   -
-    command: bash scripts/install_ogreLibs.sh
-    stdin: true 
-    stdout: true
-  -
     command: bash scripts/doInstalls.sh
     stdin: true 
     stdout: true
+  -
+    command: mkdir -p ~/.vimbackup
+    stdin: false 
+    stdout: false
+#  -
+#    command: vim +PluginUpdate +qall
+#    stdin: true 
+#    stdout: true
 - clean: [ '~', '~/.config' ]
