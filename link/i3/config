@@ -94,6 +94,7 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 bindsym $mod+Ctrl+l exec --no-startup-id $cmd_lock
 mode "system" {
         bindsym l exec --no-startup-id $cmd_lock, mode "default"  
+        bindsym q exec --no-startup-id lxsession-logout
         bindsym c reload, mode "default" 
         bindsym r restart, mode "default"
         bindsym Shift+e exec --no-startup-id $cmd_logout, mode "default" 

@@ -23,7 +23,7 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 fi
 
-if [ "$0" = "/etc/gdm/Xsession" ]; then
+if [ "$0" = "/etc/gdm/Xsession" -o "$0" = "/usr/sbin/lightdm-session" ]; then
     xrdb -merge ~/.Xresources
 
     if [ $(hostname) = 'thigreal' ]; then
