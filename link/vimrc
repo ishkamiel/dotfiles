@@ -34,6 +34,7 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-fugitive'
 Plugin 'reedes/vim-pencil'
 Plugin 'Vim-R-plugin'
+Plugin 'vim-perl/vim-perl'
 " Plugin 'jalcine/cmake.vim'
 
 "-------------------------------------------------------------------------------

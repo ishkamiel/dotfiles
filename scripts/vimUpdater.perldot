@@ -1,14 +1,18 @@
 #!/usr/bin/perl
 
-run('mkdir -p ~/.vimbackup');
+use strict;
+use warnings;
 
-run('git clone https://github.com/gmarik/Vundle.vim.git /home/ishkamiel/.vim/bundle/Vundle.vim',
-    {
-        ignore_retval => 1
-    });
-
-run('vim +PluginUpdate +qall',
-    {
-        timed => [ 24, 0 ]
-    });
-
+my @cmds = (
+    [ 'mkdir -p ~/.vimbackup', ],
+    [ 'git clone https://github.com/gmarik/Vundle.vim.git /home/ishkamiel/.vim/bundle/Vundle.vim',
+        {
+            ignore_retval => 1
+        }
+    ],
+    [ 'vim +PluginUpdate +qall', 
+        {
+            timed => [ 24, 0 ]
+        }
+    ],
+);
