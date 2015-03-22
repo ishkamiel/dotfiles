@@ -5,15 +5,15 @@
     ~/.config/i3status/config:
       create: true
       path: link/config/i3status/config
-    ~/.config/lxpanel:
-      create: true
-      path: link/config/lxpanel
-    ~/.config/lxsession:
-      create: true
-      path: link/config/lxsession
-    ~/.config/lxsession-default-apps:
-      create: true
-      path: link/config/lxsession-default-apps
+    # ~/.config/lxpanel:
+    #   create: true
+    #   path: link/config/lxpanel
+    # ~/.config/lxsession:
+    #   create: true
+    #   path: link/config/lxsession
+    # ~/.config/lxsession-default-apps:
+    #   create: true
+    #   path: link/config/lxsession-default-apps
     ~/.gitconfig: link/gitconfig
     ~/.git-prompt.sh: link/git-prompt.sh
     ~/.i3/config:
