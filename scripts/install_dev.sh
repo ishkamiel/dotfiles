@@ -5,6 +5,6 @@ ASK=
 
 PACKAGE_DESCRIPTTION="various development stuff"
 
-PACKAGES=(build-essential doxygen libcppunit-dev cmake ninja-build)
+PACKAGES=(build-essential doxygen libcppunit-dev cmake ninja-build python-dev)
 
 source $( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/lib/install_packages.sh
