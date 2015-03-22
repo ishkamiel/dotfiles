@@ -57,19 +57,19 @@ sub printc {
 }
 
 sub p_debug(@) {
-    $DEBUG and printc($C_DEBUG, @_);
+    $DEBUG and printc($C_DEBUG, "[DD] ", @_);
 }
 
 sub p_info(@) {
-    $VERBOSE and printc($C_INFO, @_);
+    $VERBOSE and printc($C_INFO, "[II] ", @_);
 }
 
 sub p_warn(@) {
-    printc($C_WARN, @_);
+    printc($C_WARN, "[WW] ", @_);
 }
 
 sub p_error(@) {
-    printc($C_ERROR, @_);
+    printc($C_ERROR, "[!!] ", @_);
 }
 
 sub p_tell(@) {
