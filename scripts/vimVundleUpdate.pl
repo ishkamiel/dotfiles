@@ -3,13 +3,14 @@
 use strict;
 use warnings;
 
-#git clone https://github.com/gmarik/Vundle.vim.git /home/ishkamiel/.vim/bundle/Vundle.vim
-#vim +PluginUpdate +qall
+use FindBin;                 # locate this script
+use lib "$FindBin::Bin/lib";  # use the parent directory
+use PerlDots;
 
-use Getopt::Long;
-my $data   = "file.dat";
-my $length = 24;
-my $verbose;
-$result = GetOptions ("length=i" => \$length,    # numeric
-    "file=s"   => \$data,      # string
-    "verbose"  => \$verbose);  # flag
+our $script_dir = getOption('script_dir') || "$FindBin::Bin/../scripts";
+
+
+print getOption('verbose'), "\n";
+
+
+
