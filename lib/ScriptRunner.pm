@@ -19,13 +19,6 @@ BEGIN {
     our @EXPORT_OK = qw();
 }
 
-sub checkSyntax {
-    my $cmd = join(" ", $^X, '-c', shift);
-    my $output = `$cmd 2>&1`;
-    $? and p_error $output;
-    return not($?);
-
-}
 
 sub getCmds {
     my $s = shift;
