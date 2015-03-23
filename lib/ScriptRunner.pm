@@ -13,17 +13,17 @@ use Printing;
 
 BEGIN {
     require Exporter;
-    our $VERSION = 0.01;
-    our @ISA = qw(Exporter);
-    our @EXPORT = qw(do_scripts);
+    our $VERSION   = 0.01;
+    our @ISA       = qw(Exporter);
+    our @EXPORT    = qw(do_scripts);
     our @EXPORT_OK = qw();
 }
 
 sub findScriptFiles {
-    my ($e, @r) = shift;
+    my ( $e, @r ) = shift;
 
-    find(( sub { m/\.$e$/ and push @r, $File::Find::name; }),
-        getOption('script_dir'));
+    find( ( sub { m/\.$e$/ and push @r, $File::Find::name; } ),
+        getOption('script_dir') );
 
     return @r;
 }
@@ -31,11 +31,11 @@ sub findScriptFiles {
 sub do_scripts {
     p_info "Looking for in ", getOption('script_dir'), "\n";
 
-    foreach my $s (findScriptFiles(getOption('script_ext'))) {
+    foreach my $s ( findScriptFiles( getOption('script_ext') ) ) {
         p_debug "Processing script file '$s'\n";
 
-        if (checkSyntax($s)) {
-            foreach my $c (do $s) {
+        if ( checkSyntax($s) ) {
+            foreach my $c ( do $s ) {
                 p_debug "Calling execute_cmd(@$c)\n";
                 execute_cmd(@$c);
             }
@@ -47,28 +47,37 @@ sub do_scripts {
     }
 }
 
-sub getTimeLeft {
-    my $t= shift;
-    if ($t) {
-        return "$t->[0]h,$t->[1]min";
+sub waitingForTimed {
+    my ($cmd, $opts) = @_;
+
+    if ($opts->{timed}) {
+        my $time = getOption($cmd, 'lastrun');
+
+        if ($time) {
+            my ($h, $m) = @{$opts->{timed}};
+            $time = $time + ($m * 60) + ($h * 60 * 60) - time;
+
+            if ($time > 0) {
+                return diffTime( $time );
+            }
+        }
     }
-    return '';
+    return;
 }
 
 sub execute_cmd {
-    my $cmd = shift;
+    my $cmd  = shift;
     my $opts = shift;
 
-    $opts->{timed} ||= '';
+    $opts->{timed}         ||= '';
     $opts->{ignore_retval} ||= '';
 
-    if (my $t = getTimeLeft($opts->{timed})) {
-        p_tell "Skipping timed cmd ($t left): ";
-        p_doing "$cmd\n";
+    if ( my $t = waitingForTimed( $cmd, $opts )) {
+        p_tell "Skipping timed cmd (@$t left): ###$cmd###";
     }
     else {
-        p_doing "Executing: ";
-        p_executing "$cmd\n";
+        p_executing "Executing: ###$cmd###";
+        setOption($cmd, 'lastrun', getTimestamp());
     }
 }
 
