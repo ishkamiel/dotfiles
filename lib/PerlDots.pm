@@ -10,7 +10,7 @@ use Printing;
 
 use Data::Dumper;
 use Getopt::Long;
-use Safe;
+use POSIX qw(strftime);
 
 BEGIN {
     require Exporter;
@@ -35,14 +35,15 @@ GetOptions(
 $config{debug} and enableDebugOutput();
 $config{verbose} and enableVerbose();
 
-my $config_file;
+my $prev_config;
+my $save_config = {
+    lastrun => getTimestamp()
+};
 
 if (-e $config{config_filename}) {
     if (checkSyntax($config{config_filename})) {
-        (my $safe = new Safe())->permit_only();
-        $config_file = $safe->rdo($config{config_filename});
-        print Dumper($config_file);
-        #p_info "Last run ", localtime($config_file->{lastrun}), "\n";
+        $prev_config = do $config{config_filename};
+        p_info "Last run: ", getLastrun(), "\n";
     }
     else {
         p_warn "corrupted config file, resetting persistent settings\n";
@@ -55,18 +56,28 @@ if (-e $config{config_filename}) {
 sub getOption {
     my $var = shift;
 
-    return $config{$var} || $config_file->{$var} || '';
+    if ($prev_config->{$var} and not($save_config->{$var})) {
+        $save_config->{$var} = $prev_config->{$var};
+    }
+
+    return $config{$var} || $save_config->{$var} || '';
 }
 
 sub setOption {
     my ($var, $val, $save) = @_;
 
     $config{$var} = $val;
-    $save and $config_file->{$var} = $val;
+    $save and $save_config->{$var} = $val;
 }
 
 sub getTimestamp {
     time;
+}
+
+sub getLastrun {
+    $prev_config  or return '';
+
+    return strftime "%Y-%m-%d %H:%M:%S", localtime($prev_config->{lastrun});
 }
 
 sub diffTime {
@@ -80,8 +91,9 @@ sub diffTime {
     return ($days, $hours, $mins, $secs);
 }
 
+
 sub checkSyntax {
-    my $cmd = join(" ", $^X, '-c', shift);
+    my $cmd = join(" ", $^X, '-c', '-w', shift);
     my $output = `$cmd 2>&1`;
     $? and p_error $output;
     return not($?);
@@ -89,8 +101,7 @@ sub checkSyntax {
 
 END {
     if (open(my $cf, ">", $config{config_filename})) {
-        $config_file->{lastrun} = getTimestamp();
-        print $cf Data::Dumper->Dump([$config_file], [qw(config_file)]);
+        print $cf Data::Dumper->Dump([$save_config], [qw(config_file)]);
 
         close($cf)
             or p_error "close failed: $!";

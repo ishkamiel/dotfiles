@@ -19,15 +19,6 @@ BEGIN {
     our @EXPORT_OK = qw();
 }
 
-
-sub getCmds {
-    my $s = shift;
-    
-    (my $safe = new Safe())->permit_only();
-    p_debug "Executing $s inside Safe\n";
-    return $safe->rdo($s);
-}
-
 sub findScriptFiles {
     my ($e, @r) = shift;
 
@@ -44,8 +35,8 @@ sub do_scripts {
         p_debug "Processing script file '$s'\n";
 
         if (checkSyntax($s)) {
-            foreach my $c (getCmds($s)) {
-                p_debug "Calling execute_cmd($c)\n";
+            foreach my $c (do $s) {
+                p_debug "Calling execute_cmd(@$c)\n";
                 execute_cmd(@$c);
             }
         }
