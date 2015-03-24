@@ -20,6 +20,8 @@ alias rm="rm -i"
 alias cp="cp -i"
 alias mv="mv -i"
 
+alias dpkg-installed="dpkg --get-selections | grep -v deinstall$ | perl -pe 's/\s+install$//;'"
+
 # alias jshint="~/.npm/jshint/1.1.0/package/bin/jshint"
 
 alias sshcs="ssh hliljest@shell.cs.helsinki.fi"
