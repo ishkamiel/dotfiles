@@ -35,6 +35,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'reedes/vim-pencil'
 Plugin 'Vim-R-plugin'
 Plugin 'vim-perl/vim-perl'
+" Plugin 'c.vim'
 " Plugin 'jalcine/cmake.vim'
 
 "-------------------------------------------------------------------------------
@@ -48,7 +49,9 @@ filetype plugin indent on
 "-------------------------------------------------------------------------------
 " Various settings
 "-------------------------------------------------------------------------------
-set autochdir             		" change the current working directory
+let s:pd_textwidth=90
+let s:pd_tab=4
+
 " set autoread              	" read open files again when changed outside Vim
 " set autowrite             	" write a modified buffer on each :next , ...
 set backspace=indent,eol,start 	" allow backspacing over everything in insert mode
@@ -59,15 +62,20 @@ set history=50					" keep 50 lines of command line history
 set incsearch             		" use incremental search
 set nowrap                		" do not wrap lines
 set ruler						" show the cursor position all the time
-set shiftwidth=4         		" number of spaces to use for each step of indent
+let &shiftwidth=s:pd_tab  		" number of spaces to use for each step of indent
 set showcmd						" display incomplete commands
-set tabstop=4 	        		" number of spaces that a <Tab> in the file counts for
+let &tabstop=s:pd_tab     		" number of spaces that a <Tab> in the file counts for
 set expandtab                   " insert spaces instead of tabs
 set visualbell 		           	" visual bell instead of beeping
 "set textwidth=90 	          	" text width for autoformatt stuff, or something
 set mouse=a
 set ttymouse=xterm2             " fixes urxvt scrolling
-
+let &colorcolumn=s:pd_textwidth
+" set autochdir             		" change the current working directory
+set exrc                        " find vimrc in working directory
+set secure                      " secure loading of non-default vimrc
+set pastetoggle=<F9>
+set scrolloff=10
 
 set spelllang=en,sv
 
@@ -95,19 +103,12 @@ if onWin
     set directory=~/vimbackup
 endif
 
-set pastetoggle=<F9>
-
-set scrolloff=10
 
 " Uncomment the following to have Vim jump to the last position when
 " reopening a file
 if has("autocmd")
    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
-
-" make stuff
-"let &makeprg = 'if [ -f Makefile ]; then make; else make -C ..; fi'
-":map <f9> :make
 
 " disable arrow keys
 nnoremap <up> <nop>
@@ -118,10 +119,9 @@ nnoremap <right> <nop>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " LaTex and textfiles
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 autocmd BufRead,BufNewFile *.tex setlocal spell
 autocmd BufRead,BufNewFile *.tex setlocal wrap
-autocmd BufRead,BufNewFile *.tex setlocal textwidth=90
+autocmd BufRead,BufNewFile *.tex setlocal &textwidth=s:pd_textwidth
 autocmd BufRead,BufNewFile *.tex setlocal formatoptions=t1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -147,7 +147,7 @@ autocmd FileType css noremap <buffer> <c-r> :call CSSBeautify()<cr>
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 " autocmd StdinReadPre * let s:std_in=1
 " autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-let g:NERDTreeWinSize=20
+let g:NERDTreeWinSize=30
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTree_tabas
@@ -169,7 +169,7 @@ let g:airline#extensions#tabline#enabled = 1
 " Set YouCompleteMe trigger key
 " let g:ycm_key_list_select_completion = ['<Down>']
 " let g:ycm_key_list_previous_completion = ['<Up>']
-let g:ycm_extra_conf_globlist = ['~/personal/*', '~/devel/*' ]
+let g:ycm_extra_conf_globlist = ['~/gameProject/*']
 let g:ycm_use_ultisnips_completer = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -187,7 +187,7 @@ let g:syntastic_check_on_open=1
 let g:syntastic_enable_signs=1
 let g:syntastic_javascript_checkers = ['jshint']
 let g:syntastic_c_check_header = 1
-let syntastic_mode_map = { 'passive_filetypes': ['html'] } " don't check html
+let g:syntastic_mode_map = { 'passive_filetypes': ['html'] } " don't check html
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " TagBar

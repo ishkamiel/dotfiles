@@ -25,8 +25,8 @@ bindsym $mod+f fullscreen
 #
 #-------- Window layout and split
 #
-# bindsym $mod+b split h
-# bindsym $mod+v split v
+bindsym $mod+b split h
+bindsym $mod+v split v
 # bindsym $mod+s layout stacking
 # bindsym $mod+w layout tabbed
 # bindsym $mod+e layout toggle split
