@@ -1,3 +1,4 @@
+
 set guioptions+=T
 "set showtabline=multitab
 
@@ -17,8 +18,8 @@ set scrollsteps=20
 map -b j 10j
 map -b k 10k
 
+
 map <C-s> :set nss!=<A-Tab>
 
-set ui.key.menuAccessKeyFocuses=false " disable ALT menu toggle
-
-" set defsearch=startpage
+" disable ALT menu toggle
+autocmd Enter :set! ui.key.menuAccessKeyFocuses=false 
