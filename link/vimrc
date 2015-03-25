@@ -96,6 +96,8 @@ if onWin
     set lines=40 columns=160
 endif
 
+let s:pd_sidewidth = ( &columns - s:pd_textwidth -2 ) / 2
+
 set backupdir=~/.vimbackup,.,~/tmp
 set directory=~/.vimbackup,.,~/tmp
 if onWin
@@ -147,7 +149,7 @@ autocmd FileType css noremap <buffer> <c-r> :call CSSBeautify()<cr>
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 " autocmd StdinReadPre * let s:std_in=1
 " autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-let g:NERDTreeWinSize=30
+let g:NERDTreeWinSize=s:pd_sidewidth
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTree_tabas
@@ -197,6 +199,7 @@ if onWin
 endif
 "nmap <F8> :TagbarToggle<CR>
 nmap <F8> :TagbarOpenAutoClose<CR>
+let g:tagbar_width=s:pd_sidewidth
 " autocmd VimEnter * nested :call tagbar#autoopen(1)
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

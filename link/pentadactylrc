@@ -19,6 +19,6 @@ map -b k 10k
 
 map <C-s> :set nss!=<A-Tab>
 
-set! ui.key.menuAccessKeyFocuses=false " disable ALT menu toggle
+set ui.key.menuAccessKeyFocuses=false " disable ALT menu toggle
 
 " set defsearch=startpage
