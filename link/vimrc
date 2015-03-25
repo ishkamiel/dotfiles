@@ -49,7 +49,7 @@ filetype plugin indent on
 "-------------------------------------------------------------------------------
 " Various settings
 "-------------------------------------------------------------------------------
-let s:pd_textwidth=90
+let s:pd_textwidth=100
 let s:pd_tab=4
 
 " set autoread              	" read open files again when changed outside Vim
@@ -71,6 +71,8 @@ set visualbell 		           	" visual bell instead of beeping
 set mouse=a
 set ttymouse=xterm2             " fixes urxvt scrolling
 let &colorcolumn=s:pd_textwidth
+"highlight ColorColumn guibg=DarkGray "TODO fix "these!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+"highlight ColorColumn ctermbg=8
 " set autochdir             		" change the current working directory
 set exrc                        " find vimrc in working directory
 set secure                      " secure loading of non-default vimrc
@@ -96,7 +98,8 @@ if onWin
     set lines=40 columns=160
 endif
 
-let s:pd_sidewidth = ( &columns - s:pd_textwidth -2 ) / 2
+" let s:pd_sidewidth = (&columns - s:pd_textwidth - 2 ) / 2
+let s:pd_sidewidth = min([40, ((&columns - s:pd_textwidth - 2 ) / 2) ])
 
 set backupdir=~/.vimbackup,.,~/tmp
 set directory=~/.vimbackup,.,~/tmp
