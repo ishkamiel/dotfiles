@@ -79,6 +79,8 @@ set secure                      " secure loading of non-default vimrc
 set pastetoggle=<F9>
 set scrolloff=10
 
+set completeopt-=preview        " remove the scratch window preview thingy
+
 set spelllang=en,sv
 
 " Switch syntax highlighting on, when the terminal has colors
