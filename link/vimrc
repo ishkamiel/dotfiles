@@ -18,23 +18,24 @@ Plugin 'gmarik/Vundle.vim'
 "Bundle 'tpope/vim-git'
 "Bundle 'tpope/vim-surround'
 
-Plugin 'majutsushi/tagbar'
-Plugin 'scrooloose/syntastic'
-Plugin 'scrooloose/NERDTree'
-Plugin 'kien/ctrlp.vim'
-Plugin 'tcomment'
 Plugin 'bling/vim-airline'
+Plugin 'flazz/vim-colorschemes'
 Plugin 'guns/vim-clojure-static'
-Plugin 'maksimr/vim-jsbeautify'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'kien/ctrlp.vim'
 Plugin 'Lokaltog/vim-easymotion'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'tpope/vim-fugitive'
+Plugin 'maksimr/vim-jsbeautify'
+Plugin 'majutsushi/tagbar'
 Plugin 'reedes/vim-pencil'
-Plugin 'Vim-R-plugin'
+Plugin 'scrooloose/NERDTree'
+Plugin 'scrooloose/syntastic'
+Plugin 'SirVer/ultisnips'
+Plugin 'tcomment'
+Plugin 'tpope/vim-fugitive'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-perl/vim-perl'
+Plugin 'Vim-R-plugin'
 " Plugin 'c.vim'
 " Plugin 'jalcine/cmake.vim'
 
@@ -57,7 +58,6 @@ let s:pd_tab=4
 set backspace=indent,eol,start 	" allow backspacing over everything in insert mode
 set backup						" keep a backup file
 set browsedir=current   		" which directory to use for the file browser
-set foldlevel=999				" initially all folds open
 set history=50					" keep 50 lines of command line history
 set incsearch             		" use incremental search
 set nowrap                		" do not wrap lines
@@ -71,8 +71,6 @@ set visualbell 		           	" visual bell instead of beeping
 set mouse=a
 set ttymouse=xterm2             " fixes urxvt scrolling
 let &colorcolumn=s:pd_textwidth
-"highlight ColorColumn guibg=DarkGray "TODO fix "these!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-"highlight ColorColumn ctermbg=8
 " set autochdir             		" change the current working directory
 set exrc                        " find vimrc in working directory
 set secure                      " secure loading of non-default vimrc
@@ -83,6 +81,15 @@ set completeopt-=preview        " remove the scratch window preview thingy
 
 set spelllang=en,sv
 
+" Folding
+set foldmethod=syntax
+set foldlevel=1
+" inoremap <F9> <C-O>za
+" nnoremap <A-Space> za
+" onoremap <F9> <C-C>za
+nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+vnoremap <Space> zf
+
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
@@ -90,7 +97,7 @@ if &t_Co > 2 || has("gui_running")
 	set hlsearch
 endif
 
-colorscheme elflord
+colorscheme 0x7A69_dark
 set guioptions-=m  "remove menu bar
 set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scroll bar
@@ -109,7 +116,6 @@ if onWin
     set backupdir=~/vimbackup
     set directory=~/vimbackup
 endif
-
 
 " Uncomment the following to have Vim jump to the last position when
 " reopening a file
