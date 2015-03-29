@@ -33,6 +33,9 @@
     ~/.vim/spell:
       create: true
       path: link/vim/spell
+    ~/.vim/UltiSnips:
+      create: true
+      path: link/vim/UltiSnips
     ~/.vimrc: link/vimrc
     ~/.xmodmap_CapsEsc: link/xmodmap_CapsEsc
     ~/.Xresources: link/Xresources

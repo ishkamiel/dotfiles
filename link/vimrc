@@ -221,7 +221,7 @@ autocmd VimEnter * nested :call tagbar#autoopen(1)
 let g:UltiSnipsExpandTrigger="<c-l>"
 let g:UtliSnipsEditSplit="normal"
 " let g:UltiSnipsListSnippets="<c-Right>"
-" let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
 " let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 "
 
