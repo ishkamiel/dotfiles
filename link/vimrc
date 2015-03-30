@@ -135,7 +135,7 @@ nnoremap <right> <nop>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 autocmd BufRead,BufNewFile *.tex setlocal spell
 autocmd BufRead,BufNewFile *.tex setlocal wrap
-autocmd BufRead,BufNewFile *.tex setlocal &textwidth=s:pd_textwidth
+autocmd BufRead,BufNewFile *.tex let &textwidth=(s:pd_textwidth-2)
 autocmd BufRead,BufNewFile *.tex setlocal formatoptions=t1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

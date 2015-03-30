@@ -16,6 +16,8 @@ snippet ifndef "#ifndef ... #define ... #endif"
 #ifndef ${1/([A-Za-z0-9_]+).*/$1/}
 #define ${1:`!p snip.rv = snip.fn.upper().replace(".", "_")+"_" or "SYMBOL"`}
 
+${0}
+
 #endif /* ${1/([A-Za-z0-9_]+).*/$1/} */
 endsnippet
 
