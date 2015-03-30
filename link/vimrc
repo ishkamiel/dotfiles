@@ -19,6 +19,7 @@ Plugin 'gmarik/Vundle.vim'
 "Bundle 'tpope/vim-surround'
 
 Plugin 'bling/vim-airline'
+Plugin 'DoxygenToolkit.vim'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'guns/vim-clojure-static'
 Plugin 'honza/vim-snippets'
@@ -221,7 +222,7 @@ autocmd VimEnter * nested :call tagbar#autoopen(1)
 let g:UltiSnipsExpandTrigger="<c-l>"
 let g:UtliSnipsEditSplit="normal"
 " let g:UltiSnipsListSnippets="<c-Right>"
-" let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
 " let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 "
 
