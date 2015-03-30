@@ -22,3 +22,5 @@ map <C-s> :set nss!=<A-Tab>
 " disable ALT menu toggle
 set! ui.key.menuAccessKey=17
 autocmd Enter :set! ui.key.menuAccessKeyFocuses=false 
+
+set strictfocus='chrome:*':laissez-faire,*:despotic
