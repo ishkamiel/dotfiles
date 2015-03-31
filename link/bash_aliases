@@ -27,3 +27,6 @@ alias dpkg-installed="dpkg --get-selections | grep -v deinstall$ | perl -pe 's/\
 alias sshcs="ssh hliljest@shell.cs.helsinki.fi"
 # alias sirssi="sshcs -t screen -rd"
 # alias c++-annotations="firefox /usr/share/doc/c++-annotations/html/index.html &"
+
+
+alias gitlog="git log --pretty=oneline"
