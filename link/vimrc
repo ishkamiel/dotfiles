@@ -141,7 +141,8 @@ autocmd BufRead,BufNewFile *.tex setlocal formatoptions=t1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " C++
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set cinoptions+=g0 " don't indent public/private/protected
+set cinoptions+=g0  " don't indent public/private/protected
+set cinoptions+=N-s " don't indent namesapces
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-jsbeatuify
