@@ -85,6 +85,7 @@ set spelllang=en,sv
 " Folding
 set foldmethod=syntax
 set foldlevel=1
+set foldcolumn=4
 " inoremap <F9> <C-O>za
 " nnoremap <A-Space> za
 " onoremap <F9> <C-C>za
@@ -99,6 +100,7 @@ if &t_Co > 2 || has("gui_running")
 endif
 
 colorscheme 0x7A69_dark
+hi FoldColumn ctermfg=DarkCyan ctermbg=8
 set guioptions-=m  "remove menu bar
 set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scroll bar
@@ -109,7 +111,7 @@ if onWin
 endif
 
 " let s:pd_sidewidth = (&columns - s:pd_textwidth - 2 ) / 2
-let s:pd_sidewidth = min([40, ((&columns - s:pd_textwidth - 2 ) / 2) ])
+let s:pd_sidewidth = max([10, min([40, ((&columns - s:pd_textwidth - 10 ) / 2) ])])
 
 set backupdir=~/.vimbackup,.,~/tmp
 set directory=~/.vimbackup,.,~/tmp
