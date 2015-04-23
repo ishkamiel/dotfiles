@@ -7,8 +7,9 @@ Xcursor.size:  22
 yeahconsole*toggleKey: Alt+section
 yeahconsole*term: urxvtc
 yeahconsole*faceName: Monospace:size=12:antialias=true
-yeahconsole*consoleHeight: 20
+yeahconsole*consoleHeight: 40
 yeahconsole*aniDelay: 10
+yeahconsole*stepSize: 2
 yeahconsole*restart: 0
 
 ! xterm -------------------------------------------------------------
