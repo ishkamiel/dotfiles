@@ -36,6 +36,10 @@ if [ "$0" = "/etc/gdm/Xsession" -o "$0" = "/usr/sbin/lightdm-session" ]; then
         xbacklight -set 70 &
         synclient TouchpadOff=1 &
     fi
+
+    if [ $(hostname) = 'thigreal' ]; then
+        xrdb -merge ~/.Xresources.ultreal
+    fi
 fi
 
 

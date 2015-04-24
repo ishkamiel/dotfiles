@@ -40,6 +40,7 @@
     ~/.xmodmap_CapsEsc: link/xmodmap_CapsEsc
     ~/.Xresources: link/Xresources
     ~/.Xresources.thigreal: link/Xresources.thigreal
+    ~/.Xresources.ultreal: link/Xresources.ultreal
 - shell: 
   -
     command: bash scripts/install_basics.sh
