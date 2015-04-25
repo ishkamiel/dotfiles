@@ -1,0 +1,3 @@
+URxvt.font: xft:Ubuntu Mono:antialias=true:size=14
+
+! vim:ft=xdefaults:

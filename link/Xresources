@@ -6,14 +6,14 @@ Xcursor.size:  22
 ! yeahconsole --------------------------------------------------------
 yeahconsole*toggleKey: Alt+section
 yeahconsole*term: urxvtc
-yeahconsole*faceName: Monospace:size=12:antialias=true
+! yeahconsole*faceName: Monospace:size=12:antialias=true
 yeahconsole*consoleHeight: 40
 yeahconsole*aniDelay: 10
 yeahconsole*stepSize: 2
 yeahconsole*restart: 0
 
 ! xterm -------------------------------------------------------------
-!xterm*faceName: Ubuntu Mono for Powerline:antialias=true
+! xterm*faceName: Ubuntu Mono for Powerline:antialias=true
 xterm*faceName: Monospace:antialias=true
 xterm*faceSize: 11
 xterm*termName: xterm-256color
@@ -23,7 +23,7 @@ xterm*dynamicColors: true
 xterm*utf8: 3
 
 ! rxvt-unicode ------------------------------------------------------
-URxvt.font: xft:Ubuntu Mono:antialias=true:size=14
+!URxvt.font: xft:Ubuntu Mono:antialias=true:size=14
 URxvt.saveLines: 1024
 URxvt.scrollBar: false
 !URxvt.fading:  60
