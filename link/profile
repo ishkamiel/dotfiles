@@ -8,6 +8,9 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+# Make CLion use system JRE
+export CL_JDK=/usr/lib/jvm/java-8-oracle/jre
+
 export PD_XLOG="$HOME/.pd_xlog"
 # LOG="$HOME/profile-invocations"
 #echo $(date) "processing .profile >>$PD_XLOG
