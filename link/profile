@@ -37,7 +37,7 @@ if [ "$0" = "/etc/gdm/Xsession" -o "$0" = "/usr/sbin/lightdm-session" ]; then
         synclient TouchpadOff=1 &
     fi
 
-    if [ $(hostname) = 'thigreal' ]; then
+    if [ $(hostname) = 'ultreal' ]; then
         xrdb -merge ~/.Xresources.ultreal
     fi
 fi
