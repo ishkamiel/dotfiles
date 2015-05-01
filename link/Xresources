@@ -38,8 +38,8 @@ URxvt.perl-ext-common: default,matcher
 URxvt.url-launcher: /usr/bin/firefox
 URxvt.matcher.button: 1
 URxvt*background: #000000
-URxvt*foreground: #d0d0d0
-URxvt*cursorColor: #d0d0d0
+URxvt*foreground: #99D0D0
+URxvt*cursorColor: #99D0D0
 URxvt*color0: #000000
 URxvt*color1: #960050
 URxvt*color2: #66aa11
@@ -55,4 +55,4 @@ URxvt*color11: #ffba68
 URxvt*color12: #5f5fee
 URxvt*color13: #bb88dd
 URxvt*color14: #4eb4fa
-URxvt*color15: #d0d0d0 
+URxvt*color15: #99D0D0 
