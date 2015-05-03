@@ -48,10 +48,14 @@ GIT_PS1_SHOWUPSTREAM="auto"
 # GIT_PS1_DESCRIBE_STYLE="default"
 GIT_PS1_SHOWCOLORHINTS=1
 
-source .git-prompt.sh
-source .bash-colors.sh
+if [ -f .bash-colors.sh ]; then
+    source .bash-colors.sh
+fi
 
-PROMPT_COMMAND='__git_ps1 "${BCyan}$(date +%H:%M)${Color_Off} ${Pd_jobs} ${Pd_chroot}${Pd_userNhost}" "\n${Pd_cwd} \$ "'
+if [ -f .git-prompt.sh ]; then
+    source .git-prompt.sh
+    PROMPT_COMMAND='__git_ps1 "${BCyan}$(date +%H:%M)${Color_Off} ${Pd_jobs} ${Pd_chroot}${Pd_userNhost}" "\n${Pd_cwd} \$ "'
+fi
 
 export PATH="$PATH:$HOME/personal/bin"
 export PATH="$PATH:$HOME/bin"
@@ -59,12 +63,12 @@ export PATH="$PATH:$HOME/bin"
 export EDITOR='/usr/bin/vim'
 
 #-------- nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
 #-------- rvm
-export PATH="$PATH:$HOME/.rvm/bin"
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+# export PATH="$PATH:$HOME/.rvm/bin"
+# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 export SPDLOG_HOME=/usr/local/ish/spdlog
 export GOPATH=~/installs/gocode
