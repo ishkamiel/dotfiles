@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=My Autostart
+Icon=
+Exec=/home/ishkamiel/.desktop_autostart.sh
+NoDisplay=true

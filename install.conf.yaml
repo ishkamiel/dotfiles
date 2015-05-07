@@ -41,6 +41,8 @@
     ~/.Xresources: link/Xresources
     ~/.Xresources.thigreal: link/Xresources.thigreal
     ~/.Xresources.ultreal: link/Xresources.ultreal
+    ~/.desktop_autostart.sh: link/desktop_autostart.sh
+    ~/.config/autostart/my_autostart.desktop: link/config/autostart/my_autostart.desktop
 - shell: 
   -
     command: bash scripts/install_basics.sh
