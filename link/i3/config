@@ -1,5 +1,5 @@
 # Mod1 for alt, Mod4 for super
-set $mod Mod1 
+set $mod Mod4 
 #
 #-------- Font setting
 #
@@ -98,9 +98,9 @@ mode "system" {
         bindsym q exec --no-startup-id lxsession-logout, mode "default"
         bindsym c reload, mode "default" 
         bindsym r restart, mode "default"
-        bindsym Shift+e exec --no-startup-id $cmd_logout, mode "default" 
-        bindsym Shift+r exec --no-startup-id $cmd_restart, mode "default"
-        bindsym Shift+s exec --no-startup-id $cmd_shutdown, mode "default"
+        #bindsym Shift+e exec --no-startup-id $cmd_logout, mode "default" 
+        #bindsym Shift+r exec --no-startup-id $cmd_restart, mode "default"
+        #bindsym Shift+s exec --no-startup-id $cmd_shutdown, mode "default"
 
         bindsym Return mode "default"
         bindsym Escape mode "default"
