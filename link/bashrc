@@ -57,10 +57,9 @@ if [ -f .git-prompt.sh ]; then
     PROMPT_COMMAND='__git_ps1 "${BCyan}$(date +%H:%M)${Color_Off} ${Pd_jobs} ${Pd_chroot}${Pd_userNhost}" "\n${Pd_cwd} \$ "'
 fi
 
-export PATH="$PATH:$HOME/personal/bin"
-export PATH="$PATH:$HOME/bin"
-
-export EDITOR='/usr/bin/vim'
+# export PATH="$PATH:$HOME/personal/bin"
+# export PATH="$PATH:$HOME/bin"
+# export EDITOR='/usr/bin/vim'
 
 #-------- nvm
 # export NVM_DIR="$HOME/.nvm"
