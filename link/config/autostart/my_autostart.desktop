@@ -1,6 +1,8 @@
 [Desktop Entry]
-Type=Application
-Name=My Autostart
+Name=MyAutostart
+Exec=DesktopAutostart.sh
 Icon=
-Exec=/home/ishkamiel/.desktop_autostart.sh
-NoDisplay=true
+Terminal=false
+Type=Application
+StartupNotify=false
+Categories=
