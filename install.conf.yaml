@@ -41,7 +41,7 @@
     ~/.Xresources: link/Xresources
     ~/.Xresources.thigreal: link/Xresources.thigreal
     ~/.Xresources.ultreal: link/Xresources.ultreal
-    ~/.desktop_autostart.sh: link/desktop_autostart.sh
+    ~/.local/share/applications/urxvtc.desktop: link/local/share/applications/urxvtc.desktop
     ~/.config/autostart/my_autostart.desktop: link/config/autostart/my_autostart.desktop
 - shell: 
   -

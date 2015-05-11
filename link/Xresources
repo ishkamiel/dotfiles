@@ -8,8 +8,8 @@ yeahconsole*toggleKey: Alt+section
 yeahconsole*term: urxvtc
 ! yeahconsole*faceName: Monospace:size=12:antialias=true
 yeahconsole*consoleHeight: 40
-yeahconsole*aniDelay: 10
-yeahconsole*stepSize: 2
+yeahconsole*aniDelay: 0
+yeahconsole*stepSize: 0
 yeahconsole*restart: 0
 
 ! xterm -------------------------------------------------------------
