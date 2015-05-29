@@ -21,8 +21,9 @@ BEGIN {
     our @EXPORT_OK = qw();
 }
 
+# Some default config stuff
 my %config = (
-    verbose         => '',
+    verbose         => 0,
     config_filename => "$FindBin::Bin/.perldot",
     script_dir      => "$FindBin::Bin/scripts",
     script_ext      => 'perldot',
@@ -53,30 +54,20 @@ if ( -e $config{config_filename} ) {
 }
 
 sub getOption {
-    if (scalar(@_) > 1) {
-        getOption(md5_hex($_[0]) . $_[1]);
-    }
-    else {
-        my $var = shift;
+    my $var = shift;
 
-        if ( $prev_config->{$var} and not( $save_config->{$var} ) ) {
-            $save_config->{$var} = $prev_config->{$var};
-        }
-
-        return $config{$var} || $save_config->{$var} || '';
+    if ( $prev_config->{$var} and not( $save_config->{$var} ) ) {
+        $save_config->{$var} = $prev_config->{$var};
     }
+
+    return $config{$var} || $save_config->{$var} || '';
 }
 
 sub setOption {
-    if (scalar(@_) > 2) {
-        setOption(md5_hex($_[0]) . $_[1], $_[2]);
-    }
-    else {
-        my ( $var, $val ) = @_;
+    my ( $var, $val ) = @_;
 
-        $config{$var} = $val;
-        $save_config->{$var} = $val;
-    }
+    $config{$var} = $val;
+    $save_config->{$var} = $val;
 }
 
 sub getTimestamp {

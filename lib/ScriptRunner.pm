@@ -5,6 +5,7 @@ use warnings;
 use Exporter;
 use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
 
+use Digest::MD5 qw(md5_hex);
 use File::Find;
 use Safe;
 
@@ -51,7 +52,7 @@ sub waitingForTimed {
     my ($cmd, $opts) = @_;
 
     if ($opts->{timed}) {
-        my $time = getOption($cmd, 'lastrun');
+        my $time = getOption(cmd_opt($cmd), 'lastrun');
 
         if ($time) {
             my ($h, $m) = @{$opts->{timed}};
@@ -77,8 +78,12 @@ sub execute_cmd {
     }
     else {
         p_executing "Executing: ###$cmd###";
-        setOption($cmd, 'lastrun', getTimestamp());
+        setOption( cmd_opt($cmd), getTimestamp());
     }
+}
+
+sub cmd_opt {
+    return "lastrun." . md5_hex(shift);
 }
 
 END {
