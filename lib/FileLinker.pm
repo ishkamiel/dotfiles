@@ -3,10 +3,11 @@ package FileLinker;
 use strict;
 use warnings;
 
+use Logging;
+
 use Exporter;
 use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
 
-use Printing;
 
 BEGIN {
     require Exporter;
@@ -23,6 +24,7 @@ sub new {
 
 sub init {
     my $self = shift;
+    my $config = shift;
     p_debug("FileLinkier initialized");
 }
 
