@@ -1,24 +1,23 @@
-package Config;
+package PerlDots::Config;
 
 use strict;
 use warnings;
 
-use Printing;
+use Carp;
 
 sub new {
     p_debug("entering Config::new");
 
     my $class = shift;
-    my ($filename) = @_;
+    my ($config_file, $data_file) = @_;
 
     my $self = {
-        filename
-
-
-    my $self = {
-        filename => $filename,
+        config_filename => $config_file,
+        data_filename => $data_file,
+        data => undef,
+        config => undef,
         changes => 0,
-        read_ok => 0,
+
     };
     bless($self);
 }
@@ -42,52 +41,40 @@ sub DESTROY {
 }
 
 sub read {
-    p_debug("entering: Config->read");
+    my $self = shift;
+    $self->_read_config;
+    $self->_read_data;
+}
 
+sub _read_data {
     my $self = shift;
 
-    if (not -e $self->{filename} ) {
-        p_warn("unable to find config file: " + $self->{filename});
-        return 0;
-    }
+    croak ("unable to find config file: " + $self->{data_filename})
+        unless -e $self->{data_filename};
 
-    # if (not checkSyntax( $config{config_filename} ) ) {
-    #     p_warn "corrupted config file, resetting persistent settings\n";
-    #     return 0;
-    # }
+    $self->{data} = do $self->{filename};
+}
 
-    $self->{config}->{file} = do $self->{filename};
-    p_info("Successfully read config from " + $self->{filename});
-    $self->{read_ok} = 1;
+sub _read_config {
+    my $self = shift,
 }
 
 sub set {
-    p_debug("entering: Config->set");
-    
     my $self = shift;
     my ($var, $val) = @_;
 
-    $self->{read_ok} || die "Config->set called before successfull read";
+    croak "Config not read" unless $self->{data};
 
     $self->{config}{file}{$var} = $val;
 }
 
 sub get {
-    pd_debug("entering: Config->get");
-    
     my $self = shift;
     my ($var, $default) = @_;
 
-    $self->{read_ok} || die "Config->get called before successfull read";
+    croak "Config not read" unless $self->{data};
 
     return $self->{config}{file}{$var} || $default;
 }
-
-# sub checkSyntax {
-#     my $cmd = join( " ", $^X, '-c', '-w', shift );
-#     my $output = `$cmd 2>&1`;
-#     $? and p_error $output;
-#     return not($?);
-# }
 
 1;

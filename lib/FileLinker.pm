@@ -1,36 +1,29 @@
-package FileLinker;
+package PerlDots::FileLinker;
 
 use strict;
 use warnings;
 
-use Logging;
-
-use Exporter;
-use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-
-
-BEGIN {
-    require Exporter;
-    our $VERSION   = 0.01;
-    our @ISA       = qw(Exporter);
-    our @EXPORT    = qw();
-    our @EXPORT_OK = qw();
-}
+use Logger;
 
 sub new {
-    my $self = {};
-    bless($self);
+    my $class = shift;
+    $class = ref($class) || $class;
+
+    return bless {}, $class;
 }
 
 sub init {
     my $self = shift;
+    my ($logger) = @_;
     my $config = shift;
-    p_debug("FileLinkier initialized");
+
+    $self->{l} = $logger;
+    $self->{l}->debug("FileLinkier initialized");
 }
 
 sub run {
     my $self = shift;
-    p_debug("FileLinker running");
+    $self->{l}->debug("FileLinker running");
     return 1;
 }
 
