@@ -69,8 +69,8 @@ let &tabstop=s:pd_tab     		" number of spaces that a <Tab> in the file counts f
 set expandtab                   " insert spaces instead of tabs
 set visualbell 		           	" visual bell instead of beeping
 "set textwidth=90 	          	" text width for autoformatt stuff, or something
-set mouse=a
-set ttymouse=xterm2             " fixes urxvt scrolling
+"set mouse=a
+"set ttymouse=xterm2             " fixes urxvt scrolling
 let &colorcolumn=s:pd_textwidth
 " set autochdir             		" change the current working directory
 set exrc                        " find vimrc in working directory
