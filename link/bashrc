@@ -61,9 +61,9 @@ fi
 # export PATH="$PATH:$HOME/bin"
 # export EDITOR='/usr/bin/vim'
 
-#-------- nvm
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+# -------- nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
 #-------- rvm
 # export PATH="$PATH:$HOME/.rvm/bin"
