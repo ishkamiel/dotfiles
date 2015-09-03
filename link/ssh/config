@@ -1,0 +1,5 @@
+Host cshelsinki
+    HostName shell.cs.helsinki.fi
+    ForwardAgent yes
+    User hliljest
+

@@ -24,6 +24,7 @@
       create: true
       path: link/pentadactyl/plugins
     ~/.profile: link/profile
+    ~/.ssh/config: link/ssh/config
     ~/.themes/Uncomplicated-Mint:
       create: true
       path: link/themes/Uncomplicated-Mint
