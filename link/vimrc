@@ -85,7 +85,7 @@ set spelllang=en,sv
 
 " Folding
 set foldmethod=syntax
-set foldlevel=1
+set foldlevel=999
 set foldcolumn=4
 " inoremap <F9> <C-O>za
 " nnoremap <A-Space> za
