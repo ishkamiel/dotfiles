@@ -17,16 +17,17 @@ Plugin 'gmarik/Vundle.vim'
 "Bundle 'tpope/vim-endwise'
 "Bundle 'tpope/vim-git'
 "Bundle 'tpope/vim-surround'
-
+"
+Plugin 'groenewege/vim-less'        " LESS
 Plugin 'bling/vim-airline'
 Plugin 'DoxygenToolkit.vim'
 Plugin 'flazz/vim-colorschemes'
-Plugin 'guns/vim-clojure-static'
+Plugin 'guns/vim-clojure-static'    " Clojure
 Plugin 'honza/vim-snippets'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'kien/ctrlp.vim'
 Plugin 'Lokaltog/vim-easymotion'
-Plugin 'maksimr/vim-jsbeautify'
+Plugin 'maksimr/vim-jsbeautify'     " Javascript
 Plugin 'majutsushi/tagbar'
 Plugin 'reedes/vim-pencil'
 Plugin 'scrooloose/NERDTree'
@@ -35,8 +36,8 @@ Plugin 'SirVer/ultisnips'
 Plugin 'tcomment'
 Plugin 'tpope/vim-fugitive'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'vim-perl/vim-perl'
-Plugin 'Vim-R-plugin'
+Plugin 'vim-perl/vim-perl'          " Perl
+Plugin 'Vim-R-plugin'               " R
 " Plugin 'c.vim'
 " Plugin 'jalcine/cmake.vim'
 
