@@ -38,6 +38,9 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-perl/vim-perl'          " Perl
 Plugin 'Vim-R-plugin'               " R
+Plugin 'godlygeek/tabular'          " required by vim-markdown
+Plugin 'plasticboy/vim-markdown'
+" Plugin 'neilagabriel/vim-geeknote'
 " Plugin 'c.vim'
 " Plugin 'jalcine/cmake.vim'
 

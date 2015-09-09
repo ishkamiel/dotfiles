@@ -30,3 +30,5 @@ alias sshcs="ssh hliljest@shell.cs.helsinki.fi"
 
 
 alias gitlog="git log --pretty=oneline"
+
+alias gne="geeknote edit --note"
