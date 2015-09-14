@@ -28,6 +28,9 @@
     ~/.themes/Uncomplicated-Mint:
       create: true
       path: link/themes/Uncomplicated-Mint
+    ~/.todo/config:
+      create: true
+      path: link/todo/config
     ~/.vim/after/ftplugin:
       create: true
       path: link/vim/after/ftplugin
