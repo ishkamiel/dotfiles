@@ -75,3 +75,8 @@ export GOPATH=~/installs/gocode
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+# todo.txt
+TOOOTXT_DIR="~/.local/opt/todo.txt"
+[[ -s "$TODOTXT_DIR/todo_completion" ]] && source "$NVM_DIR/todo_completion"
+

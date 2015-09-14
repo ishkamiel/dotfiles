@@ -73,7 +73,12 @@ On_IWhite="\[\033[0;107m\]"   # White
 
 Pd_jobs="${Green}(\j)${Color_Off}"
 Pd_chroot="${debian_chroot:+($debian_chroot)}"
-Pd_userNhost="${BGreen}\u@\h${Color_Off}"
+if [ -n "$SSH_CLIENT" ]; then
+    Pd_userNHostColor="${BICyan}"
+else
+    Pd_userNHostColor="${BGreen}"
+fi
+Pd_userNhost="${Pd_userNHostColor}\u@\h${Color_Off}"
 Pd_cwd="${BBlue}\w${Color_Off}"
 Pd_default="${Pd_userNhost}:${Pd_cwd}"
 Pd_time="${BCyan}\T${Color_Off}"

@@ -24,9 +24,13 @@
       create: true
       path: link/pentadactyl/plugins
     ~/.profile: link/profile
+    ~/.ssh/config: link/ssh/config
     ~/.themes/Uncomplicated-Mint:
       create: true
       path: link/themes/Uncomplicated-Mint
+    ~/.todo/config:
+      create: true
+      path: link/todo/config
     ~/.vim/after/ftplugin:
       create: true
       path: link/vim/after/ftplugin
@@ -44,26 +48,26 @@
     ~/.local/share/applications/urxvtc.desktop: link/local/share/applications/urxvtc.desktop
     ~/.config/autostart/my_autostart.desktop: link/config/autostart/my_autostart.desktop
 - shell: 
-  -
-    command: bash scripts/install_basics.sh
-    stdin: true 
-    stdout: true
-  -
-    command: bash scripts/install_i3.sh
-    stdin: true 
-    stdout: true
-  -
-    command: bash scripts/install_udk.sh
-    stdin: true 
-    stdout: true
-  -
-    command: bash scripts/install_dev.sh
-    stdin: true 
-    stdout: true
-  -
-    command: bash scripts/doInstalls.sh
-    stdin: true 
-    stdout: true
+  # -
+  #   command: bash scripts/install_basics.sh
+  #   stdin: true 
+  #   stdout: true
+  # -
+  #   command: bash scripts/install_i3.sh
+  #   stdin: true 
+  #   stdout: true
+  # -
+  #   command: bash scripts/install_udk.sh
+  #   stdin: true 
+  #   stdout: true
+  # -
+  #   command: bash scripts/install_dev.sh
+  #   stdin: true 
+  #   stdout: true
+  # -
+  #   command: bash scripts/doInstalls.sh
+  #   stdin: true 
+  #   stdout: true
   -
     command: mkdir -p ~/.vimbackup
     stdin: false 
