@@ -25,7 +25,7 @@ Plugin 'flazz/vim-colorschemes'
 Plugin 'guns/vim-clojure-static'    " Clojure
 Plugin 'honza/vim-snippets'
 Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'kien/ctrlp.vim'
+" Plugin 'kien/ctrlp.vim'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'maksimr/vim-jsbeautify'     " Javascript
 Plugin 'majutsushi/tagbar'
@@ -37,7 +37,7 @@ Plugin 'tcomment'
 Plugin 'tpope/vim-fugitive'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-perl/vim-perl'          " Perl
-Plugin 'Vim-R-plugin'               " R
+" Plugin 'Vim-R-plugin'               " R
 Plugin 'godlygeek/tabular'          " required by vim-markdown
 Plugin 'plasticboy/vim-markdown'
 " Plugin 'neilagabriel/vim-geeknote'
@@ -203,11 +203,15 @@ let g:ycm_use_ultisnips_completer = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " syntastic stuff
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_perl_checkers = ['perlcritic']
+let g:syntastic_enable_perl_checker = 1
 
-" let g:syntastic_always_populate_loc_list = 1
+" nmap <F2> :lnext<CR>
+
+let g:syntastic_always_populate_loc_list = 1
 " let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_wq = 0
 
