@@ -57,10 +57,6 @@ if [ -f .git-prompt.sh ]; then
     PROMPT_COMMAND='__git_ps1 "${BCyan}$(date +%H:%M)${Color_Off} ${Pd_jobs} ${Pd_chroot}${Pd_userNhost}" "\n${Pd_cwd} \$ "'
 fi
 
-# export PATH="$PATH:$HOME/personal/bin"
-# export PATH="$PATH:$HOME/bin"
-# export EDITOR='/usr/bin/vim'
-
 # -------- nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
@@ -79,4 +75,3 @@ export PATH="/usr/local/heroku/bin:$PATH"
 # todo.txt
 TOOOTXT_DIR="~/.local/opt/todo.txt"
 [[ -s "$TODOTXT_DIR/todo_completion" ]] && source "$NVM_DIR/todo_completion"
-
