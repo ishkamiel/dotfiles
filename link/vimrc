@@ -36,7 +36,7 @@ Plugin 'SirVer/ultisnips'
 Plugin 'tcomment'
 Plugin 'tpope/vim-fugitive'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'vim-perl/vim-perl'          " Perl
+" Plugin 'vim-perl/vim-perl'          " Perl
 " Plugin 'Vim-R-plugin'               " R
 Plugin 'godlygeek/tabular'          " required by vim-markdown
 Plugin 'plasticboy/vim-markdown'
@@ -89,7 +89,8 @@ set spelllang=en,sv
 " Folding
 set foldmethod=syntax
 set foldlevel=999
-set foldcolumn=4
+" set foldlevelstart=999
+" set foldcolumn=4
 " inoremap <F9> <C-O>za
 " nnoremap <A-Space> za
 " onoremap <F9> <C-C>za
@@ -135,6 +136,22 @@ nnoremap <up> <nop>
 nnoremap <down> <nop>
 nnoremap <left> <nop>
 nnoremap <right> <nop>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Perl
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let perl_fold=1
+let sh_fold_enabled=1
+let perl_extended_vars=1
+let perl_sync_dist=250
+" autocmd FileType perl setlocal foldenable
+" autocmd FileType perl syn region POD start=/^=head[123]/ end=/^=cut/ fold
+" autocmd FileType perl syn-sync-first
+" autocmd FileType perl syn sync fromstart
+" setlocal foldenable
+" syn region POD start=/^=head[123]/ end=/^=cut/ fold
+" syn-sync-first
+" syn sync fromstart
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Clojure
@@ -230,6 +247,7 @@ endif
 nmap <F8> :TagbarToggle<CR>
 " nmap <F8> :TagbarOpenAutoClose<CR>
 let g:tagbar_width=s:pd_sidewidth
+let g:tagbar_sort=0                 " 1 -> alphabetical sorting
 autocmd VimEnter * nested :call tagbar#autoopen(1)
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
