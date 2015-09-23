@@ -1,3 +1,4 @@
+" Store this for more convenient checking of platform
 let onWin = 0
 if has("win32") || has("win16")
     let onWin = 1
@@ -5,7 +6,10 @@ endif
 
 set nocompatible
 filetype off
-if onWin
+
+" Vundle (vim plugin manager)
+" This initializes plugin installation paths
+if has("win32") || has("win16")
     let path='~/vimfiles/bundle'
     set rtp+=~/vimfiles/bundle/Vundle.vim
 else
@@ -13,7 +17,7 @@ else
 endif
 call vundle#rc()
 
-Plugin 'gmarik/Vundle.vim'
+Plugin 'gmarik/Vundle.vim'          " Vundle itself
 "Bundle 'tpope/vim-endwise'
 "Bundle 'tpope/vim-git'
 "Bundle 'tpope/vim-surround'
@@ -45,18 +49,14 @@ Plugin 'plasticboy/vim-markdown'
 " Plugin 'jalcine/cmake.vim'
 
 "-------------------------------------------------------------------------------
-" Use Vim settings, rather then Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
-set nocompatible
-" Use plugins and indent
-syntax on
-filetype plugin indent on
+set nocompatible                " Load non-Vi-compaitlbe settings
+syntax on                       " Syntax highlighting
+filetype plugin indent on       " Use indening
 
 "-------------------------------------------------------------------------------
 " Various settings
 "-------------------------------------------------------------------------------
 let s:pd_textwidth=100
-let s:pd_tab=4
 
 " set autoread              	" read open files again when changed outside Vim
 " set autowrite             	" write a modified buffer on each :next , ...
@@ -67,33 +67,31 @@ set history=50					" keep 50 lines of command line history
 set incsearch             		" use incremental search
 set nowrap                		" do not wrap lines
 set ruler						" show the cursor position all the time
-let &shiftwidth=s:pd_tab  		" number of spaces to use for each step of indent
+set shiftwidth=4        		" number of spaces to use for each step of indent
 set showcmd						" display incomplete commands
-let &tabstop=s:pd_tab     		" number of spaces that a <Tab> in the file counts for
+set tabstop=4            		" number of spaces that a <Tab> in the file counts for
 set expandtab                   " insert spaces instead of tabs
 set visualbell 		           	" visual bell instead of beeping
-"set textwidth=90 	          	" text width for autoformatt stuff, or something
-"set mouse=a
-"set ttymouse=xterm2             " fixes urxvt scrolling
-let &colorcolumn=s:pd_textwidth
-" set autochdir             		" change the current working directory
+set textwidth=100 	          	" text width for autoformatt stuff, or something
+set colorcolumn=1000             " display a bar (e.g. for textwdith)
+" set autochdir            		" change the current working directory
 set exrc                        " find vimrc in working directory
 set secure                      " secure loading of non-default vimrc
-set pastetoggle=<F9>
-set scrolloff=10
-
-set completeopt-=preview        " remove the scratch window preview thingy
-
-set spelllang=en,sv
+set pastetoggle=<F9>            " Toggle pasting mode (disables indenting)
+set scrolloff=10                " Keep this many lines visible below cursor
+set spelllang=en,sv             " languages used for spelling
+set completeopt-=preview        " remove extended preview from autocinserts (scratch window)
 
 " Folding
-set foldmethod=syntax
-set foldlevel=999
+set foldmethod=syntax           " Syntax based folding
+set foldlevel=999               " Display everything by default
 " set foldlevelstart=999
 " set foldcolumn=4
 " inoremap <F9> <C-O>za
 " nnoremap <A-Space> za
 " onoremap <F9> <C-C>za
+
+" Use space to toggle folds
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
 
@@ -104,29 +102,18 @@ if &t_Co > 2 || has("gui_running")
 	set hlsearch
 endif
 
-colorscheme 0x7A69_dark
+" colorscheme 0x7A69_dark " seems to mess with highlighting
+colorscheme elflord
 hi FoldColumn ctermfg=DarkCyan ctermbg=8
-set guioptions-=m  "remove menu bar
-set guioptions-=T  "remove toolbar
-set guioptions-=r  "remove right-hand scroll bar
-set guioptions-=L  "remove left-hand scroll bar
-
-if onWin
-    set lines=40 columns=160
-endif
+set bg=dark
 
 " let s:pd_sidewidth = (&columns - s:pd_textwidth - 2 ) / 2
-let s:pd_sidewidth = max([10, min([40, ((&columns - s:pd_textwidth - 10 ) / 2) ])])
+let s:pd_sidewidth = max([10, min([40, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
 
 set backupdir=~/.vimbackup,.,~/tmp
 set directory=~/.vimbackup,.,~/tmp
-if onWin
-    set backupdir=~/vimbackup
-    set directory=~/vimbackup
-endif
 
-" Uncomment the following to have Vim jump to the last position when
-" reopening a file
+" Remember file posittions
 if has("autocmd")
    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
@@ -136,6 +123,23 @@ nnoremap <up> <nop>
 nnoremap <down> <nop>
 nnoremap <left> <nop>
 nnoremap <right> <nop>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" GVim specific stuff
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set guioptions-=m  "remove menu bar
+set guioptions-=T  "remove toolbar
+set guioptions-=r  "remove right-hand scroll bar
+set guioptions-=L  "remove left-hand scroll bar
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Windows specific overrides
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("win32") || has("win16")
+    set backupdir=~/vimbackup
+    set directory=~/vimbackup
+    set lines=40 columns=160
+endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Perl
