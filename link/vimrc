@@ -82,10 +82,11 @@ set scrolloff=10                " Keep this many lines visible below cursor
 set spelllang=en,sv             " languages used for spelling
 set completeopt-=preview        " remove extended preview from autocinserts (scratch window)
 
-" Folding
+" folding
 set foldmethod=syntax           " Syntax based folding
 set foldlevel=999               " Display everything by default
-" set foldlevelstart=999
+" set foldlevelstart=1
+set foldnestmax=2
 " set foldcolumn=4
 " inoremap <F9> <C-O>za
 " nnoremap <A-Space> za
