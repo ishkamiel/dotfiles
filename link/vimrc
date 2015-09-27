@@ -18,33 +18,46 @@ endif
 call vundle#rc()
 
 Plugin 'gmarik/Vundle.vim'          " Vundle itself
-"Bundle 'tpope/vim-endwise'
-"Bundle 'tpope/vim-git'
-"Bundle 'tpope/vim-surround'
-"
-Plugin 'groenewege/vim-less'        " LESS
-Plugin 'bling/vim-airline'
-Plugin 'DoxygenToolkit.vim'
-Plugin 'flazz/vim-colorschemes'
-Plugin 'guns/vim-clojure-static'    " Clojure
-Plugin 'honza/vim-snippets'
-Plugin 'jistr/vim-nerdtree-tabs'
-" Plugin 'kien/ctrlp.vim'
-Plugin 'Lokaltog/vim-easymotion'
-Plugin 'maksimr/vim-jsbeautify'     " Javascript
-Plugin 'majutsushi/tagbar'
-Plugin 'reedes/vim-pencil'
+
+" ------- NERDTree
 Plugin 'scrooloose/NERDTree'
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+" ------- colorschemes
+" Plugin 'flazz/vim-colorschemes'
+Plugin 'altercation/vim-colors-solarized'
+" ------- vim-airline (statusbar)
+Plugin 'bling/vim-airline'
+" ------- tagbar
+Plugin 'majutsushi/tagbar'
+" ------- Syntastic
 Plugin 'scrooloose/syntastic'
-Plugin 'SirVer/ultisnips'
-Plugin 'tcomment'
-Plugin 'tpope/vim-fugitive'
+" ------- YouCompleteMe
 Plugin 'Valloric/YouCompleteMe'
+" ------- UltiSnips
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+" ------- tcomment (comment stuff in/out)
+Plugin 'tcomment'
+" ------- vim-fugitive (Git integration)
+Plugin 'tpope/vim-fugitive'
+" ------- vim-pencil (writing?)
+Plugin 'reedes/vim-pencil'
+
+" ------- Language specific stuff
+Plugin 'guns/vim-clojure-static'    " Clojure
+Plugin 'maksimr/vim-jsbeautify'     " Javascript
+Plugin 'groenewege/vim-less'        " LESS
+Plugin 'godlygeek/tabular'          " Markdown (dependency)
+Plugin 'plasticboy/vim-markdown'    " Markdown
+
+" ------- TODO: check these?
+Plugin 'Lokaltog/vim-easymotion'
+
+" Plugin 'DoxygenToolkit.vim'
+" Plugin 'kien/ctrlp.vim'
 " Plugin 'vim-perl/vim-perl'          " Perl
 " Plugin 'Vim-R-plugin'               " R
-Plugin 'godlygeek/tabular'          " required by vim-markdown
-Plugin 'plasticboy/vim-markdown'
-" Plugin 'neilagabriel/vim-geeknote'
 " Plugin 'c.vim'
 " Plugin 'jalcine/cmake.vim'
 
@@ -96,17 +109,10 @@ set foldnestmax=2
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
 
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-if &t_Co > 2 || has("gui_running")
-	syntax on
-	set hlsearch
-endif
-
 " colorscheme 0x7A69_dark " seems to mess with highlighting
-colorscheme elflord
-hi FoldColumn ctermfg=DarkCyan ctermbg=8
-set bg=dark
+set background=dark
+" colorscheme solarized
+" hi FoldColumn ctermfg=DarkCyan ctermbg=8
 
 " let s:pd_sidewidth = (&columns - s:pd_textwidth - 2 ) / 2
 let s:pd_sidewidth = max([10, min([40, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
@@ -116,7 +122,7 @@ set directory=~/.vimbackup,.,~/tmp
 
 " Remember file posittions
 if has("autocmd")
-   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
 " disable arrow keys
@@ -192,26 +198,58 @@ autocmd FileType css noremap <buffer> <c-r> :call CSSBeautify()<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" NERDTree_tabs manages most of this...
 " autocmd vimenter * NERDTree
 " map <C-n> :NERDTreeToggle<CR>
+" let g:NERDTreeWinSize=s:pd_sidewidth
+" close NERDTree if it's the last one left
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-" autocmd StdinReadPre * let s:std_in=1
-" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-let g:NERDTreeWinSize=s:pd_sidewidth
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" NERDTree_tabas
+" NERDTree_tabs
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:nerdtree_tabs_open_on_gui_startup=1
-let g:nerdtree_tabs_open_on_console_startup=1
-let g:nerdtree_tabs_no_startup_for_diff=1
-let g:nerdtree_tabs_smart_startup_focus=2
-let g:nerdtree_tabs_focus_on_files=1
+" g:nerdtree_tabs_open_on_gui_startup " (default: 1)
+" Open NERDTree on gvim/macvim startup
+"
+let g:nerdtree_tabs_open_on_console_startup=1 " (default: 0)
+" Open NERDTree on console vim startup
+"
+" g:nerdtree_tabs_no_startup_for_diff (default: 1)
+" Do not open NERDTree if vim starts in diff mode
+"
+let g:nerdtree_tabs_smart_startup_focus=2 " (default: 1)
+" On startup, focus NERDTree if opening a directory, focus file if opening a file. (When set to 2, always focus file window after startup).
+"
+" g:nerdtree_tabs_open_on_new_tab (default: 1)
+" Open NERDTree on new tab creation (if NERDTree was globally opened by :NERDTreeTabsToggle)
+"
+" g:nerdtree_tabs_meaningful_tab_names (default: 1)
+" Unfocus NERDTree when leaving a tab for descriptive tab names
+"
+" g:nerdtree_tabs_autoclose (default: 1)
+" Close current tab if there is only one window in it and it's NERDTree
+"
+" g:nerdtree_tabs_synchronize_view (default: 1)
+" Synchronize view of all NERDTree windows (scroll and cursor position)
+"
+" g:nerdtree_tabs_synchronize_focus (default: 1)
+" Synchronize focus when switching windows (focus NERDTree after tab switch if and only if it was focused before tab switch)
+"
+let g:nerdtree_tabs_focus_on_files=1 " (default: 0)
+" When switching into a tab, make sure that focus is on the file window, not in the NERDTree window. (Note that this can get annoying if you use NERDTree's feature "open in new tab silently", as you will lose focus on the NERDTree.)
+"
+" g:nerdtree_tabs_startup_cd (default: 1)
+" When given a directory name as a command line parameter when launching Vim, :cd into it.
+"
+" g:nerdtree_tabs_autofind (default: 0)
+" Automatically find and select currently opened file in NERDTree.
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " airline
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:airline#extensions#tabline#enabled = 1
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " YouComepleteMe
@@ -264,7 +302,6 @@ let g:UtliSnipsEditSplit="normal"
 " let g:UltiSnipsListSnippets="<c-Right>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 " let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
