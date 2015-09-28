@@ -1,8 +1,8 @@
-" Store this for more convenient checking of platform
-let onWin = 0
-if has("win32") || has("win16")
-    let onWin = 1
-endif
+" vim:fdm=marker foldlevel=0
+
+" Load Vundle & Plugins {{{
+" Load vundle {{{
+"-------------------------------------------------------------------------------
 
 set nocompatible
 filetype off
@@ -19,7 +19,11 @@ call vundle#rc()
 
 Plugin 'gmarik/Vundle.vim'          " Vundle itself
 
-" ------- NERDTree
+" }}}
+
+" Vundle Plugins
+"-------------------------------------------------------------------------------
+"  NERDTree - https://github.com/scrooloose/nerdtree
 Plugin 'scrooloose/NERDTree'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
@@ -53,7 +57,7 @@ Plugin 'plasticboy/vim-markdown'    " Markdown
 Plugin 'perl-support.vim'           " Perl
 
 " ------- TODO: check these?
-Plugin 'Lokaltog/vim-easymotion'
+" Plugin 'Lokaltog/vim-easymotion'
 
 " Plugin 'DoxygenToolkit.vim'
 " Plugin 'kien/ctrlp.vim'
@@ -62,22 +66,19 @@ Plugin 'Lokaltog/vim-easymotion'
 " Plugin 'c.vim'
 " Plugin 'jalcine/cmake.vim'
 
+" }}} Vundle plugins
+
+" General vim config {{{
 "-------------------------------------------------------------------------------
 set nocompatible                " Load non-Vi-compaitlbe settings
 syntax on                       " Syntax highlighting
 filetype plugin indent on       " Use indening
-
-"-------------------------------------------------------------------------------
-" Various settings
-"-------------------------------------------------------------------------------
-let s:pd_textwidth=100
-
 " set autoread              	" read open files again when changed outside Vim
 " set autowrite             	" write a modified buffer on each :next , ...
 set backspace=indent,eol,start 	" allow backspacing over everything in insert mode
 set backup						" keep a backup file
 set browsedir=current   		" which directory to use for the file browser
-set history=50					" keep 50 lines of command line history
+set history=50					" command line history
 set incsearch             		" use incremental search
 set nowrap                		" do not wrap lines
 set ruler						" show the cursor position all the time
@@ -86,17 +87,24 @@ set showcmd						" display incomplete commands
 set tabstop=4            		" number of spaces that a <Tab> in the file counts for
 set expandtab                   " insert spaces instead of tabs
 set visualbell 		           	" visual bell instead of beeping
-set textwidth=100 	          	" text width for autoformatt stuff, or something
-set colorcolumn=1000             " display a bar (e.g. for textwdith)
+set textwidth=100               " text width for autoformatt stuff, or something
+set colorcolumn=1000            " display a bar (e.g. for textwdith)
 " set autochdir            		" change the current working directory
 set exrc                        " find vimrc in working directory
 set secure                      " secure loading of non-default vimrc
 set pastetoggle=<F9>            " Toggle pasting mode (disables indenting)
 set scrolloff=10                " Keep this many lines visible below cursor
-set spelllang=en,sv             " languages used for spelling
+set spelllang=en                " languages used for spelling
 set completeopt-=preview        " remove extended preview from autocinserts (scratch window)
 
-" folding
+" Backup stuff {{{
+"-------------------------------------------------------------------------------
+set backupdir=~/.vimbackup,.,~/tmp
+set directory=~/.vimbackup,.,~/tmp
+" }}}
+
+" Folding {{{
+"-------------------------------------------------------------------------------
 set foldmethod=syntax           " Syntax based folding
 set foldlevel=999               " Display everything by default
 " set foldlevelstart=1
@@ -105,21 +113,29 @@ set foldnestmax=2
 " inoremap <F9> <C-O>za
 " nnoremap <A-Space> za
 " onoremap <F9> <C-C>za
+" }}}
 
-" Use space to toggle folds
-nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
-vnoremap <Space> zf
+" }}}
 
-" colorscheme 0x7A69_dark " seems to mess with highlighting
-set background=dark
-" colorscheme solarized
-" hi FoldColumn ctermfg=DarkCyan ctermbg=8
+" Custom config variables {{{
+"-------------------------------------------------------------------------------
 
-" let s:pd_sidewidth = (&columns - s:pd_textwidth - 2 ) / 2
+" Store this for more convenient checking of platform
+let onWin = 0
+if has("win32") || has("win16")
+    let onWin = 1
+endif
+
+let s:pd_textwidth=100
 let s:pd_sidewidth = max([10, min([40, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
 
-set backupdir=~/.vimbackup,.,~/tmp
-set directory=~/.vimbackup,.,~/tmp
+" Modify config accordingly
+let &textwidth=s:pd_textwidth   " (Need to use let &variable syntax)
+
+" }}}
+
+" Other vim tweaks {{{
+"-------------------------------------------------------------------------------
 
 " Remember file posittions
 if has("autocmd")
@@ -132,26 +148,81 @@ nnoremap <down> <nop>
 nnoremap <left> <nop>
 nnoremap <right> <nop>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" GVim specific stuff
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set guioptions-=m  "remove menu bar
-set guioptions-=T  "remove toolbar
-set guioptions-=r  "remove right-hand scroll bar
-set guioptions-=L  "remove left-hand scroll bar
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Windows specific overrides
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has("win32") || has("win16")
     set backupdir=~/vimbackup
     set directory=~/vimbackup
     set lines=40 columns=160
 endif
 
+" GVim config
+set guioptions-=m  "remove menu bar
+set guioptions-=T  "remove toolbar
+set guioptions-=r  "remove right-hand scroll bar
+set guioptions-=L  "remove left-hand scroll bar
+
+"}}}
+
+" Color themes and styling {{{
+"-------------------------------------------------------------------------------
+" colorscheme 0x7A69_dark " seems to mess with highlighting
+set background=dark
+" colorscheme solarized
+" hi FoldColumn ctermfg=DarkCyan ctermbg=8
+" }}}
+
+" keyboard maps {{{
+"-------------------------------------------------------------------------------
+
+" Use space to toggle folds
+nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+vnoremap <Space> zf
+
+" }}}
+
+" C++ {{{
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Perl
+
+set cinoptions+=g0  " don't indent public/private/protected
+set cinoptions+=N-s " don't indent namesapces
+
+" }}}
+" Clojure {{{
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+autocmd BufRead,BufNewFile *.clj setlocal foldlevel=999
+autocmd BufRead,BufNewFile *.clj setlocal foldcolumn=0
+
+" }}}
+" CSS {{{
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd FileType css noremap <buffer> <c-r> :call CSSBeautify()<cr>
+" }}}
+" HTML {{{
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd FileType html noremap <buffer> <c-r> :call HtmlBeautify()<cr>
+" }}}
+" Javascript {{{
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd FileType javascript noremap <buffer>  <c-r> :call JsBeautify()<cr>
+" }}}
+" LaTex {{{
+"-------------------------------------------------------------------------------
+
+augroup filetype_tex
+    autocmd!
+    autocmd BufRead,BufNewFile *.tex setlocal spell
+    autocmd BufRead,BufNewFile *.tex setlocal wrap
+    autocmd BufRead,BufNewFile *.tex let &textwidth=(s:pd_textwidth-2)
+    autocmd BufRead,BufNewFile *.tex setlocal formatoptions=t1
+    autocmd FileType tex             call pencil#init({'wrap': 'hard'})
+augroup END
+
+"-------------------------------------------------------------------------------
+" }}}
+" Perl {{{
+"-------------------------------------------------------------------------------
+
 let perl_fold=1
 let sh_fold_enabled=1
 let perl_extended_vars=1
@@ -165,50 +236,23 @@ let perl_sync_dist=250
 " syn-sync-first
 " syn sync fromstart
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Clojure
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-autocmd BufRead,BufNewFile *.clj setlocal foldlevel=999
-autocmd BufRead,BufNewFile *.clj setlocal foldcolumn=0
+"-------------------------------------------------------------------------------
+" }}}
 
+" NERDTree {{{
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" LaTex and textfiles
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-autocmd BufRead,BufNewFile *.tex setlocal spell
-autocmd BufRead,BufNewFile *.tex setlocal wrap
-autocmd BufRead,BufNewFile *.tex let &textwidth=(s:pd_textwidth-2)
-autocmd BufRead,BufNewFile *.tex setlocal formatoptions=t1
+"-------------------------------------------------------------------------------
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" C++
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set cinoptions+=g0  " don't indent public/private/protected
-set cinoptions+=N-s " don't indent namesapces
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" vim-jsbeatuify
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" map <c-r> :call JsBeautify()<cr>
-" or
-autocmd FileType javascript noremap <buffer>  <c-r> :call JsBeautify()<cr>
-" for html
-autocmd FileType html noremap <buffer> <c-r> :call HtmlBeautify()<cr>
-" for css or scss
-autocmd FileType css noremap <buffer> <c-r> :call CSSBeautify()<cr>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" NERDTree
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTree_tabs manages most of this...
 " autocmd vimenter * NERDTree
 " map <C-n> :NERDTreeToggle<CR>
-" let g:NERDTreeWinSize=s:pd_sidewidth
+let g:NERDTreeWinSize=s:pd_sidewidth
 " close NERDTree if it's the last one left
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" NERDTree_tabs
+"-------------------------------------------------------------------------------
+" }}}
+" NERDTree_tabs {{{
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " g:nerdtree_tabs_open_on_gui_startup " (default: 1)
 " Open NERDTree on gvim/macvim startup
@@ -246,23 +290,36 @@ let g:nerdtree_tabs_focus_on_files=1 " (default: 0)
 " g:nerdtree_tabs_autofind (default: 0)
 " Automatically find and select currently opened file in NERDTree.
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" airline
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" }}}
+" airline {{{
+"-------------------------------------------------------------------------------
+
 let g:airline#extensions#tabline#enabled = 1
 
+"-------------------------------------------------------------------------------
+" }}}
+" pencil {{{
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" YouComepleteMe
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+augroup pencil
+  autocmd!
+  autocmd FileType markdown,mkd call pencil#init()
+  autocmd FileType text         call pencil#init({'wrap': 'hard'})
+augroup END
+
+" }}}
+" YouComepleteMe {{{
+"-------------------------------------------------------------------------------
+
 " Set YouCompleteMe trigger key
 " let g:ycm_key_list_select_completion = ['<Down>']
 " let g:ycm_key_list_previous_completion = ['<Up>']
 let g:ycm_extra_conf_globlist = ['~/gameProject/*']
 let g:ycm_use_ultisnips_completer = 1
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" syntastic stuff
+"-------------------------------------------------------------------------------
+" }}}
+" Syntastic {{{
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -282,8 +339,8 @@ let g:syntastic_javascript_checkers = ['jshint']
 let g:syntastic_c_check_header = 1
 let g:syntastic_mode_map = { 'passive_filetypes': ['html'] } " don't check html
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" TagBar
+" }}}
+" TagBar {{{
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if onWin
     let g:tagbar_ctags_bin = 'C:\Users\ishkamiel\Documents\installs\ctags\ctags.exe'
@@ -293,9 +350,8 @@ nmap <F8> :TagbarToggle<CR>
 let g:tagbar_width=s:pd_sidewidth
 let g:tagbar_sort=0                 " 1 -> alphabetical sorting
 autocmd VimEnter * nested :call tagbar#autoopen(1)
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" UltiSnip
+" }}}
+" UltiSnip {{{
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-l>"
@@ -307,3 +363,4 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
+" }}}
