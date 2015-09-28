@@ -39,6 +39,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'SirVer/ultisnips'
 Plugin 'tcomment'
 Plugin 'tpope/vim-fugitive'
+Plugin 'perl-support.vim'
 Plugin 'Valloric/YouCompleteMe'
 " Plugin 'vim-perl/vim-perl'          " Perl
 " Plugin 'Vim-R-plugin'               " R
