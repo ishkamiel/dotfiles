@@ -1,8 +1,8 @@
 " vim:fdm=marker foldlevel=0
 
 " Load Vundle & Plugins {{{
+
 " Load vundle {{{
-"-------------------------------------------------------------------------------
 
 set nocompatible
 filetype off
@@ -66,6 +66,7 @@ Plugin 'perl-support.vim'           " Perl
 " Plugin 'c.vim'
 " Plugin 'jalcine/cmake.vim'
 
+"-------------------------------------------------------------------------------
 " }}} Vundle plugins
 
 " General vim config {{{
@@ -98,13 +99,11 @@ set spelllang=en                " languages used for spelling
 set completeopt-=preview        " remove extended preview from autocinserts (scratch window)
 
 " Backup stuff {{{
-"-------------------------------------------------------------------------------
 set backupdir=~/.vimbackup,.,~/tmp
 set directory=~/.vimbackup,.,~/tmp
 " }}}
 
 " Folding {{{
-"-------------------------------------------------------------------------------
 set foldmethod=syntax           " Syntax based folding
 set foldlevel=999               " Display everything by default
 " set foldlevelstart=1
@@ -115,6 +114,7 @@ set foldnestmax=2
 " onoremap <F9> <C-C>za
 " }}}
 
+"-------------------------------------------------------------------------------
 " }}}
 
 " Custom config variables {{{
@@ -132,6 +132,7 @@ let s:pd_sidewidth = max([10, min([40, ((&columns - s:pd_textwidth - 5 ) / 2) ])
 " Modify config accordingly
 let &textwidth=s:pd_textwidth   " (Need to use let &variable syntax)
 
+"-------------------------------------------------------------------------------
 " }}}
 
 " Other vim tweaks {{{
@@ -161,6 +162,7 @@ set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scroll bar
 set guioptions-=L  "remove left-hand scroll bar
 
+"-------------------------------------------------------------------------------
 "}}}
 
 " Color themes and styling {{{
@@ -186,38 +188,56 @@ colorscheme grb256
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
 
+"-------------------------------------------------------------------------------
 " }}}
 
 " C++ {{{
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"-------------------------------------------------------------------------------
 
 set cinoptions+=g0  " don't indent public/private/protected
 set cinoptions+=N-s " don't indent namesapces
 
+"-------------------------------------------------------------------------------
 " }}}
 " Clojure {{{
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"-------------------------------------------------------------------------------
 
 autocmd BufRead,BufNewFile *.clj setlocal foldlevel=999
 autocmd BufRead,BufNewFile *.clj setlocal foldcolumn=0
 
+"-------------------------------------------------------------------------------
 " }}}
 " CSS {{{
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"-------------------------------------------------------------------------------
+
 autocmd FileType css noremap <buffer> <c-r> :call CSSBeautify()<cr>
+
+"-------------------------------------------------------------------------------
 " }}}
 " HTML {{{
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-autocmd FileType html noremap <buffer> <c-r> :call HtmlBeautify()<cr>
+"-------------------------------------------------------------------------------
+
+augroup pd_filetype_html
+    autocmd!
+    autocmd FileType html noremap <buffer> <c-r> :call HtmlBeautify()<cr>
+augroup END
+
+"-------------------------------------------------------------------------------
 " }}}
 " Javascript {{{
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-autocmd FileType javascript noremap <buffer>  <c-r> :call JsBeautify()<cr>
+"-------------------------------------------------------------------------------
+
+augroup pd_filetype_javascript
+    autocmd!
+    autocmd FileType javascript noremap <buffer>  <c-r> :call JsBeautify()<cr>
+augroup END
+
+"-------------------------------------------------------------------------------
 " }}}
 " LaTex {{{
 "-------------------------------------------------------------------------------
 
-augroup filetype_tex
+augroup pd_filetype_tex
     autocmd!
     autocmd BufRead,BufNewFile *.tex setlocal spell
     autocmd BufRead,BufNewFile *.tex setlocal wrap
@@ -231,24 +251,25 @@ augroup END
 " Perl {{{
 "-------------------------------------------------------------------------------
 
-let perl_fold=1
-let sh_fold_enabled=1
-let perl_extended_vars=1
-let perl_sync_dist=250
-" autocmd FileType perl setlocal foldenable
-" autocmd FileType perl syn region POD start=/^=head[123]/ end=/^=cut/ fold
-" autocmd FileType perl syn-sync-first
-" autocmd FileType perl syn sync fromstart
-" setlocal foldenable
-" syn region POD start=/^=head[123]/ end=/^=cut/ fold
-" syn-sync-first
-" syn sync fromstart
+augroup pd_filetype_perl
+    autocmd!
+    autocmd BufWritePost *.pm call SyntasticCheck()
+    autocmd BufWritePost *.pl call SyntasticCheck()
+augroup END
+    " autocmd FileType perl setlocal perl_fold=1
+    " autocmd FileType perl setlocal sh_fold_enabled=1
+    " autocmd FileType perl setlocal perl_extended_vars=1
+    " autocmd FileType perl setlocal perl_sync_dist=250
+
+    let perl_fold=1
+    let sh_fold_enabled=1
+    let perl_extended_vars=1
+    let perl_sync_dist=250
 
 "-------------------------------------------------------------------------------
 " }}}
 
 " NERDTree {{{
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "-------------------------------------------------------------------------------
 
 " NERDTree_tabs manages most of this...
@@ -261,19 +282,20 @@ let g:NERDTreeWinSize=s:pd_sidewidth
 "-------------------------------------------------------------------------------
 " }}}
 " NERDTree_tabs {{{
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"-------------------------------------------------------------------------------
+
 " g:nerdtree_tabs_open_on_gui_startup " (default: 1)
 " Open NERDTree on gvim/macvim startup
-"
+
 let g:nerdtree_tabs_open_on_console_startup=1 " (default: 0)
 " Open NERDTree on console vim startup
-"
+
 " g:nerdtree_tabs_no_startup_for_diff (default: 1)
 " Do not open NERDTree if vim starts in diff mode
-"
+
 let g:nerdtree_tabs_smart_startup_focus=2 " (default: 1)
 " On startup, focus NERDTree if opening a directory, focus file if opening a file. (When set to 2, always focus file window after startup).
-"
+
 " g:nerdtree_tabs_open_on_new_tab (default: 1)
 " Open NERDTree on new tab creation (if NERDTree was globally opened by :NERDTreeTabsToggle)
 "
@@ -298,6 +320,7 @@ let g:nerdtree_tabs_focus_on_files=1 " (default: 0)
 " g:nerdtree_tabs_autofind (default: 0)
 " Automatically find and select currently opened file in NERDTree.
 
+"-------------------------------------------------------------------------------
 " }}}
 " airline {{{
 "-------------------------------------------------------------------------------
@@ -310,10 +333,10 @@ let g:airline_powerline_fonts = 1
 " pencil {{{
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-augroup pencil
-  autocmd!
-  autocmd FileType markdown,mkd call pencil#init()
-  autocmd FileType text         call pencil#init({'wrap': 'hard'})
+augroup pd_pencil
+    autocmd!
+    autocmd FileType markdown,mkd call pencil#init()
+    autocmd FileType text         call pencil#init({'wrap': 'hard'})
 augroup END
 
 " }}}
@@ -329,28 +352,33 @@ let g:ycm_use_ultisnips_completer = 1
 "-------------------------------------------------------------------------------
 " }}}
 " Syntastic {{{
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"-------------------------------------------------------------------------------
+
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-"let g:syntastic_perl_checkers = ['perlcritic']
-"let g:syntastic_enable_perl_checker = 1
 
-" nmap <F2> :lnext<CR>
-
-let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_wq = 0
-
+let g:syntastic_aggregate_errors=1 " run all checkers and aggregate results
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_auto_loc_list=1
+let g:syntastic_loc_list_height=5
 let g:syntastic_check_on_open=1
-let g:syntastic_enable_signs=1
-let g:syntastic_javascript_checkers = ['jshint']
-let g:syntastic_c_check_header = 1
-let g:syntastic_mode_map = { 'passive_filetypes': ['html'] } " don't check html
+let g:syntastic_check_on_wq=0
 
+let g:syntastic_enable_balloons=1
+let g:syntastic_enable_signs=1
+
+let g:syntastic_perl_checkers = ['perlcritic', 'podchecker']
+" let g:syntastic_enable_perl_checker = 1
+" let g:syntastic_javascript_checkers = ['jshint']
+" let g:syntastic_mode_map = { 'passive_filetypes': ['html'] } " don't check html
+" let g:syntastic_c_check_header = 1
+
+"-------------------------------------------------------------------------------
 " }}}
 " TagBar {{{
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"-------------------------------------------------------------------------------
+
 if onWin
     let g:tagbar_ctags_bin = 'C:\Users\ishkamiel\Documents\installs\ctags\ctags.exe'
 endif
@@ -359,9 +387,12 @@ nmap <F8> :TagbarToggle<CR>
 let g:tagbar_width=s:pd_sidewidth
 let g:tagbar_sort=0                 " 1 -> alphabetical sorting
 autocmd VimEnter * nested :call tagbar#autoopen(1)
+
+"-------------------------------------------------------------------------------
 " }}}
 " UltiSnip {{{
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"-------------------------------------------------------------------------------
+
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<c-l>"
 let g:UtliSnipsEditSplit="normal"
@@ -372,4 +403,5 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
+"-------------------------------------------------------------------------------
 " }}}
