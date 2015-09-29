@@ -23,19 +23,25 @@ Plugin 'gmarik/Vundle.vim'          " Vundle itself
 
 " Vundle Plugins
 "-------------------------------------------------------------------------------
+
+" ------- Language specific stuff
+Plugin 'guns/vim-clojure-static'    " Clojure
+Plugin 'maksimr/vim-jsbeautify'     " Javascript
+Plugin 'groenewege/vim-less'        " LESS
+Plugin 'godlygeek/tabular'          " Markdown (dependency)
+Plugin 'plasticboy/vim-markdown'    " Markdown
+" Plugin 'rdunklau/vim-perltidy'      " Perl
+" Plugin 'perl-support.vim'           " Perl
+
 "  NERDTree - https://github.com/scrooloose/nerdtree
 Plugin 'scrooloose/NERDTree'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 " ------- colorschemes
 Plugin 'flazz/vim-colorschemes'
-Plugin 'altercation/vim-colors-solarized'
-" ------- vim-airline (statusbar)
-Plugin 'bling/vim-airline'
+" Plugin 'altercation/vim-colors-solarized'
 " ------- tagbar
 Plugin 'majutsushi/tagbar'
-" ------- Syntastic
-Plugin 'scrooloose/syntastic'
 " ------- YouCompleteMe
 Plugin 'Valloric/YouCompleteMe'
 " ------- UltiSnips
@@ -47,24 +53,10 @@ Plugin 'tcomment'
 Plugin 'tpope/vim-fugitive'
 " ------- vim-pencil (writing?)
 Plugin 'reedes/vim-pencil'
-
-" ------- Language specific stuff
-Plugin 'guns/vim-clojure-static'    " Clojure
-Plugin 'maksimr/vim-jsbeautify'     " Javascript
-Plugin 'groenewege/vim-less'        " LESS
-Plugin 'godlygeek/tabular'          " Markdown (dependency)
-Plugin 'plasticboy/vim-markdown'    " Markdown
-Plugin 'perl-support.vim'           " Perl
-
-" ------- TODO: check these?
-" Plugin 'Lokaltog/vim-easymotion'
-
-" Plugin 'DoxygenToolkit.vim'
-" Plugin 'kien/ctrlp.vim'
-" Plugin 'vim-perl/vim-perl'          " Perl
-" Plugin 'Vim-R-plugin'               " R
-" Plugin 'c.vim'
-" Plugin 'jalcine/cmake.vim'
+" ------- Syntastic
+Plugin 'scrooloose/syntastic'
+" ------- vim-airline (statusbar)
+Plugin 'bling/vim-airline'
 
 "-------------------------------------------------------------------------------
 " }}} Vundle plugins
@@ -97,6 +89,7 @@ set pastetoggle=<F9>            " Toggle pasting mode (disables indenting)
 set scrolloff=10                " Keep this many lines visible below cursor
 set spelllang=en                " languages used for spelling
 set completeopt-=preview        " remove extended preview from autocinserts (scratch window)
+set hlsearch                    " highlight searches
 
 " Backup stuff {{{
 set backupdir=~/.vimbackup,.,~/tmp
@@ -202,35 +195,35 @@ set cinoptions+=N-s " don't indent namesapces
 " Clojure {{{
 "-------------------------------------------------------------------------------
 
-autocmd BufRead,BufNewFile *.clj setlocal foldlevel=999
-autocmd BufRead,BufNewFile *.clj setlocal foldcolumn=0
+" autocmd BufRead,BufNewFile *.clj setlocal foldlevel=999
+" autocmd BufRead,BufNewFile *.clj setlocal foldcolumn=0
 
 "-------------------------------------------------------------------------------
 " }}}
 " CSS {{{
 "-------------------------------------------------------------------------------
 
-autocmd FileType css noremap <buffer> <c-r> :call CSSBeautify()<cr>
+" autocmd FileType css noremap <buffer> <c-r> :call CSSBeautify()<cr>
 
 "-------------------------------------------------------------------------------
 " }}}
 " HTML {{{
 "-------------------------------------------------------------------------------
 
-augroup pd_filetype_html
-    autocmd!
-    autocmd FileType html noremap <buffer> <c-r> :call HtmlBeautify()<cr>
-augroup END
+" augroup pd_filetype_html
+"     autocmd!
+"     autocmd FileType html noremap <buffer> <c-r> :call HtmlBeautify()<cr>
+" augroup END
 
 "-------------------------------------------------------------------------------
 " }}}
 " Javascript {{{
 "-------------------------------------------------------------------------------
 
-augroup pd_filetype_javascript
-    autocmd!
-    autocmd FileType javascript noremap <buffer>  <c-r> :call JsBeautify()<cr>
-augroup END
+" augroup pd_filetype_javascript
+"     autocmd!
+"     autocmd FileType javascript noremap <buffer>  <c-r> :call JsBeautify()<cr>
+" augroup END
 
 "-------------------------------------------------------------------------------
 " }}}
@@ -243,7 +236,6 @@ augroup pd_filetype_tex
     autocmd BufRead,BufNewFile *.tex setlocal wrap
     autocmd BufRead,BufNewFile *.tex let &textwidth=(s:pd_textwidth-2)
     autocmd BufRead,BufNewFile *.tex setlocal formatoptions=t1
-    autocmd FileType tex             call pencil#init({'wrap': 'hard'})
 augroup END
 
 "-------------------------------------------------------------------------------
@@ -255,16 +247,17 @@ augroup pd_filetype_perl
     autocmd!
     autocmd BufWritePost *.pm call SyntasticCheck()
     autocmd BufWritePost *.pl call SyntasticCheck()
+    autocmd BufWritePost *.t call SyntasticCheck()
 augroup END
     " autocmd FileType perl setlocal perl_fold=1
     " autocmd FileType perl setlocal sh_fold_enabled=1
     " autocmd FileType perl setlocal perl_extended_vars=1
     " autocmd FileType perl setlocal perl_sync_dist=250
 
-    let perl_fold=1
-    let sh_fold_enabled=1
-    let perl_extended_vars=1
-    let perl_sync_dist=250
+let perl_fold=1
+let sh_fold_enabled=1
+let perl_extended_vars=1
+let perl_sync_dist=250
 
 "-------------------------------------------------------------------------------
 " }}}
@@ -337,6 +330,7 @@ augroup pd_pencil
     autocmd!
     autocmd FileType markdown,mkd call pencil#init()
     autocmd FileType text         call pencil#init({'wrap': 'hard'})
+    autocmd FileType tex          call pencil#init({'wrap': 'hard'})
 augroup END
 
 " }}}
@@ -348,6 +342,7 @@ augroup END
 " let g:ycm_key_list_previous_completion = ['<Up>']
 let g:ycm_extra_conf_globlist = ['~/gameProject/*']
 let g:ycm_use_ultisnips_completer = 1
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
 
 "-------------------------------------------------------------------------------
 " }}}
@@ -358,9 +353,9 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
-let g:syntastic_aggregate_errors=1 " run all checkers and aggregate results
+let g:syntastic_aggregate_errors=0 " run all checkers and aggregate results
 let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list=1
+let g:syntastic_auto_loc_list=2
 let g:syntastic_loc_list_height=5
 let g:syntastic_check_on_open=1
 let g:syntastic_check_on_wq=0
@@ -368,7 +363,8 @@ let g:syntastic_check_on_wq=0
 let g:syntastic_enable_balloons=1
 let g:syntastic_enable_signs=1
 
-let g:syntastic_perl_checkers = ['perlcritic', 'podchecker']
+let g:syntastic_perl_checkers = ['perlcritic']
+
 " let g:syntastic_enable_perl_checker = 1
 " let g:syntastic_javascript_checkers = ['jshint']
 " let g:syntastic_mode_map = { 'passive_filetypes': ['html'] } " don't check html
