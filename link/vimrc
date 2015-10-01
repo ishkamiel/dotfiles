@@ -181,6 +181,8 @@ colorscheme grb256
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
 
+nnoremap <C-b> :center 80<cr>hhv0r#A<space><esc>40A#<esc>d80<bar>YppVr#kk.
+
 "-------------------------------------------------------------------------------
 " }}}
 
