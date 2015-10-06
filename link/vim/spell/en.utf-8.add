@@ -270,3 +270,6 @@ MapReduce
 Bigtable
 timestamp
 GFS
+fallback
+RDD
+checkpointing
