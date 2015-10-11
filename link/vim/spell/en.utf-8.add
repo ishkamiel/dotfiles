@@ -274,3 +274,11 @@ fallback
 RDD
 checkpointing
 Datacenter
+snd
+rcv
+datacenters
+datacenter
+frontends
+WHC
+WSC
+BigTable
