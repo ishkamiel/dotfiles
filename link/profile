@@ -35,6 +35,13 @@ if [ -f "$HOME/.local_profile" ]; then
     . "$HOME/.local_profile"
 fi
 
+# Host specific stuff
+if [ $(hostname) = 'thigreal' ]; then
+    xrdb -merge ~/.Xresources.thigreal
+    # xbacklight -set 70 &
+    # synclient TouchpadOff=1 &
+fi
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
@@ -49,8 +56,6 @@ if [ "$0" = "/etc/gdm/Xsession" -o "$0" = "/usr/sbin/lightdm-session" ]; then
 
     if [ $(hostname) = 'thigreal' ]; then
         xrdb -merge ~/.Xresources.thigreal
-        #xbacklight -set 70 &
-        synclient TouchpadOff=1 &
     fi
 
     if [ $(hostname) = 'ultreal' ]; then
