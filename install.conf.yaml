@@ -41,6 +41,7 @@
       create: true
       path: link/vim/UltiSnips
     ~/.vimrc: link/vimrc
+    ~/.vimperatorrc: link/vimperatorrc
     ~/.xmodmap_CapsEsc: link/xmodmap_CapsEsc
     ~/.Xresources: link/Xresources
     ~/.Xresources.thigreal: link/Xresources.thigreal

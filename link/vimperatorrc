@@ -1,0 +1,159 @@
+" Originally based on http://evanhahn.com/configure-firefox-with-vimperator/
+
+" ################################################################################
+" ############################# Vimperator settings ##############################
+" ################################################################################
+
+" Set title to Firefox instead of Vimperator
+set titlestring="Firefox"       
+" Nr of items in autocomplete window
+set maxitems=15                 
+" Disable focus grabbing (e.g. google search)
+set nofocuscontent
+" Nice animations
+set animations=true             
+
+" set defsearch=googleenc       
+" " Just use firefox default
+"
+" Show links in status line
+set showstatuslinks=1           
+
+" Keyboard remaps
+nnoremap j 3j
+nnoremap k 3k
+nnoremap h 3h
+nnoremap l 3l
+nnoremap J gt
+nnoremap K gT
+nnoremap x :tabclose<cr>
+
+" Allow passthrough for these sites:
+" ignorekeys add mail\\.google\\.com
+" ignorekeys add drive\\.google\\.com
+
+" Autocommands
+" :au PageLoad about:blank
+
+" ################################################################################
+" ############################### Firefox settings ###############################
+" ################################################################################
+
+" Startup (0: about:blank, 1: homepage(s), 2: last visited, 3: resume)
+set! browser.startup.page=0
+set! browser.startup.homepage="about:blank"
+
+" Don't check default browser
+set! browser.shell.checkDefaultBrowser=false 
+" Enable Content Security Policy
+set! security.csp.enable=true  
+" Use about:blank as newtab
+set! browser.newtab.url=about:blank   
+" Don't trim the ^http:// from addressbar
+set! browser.urlbar.trimURLs=false     
+
+" Don't warn on about:config
+set! general.warnOnAboutConfig=false
+
+" DuckDuckGo
+" set! browser.startup.homepage=https://duckduckgo.com/?kae=d&kak=-1&kad=en_US&kl=us-en&kj=443333
+" set! browser.search.selectedEngine=DuckDuckGo
+" set! browser.search.defaultenginename=DuckDuckGo
+" set! keyword.URL=https://duckduckgo.com/?kae=d&kak=-1&kad=en_US&kl=us-en&kj=443333&q=
+" set! browser.search.suggest.enabled=false
+" set! browser.search.update=true
+
+" Enable HTTP pipelining - (http://kb.mozillazine.org/Network.http.pipelining)
+"       NOTE: Might break some pages...
+set! network.http.pipelining=true
+" set! network.http.pipelining.abtest=false
+" set! network.http.pipelining.aggressive=true
+" set! network.http.pipelining.max-optimistic-requests=3
+" set! network.http.pipelining.maxrequests=12
+" set! network.http.pipelining.maxsize=300000
+" set! network.http.pipelining.read-timeout=60000
+" set! network.http.pipelining.reschedule-on-timeout=true
+" set! network.http.pipelining.reschedule-timeout=15000
+" set! network.http.max-connections=256
+" set! network.http.max-connections-per-server=6
+
+" Clear on exit (everything except cookies, which are only allowed for session)
+set! privacy.clearOnShutdown.cache=true
+set! privacy.clearOnShutdown.cookies=false
+set! privacy.clearOnShutdown.downloads=true
+set! privacy.clearOnShutdown.formdata=true
+set! privacy.clearOnShutdown.history=true
+set! privacy.clearOnShutdown.offlineApps=true
+set! privacy.clearOnShutdown.passwords=true
+set! privacy.clearOnShutdown.sessions=true
+set! privacy.clearOnShutdown.siteSettings=true
+
+" Cookie policies
+" - Only accept sessoin cookies (2: Session only).
+set! network.cookie.lifetimePolicy=2           
+" - Cookie lifetime
+" set! network.cookie.lifetime.days=1
+" - Third party cookies? (0: all, 1: none, 2: origin. 3: p3p)
+set! network.cookie.cookieBehavior=3            
+
+" Do Not Track 
+set! privacy.donottrackheader.enabled=true  
+" (0: Track me, 1: Don't track)
+set! privacy.donottrackheader.value=1           
+
+" Use experimental blocking of thirdy party tracking thingies
+set! privacy.trackingprotection.enabled=true
+" ################################################################################
+" ################################### LastPass ###################################
+" ################################################################################
+
+" damn these keys are hot
+" set! extensions.lastpass.defaultffidHkKeyCode=0
+" set! extensions.lastpass.defaultffidHkMods=""
+" set! extensions.lastpass.generateHkKeyCode=0
+" set! extensions.lastpass.generateHkMods=""
+" set! extensions.lastpass.homeHkKeyCode=0
+" set! extensions.lastpass.homeHkMods=""
+" set! extensions.lastpass.nextHkKeyCode=76
+" set! extensions.lastpass.nextHkMods="control shift"
+" set! extensions.lastpass.prevHkKeyCode=0
+" set! extensions.lastpass.prevHkMods=""
+" set! extensions.lastpass.recheckHkKeyCode=0
+" set! extensions.lastpass.recheckHkMods=""
+" set! extensions.lastpass.saveallHkKeyCode=0
+" set! extensions.lastpass.saveallHkMods=""
+" set! extensions.lastpass.searchHkKeyCode=0
+" set! extensions.lastpass.searchHkMods=""
+" set! extensions.lastpass.submitHkKeyCode=0
+" set! extensions.lastpass.submitHkMods=""
+
+" what to show and hide?
+" set! extensions.lastpass.showChangePasswordNotifications=true
+" set! extensions.lastpass.showFillNotifications=false
+" set! extensions.lastpass.showFormFillNotifications=true
+" set! extensions.lastpass.showHomepageAfterLogin=false
+" set! extensions.lastpass.showLoginNotifications=false
+" set! extensions.lastpass.showNotifications=false
+" set! extensions.lastpass.showSaveSiteNotifications=true
+
+" a better icon
+" set! extensions.lastpass.Icon=1
+
+" I will remember you / will you remember me
+" set! extensions.lastpass.rememberUsername=true
+" set! extensions.lastpass.rememberPassword=false
+
+" speak American
+" set! extensions.lastpass.language=en-US
+
+" ################################################################################
+" ################################### Noscript ###################################
+" ################################################################################
+set! noscript.notify=false
+set! noscript.notify.hide=true
+" Block Web Bugs in <noscript> elements
+set! noscript.blockNSWB=true
+" Force HTTPS on some pages
+set! noscript.httpsForced="finnkino.fi,google.fi,google.com,wikipedia.org,twitter.com"
+
+" vim: ft=vim
