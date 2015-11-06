@@ -4,10 +4,12 @@
 " ############################# Vimperator settings ##############################
 " ################################################################################
 
-colorscheme edit_solarized_dark
-
 " Set title to Firefox instead of Vimperator
 set titlestring="Firefox"       
+" Use autocomplete
+set autocomplete=true
+" Complete using (l: firefox addressbar, s: search keywords)
+set complete=l
 " Nr of items in autocomplete window
 set maxitems=10
 " Disable focus grabbing (e.g. google search)
@@ -35,7 +37,20 @@ nnoremap x :tabclose<cr>
 " ignorekeys add drive\\.google\\.com
 
 " Autocommands
-" :au PageLoad about:blank
+" au PageLoad about:blank js document.focus();
+
+" Color
+hi StatusLine color : #93a1a1; background: #002b36; font-size: 12pt; font-weight: normal;
+hi CmdLine    color : #93a1a1; background: #002b36; font-size: 12pt;
+hi Normal     color : #93a1a1; background: #002b36; font-size: 12pt; opacity: 0.9;
+hi CmdLine    color : #93a1a1; background: #002b36; font-size: 12pt;
+hi InfoMsg    color : #93a1a1; background: #002b36; font-size: 12pt;
+hi ModeMsg    color : #93a1a1; background: #002b36; font-size: 12pt;
+hi MoreMsg    color : #859900; background: #002b36;
+hi LineNr     color : #dc322f; background: #002b36; font-size: 12pt;
+hi Question   color : #b58900; background: #002b36; font-size: 12pt;
+hi WarningMsg color : #dc322f; background: #002b36; font-size: 12pt;
+hi ErrorMsg   color : #002b36; background: #d70000; font-size: 12pt;
 
 " ################################################################################
 " ############################### Firefox settings ###############################
@@ -46,13 +61,13 @@ set! browser.startup.page=0
 set! browser.startup.homepage="about:blank"
 
 " Don't check default browser
-set! browser.shell.checkDefaultBrowser=false 
+set! browser.shell.checkDefaultBrowser=false
 " Enable Content Security Policy
-set! security.csp.enable=true  
+set! security.csp.enable=true
 " Use about:blank as newtab
-set! browser.newtab.url=about:blank   
+set! browser.newtab.url=about:blank
 " Don't trim the ^http:// from addressbar
-set! browser.urlbar.trimURLs=false     
+set! browser.urlbar.trimURLs=false
 
 " Don't warn on about:config
 set! general.warnOnAboutConfig=false
@@ -94,11 +109,11 @@ set! privacy.clearOnShutdown.siteSettings=false
 
 " Cookie policies
 " - Only accept sessoin cookies (2: Session only).
-set! network.cookie.lifetimePolicy=2           
+set! network.cookie.lifetimePolicy=2
 " - Cookie lifetime
 " set! network.cookie.lifetime.days=1
 " - Third party cookies? (0: all, 1: none, 2: origin. 3: p3p)
-set! network.cookie.cookieBehavior=3            
+set! network.cookie.cookieBehavior=3
 
 " Do Not Track 
 set! privacy.donottrackheader.enabled=true  

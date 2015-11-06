@@ -42,9 +42,6 @@
       path: link/vim/UltiSnips
     ~/.vimrc: link/vimrc
     ~/.vimperatorrc: link/vimperatorrc
-    ~/.vimperator/colors/edit_solarized_dark.vimp:
-      create: true
-      path: link/vimperator/colors/edit_solarized_dark.vimp
     ~/.xmodmap_CapsEsc: link/xmodmap_CapsEsc
     ~/.Xresources: link/Xresources
     ~/.Xresources.thigreal: link/Xresources.thigreal
