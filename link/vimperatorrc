@@ -77,16 +77,18 @@ set! network.http.pipelining=true
 " set! network.http.max-connections=256
 " set! network.http.max-connections-per-server=6
 
-" Clear on exit (everything except cookies, which are only allowed for session)
+" Clear on exit stuff
 set! privacy.clearOnShutdown.cache=true
-set! privacy.clearOnShutdown.cookies=false
 set! privacy.clearOnShutdown.downloads=true
 set! privacy.clearOnShutdown.formdata=true
 set! privacy.clearOnShutdown.history=true
 set! privacy.clearOnShutdown.offlineApps=true
 set! privacy.clearOnShutdown.passwords=true
 set! privacy.clearOnShutdown.sessions=true
-set! privacy.clearOnShutdown.siteSettings=true
+" Don't delete all, instead allow only for session
+set! privacy.clearOnShutdown.cookies=false
+" These inclue cookie exceptions, so don't clear
+set! privacy.clearOnShutdown.siteSettings=false
 
 " Cookie policies
 " - Only accept sessoin cookies (2: Session only).
