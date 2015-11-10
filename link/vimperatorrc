@@ -68,6 +68,8 @@ set! security.csp.enable=true
 set! browser.newtab.url=about:blank
 " Don't trim the ^http:// from addressbar
 set! browser.urlbar.trimURLs=false
+" Use alt-click to Save As...
+set! browser.altClickSave=true
 
 " Don't warn on about:config
 set! general.warnOnAboutConfig=false
