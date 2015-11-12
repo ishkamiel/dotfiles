@@ -74,6 +74,10 @@ set! browser.altClickSave=true
 " Don't warn on about:config
 set! general.warnOnAboutConfig=false
 
+" Disable plugins
+set! plugin.state.java=0
+set! plugin.state.flash=0
+
 " DuckDuckGo
 " set! browser.startup.homepage=https://duckduckgo.com/?kae=d&kak=-1&kad=en_US&kl=us-en&kj=443333
 " set! browser.search.selectedEngine=DuckDuckGo
