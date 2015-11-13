@@ -8,6 +8,9 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+# Locale settings
+export LC_TIME=en_GB.UTF-8 # diaplsy dates (weekday/month names) in English
+
 # Make CLion use system JRE
 export CL_JDK=/usr/lib/jvm/java-8-oracle/jre
 
