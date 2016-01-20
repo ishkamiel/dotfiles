@@ -3,3 +3,8 @@ Host cshelsinki
     ForwardAgent yes
     User hliljest
 
+Host lab1
+    HostName 86.50.19.46
+    ForwardAgent no
+    User ubuntu
+
