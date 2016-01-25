@@ -5,6 +5,5 @@ Host cshelsinki
 
 Host lab1
     HostName 86.50.19.46
-    ForwardAgent no
+    ForwardAgent yes
     User ubuntu
-
