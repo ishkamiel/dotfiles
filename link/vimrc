@@ -80,6 +80,7 @@ set showcmd						" display incomplete commands
 set tabstop=4            		" number of spaces that a <Tab> in the file counts for
 set expandtab                   " insert spaces instead of tabs
 set visualbell 		           	" visual bell instead of beeping
+set t_vb=
 set textwidth=100               " text width for autoformatt stuff, or something
 set colorcolumn=1000            " display a bar (e.g. for textwdith)
 " set autochdir            		" change the current working directory

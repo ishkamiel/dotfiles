@@ -72,3 +72,4 @@ if [ "$0" = "/etc/gdm/Xsession" -a "$DESKTOP_SESSION" = "i3" -o "$DESKTOP_SESSIO
     export $(gnome-keyring-daemon --start --components=ssh,secrets,keyring,pkcs11)
 fi
 
+_byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
