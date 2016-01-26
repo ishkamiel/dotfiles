@@ -21,11 +21,11 @@ export PATH="$PATH:$HOME/.local/bin"
 # Set editor
 export EDITOR='/usr/bin/vim'
 
-export NVM_DIR="$HOME/.nvm"
-if [ -s "$NVM_DIR/nvm.sh" ]; then
-    . "$NVM_DIR/nvm.sh"
-    nvm use 5
-fi
+# export NVM_DIR="$HOME/.nvm"
+# if [ -s "$NVM_DIR/nvm.sh" ]; then
+#     . "$NVM_DIR/nvm.sh"
+#     nvm use 5
+# fi
 
 #export PD_XLOG="$HOME/.pd_xlog"
 # LOG="$HOME/profile-invocations"
