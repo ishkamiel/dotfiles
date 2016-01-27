@@ -54,7 +54,7 @@ fi
 
 if [ -f .git-prompt.sh ]; then
     source .git-prompt.sh
-    PROMPT_COMMAND='__git_ps1 "${BCyan}$(date +%H:%M)${Color_Off} ${Pd_jobs} ${Pd_chroot}${Pd_userNhost}" "\n${Pd_cwd} \$ "'
+    PROMPT_COMMAND='__git_ps1 "${BCyan}$(date +%H:%M)${Color_Off} ${Pd_jobs} ${Pd_chroot}${Pd_userNhost}" " ${Pd_cwd} \n \$ "'
 fi
 
 # -------- nvm
