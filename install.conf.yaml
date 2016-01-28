@@ -34,9 +34,6 @@
     ~/.vim/after/ftplugin:
       create: true
       path: link/vim/after/ftplugin
-    ~/.vim/spell:
-      create: true
-      path: link/vim/spell
     ~/.vim/UltiSnips:
       create: true
       path: link/vim/UltiSnips
