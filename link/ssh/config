@@ -9,4 +9,5 @@ Host lab1
     User ubuntu
 
 Host ishcal
-    Hostname cal.ishkamiel.com
+    Port 10227
+    Hostname ishcal.ishkamiel.com
