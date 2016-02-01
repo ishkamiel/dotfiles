@@ -30,6 +30,7 @@ Plugin 'maksimr/vim-jsbeautify'     " Javascript
 Plugin 'groenewege/vim-less'        " LESS
 Plugin 'godlygeek/tabular'          " Markdown (dependency)
 Plugin 'plasticboy/vim-markdown'    " Markdown
+Plugin 'derekwyatt/vim-scala'       " Scala
 " Plugin 'rdunklau/vim-perltidy'      " Perl
 " Plugin 'perl-support.vim'           " Perl
 
@@ -167,7 +168,7 @@ set t_Co=256
 " colorscheme elflord
 " colorscheme vividchalk
 " colorscheme jellybeans
-colorscheme grb256
+" colorscheme grb256
 " colorscheme 0x7A69_dark " seems to mess with highlighting
 " colorscheme solarized
 " hi FoldColumn ctermfg=DarkCyan ctermbg=8
