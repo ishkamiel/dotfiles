@@ -43,8 +43,8 @@ export CL_JDK=/usr/lib/jvm/java-8-oracle/jre
 
 # Settings for Heroku {{{
 
-HEROKU_BINDIR=heroku_dir="/usr/local/heroku/bin"
-if [ -e  $heroku_dir ]; then
+HEROKU_BINDIR="/usr/local/heroku/bin"
+if [ -e "$HEROKU_BINDIR" ]; then
     export PATH="$HEROKU_BINDIR:$PATH"
 fi
 
