@@ -1,36 +1,9 @@
 - link: 
     ~/.bashrc: link/bashrc
-    ~/.bash_aliases: link/bash_aliases
-    ~/.bash-colors.sh: link/bash-colors.sh
-    ~/.config/i3status/config:
-      create: true
-      path: link/config/i3status/config
-    # ~/.config/lxpanel:
-    #   create: true
-    #   path: link/config/lxpanel
-    # ~/.config/lxsession:
-    #   create: true
-    #   path: link/config/lxsession
-    # ~/.config/lxsession-default-apps:
-    #   create: true
-    #   path: link/config/lxsession-default-apps
     ~/.gitconfig: link/gitconfig
     ~/.git-prompt.sh: link/git-prompt.sh
-    ~/.i3/config:
-      create: true
-      path: link/i3/config
-    ~/.pentadactylrc: link/pentadactylrc
-    ~/.pentadactyl/plugins:
-      create: true
-      path: link/pentadactyl/plugins
     ~/.profile: link/profile
     ~/.ssh/config: link/ssh/config
-    ~/.themes/Uncomplicated-Mint:
-      create: true
-      path: link/themes/Uncomplicated-Mint
-    ~/.todo/config:
-      create: true
-      path: link/todo/config
     ~/.vim/after/ftplugin:
       create: true
       path: link/vim/after/ftplugin
@@ -39,13 +12,11 @@
       path: link/vim/UltiSnips
     ~/.vimrc: link/vimrc
     ~/.inputrc: link/inputrc
-    ~/.vimperatorrc: link/vimperatorrc
     ~/.xmodmap_CapsEsc: link/xmodmap_CapsEsc
     ~/.Xresources: link/Xresources
     ~/.Xresources.thigreal: link/Xresources.thigreal
     ~/.Xresources.ultreal: link/Xresources.ultreal
     ~/.local/share/applications/urxvtc.desktop: link/local/share/applications/urxvtc.desktop
-    ~/.config/autostart/my_autostart.desktop: link/config/autostart/my_autostart.desktop
 - shell: 
   # -
   #   command: bash scripts/install_basics.sh

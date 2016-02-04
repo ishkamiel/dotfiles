@@ -4,9 +4,8 @@ Host cshelsinki
     User hliljest
 
 Host lab1
-    HostName 86.50.19.46
-    ForwardAgent yes
     User ubuntu
+    HostName 86.50.19.160
 
 Host ishcal
     Port 10227
