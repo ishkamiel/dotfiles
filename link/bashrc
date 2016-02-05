@@ -4,9 +4,11 @@
 # The file is intended for easy editing by vim, with the above vim settings, and
 # manual folding to group settings.
 
+# vim mode!
 set -o vi
 
 # If not running interactively, don't do anything {{{
+
 case $- in
     *i*) ;;
       *) return;;
@@ -44,18 +46,18 @@ display_kinda_motd () { # {{{
         fi
     fi
 
-    # 90-updates-available
-    if [ -x /usr/lib/update-notifier/update-motd-updates-available ]; then
-        /bin/sh /usr/lib/update-notifier/update-motd-updates-available
-    fi
-
-    # 91-release-upgrade 
-    if ! [ "$(lsb_release -sd | cut -d' ' -f4)" = "(development" ]; then
-        if [ -x /usr/lib/ubuntu-release-upgrader/release-upgrade-motd ]; then
-            /bin/sh /usr/lib/ubuntu-release-upgrader/release-upgrade-motd
-        fi
-    fi
-
+    # # 90-updates-available
+    # if [ -x /usr/lib/update-notifier/update-motd-updates-available ]; then
+    #     /bin/sh /usr/lib/update-notifier/update-motd-updates-available
+    # fi
+    # #
+    # # 91-release-upgrade 
+    # if ! [ "$(lsb_release -sd | cut -d' ' -f4)" = "(development" ]; then
+    #     if [ -x /usr/lib/ubuntu-release-upgrader/release-upgrade-motd ]; then
+    #         /bin/sh /usr/lib/ubuntu-release-upgrader/release-upgrade-motd
+    #     fi
+    # fi
+    #
     # 98-reboot-required
     if [ -x /usr/lib/update-notifier/update-motd-reboot-required ]; then
         /bin/sh /usr/lib/update-notifier/update-motd-reboot-required
@@ -249,6 +251,8 @@ alias gitlog="git log --pretty=oneline"
 
 if ! [ -n "$SSH_TTY" ]; then
     alias ssh-lab1="ssh lab1 -t -- tmux new-session -s ssh-lab1 -A -D"
+    alias ssh-lab2="ssh lab2 -t -- tmux new-session -s ssh-lab2 -A -D"
+    alias ssh-lab3="ssh lab3 -t -- tmux new-session -s ssh-lab3 -A -D"
 fi
 
 # }}}

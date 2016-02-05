@@ -4,6 +4,7 @@
     ~/.git-prompt.sh: link/git-prompt.sh
     ~/.profile: link/profile
     ~/.ssh/config: link/ssh/config
+    ~/.tmux.conf: link/tmux.conf
     ~/.vim/after/ftplugin:
       create: true
       path: link/vim/after/ftplugin

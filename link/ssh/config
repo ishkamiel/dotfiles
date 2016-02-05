@@ -3,10 +3,20 @@ Host cshelsinki
     ForwardAgent yes
     User hliljest
 
-Host lab1
-    User ubuntu
-    HostName 86.50.19.160
 
 Host ishcal
     Port 10227
     Hostname ishcal.ishkamiel.com
+
+Host lab1
+    User ubuntu
+    HostName 86.50.19.160
+    ForwardAgent yes
+
+Host lab2
+    User ubuntu
+    ProxyCommand ssh -q lab1 nc -q0 lab2 22
+
+Host lab3
+    User ubuntu
+    ProxyCommand ssh -q lab1 nc -q0 lab3 22
