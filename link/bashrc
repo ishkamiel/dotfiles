@@ -249,11 +249,5 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 alias gitlog="git log --pretty=oneline"
 
-if ! [ -n "$SSH_TTY" ]; then
-    alias ssh-lab1="ssh lab1 -t -- tmux new-session -s ssh-lab1 -A -D"
-    alias ssh-lab2="ssh lab2 -t -- tmux new-session -s ssh-lab2 -A -D"
-    alias ssh-lab3="ssh lab3 -t -- tmux new-session -s ssh-lab3 -A -D"
-fi
-
 # }}}
 
