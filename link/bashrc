@@ -4,6 +4,8 @@
 # The file is intended for easy editing by vim, with the above vim settings, and
 # manual folding to group settings.
 
+set -o vi
+
 # If not running interactively, don't do anything {{{
 case $- in
     *i*) ;;
