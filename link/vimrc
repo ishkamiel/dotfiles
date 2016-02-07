@@ -179,11 +179,15 @@ set t_Co=256
 " keyboard maps {{{
 "-------------------------------------------------------------------------------
 
-" Use space to toggle folds
+" <cpace> - Toggle folds
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
 
+" <C-B> - Create huge 'header' comment box
 nnoremap <C-b> :center 80<cr>hhv0r#A<space><esc>40A#<esc>d80<bar>YppVr#kk.
+
+" <F5> - Remove trailing whitespace
+nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
 "-------------------------------------------------------------------------------
 " }}}
@@ -323,7 +327,7 @@ let g:nerdtree_tabs_focus_on_files=1 " (default: 0)
 "-------------------------------------------------------------------------------
 
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1 
+let g:airline_powerline_fonts = 1
 
 "-------------------------------------------------------------------------------
 " }}}

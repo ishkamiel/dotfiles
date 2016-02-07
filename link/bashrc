@@ -46,18 +46,18 @@ display_kinda_motd () { # {{{
         fi
     fi
 
-    # # 90-updates-available
-    # if [ -x /usr/lib/update-notifier/update-motd-updates-available ]; then
-    #     /bin/sh /usr/lib/update-notifier/update-motd-updates-available
-    # fi
-    # #
-    # # 91-release-upgrade 
-    # if ! [ "$(lsb_release -sd | cut -d' ' -f4)" = "(development" ]; then
-    #     if [ -x /usr/lib/ubuntu-release-upgrader/release-upgrade-motd ]; then
-    #         /bin/sh /usr/lib/ubuntu-release-upgrader/release-upgrade-motd
-    #     fi
-    # fi
-    #
+    # 90-updates-available
+    if [ -x /usr/lib/update-notifier/update-motd-updates-available ]; then
+        /usr/bin/sudo /usr/lib/update-notifier/update-motd-updates-available
+    fi
+
+    # 91-release-upgrade
+    if ! [ "$(lsb_release -sd | cut -d' ' -f4)" = "(development" ]; then
+        if [ -x /usr/lib/ubuntu-release-upgrader/release-upgrade-motd ]; then
+            /usr/bin/sudo /usr/lib/ubuntu-release-upgrader/release-upgrade-motd
+        fi
+    fi
+
     # 98-reboot-required
     if [ -x /usr/lib/update-notifier/update-motd-reboot-required ]; then
         /bin/sh /usr/lib/update-notifier/update-motd-reboot-required
@@ -127,7 +127,7 @@ GIT_PS1_SHOWUPSTREAM="auto"
 # GIT_PS1_DESCRIBE_STYLE="default"
 GIT_PS1_SHOWCOLORHINTS=1
 
-# Colors variables {{{ 
+# Colors variables {{{
 
 # Reset
 Color_Off="\[\033[0m\]"       # Text Reset
