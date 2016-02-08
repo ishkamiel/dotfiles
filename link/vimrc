@@ -25,12 +25,12 @@ Plugin 'gmarik/Vundle.vim'          " Vundle itself
 "-------------------------------------------------------------------------------
 
 " ------- Language specific stuff
-Plugin 'guns/vim-clojure-static'    " Clojure
-Plugin 'maksimr/vim-jsbeautify'     " Javascript
-Plugin 'groenewege/vim-less'        " LESS
-Plugin 'godlygeek/tabular'          " Markdown (dependency)
-Plugin 'plasticboy/vim-markdown'    " Markdown
-Plugin 'derekwyatt/vim-scala'       " Scala
+" Plugin 'guns/vim-clojure-static'    " Clojure
+" Plugin 'maksimr/vim-jsbeautify'     " Javascript
+" Plugin 'groenewege/vim-less'        " LESS
+" Plugin 'godlygeek/tabular'          " Markdown (dependency)
+" Plugin 'plasticboy/vim-markdown'    " Markdown
+" Plugin 'derekwyatt/vim-scala'       " Scala
 " Plugin 'rdunklau/vim-perltidy'      " Perl
 " Plugin 'perl-support.vim'           " Perl
 
@@ -39,7 +39,7 @@ Plugin 'scrooloose/NERDTree'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 " ------- colorschemes
-Plugin 'flazz/vim-colorschemes'
+" Plugin 'flazz/vim-colorschemes'
 " Plugin 'altercation/vim-colors-solarized'
 " ------- tagbar
 Plugin 'majutsushi/tagbar'
