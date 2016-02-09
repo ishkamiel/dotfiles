@@ -68,6 +68,7 @@ display_kinda_motd () { # {{{
 # tmux {{{
 
 if [ -n "$TMUX" ]; then
+    echo "TODO: fix this motd stuff, or maybe just remove"
     # display_kinda_motd
 fi
 
