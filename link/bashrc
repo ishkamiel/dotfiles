@@ -68,7 +68,7 @@ display_kinda_motd () { # {{{
 # tmux {{{
 
 if [ -n "$TMUX" ]; then
-    display_kinda_motd
+    # display_kinda_motd
 fi
 
 # }}}
