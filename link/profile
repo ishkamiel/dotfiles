@@ -54,9 +54,8 @@ fi
 # Load bashrc if running bash
 
 if [ -n "$SSH_CLIENT" ] && ! [ -n "$TMUX" ] && [ -x "/usr/bin/tmux" ]; then
-    # Switch to tmux
-    echo "test tmux config"
-    # exec /usr/bin/env TERM=xterm-256color /usr/bin/tmux -2 -u new-session -s ssh-$(hostname -s) -A -D
+    echo "Starting tmux"
+    exec /usr/bin/env TERM=xterm-256color /usr/bin/tmux -2 -u new-session -s ssh-$(hostname -s) -A -D
 elif [ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc" ]; then
     # Seems to be a bash session, let's load .bashrc...
     . "$HOME/.bashrc"

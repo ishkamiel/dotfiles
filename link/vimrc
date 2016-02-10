@@ -44,7 +44,7 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 " ------- tagbar
 Plugin 'majutsushi/tagbar'
 " ------- YouCompleteMe
-Plugin 'Valloric/YouCompleteMe'
+" Plugin 'Valloric/YouCompleteMe'
 " ------- UltiSnips
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
@@ -258,10 +258,6 @@ augroup pd_filetype_perl
     autocmd BufWritePost *.pl call SyntasticCheck()
     autocmd BufWritePost *.t call SyntasticCheck()
 augroup END
-    " autocmd FileType perl setlocal perl_fold=1
-    " autocmd FileType perl setlocal sh_fold_enabled=1
-    " autocmd FileType perl setlocal perl_extended_vars=1
-    " autocmd FileType perl setlocal perl_sync_dist=250
 
 let perl_fold=1
 let sh_fold_enabled=1
@@ -349,9 +345,9 @@ augroup END
 " Set YouCompleteMe trigger key
 " let g:ycm_key_list_select_completion = ['<Down>']
 " let g:ycm_key_list_previous_completion = ['<Up>']
-let g:ycm_extra_conf_globlist = ['~/gameProject/*']
-let g:ycm_use_ultisnips_completer = 1
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
+" let g:ycm_extra_conf_globlist = ['~/gameProject/*']
+" let g:ycm_use_ultisnips_completer = 1
+" let g:ycm_collect_identifiers_from_comments_and_strings = 1
 
 "-------------------------------------------------------------------------------
 " }}}
