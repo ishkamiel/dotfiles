@@ -67,10 +67,10 @@ display_kinda_motd () { # {{{
 
 # tmux {{{
 
-if [ -n "$TMUX" ]; then
-    echo "TODO: fix this motd stuff, or maybe just remove"
-    # display_kinda_motd
-fi
+# if [ -n "$TMUX" ]; then
+#     echo "TODO: fix this motd stuff, or maybe just remove"
+#     # display_kinda_motd
+# fi
 
 # }}}
 
@@ -254,4 +254,3 @@ alias git-compush='git commit -am \"wip\"; git push'
 alias tmux-local="/usr/bin/env TERM=xterm-256color /usr/bin/tmux -2 -u new-session -s local -A -D -P"
 
 # }}}
-

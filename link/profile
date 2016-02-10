@@ -51,12 +51,11 @@ if [ -f "$HOME/.local_profile" ]; then
     . "$HOME/.local_profile"
 fi
 
-# Load bashrc if running bash
+# if [ -n "$SSH_CLIENT" ] && ! [ -n "$TMUX" ] && [ -x "/usr/bin/byobu-tmux" ]; then
+#     echo "Skipping byobu-tmux for now"
+#     exec /usr/bin/env TERM=xterm-256color /usr/bin/byobu-tmux -2 -u new-session -s ssh-$(hostname -s) -A -D
 
-if [ -n "$SSH_CLIENT" ] && ! [ -n "$TMUX" ] && [ -x "/usr/bin/tmux" ]; then
-    echo "Starting tmux"
-    exec /usr/bin/env TERM=xterm-256color /usr/bin/tmux -2 -u new-session -s ssh-$(hostname -s) -A -D
-elif [ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc" ]; then
+if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc" ]; then
     # Seems to be a bash session, let's load .bashrc...
     . "$HOME/.bashrc"
 fi
