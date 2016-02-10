@@ -165,6 +165,7 @@ set guioptions-=L  "remove left-hand scroll bar
 
 set background=dark
 set t_Co=256
+set t_ut=
 " colorscheme elflord
 " colorscheme vividchalk
 " colorscheme jellybeans

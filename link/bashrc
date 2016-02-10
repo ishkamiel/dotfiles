@@ -251,5 +251,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias git-log="git log --pretty=oneline"
 alias git-compush='git commit -am \"wip\"; git push'
 
+alias tmux-local="/usr/bin/env TERM=xterm-256color /usr/bin/tmux -2 -u new-session -s local -A -D -P"
+
 # }}}
 
