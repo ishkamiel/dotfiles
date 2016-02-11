@@ -59,3 +59,4 @@ if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc" ]; then
     # Seems to be a bash session, let's load .bashrc...
     . "$HOME/.bashrc"
 fi
+_byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
