@@ -8,6 +8,9 @@ set nocompatible
 filetype off
 
 " Vundle (vim plugin manager)
+"
+" To install:
+" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 " This initializes plugin installation paths
 if has("win32") || has("win16")
     let path='~/vimfiles/bundle'
@@ -49,11 +52,11 @@ Plugin 'majutsushi/tagbar'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 " ------- tcomment (comment stuff in/out)
-Plugin 'tcomment'
+Plugin 'tpope/vim-commentary'
 " ------- vim-fugitive (Git integration)
-Plugin 'tpope/vim-fugitive'
+"Plugin 'tpope/vim-fugitive'
 " ------- vim-pencil (writing?)
-Plugin 'reedes/vim-pencil'
+"Plugin 'reedes/vim-pencil'
 " ------- Syntastic
 Plugin 'scrooloose/syntastic'
 " ------- vim-airline (statusbar)
@@ -94,8 +97,8 @@ set completeopt-=preview        " remove extended preview from autocinserts (scr
 set hlsearch                    " highlight searches
 
 " Backup stuff {{{
-set backupdir=~/.vimbackup,.,~/tmp
-set directory=~/.vimbackup,.,~/tmp
+set backupdir=~tmp/vimbackup,.,~
+set directory=~tmp/vimbackup,.,~
 " }}}
 
 " Folding {{{
@@ -239,30 +242,30 @@ set cinoptions+=N-s " don't indent namesapces
 " LaTex {{{
 "-------------------------------------------------------------------------------
 
-augroup pd_filetype_tex
-    autocmd!
-    autocmd BufRead,BufNewFile *.tex setlocal spell
-    autocmd BufRead,BufNewFile *.tex setlocal wrap
-    autocmd BufRead,BufNewFile *.tex let &textwidth=(s:pd_textwidth-2)
-    autocmd BufRead,BufNewFile *.tex setlocal formatoptions=t1
-augroup END
+"augroup pd_filetype_tex
+"    autocmd!
+"    autocmd BufRead,BufNewFile *.tex setlocal spell
+"    autocmd BufRead,BufNewFile *.tex setlocal wrap
+"    autocmd BufRead,BufNewFile *.tex let &textwidth=(s:pd_textwidth-2)
+"    autocmd BufRead,BufNewFile *.tex setlocal formatoptions=t1
+"augroup END
 
 "-------------------------------------------------------------------------------
 " }}}
 " Perl {{{
 "-------------------------------------------------------------------------------
 
-augroup pd_filetype_perl
-    autocmd!
-    autocmd BufWritePost *.pm call SyntasticCheck()
-    autocmd BufWritePost *.pl call SyntasticCheck()
-    autocmd BufWritePost *.t call SyntasticCheck()
-augroup END
-
-let perl_fold=1
-let sh_fold_enabled=1
-let perl_extended_vars=1
-let perl_sync_dist=250
+"augroup pd_filetype_perl
+"    autocmd!
+"    autocmd BufWritePost *.pm call SyntasticCheck()
+"    autocmd BufWritePost *.pl call SyntasticCheck()
+"    autocmd BufWritePost *.t call SyntasticCheck()
+"augroup END
+"
+"let perl_fold=1
+"let sh_fold_enabled=1
+"let perl_extended_vars=1
+"let perl_sync_dist=250
 
 "-------------------------------------------------------------------------------
 " }}}
@@ -273,7 +276,7 @@ let perl_sync_dist=250
 " NERDTree_tabs manages most of this...
 " autocmd vimenter * NERDTree
 " map <C-n> :NERDTreeToggle<CR>
-let g:NERDTreeWinSize=s:pd_sidewidth
+"let g:NERDTreeWinSize=s:pd_sidewidth
 " close NERDTree if it's the last one left
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
@@ -331,12 +334,12 @@ let g:airline_powerline_fonts = 1
 " pencil {{{
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-augroup pd_pencil
-    autocmd!
-    autocmd FileType markdown,mkd call pencil#init()
-    autocmd FileType text         call pencil#init({'wrap': 'hard'})
-    " autocmd FileType tex          call pencil#init({'wrap': 'hard'})
-augroup END
+"augroup pd_pencil
+"    autocmd!
+"    autocmd FileType markdown,mkd call pencil#init()
+"    autocmd FileType text         call pencil#init({'wrap': 'hard'})
+"    " autocmd FileType tex          call pencil#init({'wrap': 'hard'})
+"augroup END
 
 " }}}
 " YouComepleteMe {{{
@@ -357,18 +360,18 @@ augroup END
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-
+"
 let g:syntastic_aggregate_errors=0 " run all checkers and aggregate results
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_auto_loc_list=2
 let g:syntastic_loc_list_height=5
 let g:syntastic_check_on_open=1
 let g:syntastic_check_on_wq=0
-
+"
 let g:syntastic_enable_balloons=1
 let g:syntastic_enable_signs=1
-
-let g:syntastic_perl_checkers = ['perlcritic']
+"
+"let g:syntastic_perl_checkers = ['perlcritic']
 
 " let g:syntastic_enable_perl_checker = 1
 " let g:syntastic_javascript_checkers = ['jshint']
