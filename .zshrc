@@ -67,3 +67,7 @@ if [ -n "$DROPDOWNTERMINAL" ]; then
         exec tmux new-session -s dd -A -D
     fi
 fi
+
+alias rm="rm -i"
+alias cp="cp -i"
+alias mv="mv -i"
