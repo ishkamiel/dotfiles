@@ -1,8 +1,5 @@
 " vim:fdm=marker foldlevel=0
 
-
-" Load Vundle & Plugins {{{
-
 " ---------------------------------------------------- Load & Setups Vundle {{{
 
 set nocompatible
@@ -26,33 +23,73 @@ Plugin 'gmarik/Vundle.vim'
 
 " }}}
 
-" ----------------------------------------------------------------- Plugins
-"  Use "call PdPlugin([ plugins, ... ], function_name)" to load and setup plugins.
-"  The plugins will be loaded upon calling, while the named functions will be called
-"  at the end of this script.
+" ---------------------------------------------------- PluginPackManager {{{
+"  DESCRIPTION:
+"
+"  This is a very simple wrapper around Vundle, mainly intended for a clearer(?)
+"  configuration file structure. PluginPacks are declared in an OO style together
+"  with any accompanying conguration. The plugins are immediately loaded, but 
+"  configuration functions for all packs are called in one go by calling Configure
+"  packs.
+"
+"  SYNOPSIS:
+"
+"       let plugin = InitPluginPack([ pluginNames ])
+"       function plugin.config() dict
+"           ... do whatever ...
+"       endfunction
+"
+"       let plugin = InitPluginPack([ pluginNames ])
+"       " ... etc ... 
+"      
+"       plugin.enabled = 0 " Disable plugin from being loaded & configured
+"
+"       call LoadPluginPacks()
+"       call ConfigurePluginPacks)
 "
 "  TODO: Add simple check for local install (Ubuntu vim-addons-manager?)
+"  TODO: Check success of plugin loading
 
 let s:pd_confs = []
-function! LoadPluginPack(plugins, config, enabled)
-    if a:enabled
-        call add(s:pd_confs, a:config)
-        for plugin in a:plugins
-            Plugin plugin
-        endfor
-    endif
+function! InitPluginPack(name, plugins) 
+    let pack = { 'name': a:name, 'plugins': a:plugins, 'enabled': 1 }
+    call add(s:pd_confs, pack)
+    return pack
 endfunction
-"
+
+function! LoadPluginPacks()
+    for pack in s:pd_confs
+        if pack.enabled
+            for plugin in pack.plugins
+                " TODO: Check if succeeds, disable if not
+                Plugin plugin
+            endfor
+        endif
+    endfor
+endfunction
+
+function! ConfigurePluginPacks()
+    for pack in s:pd_confs
+        if pack.enabled 
+            if has_key(pack, 'config')
+                call pack.config()
+            endif
+        endif
+    endfor
+endfunction
+
+" }}}
+
 " ---------------------------------------------------- NERDTree {{{
 " https://github.com/scrooloose/nerdtree
 
-call LoadPluginPack([ 
+let plugin = InitPluginPack('nerdtree', [
             \'scrooloose/NERDTree', 
             \'jistr/vim-nerdtree-tabs', 
             \'Xuyuanp/nerdtree-git-plugin'
-            \], "Pd_nerdtree", 1)
+            \])
 
-function! Pd_nerdtree()
+function plugin.config() dict
     " NERDTree_tabs manages most of this...
     " autocmd vimenter * NERDTree
     " map <C-n> :NERDTreeToggle<CR>
@@ -77,20 +114,26 @@ endfunction
 
 " }}}
 " ---------------------------------------------------- tagbar {{{
-"
-call LoadPluginPack(['majutsushi/tagbar'], "Pd_tagbar", 1)
-function! Pd_tagbar()
-    "if onWin
+
+let plugin = InitPluginPack('tagbar', [
+            \'majutsushi/tagbar'
+            \])
+
+function plugin.config() dict
+    "if s:onWin
     "    let g:tagbar_ctags_bin = 'C:\Users\ishkamiel\Documents\installs\ctags\ctags.exe'
     "endif
-    "nmap <F8> :TagbarToggle<CR>
+    nmap <F8> :TagbarToggle<CR>
     "" nmap <F8> :TagbarOpenAutoClose<CR>
     "let g:tagbar_width=s:pd_sidewidth
     "let g:tagbar_sort=0                 " 1 -> alphabetical sorting
-    "autocmd VimEnter * nested :call tagbar#autoopen(1)
+    autocmd VimEnter * nested :call tagbar#autoopen(1)
 endfunction
 
 " }}}
+"
+
+" Stuff {{{
 " ---------------------------------------------------- UltiSnips
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
@@ -264,8 +307,6 @@ nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 " }}}
 
 
-
-" }}}
 " airline {{{
 "-------------------------------------------------------------------------------
 
@@ -320,12 +361,6 @@ let g:syntastic_enable_signs=1
 " let g:syntastic_javascript_checkers = ['jshint']
 " let g:syntastic_mode_map = { 'passive_filetypes': ['html'] } " don't check html
 " let g:syntastic_c_check_header = 1
-
-"-------------------------------------------------------------------------------
-" }}}
-" TagBar {{{
-"-------------------------------------------------------------------------------
-
 
 "-------------------------------------------------------------------------------
 " }}}
@@ -419,10 +454,7 @@ set cinoptions+=N-s " don't indent namesapces
 "-------------------------------------------------------------------------------
 " }}}
 
-" Run all the configurations shere
-for c in s:pd_confs
-    let c = "call " . c . "()"
-    execute c
-endfor
+call LoadPluginPacks()
+call ConfigurePluginPacks()
 
 
