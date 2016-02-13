@@ -28,7 +28,7 @@ CASE_SENSITIVE="true"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
+# ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
@@ -62,7 +62,8 @@ source $ZSH/oh-my-zsh.sh
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
-if [ ! -n "$BYOBU_TTY" ]; then 
-	
+if [ -n "$DROPDOWNTERMINAL" ]; then
+    if ! [ -n "$TMUX" ]; then
+        exec tmux new-session -s dd -A -D
+    fi
 fi
-

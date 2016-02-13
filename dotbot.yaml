@@ -7,15 +7,12 @@
     ~/.tmux.conf: .tmux.conf
     ~/.vimrc: .vimrc
     ~/.inputrc: .inputrc
-    ~/.config/upstart/tempdirs.conf:
+    ~/.config/upstart/mytempdir.conf:
       create: true
-      path: .config/upstart/tempdirs.conf
+      path: .config/upstart/mytempdir.conf
     ~/.config/upstart/drop_down_terminal.conf:
       create: true
       path: .config/upstart/drop_down_terminal.conf
-    ~/.config/upstart/keyboard_config.conf:
-      create: true
-      path: .config/upstart/keyboard_config.conf
     ~/.zshrc: .zshrc
     ~/.zprofile: .zprofile
     ~/.zsh_favlist: .zsh_favlist
@@ -25,9 +22,9 @@
     stdin: true 
     stdout: true
   -
-    command: mkdir -p ~/.vimbackup
-    stdin: false 
-    stdout: false
+    command: scripts/dconf.sh
+    stdin: true 
+    stdout: true
   -
     command: vim +PluginInstall +qall
     stdin: true 

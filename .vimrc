@@ -96,10 +96,8 @@ set spelllang=en                " languages used for spelling
 set completeopt-=preview        " remove extended preview from autocinserts (scratch window)
 set hlsearch                    " highlight searches
 
-" Backup stuff {{{
-set backupdir=~tmp/vimbackup,.,~
-set directory=~tmp/vimbackup,.,~
-" }}}
+set backupdir=~/.tmp/vimbackup,.,~
+set directory=~/.tmp/vimbackup,.,~
 
 " Folding {{{
 set foldmethod=syntax           " Syntax based folding
