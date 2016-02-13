@@ -23,162 +23,7 @@ Plugin 'gmarik/Vundle.vim'
 
 " }}}
 
-" ---------------------------------------------------- PluginPackManager {{{
-"  DESCRIPTION:
-"
-"  This is a very simple wrapper around Vundle, mainly intended for a clearer(?)
-"  configuration file structure. PluginPacks are declared in an OO style together
-"  with any accompanying conguration. The plugins are immediately loaded, but 
-"  configuration functions for all packs are called in one go by calling Configure
-"  packs.
-"
-"  SYNOPSIS:
-"
-"       let plugin = InitPluginPack([ pluginNames ])
-"       function plugin.config() dict
-"           ... do whatever ...
-"       endfunction
-"
-"       let plugin = InitPluginPack([ pluginNames ])
-"       " ... etc ... 
-"      
-"       plugin.enabled = 0 " Disable plugin from being loaded & configured
-"
-"       call LoadPluginPacks()
-"       call ConfigurePluginPacks)
-"
-"  TODO: Add simple check for local install (Ubuntu vim-addons-manager?)
-"  TODO: Check success of plugin loading
-
-let s:pd_confs = []
-function! InitPluginPack(name, plugins) 
-    let pack = { 'name': a:name, 'plugins': a:plugins, 'enabled': 1 }
-    call add(s:pd_confs, pack)
-    return pack
-endfunction
-
-function! LoadPluginPacks()
-    for pack in s:pd_confs
-        if pack.enabled
-            for plugin in pack.plugins
-                " TODO: Check if succeeds, disable if not
-                Plugin plugin
-            endfor
-        endif
-    endfor
-endfunction
-
-function! ConfigurePluginPacks()
-    for pack in s:pd_confs
-        if pack.enabled 
-            if has_key(pack, 'config')
-                call pack.config()
-            endif
-        endif
-    endfor
-endfunction
-
-" }}}
-
-" ---------------------------------------------------- NERDTree {{{
-" https://github.com/scrooloose/nerdtree
-
-let plugin = InitPluginPack('nerdtree', [
-            \'scrooloose/NERDTree', 
-            \'jistr/vim-nerdtree-tabs', 
-            \'Xuyuanp/nerdtree-git-plugin'
-            \])
-
-function plugin.config() dict
-    " NERDTree_tabs manages most of this...
-    " autocmd vimenter * NERDTree
-    " map <C-n> :NERDTreeToggle<CR>
-    "let g:NERDTreeWinSize=s:pd_sidewidth
-    " close NERDTree if it's the last one left
-    " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-
-
-    " Open NERDTree on console vim startup
-    let g:nerdtree_tabs_open_on_console_startup=1 " (default: 0)
-
-
-    " On startup, focus NERDTree if opening a directory, focus file if opening a file. 
-    " (When set to 2, always focus file window after startup).
-    let g:nerdtree_tabs_smart_startup_focus=2 " (default: 1)
-
-    " When switching into a tab, make sure that focus is on the file window, not in 
-    " the NERDTree window. (Note that this can get annoying if you use NERDTree's 
-    " feature 'open in new tab silently', as you will lose focus on the NERDTree.)
-    let g:nerdtree_tabs_focus_on_files=1 " (default: 0)
-endfunction
-
-" }}}
-" ---------------------------------------------------- tagbar {{{
-
-let plugin = InitPluginPack('tagbar', [
-            \'majutsushi/tagbar'
-            \])
-
-function plugin.config() dict
-    "if s:onWin
-    "    let g:tagbar_ctags_bin = 'C:\Users\ishkamiel\Documents\installs\ctags\ctags.exe'
-    "endif
-    nmap <F8> :TagbarToggle<CR>
-    "" nmap <F8> :TagbarOpenAutoClose<CR>
-    "let g:tagbar_width=s:pd_sidewidth
-    "let g:tagbar_sort=0                 " 1 -> alphabetical sorting
-    autocmd VimEnter * nested :call tagbar#autoopen(1)
-endfunction
-
-" }}}
-"
-
-" Stuff {{{
-" ---------------------------------------------------- UltiSnips
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-" ---------------------------------------------------- tcomment
-Plugin 'tpope/vim-commentary'
-
-" ---------------------------------------------------- vim-pencil
-"Plugin 'reedes/vim-pencil'
-
-" ---------------------------------------------------- Syntastic
-" Plugin 'scrooloose/syntastic' " (ubuntu repos)
-
-" ---------------------------------------------------- YouCompleteMe
-" Plugin 'Valloric/YouCompleteMe' " (ubuntu repos)
-
-" ---------------------------------------------------- vim-fugitive (Git integration)
-Plugin 'tpope/vim-fugitive'
-
-" ---------------------------------------------------- vim-airline (statusbar)
-Plugin 'bling/vim-airline'
-
-" ###############################################################
-"                                       Filetype sepcific stuff #
-" ###############################################################
-
-" ---------------------------------------------------- Clojure 
-" Plugin 'guns/vim-clojure-static'    " Clojure
-" ---------------------------------------------------- Javascript 
-" Plugin 'maksimr/vim-jsbeautify'     " Javascript
-" ---------------------------------------------------- LESS 
-" Plugin 'groenewege/vim-less'        " LESS
-" ---------------------------------------------------- Markdown 
-" Plugin 'godlygeek/tabular'          " Markdown (dependency)
-" Plugin 'plasticboy/vim-markdown'    " Markdown
-" ---------------------------------------------------- Scala 
-" Plugin 'derekwyatt/vim-scala'       " Scala
-" ---------------------------------------------------- Perl 
-" Plugin 'rdunklau/vim-perltidy'      " Perl
-" Plugin 'perl-support.vim'           " Perl
-
-
-" }}} Vundle plugins
-
-" General vim config {{{
-"-------------------------------------------------------------------------------
+" ---------------------------------------------------- General vim config {{{
 set nocompatible                " Load non-Vi-compaitlbe settings
 syntax on                       " Syntax highlighting
 filetype plugin indent on       " Use indening
@@ -211,7 +56,10 @@ set hlsearch                    " highlight searches
 set backupdir=~/.tmp/vimbackup,.,~
 set directory=~/.tmp/vimbackup,.,~
 
-" Folding {{{
+let s:pd_textwidth=100
+let s:pd_sidewidth = max([10, min([40, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
+let &textwidth=s:pd_textwidth   " (Need to use let &variable syntax)
+
 set foldmethod=syntax           " Syntax based folding
 set foldlevel=999               " Display everything by default
 " set foldlevelstart=1
@@ -220,78 +68,12 @@ set foldnestmax=2
 " inoremap <F9> <C-O>za
 " nnoremap <A-Space> za
 " onoremap <F9> <C-C>za
-" }}}
-
-"-------------------------------------------------------------------------------
-" }}}
-
-" Custom config variables {{{
-"-------------------------------------------------------------------------------
-
-" Store this for more convenient checking of platform
-let onWin = 0
-if has("win32") || has("win16")
-    let onWin = 1
-endif
-
-let s:pd_textwidth=100
-let s:pd_sidewidth = max([10, min([40, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
-
-" Modify config accordingly
-let &textwidth=s:pd_textwidth   " (Need to use let &variable syntax)
-
-"-------------------------------------------------------------------------------
-" }}}
-
-" Other vim tweaks {{{
-"-------------------------------------------------------------------------------
-
-" Remember file posittions
-if has("autocmd")
-    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-endif
 
 " disable arrow keys
 nnoremap <up> <nop>
 nnoremap <down> <nop>
 nnoremap <left> <nop>
 nnoremap <right> <nop>
-
-" Windows specific overrides
-if has("win32") || has("win16")
-    set backupdir=~/vimbackup
-    set directory=~/vimbackup
-    set lines=40 columns=160
-endif
-
-" GVim config
-set guioptions-=m  "remove menu bar
-set guioptions-=T  "remove toolbar
-set guioptions-=r  "remove right-hand scroll bar
-set guioptions-=L  "remove left-hand scroll bar
-
-"-------------------------------------------------------------------------------
-"}}}
-
-" Color themes and styling {{{
-"-------------------------------------------------------------------------------
-
-set background=dark
-set t_Co=256
-set t_ut=
-" colorscheme elflord
-" colorscheme vividchalk
-" colorscheme jellybeans
-" colorscheme grb256
-" colorscheme 0x7A69_dark " seems to mess with highlighting
-" colorscheme solarized
-" hi FoldColumn ctermfg=DarkCyan ctermbg=8
-
-"-------------------------------------------------------------------------------
-" }}}
-
-" keyboard maps {{{
-"-------------------------------------------------------------------------------
 
 " <cpace> - Toggle folds
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
@@ -303,158 +85,306 @@ nnoremap <C-b> :center 80<cr>hhv0r#A<space><esc>40A#<esc>d80<bar>YppVr#kk.
 " <F5> - Remove trailing whitespace
 nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
+" Remember file posittions
+if has("autocmd")
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+
+
+" }}}
+" ---------------------------------------------------- Windows stuff {{{
+
+if has("win32") || has("win16")
+    set backupdir=~/vimbackup
+    set directory=~/vimbackup
+    set lines=40 columns=160
+endif
+
+" }}}
+" ---------------------------------------------------- gVim stuff {{{
+
+" GVim config
+set guioptions-=m  "remove menu bar
+set guioptions-=T  "remove toolbar
+set guioptions-=r  "remove right-hand scroll bar
+set guioptions-=L  "remove left-hand scroll bar
+
+" }}}
+" ---------------------------------------------------- Color themes and styling {{{
+
+set background=dark
+set t_Co=25
+set t_ut=
+colorscheme pablo
+" hi FoldColumn ctermfg=DarkCyan ctermbg=8
+
 "-------------------------------------------------------------------------------
 " }}}
 
-
-" airline {{{
-"-------------------------------------------------------------------------------
-
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
-
-"-------------------------------------------------------------------------------
-" }}}
-" pencil {{{
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-"augroup pd_pencil
-"    autocmd!
-"    autocmd FileType markdown,mkd call pencil#init()
-"    autocmd FileType text         call pencil#init({'wrap': 'hard'})
-"    " autocmd FileType tex          call pencil#init({'wrap': 'hard'})
-"augroup END
-
-" }}}
-" YouComepleteMe {{{
-"-------------------------------------------------------------------------------
-
-" Set YouCompleteMe trigger key
-" let g:ycm_key_list_select_completion = ['<Down>']
-" let g:ycm_key_list_previous_completion = ['<Up>']
-" let g:ycm_extra_conf_globlist = ['~/gameProject/*']
-let g:ycm_use_ultisnips_completer = 1
-" let g:ycm_collect_identifiers_from_comments_and_strings = 1
-
-"-------------------------------------------------------------------------------
-" }}}
-" Syntastic {{{
-"-------------------------------------------------------------------------------
-
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" ###############################################################
+"                                                  Plugin stuff #
+" ###############################################################
+" ---------------------------------------------------- PluginPackManager {{{
+"  DESCRIPTION:
 "
-let g:syntastic_aggregate_errors=0 " run all checkers and aggregate results
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list=2
-let g:syntastic_loc_list_height=5
-let g:syntastic_check_on_open=1
-let g:syntastic_check_on_wq=0
+"  This is a very simple wrapper around Vundle, mainly intended for a clearer(?)
+"  configuration file structure. PluginPacks are declared in an OO style together
+"  with any accompanying conguration. The plugins are immediately loaded, but 
+"  configuration functions for all packs are called in one go by calling Configure
+"  packs.
 "
-let g:syntastic_enable_balloons=1
-let g:syntastic_enable_signs=1
+"  SYNOPSIS:
 "
-"let g:syntastic_perl_checkers = ['perlcritic']
-
-" let g:syntastic_enable_perl_checker = 1
-" let g:syntastic_javascript_checkers = ['jshint']
-" let g:syntastic_mode_map = { 'passive_filetypes': ['html'] } " don't check html
-" let g:syntastic_c_check_header = 1
-
-"-------------------------------------------------------------------------------
-" }}}
-" UltiSnip {{{
-"-------------------------------------------------------------------------------
-
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<c-l>"
-let g:UtliSnipsEditSplit="normal"
-" let g:UltiSnipsListSnippets="<c-Right>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
-
-"-------------------------------------------------------------------------------
-" }}}
-
-" C++ {{{
-"-------------------------------------------------------------------------------
-
-set cinoptions+=g0  " don't indent public/private/protected
-set cinoptions+=N-s " don't indent namesapces
-
-"-------------------------------------------------------------------------------
-" }}}
-" Clojure {{{
-"-------------------------------------------------------------------------------
-
-" autocmd BufRead,BufNewFile *.clj setlocal foldlevel=999
-" autocmd BufRead,BufNewFile *.clj setlocal foldcolumn=0
-
-"-------------------------------------------------------------------------------
-" }}}
-" CSS {{{
-"-------------------------------------------------------------------------------
-
-" autocmd FileType css noremap <buffer> <c-r> :call CSSBeautify()<cr>
-
-"-------------------------------------------------------------------------------
-" }}}
-" HTML {{{
-"-------------------------------------------------------------------------------
-
-" augroup pd_filetype_html
-"     autocmd!
-"     autocmd FileType html noremap <buffer> <c-r> :call HtmlBeautify()<cr>
-" augroup END
-
-"-------------------------------------------------------------------------------
-" }}}
-" Javascript {{{
-"-------------------------------------------------------------------------------
-
-" augroup pd_filetype_javascript
-"     autocmd!
-"     autocmd FileType javascript noremap <buffer>  <c-r> :call JsBeautify()<cr>
-" augroup END
-
-"-------------------------------------------------------------------------------
-" }}}
-" LaTex {{{
-"-------------------------------------------------------------------------------
-
-"augroup pd_filetype_tex
-"    autocmd!
-"    autocmd BufRead,BufNewFile *.tex setlocal spell
-"    autocmd BufRead,BufNewFile *.tex setlocal wrap
-"    autocmd BufRead,BufNewFile *.tex let &textwidth=(s:pd_textwidth-2)
-"    autocmd BufRead,BufNewFile *.tex setlocal formatoptions=t1
-"augroup END
-
-"-------------------------------------------------------------------------------
-" }}}
-" Perl {{{
-"-------------------------------------------------------------------------------
-
-"augroup pd_filetype_perl
-"    autocmd!
-"    autocmd BufWritePost *.pm call SyntasticCheck()
-"    autocmd BufWritePost *.pl call SyntasticCheck()
-"    autocmd BufWritePost *.t call SyntasticCheck()
-"augroup END
+"       let plugin = InitPluginPack([ pluginNames ])
+"       function plugin.config() dict
+"           ... do whatever ...
+"       endfunction
 "
-"let perl_fold=1
-"let sh_fold_enabled=1
-"let perl_extended_vars=1
-"let perl_sync_dist=250
+"       let plugin = InitPluginPack([ pluginNames ])
+"       " ... etc ... 
+"      
+"       plugin.enabled = 0 " Disable plugin from being loaded & configured
+"
+"       call LoadPluginPacks()
+"       call ConfigurePluginPacks)
+"
+"  TODO: Add simple check for local install (Ubuntu vim-addons-manager?)
+"  TODO: Check success of plugin loading
 
-"-------------------------------------------------------------------------------
+function InitPdPluginManager()
+    let pm = { 'packs': [] }
+
+    " redir => scripts 
+    " execute "silent verbose scriptnames"
+    " redir END
+
+    " let pm.snames = split(scripts)
+    let pm.plugindir = expand('<sfile>:p:h:h') . "/plugin/"
+
+    function pm.isLoaded(matcher) dict
+        for sname in self.snames
+            echom "checking '" . sname . "'"
+            if sname =~ a:matcher
+                return 1
+            endif
+        endfor
+
+        return 0
+    endfunction
+
+    function pm.add(name, plugins)  dict
+        let pack = { 'name': a:name, 'plugins': a:plugins, 'enabled': 1, 'loaded': 0, 'pm': self }
+        call add(self.packs, pack)
+        return pack
+    endfunction
+
+    function pm.loadAll() dict
+        for pack in self.packs
+            if pack.enabled
+
+                " Check possible conditional loading stuff
+                if has_key(pack, 'conditional') && !pack.conditional()
+                    echom "Conditional load false, skipping " . pack.name
+                    let pack.enabled = 0
+                    continue
+                endif
+
+                " See if we got a 'regular' plugin installed
+                
+                if filereadable(self.plugindir . pack.name)
+                    echo "Plugin present in .vim/plugins, skipping " . pack.name
+                    continue
+                endif
+
+                " Okay, finally just try to load with Vundle
+                for plugin in pack.plugins
+                    Plugin plugin
+                endfor
+
+            endif
+        endfor
+    endfunction
+
+    function pm.configureAll() dict
+        for pack in self.packs
+            if pack.enabled && has_key(pack, 'config')
+                call pack.config()
+            endif
+        endfor
+    endfunction
+
+    return pm
+endfunction
+
+let s:PdPluginManager = InitPdPluginManager()
+
 " }}}
 
-call LoadPluginPacks()
-call ConfigurePluginPacks()
+" ---------------------------------------------------- NERDTree {{{
+" https://github.com/scrooloose/nerdtree
+
+let plugin = s:PdPluginManager.add('nerdtree', [
+            \'scrooloose/NERDTree', 
+            \'jistr/vim-nerdtree-tabs', 
+            \'Xuyuanp/nerdtree-git-plugin'
+            \])
+
+function plugin.config() dict
+    " NERDTree_tabs manages most of this...
+    " autocmd vimenter * NERDTree
+    " map <C-n> :NERDTreeToggle<CR>
+    "let g:NERDTreeWinSize=s:pd_sidewidth
+    " close NERDTree if it's the last one left
+    " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+
+    " Open NERDTree on console vim startup
+    let g:nerdtree_tabs_open_on_console_startup=1 " (default: 0)
+
+
+    " On startup, focus NERDTree if opening a directory, focus file if opening a file. 
+    " (When set to 2, always focus file window after startup).
+    let g:nerdtree_tabs_smart_startup_focus=2 " (default: 1)
+
+    " When switching into a tab, make sure that focus is on the file window, not in 
+    " the NERDTree window. (Note that this can get annoying if you use NERDTree's 
+    " feature 'open in new tab silently', as you will lose focus on the NERDTree.)
+    let g:nerdtree_tabs_focus_on_files=1 " (default: 0)
+endfunction
+
+" }}}
+" ---------------------------------------------------- tagbar {{{
+
+let plugin = s:PdPluginManager.add('tagbar', [
+            \'majutsushi/tagbar'
+            \])
+
+function plugin.config() dict
+    " if has("win32") || has("win16")
+    "     let g:tagbar_ctags_bin = 'C:\Users\ishkamiel\Documents\installs\ctags\ctags.exe'
+    " endif
+    nmap <F8> :TagbarToggle<CR>
+    "" nmap <F8> :TagbarOpenAutoClose<CR>
+    "let g:tagbar_width=s:pd_sidewidth
+    "let g:tagbar_sort=0                 " 1 -> alphabetical sorting
+    autocmd VimEnter * nested :call tagbar#autoopen(1)
+endfunction
+
+" }}}
+" ---------------------------------------------------- YouCompleteMe {{{
+
+let plugin = s:PdPluginManager.add('youcompleteme.vim', [
+            \'Valloric/YouCompleteMe'
+            \])
+
+function plugin.is_loaded() dict
+    " return self.pm.isLoaded('youcompleteme.vim')
+    return 1
+endfunction
+
+function plugin.config() dict
+    " Set YouCompleteMe trigger key
+    " let g:ycm_key_list_select_completion = ['<Down>']
+    " let g:ycm_key_list_previous_completion = ['<Up>']
+    " let g:ycm_extra_conf_globlist = ['~/gameProject/*']
+    let g:ycm_use_ultisnips_completer = 1
+    " let g:ycm_collect_identifiers_from_comments_and_strings = 1
+endfunction
+
+" }}}
+" ---------------------------------------------------- UltiSnips {{{
+
+let plugin = s:PdPluginManager.add('ultisnips', [
+            \'SirVer/ultisnips',
+            \'honza/vim-snippets'
+            \])
+
+function plugin.config() dict
+    " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+    let g:UltiSnipsExpandTrigger="<c-l>"
+    let g:UtliSnipsEditSplit="normal"
+    " let g:UltiSnipsListSnippets="<c-Right>"
+    let g:UltiSnipsJumpForwardTrigger="<tab>"
+    " let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+    " If you want :UltiSnipsEdit to split your window.
+    let g:UltiSnipsEditSplit="vertical"
+endfunction
+
+" }}}
+" ---------------------------------------------------- vim-commentary {{{
+
+let plugin = s:PdPluginManager.add('commentary', [
+            \'tpope/vim-commentary'
+            \])
+
+" }}}
+" ---------------------------------------------------- Syntastic {{{
+
+let plugin = s:PdPluginManager.add('syntastic.vim', [
+            \'scrooloose/syntastic'
+            \])
+
+function plugin.is_loaded() dict
+    return 1
+endfunction
+
+function plugin.config() dict
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
+    "
+    let g:syntastic_aggregate_errors=0 " run all checkers and aggregate results
+    let g:syntastic_always_populate_loc_list=1
+    let g:syntastic_auto_loc_list=2
+    let g:syntastic_loc_list_height=5
+    let g:syntastic_check_on_open=1
+    let g:syntastic_check_on_wq=0
+    "
+    let g:syntastic_enable_balloons=1
+    let g:syntastic_enable_signs=1
+    "
+    "let g:syntastic_perl_checkers = ['perlcritic']
+
+    " let g:syntastic_enable_perl_checker = 1
+    " let g:syntastic_javascript_checkers = ['jshint']
+    " let g:syntastic_mode_map = { 'passive_filetypes': ['html'] } " don't check html
+    " let g:syntastic_c_check_header = 1
+endfunction
+
+" }}}
+" ---------------------------------------------------- vim-fugitive {{{
+
+let plugin = s:PdPluginManager.add('fugitive', [
+            \'tpope/vim-fugitive'
+            \])
+
+" }}}
+" ---------------------------------------------------- vim-airline {{{
+
+let plugin = s:PdPluginManager.add('airline', [
+            \'bling/vim-airline'
+            \])
+
+function plugin.config() dict
+    let g:airline#extensions#tabline#enabled = 1
+    let g:airline_powerline_fonts = 1
+endfunction
+
+" }}}
+
+" ###############################################################
+"                                       Filetype sepcific stuff #
+" ###############################################################
+" ---------------------------------------------------- systemd {{{
+
+let plugin = s:PdPluginManager.add('systemd syntax', [
+            \'Matt-Deacalion/vim-systemd-syntax'
+            \])
+
+" }}}
+
+call s:PdPluginManager.loadAll()
+call s:PdPluginManager.configureAll()
 
 
