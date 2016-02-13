@@ -1,8 +1,9 @@
 " vim:fdm=marker foldlevel=0
 
+
 " Load Vundle & Plugins {{{
 
-" Load vundle {{{
+" ---------------------------------------------------- Load & Setups Vundle {{{
 
 set nocompatible
 filetype off
@@ -20,49 +21,117 @@ else
 endif
 call vundle#rc()
 
-Plugin 'gmarik/Vundle.vim'          " Vundle itself
+" Load the main Vundle thing
+Plugin 'gmarik/Vundle.vim'
 
 " }}}
 
-" Vundle Plugins
-"-------------------------------------------------------------------------------
+" ----------------------------------------------------------------- Plugins
+"  Use "call PdPlugin([ plugins, ... ], function_name)" to load and setup plugins.
+"  The plugins will be loaded upon calling, while the named functions will be called
+"  at the end of this script.
+"
+"  TODO: Add simple check for local install (Ubuntu vim-addons-manager?)
 
-" ------- Language specific stuff
+let s:pd_confs = []
+function! LoadPluginPack(plugins, config, enabled)
+    if a:enabled
+        call add(s:pd_confs, a:config)
+        for plugin in a:plugins
+            Plugin plugin
+        endfor
+    endif
+endfunction
+"
+" ---------------------------------------------------- NERDTree {{{
+" https://github.com/scrooloose/nerdtree
+
+call LoadPluginPack([ 
+            \'scrooloose/NERDTree', 
+            \'jistr/vim-nerdtree-tabs', 
+            \'Xuyuanp/nerdtree-git-plugin'
+            \], "Pd_nerdtree", 1)
+
+function! Pd_nerdtree()
+    " NERDTree_tabs manages most of this...
+    " autocmd vimenter * NERDTree
+    " map <C-n> :NERDTreeToggle<CR>
+    "let g:NERDTreeWinSize=s:pd_sidewidth
+    " close NERDTree if it's the last one left
+    " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+
+    " Open NERDTree on console vim startup
+    let g:nerdtree_tabs_open_on_console_startup=1 " (default: 0)
+
+
+    " On startup, focus NERDTree if opening a directory, focus file if opening a file. 
+    " (When set to 2, always focus file window after startup).
+    let g:nerdtree_tabs_smart_startup_focus=2 " (default: 1)
+
+    " When switching into a tab, make sure that focus is on the file window, not in 
+    " the NERDTree window. (Note that this can get annoying if you use NERDTree's 
+    " feature 'open in new tab silently', as you will lose focus on the NERDTree.)
+    let g:nerdtree_tabs_focus_on_files=1 " (default: 0)
+endfunction
+
+" }}}
+" ---------------------------------------------------- tagbar {{{
+"
+call LoadPluginPack(['majutsushi/tagbar'], "Pd_tagbar", 1)
+function! Pd_tagbar()
+    "if onWin
+    "    let g:tagbar_ctags_bin = 'C:\Users\ishkamiel\Documents\installs\ctags\ctags.exe'
+    "endif
+    "nmap <F8> :TagbarToggle<CR>
+    "" nmap <F8> :TagbarOpenAutoClose<CR>
+    "let g:tagbar_width=s:pd_sidewidth
+    "let g:tagbar_sort=0                 " 1 -> alphabetical sorting
+    "autocmd VimEnter * nested :call tagbar#autoopen(1)
+endfunction
+
+" }}}
+" ---------------------------------------------------- UltiSnips
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+" ---------------------------------------------------- tcomment
+Plugin 'tpope/vim-commentary'
+
+" ---------------------------------------------------- vim-pencil
+"Plugin 'reedes/vim-pencil'
+
+" ---------------------------------------------------- Syntastic
+" Plugin 'scrooloose/syntastic' " (ubuntu repos)
+
+" ---------------------------------------------------- YouCompleteMe
+" Plugin 'Valloric/YouCompleteMe' " (ubuntu repos)
+
+" ---------------------------------------------------- vim-fugitive (Git integration)
+Plugin 'tpope/vim-fugitive'
+
+" ---------------------------------------------------- vim-airline (statusbar)
+Plugin 'bling/vim-airline'
+
+" ###############################################################
+"                                       Filetype sepcific stuff #
+" ###############################################################
+
+" ---------------------------------------------------- Clojure 
 " Plugin 'guns/vim-clojure-static'    " Clojure
+" ---------------------------------------------------- Javascript 
 " Plugin 'maksimr/vim-jsbeautify'     " Javascript
+" ---------------------------------------------------- LESS 
 " Plugin 'groenewege/vim-less'        " LESS
+" ---------------------------------------------------- Markdown 
 " Plugin 'godlygeek/tabular'          " Markdown (dependency)
 " Plugin 'plasticboy/vim-markdown'    " Markdown
+" ---------------------------------------------------- Scala 
 " Plugin 'derekwyatt/vim-scala'       " Scala
+" ---------------------------------------------------- Perl 
 " Plugin 'rdunklau/vim-perltidy'      " Perl
 " Plugin 'perl-support.vim'           " Perl
 
-"  NERDTree - https://github.com/scrooloose/nerdtree
-Plugin 'scrooloose/NERDTree'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-" ------- colorschemes
-" Plugin 'flazz/vim-colorschemes'
-" Plugin 'altercation/vim-colors-solarized'
-" ------- tagbar
-Plugin 'majutsushi/tagbar'
-" ------- YouCompleteMe
-" Plugin 'Valloric/YouCompleteMe'
-" ------- UltiSnips
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-" ------- tcomment (comment stuff in/out)
-Plugin 'tpope/vim-commentary'
-" ------- vim-fugitive (Git integration)
-"Plugin 'tpope/vim-fugitive'
-" ------- vim-pencil (writing?)
-"Plugin 'reedes/vim-pencil'
-" ------- Syntastic
-Plugin 'scrooloose/syntastic'
-" ------- vim-airline (statusbar)
-Plugin 'bling/vim-airline'
 
-"-------------------------------------------------------------------------------
 " }}} Vundle plugins
 
 " General vim config {{{
@@ -194,6 +263,88 @@ nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 "-------------------------------------------------------------------------------
 " }}}
 
+
+
+" }}}
+" airline {{{
+"-------------------------------------------------------------------------------
+
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+
+"-------------------------------------------------------------------------------
+" }}}
+" pencil {{{
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"augroup pd_pencil
+"    autocmd!
+"    autocmd FileType markdown,mkd call pencil#init()
+"    autocmd FileType text         call pencil#init({'wrap': 'hard'})
+"    " autocmd FileType tex          call pencil#init({'wrap': 'hard'})
+"augroup END
+
+" }}}
+" YouComepleteMe {{{
+"-------------------------------------------------------------------------------
+
+" Set YouCompleteMe trigger key
+" let g:ycm_key_list_select_completion = ['<Down>']
+" let g:ycm_key_list_previous_completion = ['<Up>']
+" let g:ycm_extra_conf_globlist = ['~/gameProject/*']
+let g:ycm_use_ultisnips_completer = 1
+" let g:ycm_collect_identifiers_from_comments_and_strings = 1
+
+"-------------------------------------------------------------------------------
+" }}}
+" Syntastic {{{
+"-------------------------------------------------------------------------------
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+"
+let g:syntastic_aggregate_errors=0 " run all checkers and aggregate results
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_auto_loc_list=2
+let g:syntastic_loc_list_height=5
+let g:syntastic_check_on_open=1
+let g:syntastic_check_on_wq=0
+"
+let g:syntastic_enable_balloons=1
+let g:syntastic_enable_signs=1
+"
+"let g:syntastic_perl_checkers = ['perlcritic']
+
+" let g:syntastic_enable_perl_checker = 1
+" let g:syntastic_javascript_checkers = ['jshint']
+" let g:syntastic_mode_map = { 'passive_filetypes': ['html'] } " don't check html
+" let g:syntastic_c_check_header = 1
+
+"-------------------------------------------------------------------------------
+" }}}
+" TagBar {{{
+"-------------------------------------------------------------------------------
+
+
+"-------------------------------------------------------------------------------
+" }}}
+" UltiSnip {{{
+"-------------------------------------------------------------------------------
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<c-l>"
+let g:UtliSnipsEditSplit="normal"
+" let g:UltiSnipsListSnippets="<c-Right>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+"-------------------------------------------------------------------------------
+" }}}
+
 " C++ {{{
 "-------------------------------------------------------------------------------
 
@@ -268,142 +419,10 @@ set cinoptions+=N-s " don't indent namesapces
 "-------------------------------------------------------------------------------
 " }}}
 
-" NERDTree {{{
-"-------------------------------------------------------------------------------
+" Run all the configurations shere
+for c in s:pd_confs
+    let c = "call " . c . "()"
+    execute c
+endfor
 
-" NERDTree_tabs manages most of this...
-" autocmd vimenter * NERDTree
-" map <C-n> :NERDTreeToggle<CR>
-"let g:NERDTreeWinSize=s:pd_sidewidth
-" close NERDTree if it's the last one left
-" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
-"-------------------------------------------------------------------------------
-" }}}
-" NERDTree_tabs {{{
-"-------------------------------------------------------------------------------
-
-" g:nerdtree_tabs_open_on_gui_startup " (default: 1)
-" Open NERDTree on gvim/macvim startup
-
-let g:nerdtree_tabs_open_on_console_startup=1 " (default: 0)
-" Open NERDTree on console vim startup
-
-" g:nerdtree_tabs_no_startup_for_diff (default: 1)
-" Do not open NERDTree if vim starts in diff mode
-
-let g:nerdtree_tabs_smart_startup_focus=2 " (default: 1)
-" On startup, focus NERDTree if opening a directory, focus file if opening a file. (When set to 2, always focus file window after startup).
-
-" g:nerdtree_tabs_open_on_new_tab (default: 1)
-" Open NERDTree on new tab creation (if NERDTree was globally opened by :NERDTreeTabsToggle)
-"
-" g:nerdtree_tabs_meaningful_tab_names (default: 1)
-" Unfocus NERDTree when leaving a tab for descriptive tab names
-"
-" g:nerdtree_tabs_autoclose (default: 1)
-" Close current tab if there is only one window in it and it's NERDTree
-"
-" g:nerdtree_tabs_synchronize_view (default: 1)
-" Synchronize view of all NERDTree windows (scroll and cursor position)
-"
-" g:nerdtree_tabs_synchronize_focus (default: 1)
-" Synchronize focus when switching windows (focus NERDTree after tab switch if and only if it was focused before tab switch)
-"
-let g:nerdtree_tabs_focus_on_files=1 " (default: 0)
-" When switching into a tab, make sure that focus is on the file window, not in the NERDTree window. (Note that this can get annoying if you use NERDTree's feature "open in new tab silently", as you will lose focus on the NERDTree.)
-"
-" g:nerdtree_tabs_startup_cd (default: 1)
-" When given a directory name as a command line parameter when launching Vim, :cd into it.
-"
-" g:nerdtree_tabs_autofind (default: 0)
-" Automatically find and select currently opened file in NERDTree.
-
-"-------------------------------------------------------------------------------
-" }}}
-" airline {{{
-"-------------------------------------------------------------------------------
-
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
-
-"-------------------------------------------------------------------------------
-" }}}
-" pencil {{{
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-"augroup pd_pencil
-"    autocmd!
-"    autocmd FileType markdown,mkd call pencil#init()
-"    autocmd FileType text         call pencil#init({'wrap': 'hard'})
-"    " autocmd FileType tex          call pencil#init({'wrap': 'hard'})
-"augroup END
-
-" }}}
-" YouComepleteMe {{{
-"-------------------------------------------------------------------------------
-
-" Set YouCompleteMe trigger key
-" let g:ycm_key_list_select_completion = ['<Down>']
-" let g:ycm_key_list_previous_completion = ['<Up>']
-" let g:ycm_extra_conf_globlist = ['~/gameProject/*']
-" let g:ycm_use_ultisnips_completer = 1
-" let g:ycm_collect_identifiers_from_comments_and_strings = 1
-
-"-------------------------------------------------------------------------------
-" }}}
-" Syntastic {{{
-"-------------------------------------------------------------------------------
-
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-"
-let g:syntastic_aggregate_errors=0 " run all checkers and aggregate results
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_auto_loc_list=2
-let g:syntastic_loc_list_height=5
-let g:syntastic_check_on_open=1
-let g:syntastic_check_on_wq=0
-"
-let g:syntastic_enable_balloons=1
-let g:syntastic_enable_signs=1
-"
-"let g:syntastic_perl_checkers = ['perlcritic']
-
-" let g:syntastic_enable_perl_checker = 1
-" let g:syntastic_javascript_checkers = ['jshint']
-" let g:syntastic_mode_map = { 'passive_filetypes': ['html'] } " don't check html
-" let g:syntastic_c_check_header = 1
-
-"-------------------------------------------------------------------------------
-" }}}
-" TagBar {{{
-"-------------------------------------------------------------------------------
-
-"if onWin
-"    let g:tagbar_ctags_bin = 'C:\Users\ishkamiel\Documents\installs\ctags\ctags.exe'
-"endif
-"nmap <F8> :TagbarToggle<CR>
-"" nmap <F8> :TagbarOpenAutoClose<CR>
-"let g:tagbar_width=s:pd_sidewidth
-"let g:tagbar_sort=0                 " 1 -> alphabetical sorting
-"autocmd VimEnter * nested :call tagbar#autoopen(1)
-
-"-------------------------------------------------------------------------------
-" }}}
-" UltiSnip {{{
-"-------------------------------------------------------------------------------
-
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<c-l>"
-let g:UtliSnipsEditSplit="normal"
-" let g:UltiSnipsListSnippets="<c-Right>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
-
-"-------------------------------------------------------------------------------
-" }}}
