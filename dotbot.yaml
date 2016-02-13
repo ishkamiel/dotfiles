@@ -25,7 +25,7 @@
     command: scripts/dconf.sh
     stdin: true 
     stdout: true
-  -
-    command: vim +PluginInstall +qall
-    stdin: true 
-    stdout: true
+#  -
+#    command: vim +PluginInstall +qall
+#    stdin: true 
+#    stdout: true

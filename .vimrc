@@ -381,14 +381,14 @@ let g:syntastic_enable_signs=1
 " TagBar {{{
 "-------------------------------------------------------------------------------
 
-if onWin
-    let g:tagbar_ctags_bin = 'C:\Users\ishkamiel\Documents\installs\ctags\ctags.exe'
-endif
-nmap <F8> :TagbarToggle<CR>
-" nmap <F8> :TagbarOpenAutoClose<CR>
-let g:tagbar_width=s:pd_sidewidth
-let g:tagbar_sort=0                 " 1 -> alphabetical sorting
-autocmd VimEnter * nested :call tagbar#autoopen(1)
+"if onWin
+"    let g:tagbar_ctags_bin = 'C:\Users\ishkamiel\Documents\installs\ctags\ctags.exe'
+"endif
+"nmap <F8> :TagbarToggle<CR>
+"" nmap <F8> :TagbarOpenAutoClose<CR>
+"let g:tagbar_width=s:pd_sidewidth
+"let g:tagbar_sort=0                 " 1 -> alphabetical sorting
+"autocmd VimEnter * nested :call tagbar#autoopen(1)
 
 "-------------------------------------------------------------------------------
 " }}}
