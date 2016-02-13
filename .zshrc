@@ -70,6 +70,8 @@ zstyle ':completion:*' special-dirs true
 
 if [ -n "$DROPDOWNTERMINAL" ]; then
     if ! [ -n "$TMUX" ]; then
-        exec tmux new-session -s dd -A -D
+        exec env TERM=screen-256color tmux new-session -s dd -A -D
+    else
+        export TERM=screen-256color
     fi
 fi
