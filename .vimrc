@@ -53,8 +53,8 @@ set spelllang=en                " languages used for spelling
 set completeopt-=preview        " remove extended preview from autocinserts (scratch window)
 set hlsearch                    " highlight searches
 
-set backupdir=~/.tmp/vimbackup,.,~
-set directory=~/.tmp/vimbackup,.,~
+set backupdir=~/tmp/vimbackup,.,~
+set directory=~/tmp/vimbackup,.,~
 
 let s:pd_textwidth=100
 let s:pd_sidewidth = max([10, min([40, ((&columns - s:pd_textwidth - 5 ) / 2) ])])

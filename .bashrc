@@ -6,6 +6,7 @@
 
 # vim mode!
 set -o vi
+export EDITOR="/usr/bin/vim"
 
 # If not running interactively, don't do anything {{{
 
@@ -13,64 +14,6 @@ case $- in
     *i*) ;;
       *) return;;
 esac
-
-# }}}
-
-display_kinda_motd () { # {{{
-    # This is essentially copy-paste from Ubuntu default /etc/update-motd/*
-
-    # 00-header
-    [ -r /etc/lsb-release ] && . /etc/lsb-release
-
-    if [ -z "$DISTRIB_DESCRIPTION" ] && [ -x /usr/bin/lsb_release ]; then
-        # Fall back to using the very slow lsb_release utility
-        DISTRIB_DESCRIPTION=$(lsb_release -s -d)
-    fi
-
-    printf "Welcome to %s (%s %s %s)\n" "$DISTRIB_DESCRIPTION" "$(uname -o)" "$(uname -r)" "$(uname -m)"
-
-    # 50-landscape-sysinfo
-    if [ -x /usr/bin/landscape-sysinfo ]; then
-        cores=$(grep -c ^processor /proc/cpuinfo 2>/dev/null)
-        [ "$cores" -eq "0" ] && cores=1
-        threshold="${cores:-1}.0"
-        if [ $(echo "`cut -f1 -d ' ' /proc/loadavg` < $threshold" | bc) -eq 1 ]; then
-            echo
-            echo -n "  System information as of "
-            /bin/date
-            echo
-            /usr/bin/landscape-sysinfo
-        else
-            echo
-            echo " System information disabled due to load higher than $threshold"
-        fi
-    fi
-
-    # 90-updates-available
-    if [ -x /usr/lib/update-notifier/update-motd-updates-available ]; then
-        /usr/bin/sudo /usr/lib/update-notifier/update-motd-updates-available
-    fi
-
-    # 91-release-upgrade
-    if ! [ "$(lsb_release -sd | cut -d' ' -f4)" = "(development" ]; then
-        if [ -x /usr/lib/ubuntu-release-upgrader/release-upgrade-motd ]; then
-            /usr/bin/sudo /usr/lib/ubuntu-release-upgrader/release-upgrade-motd
-        fi
-    fi
-
-    # 98-reboot-required
-    if [ -x /usr/lib/update-notifier/update-motd-reboot-required ]; then
-        /bin/sh /usr/lib/update-notifier/update-motd-reboot-required
-    fi
-
-} # }}}
-
-# tmux {{{
-
-# if [ -n "$TMUX" ]; then
-#     echo "TODO: fix this motd stuff, or maybe just remove"
-#     # display_kinda_motd
-# fi
 
 # }}}
 

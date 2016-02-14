@@ -1,10 +1,14 @@
 - clean: [ '~', '~/.config', '~/.ssh', '~/.ssh/upstart' ]
 - link: 
+    ~/.bashrc: .bashrc
     ~/.gitconfig: .gitconfig
     ~/.ssh/config:
       create: true
       path: .ssh/config
     ~/.tmux.conf: .tmux.conf
+    ~/.byobu/.tmux.conf: 
+      create: true
+      path: .tmux.conf
     ~/.vimrc: .vimrc
     ~/.inputrc: .inputrc
     ~/.config/upstart/mytempdir.conf:

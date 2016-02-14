@@ -1,11 +1,11 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/home/ishkamiel/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-# ZSH_THEME="robbyrussell"
+ZSH_URL="https://github.com/robbyrussell/oh-my-zsh.git"
+B_ENV=/usr/bin/env
+B_GIT=/usr/bin/git
+
+DEFAULT_USER='ishkamiel'
 ZSH_THEME="agnoster"
 
 # Uncomment the following line to use case-sensitive completion.
@@ -50,12 +50,29 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git vi-mode)
+plugins=(vi-mode gitignore)
 
 # User configuration
 
-export PATH="/usr/local/heroku/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/ishkamiel/personal/bin"
+export PATH="/usr/local/heroku/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+if [ -e "$HOME/personal/bin" ]; then export PATH="$PATH:$HOME/personal/bin"; fi
+if [ -e "$HOME/bin" ]; then export PATH="$PATH:$HOME/bin"; fi
 # export MANPATH="/usr/local/man:$MANPATH"
+
+# Install oh-my-zsh if not found
+if ! [ -e $ZSH ]; then
+    echo "oh-my-zsh not found, clone?"
+    read -q answer
+    if [ -n "$answer" ] && [ "y" = $answer ]; then
+        echo "Okay, trying to clone into $ZSH"
+
+        # Clone!
+        $B_ENV $B_GIT clone --depth=1 $ZSH_URL $ZSH
+
+        # Just change over to a new instance
+        exec /usr/bin/zsh
+    fi
+fi
 
 source $ZSH/oh-my-zsh.sh
 
@@ -68,10 +85,20 @@ alias mv="mv -i"
 
 zstyle ':completion:*' special-dirs true
 
+# Check if we should run a tmux session?
 if [ -n "$DROPDOWNTERMINAL" ]; then
+    TMUX_SESSION='dd'
+fi
+# Let byobu handle ssh stuff
+# elif [ -n "$SSH_TTY" ]; then
+#     TMUX_SESSION='ssh'
+# fi
+
+# Load tmux if TMUX_SESSION is set
+if [ -n "$TMUX_SESSION" ]; then
+    # Don't do that if already running tmux!
+    export TERM=screen-256color
     if ! [ -n "$TMUX" ]; then
-        exec env TERM=screen-256color tmux new-session -s dd -A -D
-    else
-        export TERM=screen-256color
+        exec tmux new-session -s dd -A -D
     fi
 fi
