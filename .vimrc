@@ -184,7 +184,7 @@ function InitPdPluginManager()
 
                 " Check possible conditional loading stuff
                 if has_key(pack, 'conditional') && !pack.conditional()
-                    echom "Conditional load false, skipping " . pack.name
+                    " echom "Conditional load false, skipping " . pack.name
                     let pack.enabled = 0
                     continue
                 endif
@@ -192,7 +192,7 @@ function InitPdPluginManager()
                 " See if we got a 'regular' plugin installed
                 
                 if filereadable(self.plugindir . pack.name)
-                    echo "Plugin present in .vim/plugins, skipping " . pack.name
+                    " echo "Plugin present in .vim/plugins, skipping " . pack.name
                     continue
                 endif
 
@@ -228,6 +228,14 @@ let plugin = s:PdPluginManager.add('nerdtree', [
             \'jistr/vim-nerdtree-tabs', 
             \'Xuyuanp/nerdtree-git-plugin'
             \])
+
+function plugin.conditional() dict
+    if exists("$SSH_TTY")
+        " Seems to be causing exessive network usage...
+        return 0
+    endif
+    return 1
+endfunction
 
 function plugin.config() dict
     " NERDTree_tabs manages most of this...
@@ -276,6 +284,14 @@ endfunction
 let plugin = s:PdPluginManager.add('youcompleteme.vim', [
             \'Valloric/YouCompleteMe'
             \])
+
+function plugin.conditional() dict
+    " Not really nice on remote hosts, compiling and stuff :(
+    if exists("$SSH_TTY")
+        return 0
+    endif
+    return 1
+endfunction
 
 function plugin.is_loaded() dict
     " return self.pm.isLoaded('youcompleteme.vim')
@@ -355,9 +371,9 @@ endfunction
 " }}}
 " ---------------------------------------------------- vim-fugitive {{{
 
-let plugin = s:PdPluginManager.add('fugitive', [
-            \'tpope/vim-fugitive'
-            \])
+" let plugin = s:PdPluginManager.add('fugitive', [
+"             \'tpope/vim-fugitive'
+"             \])
 
 " }}}
 " ---------------------------------------------------- vim-airline {{{
