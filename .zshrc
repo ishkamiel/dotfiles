@@ -1,5 +1,8 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
+export ZSH_CUSTOM=$HOME/.zsh-custom
+
+export NOBASH2ZSH=1
 
 ZSH_URL="https://github.com/robbyrussell/oh-my-zsh.git"
 B_ENV=/usr/bin/env

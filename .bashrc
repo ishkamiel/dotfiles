@@ -4,6 +4,16 @@
 # The file is intended for easy editing by vim, with the above vim settings, and
 # manual folding to group settings.
 
+# Switch to zsh if on ssh, and NOBASH2SSH isn't set
+if [ -n "$SSH_TTY" ] && [ -x /usr/bin/zsh ]; then 
+    # Just in case...
+    if [ -n "$NOBASH2ZSH" ]; then
+        export NOBASH2ZSH=1
+        exec /usr/bin/zsh
+    fi
+fi
+export NOBASH2ZSH=1
+
 # vim mode!
 set -o vi
 export EDITOR="/usr/bin/vim"
@@ -12,7 +22,7 @@ export EDITOR="/usr/bin/vim"
 
 case $- in
     *i*) ;;
-      *) return;;
+    *) return;;
 esac
 
 # }}}
