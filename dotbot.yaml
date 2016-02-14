@@ -20,6 +20,9 @@
     ~/.zshrc: .zshrc
     ~/.zprofile: .zprofile
     ~/.zsh_favlist: .zsh_favlist
+    ~/.zsh-custom/themes/agnoster.zsh-theme:
+      create: true
+      path: .zsh-custom/themes/agnoster.zsh-theme
 - shell: 
   -
     command: scripts/installStuff.sh
