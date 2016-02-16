@@ -1,25 +1,26 @@
 " vim:fdm=marker foldlevel=0
 
 " ---------------------------------------------------- Load & Setups Vundle {{{
+if version >= 703
+    set nocompatible
+    filetype off
 
-set nocompatible
-filetype off
+    " Vundle (vim plugin manager)
+    "
+    " To install:
+    " git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    " This initializes plugin installation paths
+    if has("win32") || has("win16")
+        let path='~/vimfiles/bundle'
+        set rtp+=~/vimfiles/bundle/Vundle.vim
+    else
+        set rtp+=~/.vim/bundle/Vundle.vim
+    endif
+    call vundle#rc()
 
-" Vundle (vim plugin manager)
-"
-" To install:
-" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-" This initializes plugin installation paths
-if has("win32") || has("win16")
-    let path='~/vimfiles/bundle'
-    set rtp+=~/vimfiles/bundle/Vundle.vim
-else
-    set rtp+=~/.vim/bundle/Vundle.vim
+    " Load the main Vundle thing
+    Plugin 'gmarik/Vundle.vim'
 endif
-call vundle#rc()
-
-" Load the main Vundle thing
-Plugin 'gmarik/Vundle.vim'
 
 " }}}
 
@@ -43,7 +44,6 @@ set expandtab                   " insert spaces instead of tabs
 set visualbell 		           	" visual bell instead of beeping
 set t_vb=
 set textwidth=100               " text width for autoformatt stuff, or something
-set colorcolumn=1000            " display a bar (e.g. for textwdith)
 " set autochdir            		" change the current working directory
 set exrc                        " find vimrc in working directory
 set secure                      " secure loading of non-default vimrc
@@ -52,6 +52,10 @@ set scrolloff=10                " Keep this many lines visible below cursor
 set spelllang=en                " languages used for spelling
 set completeopt-=preview        " remove extended preview from autocinserts (scratch window)
 set hlsearch                    " highlight searches
+
+if version >= 704
+    set colorcolumn=101
+endif
 
 set backupdir=~/tmp/vimbackup,.,~
 set directory=~/tmp/vimbackup,.,~
@@ -190,7 +194,7 @@ function InitPdPluginManager()
                 endif
 
                 " See if we got a 'regular' plugin installed
-                
+
                 if filereadable(self.plugindir . pack.name)
                     " echo "Plugin present in .vim/plugins, skipping " . pack.name
                     continue
@@ -400,7 +404,9 @@ let plugin = s:PdPluginManager.add('systemd syntax', [
 
 " }}}
 
-call s:PdPluginManager.loadAll()
-call s:PdPluginManager.configureAll()
+if version >= 703
+    call s:PdPluginManager.loadAll()
+    call s:PdPluginManager.configureAll()
+endif
 
 

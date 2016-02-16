@@ -19,6 +19,7 @@
       path: .config/upstart/drop_down_terminal.conf
     ~/.zshrc: .zshrc
     ~/.zprofile: .zprofile
+    ~/.profile: .profile
     ~/.zsh_favlist: .zsh_favlist
     ~/.zsh-custom/themes/agnoster.zsh-theme:
       create: true
