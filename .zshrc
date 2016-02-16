@@ -73,7 +73,8 @@ if ! [ -e $ZSH ]; then
         $B_ENV $B_GIT clone --depth=1 $ZSH_URL $ZSH
 
         # Just change over to a new instance
-        exec /usr/bin/zsh
+        echo "Ready to start zsh!"
+        #exec /usr/bin/zsh
     fi
 fi
 
