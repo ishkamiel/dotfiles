@@ -1,36 +1,9 @@
 " vim:fdm=marker foldlevel=0
 
+let s:verbose=0
 let s:load_vundle_plugins=1
 let s:pd_textwidth=100
 let s:pd_sidewidth = max([10, min([40, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
-
-" ---------------------------------------------------- Load & Setups Vundle {{{
-
-if s:load_vundle_plugins
-    if version >= 703
-        set nocompatible
-        filetype off
-
-        " Vundle (vim plugin manager)
-        "
-        " To install:
-        " git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-        " This initializes plugin installation paths
-        if has("win32") || has("win16")
-            let path='~/vimfiles/bundle'
-            set rtp+=~/vimfiles/bundle/Vundle.vim
-        else
-            set rtp+=~/.vim/bundle/Vundle.vim
-        endif
-        call vundle#rc()
-
-        " Load the main Vundle thing
-        Plugin 'gmarik/Vundle.vim'
-    endif
-endif
-
-" }}}
-
 
 " ---------------------------------------------------- Helper functions {{{
 
@@ -38,7 +11,316 @@ function! TrimWhiteSpace()
     %s/\s\+$//e
 endfunction
 
+function PrintMsg(msg)
+    if s:verbose
+        echom a:msg
+    endif
+endfunction
+
+function! OnWindows()
+    if has("win32") || has("win16")
+        return 1
+    else
+        return 0
+    endif
+endfunction
+
 " }}}
+" ---------------------------------------------------- PluginPackManager {{{
+"  DESCRIPTION:
+"
+"  This is a very simple wrapper around Vundle, mainly intended for a clearer(?)
+"  configuration file structure. PluginPacks are declared in an OO style together
+"  with any accompanying conguration. The plugins are immediately loaded, but
+"  configuration functions for all packs are called in one go by calling Configure
+"  packs.
+"
+"  SYNOPSIS:
+"
+"       let plugin = InitPluginPack([ pluginNames ])
+"       function plugin.config() dict
+"           ... do whatever ...
+"       endfunction
+"
+"       let plugin = InitPluginPack([ pluginNames ])
+"       " ... etc ...
+"
+"       plugin.enabled = 0 " Disable plugin from being loaded & configured
+"
+"       call LoadPluginPacks()
+"       call ConfigurePluginPacks)
+"
+"  TODO: Add simple check for local install (Ubuntu vim-addons-manager?)
+"  TODO: Check success of plugin loading
+
+function InitPdPluginManager()
+    let pm = { 'packs': [], 'enabled': 0 }
+
+    " Check some stuff before enabling
+    if s:load_vundle_plugins
+        if v:version >= 703
+            let pm.enabled = 1
+        endif
+    endif
+
+    let pm.plugindir = $HOME . "/.vim/plugin/"
+
+    if pm.enabled
+        " Load vundle stuff
+        " https://github.com/VundleVim/
+
+        set nocompatible
+        filetype off
+
+        " Vundle (vim plugin manager)
+        " install: git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
+        set rtp+=~/.vim/bundle/Vundle.vim
+        if OnWindows()
+            let path='~/vimfiles/bundle'
+            set rtp+=~/vimfiles/bundle/Vundle.vim
+        endif
+
+        call vundle#begin()
+
+        " Load the main Vundle thing
+        Plugin 'gmarik/Vundle.vim'
+    endif
+
+    function pm.loadAll() dict
+        if !self.enabled
+            return
+        endif
+
+        for pack in self.packs
+            if !pack.enabled
+                call PrintMsg(pack.name . " is disabled")
+            elseif has_key(pack, 'conditional') && !pack.conditional()
+                call PrintMsg("Disabling " . pack.name)
+                let pack.enabled = 0
+            endif
+
+            if pack.enabled
+                if filereadable(self.plugindir . pack.name)
+                    call PrintMsg("Found " . pack.name . " in .vim/plugins, skipping")
+                else
+                    for plugin in pack.plugins
+                        Plugin plugin
+                    endfor
+                endif
+            endif
+        endfor
+
+        " Finalized Vundle config
+        call vundle#end()
+        filetype plugin indent on
+    endfunction
+
+    function pm.configureAll() dict
+        if !self.enabled
+            return
+        endif
+
+        for pack in self.packs
+            if pack.enabled && has_key(pack, 'config')
+                call pack.config()
+            endif
+        endfor
+    endfunction
+
+    function pm.add(name, plugins)  dict
+        let pack = { 'name': a:name, 'plugins': a:plugins, 'enabled': 1, 'loaded': 0, 'pm': self }
+        call add(self.packs, pack)
+        return pack
+    endfunction
+
+    return pm
+endfunction
+
+" }}}
+
+let s:PdPluginManager = InitPdPluginManager()
+"
+" ---------------------------------------------------- NERDTree {{{
+" https://github.com/scrooloose/nerdtree
+
+let plugin = s:PdPluginManager.add('nerdtree', [
+            \'scrooloose/NERDTree',
+            \'jistr/vim-nerdtree-tabs',
+            \'Xuyuanp/nerdtree-git-plugin'
+            \])
+
+function plugin.conditional() dict
+    if exists("$SSH_TTY")
+        " Seems to be causing exessive network usage...
+        return 0
+    endif
+    return 1
+endfunction
+
+function plugin.config() dict
+    " NERDTree_tabs manages most of this...
+    " autocmd vimenter * NERDTree
+    " map <C-n> :NERDTreeToggle<CR>
+    let g:NERDTreeWinSize=s:pd_sidewidth
+    " close NERDTree if it's the last one left
+    " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+
+    " Open NERDTree on console vim startup
+    let g:nerdtree_tabs_open_on_console_startup=1 " (default: 0)
+
+
+    " On startup, focus NERDTree if opening a directory, focus file if opening a file.
+    " (When set to 2, always focus file window after startup).
+    let g:nerdtree_tabs_smart_startup_focus=2 " (default: 1)
+
+    " When switching into a tab, make sure that focus is on the file window, not in
+    " the NERDTree window. (Note that this can get annoying if you use NERDTree's
+    " feature 'open in new tab silently', as you will lose focus on the NERDTree.)
+    let g:nerdtree_tabs_focus_on_files=1 " (default: 0)
+endfunction
+
+" }}}
+" ---------------------------------------------------- tagbar {{{
+
+let plugin = s:PdPluginManager.add('tagbar', [
+            \'majutsushi/tagbar'
+            \])
+
+function plugin.config() dict
+    " if has("win32") || has("win16")
+    "     let g:tagbar_ctags_bin = 'C:\Users\ishkamiel\Documents\installs\ctags\ctags.exe'
+    " endif
+    nmap <F8> :TagbarToggle<CR>
+    "" nmap <F8> :TagbarOpenAutoClose<CR>
+    let g:tagbar_width=s:pd_sidewidth
+    "let g:tagbar_sort=0                 " 1 -> alphabetical sorting
+    autocmd VimEnter * nested :call tagbar#autoopen(1)
+endfunction
+
+" }}}
+" ---------------------------------------------------- YouCompleteMe (p_ycm) {{{
+
+let p_ycm = s:PdPluginManager.add('youcompleteme.vim', [
+            \'Valloric/YouCompleteMe'
+            \])
+
+function p_ycm.conditional() dict
+    " Not really nice on remote hosts, compiling and stuff :(
+    if exists("$SSH_TTY")
+        return 0
+    endif
+    return 1
+endfunction
+
+function p_ycm.config() dict
+    " Set YouCompleteMe trigger key
+    " let g:ycm_key_list_select_completion = ['<Down>']
+    " let g:ycm_key_list_previous_completion = ['<Up>']
+    " let g:ycm_extra_conf_globlist = ['~/gameProject/*']
+    let g:ycm_use_ultisnips_completer = 1
+    " let g:ycm_collect_identifiers_from_comments_and_strings = 1
+endfunction
+
+" }}}
+" ---------------------------------------------------- UltiSnips (p_ultisnips) {{{
+
+let p_ultisnips = s:PdPluginManager.add('ultisnips', [
+            \'SirVer/ultisnips',
+            \'honza/vim-snippets'
+            \])
+
+function p_ultisnips.conditional() dict
+    " Not really nice on remote hosts, compiling and stuff :(
+    if exists("$SSH_TTY")
+        return 0
+    endif
+    return 1
+endfunction
+
+function p_ultisnips.config() dict
+    " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+    let g:UltiSnipsExpandTrigger="<c-l>"
+    let g:UtliSnipsEditSplit="normal"
+    " let g:UltiSnipsListSnippets="<c-Right>"
+    let g:UltiSnipsJumpForwardTrigger="<tab>"
+    " let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+    " If you want :UltiSnipsEdit to split your window.
+    let g:UltiSnipsEditSplit="vertical"
+endfunction
+
+" }}}
+" ---------------------------------------------------- vim-commentary {{{
+
+let plugin = s:PdPluginManager.add('commentary', [
+            \'tpope/vim-commentary'
+            \])
+
+" }}}
+" ---------------------------------------------------- Syntastic {{{
+
+let plugin = s:PdPluginManager.add('syntastic.vim', [
+            \'scrooloose/syntastic'
+            \])
+
+function plugin.config() dict
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
+    "
+    let g:syntastic_aggregate_errors=0 " run all checkers and aggregate results
+    let g:syntastic_always_populate_loc_list=1
+    let g:syntastic_auto_loc_list=2
+    let g:syntastic_loc_list_height=5
+    let g:syntastic_check_on_open=1
+    let g:syntastic_check_on_wq=0
+    "
+    let g:syntastic_enable_balloons=1
+    let g:syntastic_enable_signs=1
+    "
+    "let g:syntastic_perl_checkers = ['perlcritic']
+
+    " let g:syntastic_enable_perl_checker = 1
+    " let g:syntastic_javascript_checkers = ['jshint']
+    " let g:syntastic_mode_map = { 'passive_filetypes': ['html'] } " don't check html
+    " let g:syntastic_c_check_header = 1
+endfunction
+
+" }}}
+" ---------------------------------------------------- vim-fugitive {{{
+
+" let plugin = s:PdPluginManager.add('fugitive', [
+"             \'tpope/vim-fugitive'
+"             \])
+
+" }}}
+" ---------------------------------------------------- vim-airline {{{
+
+let plugin = s:PdPluginManager.add('airline', [
+            \'bling/vim-airline'
+            \])
+
+function plugin.config() dict
+    let g:airline#extensions#tabline#enabled = 1
+    let g:airline_powerline_fonts = 1
+endfunction
+
+" }}}
+
+" ---------------------------------------------------- systemd {{{
+
+let plugin = s:PdPluginManager.add('systemd syntax', [
+            \'Matt-Deacalion/vim-systemd-syntax'
+            \])
+
+" }}}
+
+let p_ycm.enabled=1
+let p_ultisnips.enabled=1
+
+call s:PdPluginManager.loadAll()
 
 " ---------------------------------------------------- General vim config {{{
 set nocompatible                " Load non-Vi-compaitlbe settings
@@ -152,291 +434,4 @@ augroup END
 
 " }}}
 
-" ###############################################################
-"                                                  Plugin stuff #
-" ###############################################################
-" ---------------------------------------------------- PluginPackManager {{{
-"  DESCRIPTION:
-"
-"  This is a very simple wrapper around Vundle, mainly intended for a clearer(?)
-"  configuration file structure. PluginPacks are declared in an OO style together
-"  with any accompanying conguration. The plugins are immediately loaded, but
-"  configuration functions for all packs are called in one go by calling Configure
-"  packs.
-"
-"  SYNOPSIS:
-"
-"       let plugin = InitPluginPack([ pluginNames ])
-"       function plugin.config() dict
-"           ... do whatever ...
-"       endfunction
-"
-"       let plugin = InitPluginPack([ pluginNames ])
-"       " ... etc ...
-"
-"       plugin.enabled = 0 " Disable plugin from being loaded & configured
-"
-"       call LoadPluginPacks()
-"       call ConfigurePluginPacks)
-"
-"  TODO: Add simple check for local install (Ubuntu vim-addons-manager?)
-"  TODO: Check success of plugin loading
-
-function InitPdPluginManager()
-    let pm = { 'packs': [] }
-
-    " redir => scripts
-    " execute "silent verbose scriptnames"
-    " redir END
-
-    " let pm.snames = split(scripts)
-    let pm.plugindir = expand('<sfile>:p:h:h') . "/plugin/"
-
-    function pm.isLoaded(matcher) dict
-        for sname in self.snames
-            echom "checking '" . sname . "'"
-            if sname =~ a:matcher
-                return 1
-            endif
-        endfor
-
-        return 0
-    endfunction
-
-    function pm.add(name, plugins)  dict
-        let pack = { 'name': a:name, 'plugins': a:plugins, 'enabled': 1, 'loaded': 0, 'pm': self }
-        call add(self.packs, pack)
-        return pack
-    endfunction
-
-    function pm.loadAll() dict
-        for pack in self.packs
-            if pack.enabled
-
-                " Check possible conditional loading stuff
-                if has_key(pack, 'conditional') && !pack.conditional()
-                    " echom "Conditional load false, skipping " . pack.name
-                    let pack.enabled = 0
-                    continue
-                endif
-
-                " See if we got a 'regular' plugin installed
-
-                if filereadable(self.plugindir . pack.name)
-                    " echo "Plugin present in .vim/plugins, skipping " . pack.name
-                    continue
-                endif
-
-                " Okay, finally just try to load with Vundle
-                for plugin in pack.plugins
-                    Plugin plugin
-                endfor
-
-            endif
-        endfor
-    endfunction
-
-    function pm.configureAll() dict
-        for pack in self.packs
-            if pack.enabled && has_key(pack, 'config')
-                call pack.config()
-            endif
-        endfor
-    endfunction
-
-    return pm
-endfunction
-
-let s:PdPluginManager = InitPdPluginManager()
-
-" }}}
-
-" ---------------------------------------------------- NERDTree {{{
-" https://github.com/scrooloose/nerdtree
-
-let plugin = s:PdPluginManager.add('nerdtree', [
-            \'scrooloose/NERDTree',
-            \'jistr/vim-nerdtree-tabs',
-            \'Xuyuanp/nerdtree-git-plugin'
-            \])
-
-function plugin.conditional() dict
-    if exists("$SSH_TTY")
-        " Seems to be causing exessive network usage...
-        return 0
-    endif
-    return 1
-endfunction
-
-function plugin.config() dict
-    " NERDTree_tabs manages most of this...
-    " autocmd vimenter * NERDTree
-    " map <C-n> :NERDTreeToggle<CR>
-    let g:NERDTreeWinSize=s:pd_sidewidth
-    " close NERDTree if it's the last one left
-    " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-
-
-    " Open NERDTree on console vim startup
-    let g:nerdtree_tabs_open_on_console_startup=1 " (default: 0)
-
-
-    " On startup, focus NERDTree if opening a directory, focus file if opening a file.
-    " (When set to 2, always focus file window after startup).
-    let g:nerdtree_tabs_smart_startup_focus=2 " (default: 1)
-
-    " When switching into a tab, make sure that focus is on the file window, not in
-    " the NERDTree window. (Note that this can get annoying if you use NERDTree's
-    " feature 'open in new tab silently', as you will lose focus on the NERDTree.)
-    let g:nerdtree_tabs_focus_on_files=1 " (default: 0)
-endfunction
-
-" }}}
-" ---------------------------------------------------- tagbar {{{
-
-let plugin = s:PdPluginManager.add('tagbar', [
-            \'majutsushi/tagbar'
-            \])
-
-function plugin.config() dict
-    " if has("win32") || has("win16")
-    "     let g:tagbar_ctags_bin = 'C:\Users\ishkamiel\Documents\installs\ctags\ctags.exe'
-    " endif
-    nmap <F8> :TagbarToggle<CR>
-    "" nmap <F8> :TagbarOpenAutoClose<CR>
-    let g:tagbar_width=s:pd_sidewidth
-    "let g:tagbar_sort=0                 " 1 -> alphabetical sorting
-    autocmd VimEnter * nested :call tagbar#autoopen(1)
-endfunction
-
-" }}}
-" ---------------------------------------------------- YouCompleteMe {{{
-
-let plugin = s:PdPluginManager.add('youcompleteme.vim', [
-            \'Valloric/YouCompleteMe'
-            \])
-
-function plugin.conditional() dict
-    " Not really nice on remote hosts, compiling and stuff :(
-    if exists("$SSH_TTY")
-        return 0
-    endif
-    echom "YouCompleteMe disabled"
-    return 0
-endfunction
-
-function plugin.config() dict
-    " Set YouCompleteMe trigger key
-    " let g:ycm_key_list_select_completion = ['<Down>']
-    " let g:ycm_key_list_previous_completion = ['<Up>']
-    " let g:ycm_extra_conf_globlist = ['~/gameProject/*']
-    let g:ycm_use_ultisnips_completer = 1
-    " let g:ycm_collect_identifiers_from_comments_and_strings = 1
-endfunction
-
-" }}}
-" ---------------------------------------------------- UltiSnips {{{
-
-let plugin = s:PdPluginManager.add('ultisnips', [
-            \'SirVer/ultisnips',
-            \'honza/vim-snippets'
-            \])
-
-function plugin.conditional() dict
-    " Not really nice on remote hosts, compiling and stuff :(
-    if exists("$SSH_TTY")
-        return 0
-    endif
-    echom "UltiSnips disabled"
-    return 0
-endfunction
-
-function plugin.config() dict
-    " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-    let g:UltiSnipsExpandTrigger="<c-l>"
-    let g:UtliSnipsEditSplit="normal"
-    " let g:UltiSnipsListSnippets="<c-Right>"
-    let g:UltiSnipsJumpForwardTrigger="<tab>"
-    " let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-    " If you want :UltiSnipsEdit to split your window.
-    let g:UltiSnipsEditSplit="vertical"
-endfunction
-
-" }}}
-" ---------------------------------------------------- vim-commentary {{{
-
-let plugin = s:PdPluginManager.add('commentary', [
-            \'tpope/vim-commentary'
-            \])
-
-" }}}
-" ---------------------------------------------------- Syntastic {{{
-
-let plugin = s:PdPluginManager.add('syntastic.vim', [
-            \'scrooloose/syntastic'
-            \])
-
-function plugin.config() dict
-    set statusline+=%#warningmsg#
-    set statusline+=%{SyntasticStatuslineFlag()}
-    set statusline+=%*
-    "
-    let g:syntastic_aggregate_errors=0 " run all checkers and aggregate results
-    let g:syntastic_always_populate_loc_list=1
-    let g:syntastic_auto_loc_list=2
-    let g:syntastic_loc_list_height=5
-    let g:syntastic_check_on_open=1
-    let g:syntastic_check_on_wq=0
-    "
-    let g:syntastic_enable_balloons=1
-    let g:syntastic_enable_signs=1
-    "
-    "let g:syntastic_perl_checkers = ['perlcritic']
-
-    " let g:syntastic_enable_perl_checker = 1
-    " let g:syntastic_javascript_checkers = ['jshint']
-    " let g:syntastic_mode_map = { 'passive_filetypes': ['html'] } " don't check html
-    " let g:syntastic_c_check_header = 1
-endfunction
-
-" }}}
-" ---------------------------------------------------- vim-fugitive {{{
-
-" let plugin = s:PdPluginManager.add('fugitive', [
-"             \'tpope/vim-fugitive'
-"             \])
-
-" }}}
-" ---------------------------------------------------- vim-airline {{{
-
-let plugin = s:PdPluginManager.add('airline', [
-            \'bling/vim-airline'
-            \])
-
-function plugin.config() dict
-    let g:airline#extensions#tabline#enabled = 1
-    let g:airline_powerline_fonts = 1
-endfunction
-
-" }}}
-
-" ###############################################################
-"                                       Filetype sepcific stuff #
-" ###############################################################
-" ---------------------------------------------------- systemd {{{
-
-let plugin = s:PdPluginManager.add('systemd syntax', [
-            \'Matt-Deacalion/vim-systemd-syntax'
-            \])
-
-" }}}
-
-if s:load_vundle_plugins
-    if version >= 703
-        call s:PdPluginManager.loadAll()
-        call s:PdPluginManager.configureAll()
-    endif
-endif
-
-
+call s:PdPluginManager.configureAll()
