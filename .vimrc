@@ -1,26 +1,42 @@
 " vim:fdm=marker foldlevel=0
 
+let s:load_vundle_plugins=1
+let s:pd_textwidth=100
+let s:pd_sidewidth = max([10, min([40, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
+
 " ---------------------------------------------------- Load & Setups Vundle {{{
-if version >= 703
-    set nocompatible
-    filetype off
 
-    " Vundle (vim plugin manager)
-    "
-    " To install:
-    " git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-    " This initializes plugin installation paths
-    if has("win32") || has("win16")
-        let path='~/vimfiles/bundle'
-        set rtp+=~/vimfiles/bundle/Vundle.vim
-    else
-        set rtp+=~/.vim/bundle/Vundle.vim
+if s:load_vundle_plugins
+    if version >= 703
+        set nocompatible
+        filetype off
+
+        " Vundle (vim plugin manager)
+        "
+        " To install:
+        " git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+        " This initializes plugin installation paths
+        if has("win32") || has("win16")
+            let path='~/vimfiles/bundle'
+            set rtp+=~/vimfiles/bundle/Vundle.vim
+        else
+            set rtp+=~/.vim/bundle/Vundle.vim
+        endif
+        call vundle#rc()
+
+        " Load the main Vundle thing
+        Plugin 'gmarik/Vundle.vim'
     endif
-    call vundle#rc()
-
-    " Load the main Vundle thing
-    Plugin 'gmarik/Vundle.vim'
 endif
+
+" }}}
+
+
+" ---------------------------------------------------- Helper functions {{{
+
+function! TrimWhiteSpace()
+    %s/\s\+$//e
+endfunction
 
 " }}}
 
@@ -28,8 +44,8 @@ endif
 set nocompatible                " Load non-Vi-compaitlbe settings
 syntax on                       " Syntax highlighting
 filetype plugin indent on       " Use indening
-" set autoread              	" read open files again when changed outside Vim
-" set autowrite             	" write a modified buffer on each :next , ...
+set autoread              	    " read open files again when changed outside Vim
+set autowrite             	    " write a modified buffer on each :next , ...
 set backspace=indent,eol,start 	" allow backspacing over everything in insert mode
 set backup						" keep a backup file
 set browsedir=current   		" which directory to use for the file browser
@@ -43,7 +59,9 @@ set tabstop=4            		" number of spaces that a <Tab> in the file counts fo
 set expandtab                   " insert spaces instead of tabs
 set visualbell 		           	" visual bell instead of beeping
 set t_vb=
-set textwidth=100               " text width for autoformatt stuff, or something
+" set textwidth=100               " text width for autoformatt stuff, or something
+let &textwidth=s:pd_textwidth
+" set textwidth=s:pd_textwidth
 " set autochdir            		" change the current working directory
 set exrc                        " find vimrc in working directory
 set secure                      " secure loading of non-default vimrc
@@ -53,21 +71,18 @@ set spelllang=en                " languages used for spelling
 set completeopt-=preview        " remove extended preview from autocinserts (scratch window)
 set hlsearch                    " highlight searches
 
-if version >= 704
-    set colorcolumn=101
-endif
+set foldmethod=syntax           " Syntax based folding
+set foldlevel=999               " Display everything by default
+set foldnestmax=2
 
 set backupdir=~/tmp/vimbackup,.,~
 set directory=~/tmp/vimbackup,.,~
 
-let s:pd_textwidth=100
-let s:pd_sidewidth = max([10, min([40, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
-let &textwidth=s:pd_textwidth   " (Need to use let &variable syntax)
+if version >= 704
+    let &colorcolumn=s:pd_textwidth
+endif
 
-set foldmethod=syntax           " Syntax based folding
-set foldlevel=999               " Display everything by default
 " set foldlevelstart=1
-set foldnestmax=2
 " set foldcolumn=4
 " inoremap <F9> <C-O>za
 " nnoremap <A-Space> za
@@ -84,15 +99,12 @@ nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
 
 " <C-B> - Create huge 'header' comment box
-nnoremap <C-b> :center 80<cr>hhv0r#A<space><esc>40A#<esc>d80<bar>YppVr#kk.
+" nnoremap <C-b> :center 80<cr>hhv0r#A<space><esc>40A#<esc>d80<bar>YppVr#kk.
 
 " <F5> - Remove trailing whitespace
-nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+" nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
 " Remember file posittions
-if has("autocmd")
-    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-endif
 
 
 " }}}
@@ -125,6 +137,21 @@ colorscheme pablo
 "-------------------------------------------------------------------------------
 " }}}
 
+" ---------------------------------------------------- Generic AutoCommands {{{
+
+if has("autocmd")
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+
+augroup trimWhiteSpace
+    autocmd FileWritePre    * :call TrimWhiteSpace()
+    autocmd FileAppendPre   * :call TrimWhiteSpace()
+    autocmd FilterWritePre  * :call TrimWhiteSpace()
+    autocmd BufWritePre     * :call TrimWhiteSpace()
+augroup END
+
+" }}}
+
 " ###############################################################
 "                                                  Plugin stuff #
 " ###############################################################
@@ -133,7 +160,7 @@ colorscheme pablo
 "
 "  This is a very simple wrapper around Vundle, mainly intended for a clearer(?)
 "  configuration file structure. PluginPacks are declared in an OO style together
-"  with any accompanying conguration. The plugins are immediately loaded, but 
+"  with any accompanying conguration. The plugins are immediately loaded, but
 "  configuration functions for all packs are called in one go by calling Configure
 "  packs.
 "
@@ -145,8 +172,8 @@ colorscheme pablo
 "       endfunction
 "
 "       let plugin = InitPluginPack([ pluginNames ])
-"       " ... etc ... 
-"      
+"       " ... etc ...
+"
 "       plugin.enabled = 0 " Disable plugin from being loaded & configured
 "
 "       call LoadPluginPacks()
@@ -158,7 +185,7 @@ colorscheme pablo
 function InitPdPluginManager()
     let pm = { 'packs': [] }
 
-    " redir => scripts 
+    " redir => scripts
     " execute "silent verbose scriptnames"
     " redir END
 
@@ -228,8 +255,8 @@ let s:PdPluginManager = InitPdPluginManager()
 " https://github.com/scrooloose/nerdtree
 
 let plugin = s:PdPluginManager.add('nerdtree', [
-            \'scrooloose/NERDTree', 
-            \'jistr/vim-nerdtree-tabs', 
+            \'scrooloose/NERDTree',
+            \'jistr/vim-nerdtree-tabs',
             \'Xuyuanp/nerdtree-git-plugin'
             \])
 
@@ -245,7 +272,7 @@ function plugin.config() dict
     " NERDTree_tabs manages most of this...
     " autocmd vimenter * NERDTree
     " map <C-n> :NERDTreeToggle<CR>
-    "let g:NERDTreeWinSize=s:pd_sidewidth
+    let g:NERDTreeWinSize=s:pd_sidewidth
     " close NERDTree if it's the last one left
     " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
@@ -254,12 +281,12 @@ function plugin.config() dict
     let g:nerdtree_tabs_open_on_console_startup=1 " (default: 0)
 
 
-    " On startup, focus NERDTree if opening a directory, focus file if opening a file. 
+    " On startup, focus NERDTree if opening a directory, focus file if opening a file.
     " (When set to 2, always focus file window after startup).
     let g:nerdtree_tabs_smart_startup_focus=2 " (default: 1)
 
-    " When switching into a tab, make sure that focus is on the file window, not in 
-    " the NERDTree window. (Note that this can get annoying if you use NERDTree's 
+    " When switching into a tab, make sure that focus is on the file window, not in
+    " the NERDTree window. (Note that this can get annoying if you use NERDTree's
     " feature 'open in new tab silently', as you will lose focus on the NERDTree.)
     let g:nerdtree_tabs_focus_on_files=1 " (default: 0)
 endfunction
@@ -277,7 +304,7 @@ function plugin.config() dict
     " endif
     nmap <F8> :TagbarToggle<CR>
     "" nmap <F8> :TagbarOpenAutoClose<CR>
-    "let g:tagbar_width=s:pd_sidewidth
+    let g:tagbar_width=s:pd_sidewidth
     "let g:tagbar_sort=0                 " 1 -> alphabetical sorting
     autocmd VimEnter * nested :call tagbar#autoopen(1)
 endfunction
@@ -294,12 +321,8 @@ function plugin.conditional() dict
     if exists("$SSH_TTY")
         return 0
     endif
-    return 1
-endfunction
-
-function plugin.is_loaded() dict
-    " return self.pm.isLoaded('youcompleteme.vim')
-    return 1
+    echom "YouCompleteMe disabled"
+    return 0
 endfunction
 
 function plugin.config() dict
@@ -318,6 +341,15 @@ let plugin = s:PdPluginManager.add('ultisnips', [
             \'SirVer/ultisnips',
             \'honza/vim-snippets'
             \])
+
+function plugin.conditional() dict
+    " Not really nice on remote hosts, compiling and stuff :(
+    if exists("$SSH_TTY")
+        return 0
+    endif
+    echom "UltiSnips disabled"
+    return 0
+endfunction
 
 function plugin.config() dict
     " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
@@ -344,10 +376,6 @@ let plugin = s:PdPluginManager.add('commentary', [
 let plugin = s:PdPluginManager.add('syntastic.vim', [
             \'scrooloose/syntastic'
             \])
-
-function plugin.is_loaded() dict
-    return 1
-endfunction
 
 function plugin.config() dict
     set statusline+=%#warningmsg#
@@ -404,9 +432,11 @@ let plugin = s:PdPluginManager.add('systemd syntax', [
 
 " }}}
 
-if version >= 703
-    call s:PdPluginManager.loadAll()
-    call s:PdPluginManager.configureAll()
+if s:load_vundle_plugins
+    if version >= 703
+        call s:PdPluginManager.loadAll()
+        call s:PdPluginManager.configureAll()
+    endif
 endif
 
 

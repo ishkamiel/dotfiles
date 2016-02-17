@@ -165,12 +165,16 @@ prompt_hg() {
 # Dir: current working directory
 prompt_dir() {
   #prompt_segment blue black '%~'
-  
+
   # Edited by ishkamiel@gmail.com
   prompt_segment blue black $(pwd | sed "s|^$HOME|~|" |  awk -F '/' '{
     i=1;
     while (i < NF) {
-      printf "%s/", substr($i, 0, 1);
+      if (length($i) > 4) {
+        printf "%s../", substr($i, 1, 2);
+      } else {
+        printf "%s/", $i;
+      }
       ++i;
     }
     printf "%s\n", $i;
