@@ -91,18 +91,21 @@ zstyle ':completion:*' special-dirs true
 
 # Check if we should run a tmux session?
 if [ -n "$DROPDOWNTERMINAL" ]; then
+    # I manually set this when running Guake, Tilda, or similar
     TMUX_SESSION='dd'
+elif [ -n "$SSH_TTY" ]; then
+    echo "Byoubu stil managing SSH stuff"
+    # TMUX_SESSION='ssh'
+elif [[ -o interactive ]]; then
+    TMUX_SESSION='def'
 fi
 # Let byobu handle ssh stuff
-# elif [ -n "$SSH_TTY" ]; then
-#     TMUX_SESSION='ssh'
-# fi
 
 # Load tmux if TMUX_SESSION is set
 if [ -n "$TMUX_SESSION" ]; then
     # Don't do that if already running tmux!
     export TERM=screen-256color
-    if ! [ -n "$TMUX" ]; then
-        exec tmux new-session -s dd -A -D
+    if [ ! -n "$TMUX" ] && [ -x /usr/bin/tmux ]; then
+        exec /usr/bin/tmux new-session -s $TMUX_SESSION -A -D
     fi
 fi
