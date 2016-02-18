@@ -140,7 +140,7 @@ endfunction
 " }}}
 
 let s:PdPluginManager = InitPdPluginManager()
-"
+
 " ---------------------------------------------------- NERDTree {{{
 " https://github.com/scrooloose/nerdtree
 
@@ -426,6 +426,7 @@ if has("autocmd")
 endif
 
 augroup trimWhiteSpace
+    autocmd!
     autocmd FileWritePre    * :call TrimWhiteSpace()
     autocmd FileAppendPre   * :call TrimWhiteSpace()
     autocmd FilterWritePre  * :call TrimWhiteSpace()
