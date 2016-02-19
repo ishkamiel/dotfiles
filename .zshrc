@@ -57,6 +57,8 @@ plugins=(vi-mode gitignore)
 
 # User configuration
 
+INC_APPEND_HISTORY=
+
 export PATH="/usr/local/heroku/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
 if [ -e "$HOME/personal/bin" ]; then export PATH="$PATH:$HOME/personal/bin"; fi
 if [ -e "$HOME/bin" ]; then export PATH="$PATH:$HOME/bin"; fi
