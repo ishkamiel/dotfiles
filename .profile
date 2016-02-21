@@ -12,26 +12,61 @@ export EDITOR=/usr/bin/vim
 
 TMP_DIR=$HOME/tmp
 
-BIN_BYOBU_BACKEND=/usr/bin/byobu-tmux
-BIN_ZSH=/usr/bin/zsh
+# AddToPath PATH_TO_ADD [QUIET]
+# Simple function to add paths without including directories or missing paths
+AddToPath() {
+    VERBOSE=1
+    if [ -n "${2}" ]; then VERBOSE=; fi;
+
+    # Catch typos and bad additions
+    if [ ! -e "${1}" ] || [ ! -d "${1}" ]; then
+        if [ -n "$VERBOSE" ]; then echo "Trying to add non-existing path ${1}!"; fi
+        return 0
+    fi
+
+    if [[ "$PATH" =~ (^|:)"${1}"(:|$) ]]; then
+        if [ -n "$VERBOSE" ]; then echo "Already in path ${1}, skipping"; fi
+        return 0
+    fi
+
+    export PATH="$PATH:${1}"
+}
 
 
-# Export Spark variables if we find spark
-SPARK_HOME=/opt/spark-1.6.0-bin-hadoop2.6    
+# export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+
+
+# Heroku
+PATH_HEROKU="/usr/local/heroku/bin"
+if [ -e "$PATH_HEROKU" ]; then AddToPath "$PATH_HEROKU"; fi
+
+# Spark installation setup
+SPARK_HOME=/opt/spark-1.6.0-bin-hadoop2.6
 if ! [ -e $SPARK_HOME ]; then SPARK_HOME=/cs/work/scratch/spark-1.6.0-bin-hadoop2.6; fi
 if ! [ -e $SPARK_HOME ]; then SPARK_HOME=""; fi
 
 if [ -n "$SPARK_HOME" ]; then
     export SPARK_HOME
-    export PATH=$PATH:$SPARK_HOME/bin   
-    export PYTHONPATH=$SPARK_HOME/python/:$PYTHONPATH   
+    AddToPath "$SPARK_HOME/bin"
+    export PYTHONPATH=$SPARK_HOME/python/:$PYTHONPATH
     export PYTHONPATH=$SPARK_HOME/python/lib/py4j-0.9-src.zip:$PYTHONPATH
 fi
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
+# User ruby paths
+# NOTE: This very simply just takes the highest version path and adds that to $PATH
+_RUBY_GEM_PATH="$HOME/.gem/ruby"
+if [ -e "$_RUBY_GEM_PATH" ]; then
+    _RUBY_VERSION=$(ls $_RUBY_GEM_PATH | sort | tail -n 1);
+    _RUBY_PATH="$_RUBY_GEM_PATH/$_RUBY_VERSION/bin"
+
+    if [ -e "$_RUBY_PATH" ]; then
+        AddToPath $_RUBY_PATH
+    fi
 fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -e "$HOME/personal/bin" ]; then AddToPath "$HOME/personal/bin"; fi
+if [ -e "$HOME/bin" ]; then AddToPath "$HOME/bin"; fi
 
 # Make sure we have a tempdirectory that we own
 if [ ! -e $TMP_DIR ] || [ ! -O $TMP_DIR ]; then
@@ -48,6 +83,8 @@ fi
 # Any required stuff should be but above this, the next steps could result in launchiing
 # other processes, skipping files, or sourcing all sorts of stuff.
 
+BIN_BYOBU_BACKEND=/usr/bin/byobu-tmux
+BIN_ZSH=/usr/bin/zsh
 if [ -n "$SSH_TTY" ]
 then
     # Do some aditional setup for SSH sessions (since we probably cannot set this

@@ -59,9 +59,6 @@ plugins=(vi-mode gitignore)
 
 INC_APPEND_HISTORY=
 
-export PATH="/usr/local/heroku/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
-if [ -e "$HOME/personal/bin" ]; then export PATH="$PATH:$HOME/personal/bin"; fi
-if [ -e "$HOME/bin" ]; then export PATH="$PATH:$HOME/bin"; fi
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # Install oh-my-zsh if not found
