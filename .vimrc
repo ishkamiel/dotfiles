@@ -5,7 +5,7 @@ let s:load_vundle_plugins=1
 let s:pd_textwidth=100
 let s:pd_sidewidth = max([10, min([40, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
 
-" ---------------------------------------------------- Helper functions {{{
+" -------------------------- Helper functions {{{
 
 function! TrimWhiteSpace()
     %s/\s\+$//e
@@ -20,13 +20,12 @@ endfunction
 function! OnWindows()
     if has("win32") || has("win16")
         return 1
-    else
-        return 0
     endif
+    return 0
 endfunction
 
 " }}}
-" ---------------------------------------------------- PluginPackManager {{{
+" -------------------------- PluginPackManager {{{
 "  DESCRIPTION:
 "
 "  This is a very simple wrapper around Vundle, mainly intended for a clearer(?)
@@ -141,7 +140,7 @@ endfunction
 
 let s:PdPluginManager = InitPdPluginManager()
 
-" ---------------------------------------------------- NERDTree {{{
+" -------------------------- NERDTree {{{
 " https://github.com/scrooloose/nerdtree
 
 let plugin = s:PdPluginManager.add('nerdtree', [
@@ -182,7 +181,7 @@ function plugin.config() dict
 endfunction
 
 " }}}
-" ---------------------------------------------------- tagbar {{{
+" -------------------------- tagbar {{{
 
 let plugin = s:PdPluginManager.add('tagbar', [
             \'majutsushi/tagbar'
@@ -200,7 +199,7 @@ function plugin.config() dict
 endfunction
 
 " }}}
-" ---------------------------------------------------- YouCompleteMe (p_ycm) {{{
+" -------------------------- YouCompleteMe (p_ycm) {{{
 
 let p_ycm = s:PdPluginManager.add('youcompleteme.vim', [
             \'Valloric/YouCompleteMe'
@@ -224,7 +223,7 @@ function p_ycm.config() dict
 endfunction
 
 " }}}
-" ---------------------------------------------------- UltiSnips (p_ultisnips) {{{
+" -------------------------- UltiSnips (p_ultisnips) {{{
 
 let p_ultisnips = s:PdPluginManager.add('ultisnips', [
             \'SirVer/ultisnips',
@@ -252,14 +251,14 @@ function p_ultisnips.config() dict
 endfunction
 
 " }}}
-" ---------------------------------------------------- vim-commentary {{{
+" -------------------------- vim-commentary {{{
 
 let plugin = s:PdPluginManager.add('commentary', [
             \'tpope/vim-commentary'
             \])
 
 " }}}
-" ---------------------------------------------------- Syntastic {{{
+" -------------------------- Syntastic {{{
 
 let plugin = s:PdPluginManager.add('syntastic.vim', [
             \'scrooloose/syntastic'
@@ -289,14 +288,14 @@ function plugin.config() dict
 endfunction
 
 " }}}
-" ---------------------------------------------------- vim-fugitive {{{
+" -------------------------- vim-fugitive {{{
 
 " let plugin = s:PdPluginManager.add('fugitive', [
 "             \'tpope/vim-fugitive'
 "             \])
 
 " }}}
-" ---------------------------------------------------- vim-airline {{{
+" -------------------------- vim-airline {{{
 
 let plugin = s:PdPluginManager.add('airline', [
             \'bling/vim-airline'
@@ -309,7 +308,7 @@ endfunction
 
 " }}}
 
-" ---------------------------------------------------- systemd {{{
+" -------------------------- systemd {{{
 
 let plugin = s:PdPluginManager.add('systemd syntax', [
             \'Matt-Deacalion/vim-systemd-syntax'
@@ -317,12 +316,12 @@ let plugin = s:PdPluginManager.add('systemd syntax', [
 
 " }}}
 
-let p_ycm.enabled=1
-let p_ultisnips.enabled=1
+" let p_ycm.enabled=0
+" let p_ultisnips.enabled=0
 
 call s:PdPluginManager.loadAll()
 
-" ---------------------------------------------------- General vim config {{{
+" -------------------------- General vim config {{{
 set nocompatible                " Load non-Vi-compaitlbe settings
 syntax on                       " Syntax highlighting
 filetype plugin indent on       " Use indening
@@ -390,7 +389,7 @@ vnoremap <Space> zf
 
 
 " }}}
-" ---------------------------------------------------- Windows stuff {{{
+" -------------------------- Windows stuff {{{
 
 if has("win32") || has("win16")
     set backupdir=~/vimbackup
@@ -399,7 +398,7 @@ if has("win32") || has("win16")
 endif
 
 " }}}
-" ---------------------------------------------------- gVim stuff {{{
+" -------------------------- gVim stuff {{{
 
 " GVim config
 set guioptions-=m  "remove menu bar
@@ -408,7 +407,7 @@ set guioptions-=r  "remove right-hand scroll bar
 set guioptions-=L  "remove left-hand scroll bar
 
 " }}}
-" ---------------------------------------------------- Color themes and styling {{{
+" -------------------------- Color themes and styling {{{
 
 set background=dark
 set t_Co=25
@@ -419,7 +418,7 @@ colorscheme pablo
 "-------------------------------------------------------------------------------
 " }}}
 
-" ---------------------------------------------------- Generic AutoCommands {{{
+" -------------------------- Generic AutoCommands {{{
 
 if has("autocmd")
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
