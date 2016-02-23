@@ -1,12 +1,12 @@
 - clean: [ '~', '~/.config', '~/.ssh', '~/.ssh/upstart' ]
-- link: 
+- link:
     ~/.bashrc: .bashrc
     ~/.gitconfig: .gitconfig
     ~/.ssh/config:
       create: true
       path: .ssh/config
     ~/.tmux.conf: .tmux.conf
-    ~/.byobu/.tmux.conf: 
+    ~/.byobu/.tmux.conf:
       create: true
       path: .tmux.conf
     ~/.vimrc: .vimrc
@@ -17,6 +17,9 @@
     ~/.config/upstart/drop_down_terminal.conf:
       create: true
       path: .config/upstart/drop_down_terminal.conf
+    ~/.config/gtk-3.0/gtk.css:
+      create: true
+      path: .config/gtk-3.0/gtk.css
     ~/.zshrc: .zshrc
     ~/.zprofile: .zprofile
     ~/.profile: .profile
@@ -24,16 +27,16 @@
     ~/.zsh-custom/themes/agnoster.zsh-theme:
       create: true
       path: .zsh-custom/themes/agnoster.zsh-theme
-- shell: 
+- shell:
   -
     command: scripts/installStuff.sh
-    stdin: true 
+    stdin: true
     stdout: true
   -
     command: scripts/dconf.sh
-    stdin: true 
+    stdin: true
     stdout: true
 #  -
 #    command: vim +PluginInstall +qall
-#    stdin: true 
+#    stdin: true
 #    stdout: true
