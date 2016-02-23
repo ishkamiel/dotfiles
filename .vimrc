@@ -24,6 +24,19 @@ function! OnWindows()
     return 0
 endfunction
 
+function! IsFileLoaded()
+    " TODO: fix this crap!
+    " This is heavily inspired by http://vim.wikia.com/wiki/List_loaded_scripts
+    " let old_more = &more " Save more value
+    " set no_more
+
+    " redir => lines " redirect output
+    silent execute 'scriptnames'
+    " redir END " stop redirect
+
+    " let &more = save_more " Restore more value
+endfunction
+
 " }}}
 " -------------------------- PluginPackManager {{{
 "  DESCRIPTION:
@@ -307,12 +320,42 @@ function plugin.config() dict
 endfunction
 
 " }}}
+" -------------------------- vim-templates (vtemplates) {{{
+
+let vtemplates = s:PdPluginManager.add('vim-templates', [
+            \'aperezdc/vim-template'
+            \])
+
+function vtemplates.config() dict
+    let g:templates_directory='~/.vim/my_templates'
+endfunction
+
+" }}}
 
 " -------------------------- systemd {{{
 
 let plugin = s:PdPluginManager.add('systemd syntax', [
             \'Matt-Deacalion/vim-systemd-syntax'
             \])
+
+" }}}
+" -------------------------- VimTex (vimtex) {{{
+
+let vimtex = s:PdPluginManager.add('systemd syntax', [
+            \'lervag/vimtex'
+            \])
+
+function vimtex.config() dict
+    let g:vimtex_fold_enabled=1
+    " let g:vimtex_fold_comments=1
+    let g:vimtex_fold_manual=1
+
+    augroup vimtex
+        autocmd!
+        autocmd BufNewFile,BufRead *.tex setlocal foldlevel=0
+        autocmd BufNewFile,BufRead *.tex nnoremap <buffer> <silent> <Space> :call vimtex#fold#refresh('za')<CR>
+    augroup END
+endfunction
 
 " }}}
 
@@ -360,7 +403,8 @@ set backupdir=~/tmp/vimbackup,.,~
 set directory=~/tmp/vimbackup,.,~
 
 if version >= 704
-    let &colorcolumn=s:pd_textwidth
+    let &colorcolumn=s:pd_textwidth+1
+    " highlight ColorColumn ctermbg=8
 endif
 
 " set foldlevelstart=1
@@ -378,15 +422,6 @@ nnoremap <right> <nop>
 " <cpace> - Toggle folds
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
-
-" <C-B> - Create huge 'header' comment box
-" nnoremap <C-b> :center 80<cr>hhv0r#A<space><esc>40A#<esc>d80<bar>YppVr#kk.
-
-" <F5> - Remove trailing whitespace
-" nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
-
-" Remember file posittions
-
 
 " }}}
 " -------------------------- Windows stuff {{{
