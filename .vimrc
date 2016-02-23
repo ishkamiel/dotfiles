@@ -353,6 +353,7 @@ function vimtex.config() dict
     augroup vimtex
         autocmd!
         autocmd BufNewFile,BufRead *.tex setlocal foldlevel=0
+        autocmd BufNewFile,BufRead *.tex setlocal spell
         autocmd BufNewFile,BufRead *.tex nnoremap <buffer> <silent> <Space> :call vimtex#fold#refresh('za')<CR>
     augroup END
 endfunction
