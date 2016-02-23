@@ -346,15 +346,16 @@ let vimtex = s:PdPluginManager.add('systemd syntax', [
             \])
 
 function vimtex.config() dict
-    let g:vimtex_fold_enabled=1
+    " let g:vimtex_fold_enabled=1
     " let g:vimtex_fold_comments=1
-    let g:vimtex_fold_manual=1
+    " let g:vimtex_fold_manual=1
 
     augroup vimtex
         autocmd!
         autocmd BufNewFile,BufRead *.tex setlocal foldlevel=0
         autocmd BufNewFile,BufRead *.tex setlocal spell
-        autocmd BufNewFile,BufRead *.tex nnoremap <buffer> <silent> <Space> :call vimtex#fold#refresh('za')<CR>
+        autocmd BufNewFile,BufRead *.tex let g:syntastic_quiet_messages = { "regex": 'You should put a space in front of parenthesis' }
+        " autocmd BufNewFile,BufRead *.tex nnoremap <buffer> <silent> <Space> :call vimtex#fold#refresh('za')<CR>
     augroup END
 endfunction
 
@@ -398,7 +399,7 @@ set hlsearch                    " highlight searches
 
 set foldmethod=syntax           " Syntax based folding
 set foldlevel=999               " Display everything by default
-set foldnestmax=2
+set foldnestmax=1
 
 set backupdir=~/tmp/vimbackup,.,~
 set directory=~/tmp/vimbackup,.,~
