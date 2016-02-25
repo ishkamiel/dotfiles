@@ -79,12 +79,17 @@ if [ ! -e $TMP_DIR ] || [ ! -O $TMP_DIR ]; then
     mkdir $TMP_DIR/vimbackup
 fi
 
+# NVM
+export NVM_DIR="/home/ishkamiel/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
 ############################################################################################
 # Any required stuff should be but above this, the next steps could result in launchiing
 # other processes, skipping files, or sourcing all sorts of stuff.
 
 BIN_BYOBU_BACKEND=/usr/bin/byobu-tmux
 BIN_ZSH=/usr/bin/zsh
+
 if [ -n "$SSH_TTY" ]
 then
     # Do some aditional setup for SSH sessions (since we probably cannot set this

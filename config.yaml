@@ -1,4 +1,4 @@
-- clean: [ '~', '~/.config', '~/.ssh', '~/.ssh/upstart' ]
+- clean: [ '~', '~/.config', '~/.ssh', '~/.config/upstart', '~/.config/autostart' ]
 - link:
     ~/.bashrc: .bashrc
     ~/.gitconfig: .gitconfig
@@ -11,12 +11,9 @@
       path: .tmux.conf
     ~/.vimrc: .vimrc
     ~/.inputrc: .inputrc
-    ~/.config/upstart/mytempdir.conf:
+    ~/.config/autostart/guake.desktop:
       create: true
-      path: .config/upstart/mytempdir.conf
-    ~/.config/upstart/drop_down_terminal.conf:
-      create: true
-      path: .config/upstart/drop_down_terminal.conf
+      path: .config/autostart/guake.desktop
     ~/.config/gtk-3.0/gtk.css:
       create: true
       path: .config/gtk-3.0/gtk.css
@@ -29,7 +26,11 @@
       path: .zsh-custom/themes/agnoster.zsh-theme
 - shell:
   -
-    command: scripts/installStuff.sh
+    command: scripts/installOhMyZsh.sh
+    stdin: true
+    stdout: true
+  -
+    command: scripts/installVundle.sh
     stdin: true
     stdout: true
   -
