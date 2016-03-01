@@ -90,25 +90,8 @@ export NVM_DIR="/home/ishkamiel/.nvm"
 BIN_BYOBU_BACKEND=/usr/bin/byobu-tmux
 BIN_ZSH=/usr/bin/zsh
 
-if [ -n "$SSH_TTY" ]
-then
-    # Do some aditional setup for SSH sessions (since we probably cannot set this
-    # stuff with system settings).
-
-    if ! [ -n "$ZSH" ] && [ -e $BIN_ZSH ] && [ -x $BIN_ZSH ]
-    then
-        # Switch to ZSH if we're not already there...
-        exec $BIN_ZSH
-    elif [ -e $BIN_BYOBU_BACKEND ] && [ -x $BIN_BYOBU_BACKEND ]
-    then
-        # Tryo to launch byobu if we've got the correct backend
-        _byobu_sourced=1 . /usr/bin/byobu-launch
-    fi
-fi
-
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
     if [ -f "$HOME/.bashrc" ]; then
         . "$HOME/.bashrc"
     fi
