@@ -90,6 +90,10 @@ export NVM_DIR="/home/ishkamiel/.nvm"
 BIN_BYOBU_BACKEND=/usr/bin/byobu-tmux
 BIN_ZSH=/usr/bin/zsh
 
+if [ -e "$HOME/.profile_local" ];then
+    . $HOME/.profile_local
+fi
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     if [ -f "$HOME/.bashrc" ]; then
