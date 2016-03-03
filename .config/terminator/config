@@ -1,0 +1,100 @@
+[global_config]
+[keybindings]
+  cycle_prev = None
+  next_tab = None
+  close_window = None
+  group_tab = None
+  resize_left = None
+  broadcast_all = <Alt>b
+  rotate_ccw = None
+  reset_clear = None
+  go_right = <Alt>l
+  new_tab = None
+  resize_right = None
+  resize_down = <Shift><Alt>j
+  toggle_zoom = <Shift><Alt>m
+  scaled_zoom = None
+  zoom_in = None
+  group_all = None
+  move_tab_right = None
+  prev_tab = None
+  split_vert = <Shift><Alt>v
+  ungroup_all = None
+  broadcast_off = <Alt>n
+  ungroup_tab = None
+  paste = None
+  cycle_next = None
+  zoom_out = None
+  broadcast_group = None
+  go_prev = None
+  close_term = None
+  new_terminator = None
+  go_next = None
+  go_left = <Alt>h
+  copy = None
+  hide_window = None
+  reset = None
+  search = None
+  go_up = <Alt>k
+  resize_up = <Shift><Alt>k
+  rotate_cw = None
+  split_horiz = <Shift><Alt>h
+  zoom_normal = None
+  go_down = <Alt>j
+  new_window = None
+  move_tab_left = None
+  toggle_scrollbar = None
+[profiles]
+  [[default]]
+    scrollbar_position = hidden
+    palette = "#000000:#cc0000:#4e9a06:#c4a000:#3465a4:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:#729fcf:#ad7fa8:#34e2e2:#eeeeec"
+    background_image = None
+    background_darkness = 0.94
+    background_type = transparent
+    use_system_font = False
+    foreground_color = "#ffffff"
+    font = Hack 11
+[layouts]
+  [[default]]
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+    [[[window0]]]
+      type = Window
+      parent = ""
+  [[vlab]]
+    [[[child0]]]
+      position = 49:24
+      type = Window
+      order = 0
+      parent = ""
+      size = 1317, 744
+    [[[child1]]]
+      position = 372
+      type = VPaned
+      order = 0
+      parent = child0
+    [[[child3]]]
+      position = 658
+      type = HPaned
+      order = 1
+      parent = child1
+    [[[terminal2]]]
+      profile = default
+      command = ssh vlab1
+      type = Terminal
+      order = 0
+      parent = child1
+    [[[terminal5]]]
+      profile = default
+      command = ssh vlab3
+      type = Terminal
+      order = 1
+      parent = child3
+    [[[terminal4]]]
+      profile = default
+      command = ssh vlab2
+      type = Terminal
+      order = 0
+      parent = child3
+[plugins]
