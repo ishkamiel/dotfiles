@@ -50,6 +50,8 @@ alias mv="mv -i"
 zstyle ':completion:*' special-dirs false
 unsetopt sharehistory
 
+bindkey '^R' history-incremental-search-backward
+
 
 
 # ##########################################
