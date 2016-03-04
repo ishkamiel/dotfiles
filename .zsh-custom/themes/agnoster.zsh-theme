@@ -167,7 +167,7 @@ prompt_dir() {
   #prompt_segment blue black '%~'
 
   # Edited by ishkamiel@gmail.com
-  prompt_segment blue black $(pwd | sed "s|^$HOME|~|" |  awk -F '/' '{
+  prompt_segment blue black "$(pwd | sed "s|^$HOME|~|" |  awk -F '/' '{
     i=1;
     while (i < NF) {
       if (length($i) > 4) {
@@ -178,7 +178,7 @@ prompt_dir() {
       ++i;
     }
     printf "%s\n", $i;
-  }')
+  }')"
 }
 
 # Virtualenv: current working virtualenv
