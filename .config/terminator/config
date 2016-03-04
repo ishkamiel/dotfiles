@@ -59,9 +59,46 @@
     [[[child1]]]
       type = Terminal
       parent = window0
+      profile = default
+      command = ""
     [[[window0]]]
       type = Window
       parent = ""
+  [[labs]]
+    [[[child0]]]
+      position = 49:24
+      type = Window
+      order = 0
+      parent = ""
+      size = 1871, 1056
+    [[[child1]]]
+      position = 528
+      type = VPaned
+      order = 0
+      parent = child0
+    [[[child3]]]
+      position = 935
+      type = HPaned
+      order = 1
+      parent = child1
+    [[[terminal2]]]
+      profile = default
+      command = ssh lab1
+      type = Terminal
+      order = 0
+      parent = child1
+    [[[terminal5]]]
+      profile = default
+      command = ssh lab3
+      type = Terminal
+      order = 1
+      parent = child3
+    [[[terminal4]]]
+      profile = default
+      command = ssh lab2
+      type = Terminal
+      order = 0
+      parent = child3
   [[vlab]]
     [[[child0]]]
       position = 49:24
