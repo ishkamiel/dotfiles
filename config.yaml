@@ -8,6 +8,7 @@
     ~/.tmux.conf: .tmux.conf
     ~/.vimrc: .vimrc
     ~/.inputrc: .inputrc
+    ~/.conkyrc: .conkyrc
     ~/.config/autostart/guake.desktop:
       create: true
       path: .config/autostart/guake.desktop
