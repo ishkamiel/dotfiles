@@ -1,10 +1,14 @@
+# Load ishlib helper functions
+. "${ISHLIB}" || echo "failed to source ishlib at ${ISHLIB}" > DOT_ZSHRC_FAIL
+
+# The .bashrc file is setup to automatically switch over to zsh, unless the NOBASH2ZSH
+# variable is set. Setting it here allows us to launch bash without reverting back to zsh
+export NOBASH2ZSH=1
+
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 export ZSH_CUSTOM=$HOME/.zsh-custom
 
-export NOBASH2ZSH=1
-export DOTFILES_HOME="$HOME/.dotfiles"
-export DOTFILES_CONFIG="$HOME/.dotfiles/config.yaml"
 
 ZSH_URL="https://github.com/robbyrussell/oh-my-zsh.git"
 B_ENV=/usr/bin/env
@@ -52,24 +56,8 @@ unsetopt sharehistory
 
 bindkey '^R' history-incremental-search-backward
 
-# . /usr/share/powerline/bindings/zsh/powerline.zsh
+# Load commands/functions for dotfile management
+SourceFile "${DOTFILES_HOME}/scripts/dotfileFunctions.sh"
 
-
-# ##########################################
-# Some global functions for this and that...
-# ##########################################
-dotfilesUpdate() {
-    DOTBOT_BIN="${DOTFILES_HOME}/dotbot/bin/dotbot"
-
-    if [ ! -e $DOTFILES_CONFIG ]; then
-        echo "Cannot find dotfiles config: $DOTFILES_CONFIG"; return
-    fi
-
-    if [ ! -e $DOTBOT_BIN ]; then
-        echo "Cannot find dotbot: $DOTBOT_BIN"; return;
-    fi
-
-    # git submodule update --init --recursive "${DIR}"
-    $DOTBOT_BIN -d ${DOTFILES_HOME} -c ${DOTFILES_CONFIG}
-}
-
+# Remove ishlib functions
+CleanIshlib

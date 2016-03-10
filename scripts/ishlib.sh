@@ -67,3 +67,12 @@ SourceFile() {
         ErrorLog "SourceFile cannot find ${filename}"
     fi
 }
+
+CleanIshlib() {
+    unset -f AddToPath
+    unset -f ErrorLog
+    unset -f InitErrorLog
+    unset -f InitTempDir
+    unset -f SourceFile
+    unset -f CleanIshlib
+}
