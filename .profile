@@ -32,37 +32,19 @@ AddToPath() {
     export PATH="$PATH:${1}"
 }
 
+STARTUP_DIR="$HOME/.dotfiles/startup"
+StartupScript() {
+    [ -s "${STARTUP_DIR}/${1}" ] && . "${STARTUP_DIR}/${1}"
+}
+
 
 # export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
 
 
-# Heroku
-PATH_HEROKU="/usr/local/heroku/bin"
-if [ -e "$PATH_HEROKU" ]; then AddToPath "$PATH_HEROKU"; fi
-
-# Spark installation setup
-SPARK_HOME=/opt/spark-1.6.0-bin-hadoop2.6
-if ! [ -e $SPARK_HOME ]; then SPARK_HOME=/cs/work/scratch/spark-1.6.0-bin-hadoop2.6; fi
-if ! [ -e $SPARK_HOME ]; then SPARK_HOME=""; fi
-
-if [ -n "$SPARK_HOME" ]; then
-    export SPARK_HOME
-    AddToPath "$SPARK_HOME/bin"
-    export PYTHONPATH=$SPARK_HOME/python/:$PYTHONPATH
-    export PYTHONPATH=$SPARK_HOME/python/lib/py4j-0.9-src.zip:$PYTHONPATH
-fi
-
-# User ruby paths
-# NOTE: This very simply just takes the highest version path and adds that to $PATH
-_RUBY_GEM_PATH="$HOME/.gem/ruby"
-if [ -e "$_RUBY_GEM_PATH" ]; then
-    _RUBY_VERSION=$(ls $_RUBY_GEM_PATH | sort | tail -n 1);
-    _RUBY_PATH="$_RUBY_GEM_PATH/$_RUBY_VERSION/bin"
-
-    if [ -e "$_RUBY_PATH" ]; then
-        AddToPath $_RUBY_PATH
-    fi
-fi
+StartupScript "heroku.sh"
+StartupScript "nvm.sh"
+StartupScript "ruby.sh"
+# StartupScript "profile.spark_env.sh""
 
 # set PATH so it includes user's private bin if it exists
 if [ -e "$HOME/personal/bin" ]; then AddToPath "$HOME/personal/bin"; fi
@@ -81,13 +63,10 @@ if [ ! -e $TMP_DIR ] || [ ! -O $TMP_DIR ]; then
 fi
 
 # Powerline
-if [ -n "$(which powerline-daemon)" ]; then
-    powerline-daemon -q
-fi
+# if [ -n "$(which powerline-daemon)" ]; then
+#     powerline-daemon -q
+# fi
 
-# NVM
-export NVM_DIR="/home/ishkamiel/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 ############################################################################################
 # Any required stuff should be but above this, the next steps could result in launchiing

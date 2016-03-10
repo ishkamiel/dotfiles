@@ -51,7 +51,9 @@ conky.config = {
     extra_newline = false,
     own_window = true,
     own_window_class = 'Conky',
-    own_window_type = 'desktop',
+    own_window_type = 'normal',
+	own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+	own_window_transparent = true,
 	own_window_argb_visual = true,
 	own_window_argb_value = 0,
     stippled_borders = 0,
@@ -63,7 +65,7 @@ conky.config = {
 }
 
 conky.text = [[
-${scroll 16 $nodename - $sysname $kernel on $machine | }
+${scroll 30 $nodename - $sysname $kernel on $machine | }
 $hr
 ${color grey}Uptime:$color $uptime
 ${color grey}Frequency (in MHz):$color $freq
@@ -85,5 +87,7 @@ ${color lightgrey} ${top name 3} ${top pid 3} ${top cpu 3} ${top mem 3}
 ${color lightgrey} ${top name 4} ${top pid 4} ${top cpu 4} ${top mem 4}
 
 ${color grey}Ubuntu Security Notices:
-${color #7f8ed3}${execi 300 rsstail -1 -N -n 5 -u http://www.ubuntu.com/usn/rss.xml}
+${color #7f8ed3}${rss http://www.ubuntu.com/usn/rss.xml 1 item_titles 5}
+
+${color #7f8ed3}${execi 300 repo_status.sh}
 ]]

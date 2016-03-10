@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Fix desktop background and right-click
-gsettings set org.gnome.settings-daemon.plugins.background active true
+gsettings set org.gnome.settings-daemon.plugins.background active false
 # Disable annoying search on type thing
 gsettings set org.gnome.nautilus.preferences enable-interactive-search false
 # Enable delete contect menu action

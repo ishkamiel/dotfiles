@@ -270,6 +270,13 @@ let plugin = s:PdPluginManager.add('commentary', [
             \])
 
 " }}}
+" -------------------------- nerdcommenter (p_nerdcommenter) {{{
+
+let p_nerdcommenter = s:PdPluginManager.add('p_nerdcommenter', [
+            \'scrooloose/nerdcommenter'
+            \])
+
+" }}}
 " -------------------------- Syntastic {{{
 
 let plugin = s:PdPluginManager.add('syntastic.vim', [
@@ -361,7 +368,7 @@ endfunction
 " }}}
 
 " let p_nerdtree.enabled=0
-let p_airline.enabled=0
+" let p_airline.enabled=0
 " let p_ycm.enabled=0
 " let p_ultisnips.enabled=0
 
@@ -474,7 +481,7 @@ augroup END
 "
 call s:PdPluginManager.configureAll()
 
-python from powerline.vim import setup as powerline_setup
-python powerline_setup()
-python del powerline_setup
+" python from powerline.vim import setup as powerline_setup
+" python powerline_setup()
+" python del powerline_setup
 
