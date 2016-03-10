@@ -12,11 +12,11 @@ export EDITOR=/usr/bin/vim
 
 TMP_DIR=$HOME/tmp
 
-# AddToPath PATH_TO_ADD [QUIET]
+# AddToPath PATH_TO_ADD [VERBOSE]
 # Simple function to add paths without including directories or missing paths
 AddToPath() {
-    VERBOSE=1
-    if [ -n "${2}" ]; then VERBOSE=; fi;
+    VERBOSE=
+    if [ -n "${2}" ]; then VERBOSE=1; fi;
 
     # Catch typos and bad additions
     if [ ! -e "${1}" ] || [ ! -d "${1}" ]; then
@@ -67,6 +67,7 @@ fi
 # set PATH so it includes user's private bin if it exists
 if [ -e "$HOME/personal/bin" ]; then AddToPath "$HOME/personal/bin"; fi
 if [ -e "$HOME/bin" ]; then AddToPath "$HOME/bin"; fi
+AddToPath "$HOME/.local/bin"
 
 # Make sure we have a tempdirectory that we own
 if [ ! -e $TMP_DIR ] || [ ! -O $TMP_DIR ]; then
@@ -77,6 +78,11 @@ if [ ! -e $TMP_DIR ] || [ ! -O $TMP_DIR ]; then
     setfacl -d -m g::- $TMP_DIR/.
     setfacl -d -m o::- $TMP_DIR/.
     mkdir $TMP_DIR/vimbackup
+fi
+
+# Powerline
+if [ -n "$(which powerline-daemon)" ]; then
+    powerline-daemon -q
 fi
 
 # NVM

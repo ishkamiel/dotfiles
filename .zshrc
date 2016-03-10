@@ -52,6 +52,7 @@ unsetopt sharehistory
 
 bindkey '^R' history-incremental-search-backward
 
+# . /usr/share/powerline/bindings/zsh/powerline.zsh
 
 
 # ##########################################

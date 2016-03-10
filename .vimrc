@@ -153,16 +153,16 @@ endfunction
 
 let s:PdPluginManager = InitPdPluginManager()
 
-" -------------------------- NERDTree {{{
+" -------------------------- NERDTree (p_nerdtree) {{{
 " https://github.com/scrooloose/nerdtree
 
-let plugin = s:PdPluginManager.add('nerdtree', [
+let p_nerdtree = s:PdPluginManager.add('nerdtree', [
             \'scrooloose/NERDTree',
             \'jistr/vim-nerdtree-tabs',
             \'Xuyuanp/nerdtree-git-plugin'
             \])
 
-function plugin.conditional() dict
+function p_nerdtree.conditional() dict
     if exists("$SSH_TTY")
         " Seems to be causing exessive network usage...
         return 0
@@ -170,7 +170,7 @@ function plugin.conditional() dict
     return 1
 endfunction
 
-function plugin.config() dict
+function p_nerdtree.config() dict
     " NERDTree_tabs manages most of this...
     " autocmd vimenter * NERDTree
     " map <C-n> :NERDTreeToggle<CR>
@@ -181,7 +181,6 @@ function plugin.config() dict
 
     " Open NERDTree on console vim startup
     let g:nerdtree_tabs_open_on_console_startup=1 " (default: 0)
-
 
     " On startup, focus NERDTree if opening a directory, focus file if opening a file.
     " (When set to 2, always focus file window after startup).
@@ -308,13 +307,13 @@ endfunction
 "             \])
 
 " }}}
-" -------------------------- vim-airline {{{
+" -------------------------- vim-airline (p_airline) {{{
 
-let plugin = s:PdPluginManager.add('airline', [
+let p_airline = s:PdPluginManager.add('airline', [
             \'bling/vim-airline'
             \])
 
-function plugin.config() dict
+function p_airline.config() dict
     let g:airline#extensions#tabline#enabled = 1
     let g:airline_powerline_fonts = 1
 endfunction
@@ -361,6 +360,8 @@ endfunction
 
 " }}}
 
+" let p_nerdtree.enabled=0
+let p_airline.enabled=0
 " let p_ycm.enabled=0
 " let p_ultisnips.enabled=0
 
@@ -470,5 +471,10 @@ augroup trimWhiteSpace
 augroup END
 
 " }}}
-
+"
 call s:PdPluginManager.configureAll()
+
+python from powerline.vim import setup as powerline_setup
+python powerline_setup()
+python del powerline_setup
+
