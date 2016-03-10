@@ -9,80 +9,32 @@
 #umask 022
 
 export EDITOR=/usr/bin/vim
+export DOTFILES_HOME="${HOME}/.dotfiles"
+export ISHLIB="${DOTFILES_HOME}/scripts/ishlib.sh"
+export TMPDIR="${HOME}/tmp"
 
-TMP_DIR=$HOME/tmp
+# Load ishlib
+. "${ISHLIB}" || echo "failed to source ishlib at ${ISHLIB}" > DOT_PROFILE_FAIL
 
-# AddToPath PATH_TO_ADD [VERBOSE]
-# Simple function to add paths without including directories or missing paths
-AddToPath() {
-    VERBOSE=
-    if [ -n "${2}" ]; then VERBOSE=1; fi;
+# Initialize error log and temporary directory
+InitErrorLog "${HOME}/.profile_errors"
+InitTempDir "${TMPDIR}"
 
-    # Catch typos and bad additions
-    if [ ! -e "${1}" ] || [ ! -d "${1}" ]; then
-        if [ -n "$VERBOSE" ]; then echo "Trying to add non-existing path ${1}!"; fi
-        return 0
-    fi
+# Source applicatoin specific environment setup
+SourceFile "${DOTFILES_HOME}/startup/p.heroku.sh"
+SourceFile "${DOTFILES_HOME}/startup/p.nvm.sh"
+SourceFile "${DOTFILES_HOME}/startup/p.ruby.sh"
 
-    if [[ "$PATH" =~ (^|:)"${1}"(:|$) ]]; then
-        if [ -n "$VERBOSE" ]; then echo "Already in path ${1}, skipping"; fi
-        return 0
-    fi
+# If available, source non-version-controller .profile_local
+SourceFile "${HOME}/.profile_local" 1
 
-    export PATH="$PATH:${1}"
-}
-
-STARTUP_DIR="$HOME/.dotfiles/startup"
-StartupScript() {
-    [ -s "${STARTUP_DIR}/${1}" ] && . "${STARTUP_DIR}/${1}"
-}
+# Add some paths
+AddToPath "${HOME}/personal/bin"
+AddToPath "${HOME}/bin"
+AddToPath "${HOME}/.local/bin" 1
 
 
-# export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
 
-
-StartupScript "heroku.sh"
-StartupScript "nvm.sh"
-StartupScript "ruby.sh"
-# StartupScript "profile.spark_env.sh""
-
-# set PATH so it includes user's private bin if it exists
-if [ -e "$HOME/personal/bin" ]; then AddToPath "$HOME/personal/bin"; fi
-if [ -e "$HOME/bin" ]; then AddToPath "$HOME/bin"; fi
-AddToPath "$HOME/.local/bin"
-
-# Make sure we have a tempdirectory that we own
-if [ ! -e $TMP_DIR ] || [ ! -O $TMP_DIR ]; then
-    if [ -L $TMP_DIR ]; then
-        rm $TMP_DIR
-    fi
-    ln -s $(mktemp -d) $TMP_DIR
-    setfacl -d -m g::- $TMP_DIR/.
-    setfacl -d -m o::- $TMP_DIR/.
-    mkdir $TMP_DIR/vimbackup
-fi
-
-# Powerline
-# if [ -n "$(which powerline-daemon)" ]; then
-#     powerline-daemon -q
-# fi
-
-
-############################################################################################
-# Any required stuff should be but above this, the next steps could result in launchiing
-# other processes, skipping files, or sourcing all sorts of stuff.
-
-BIN_BYOBU_BACKEND=/usr/bin/byobu-tmux
-BIN_ZSH=/usr/bin/zsh
-
-if [ -e "$HOME/.profile_local" ];then
-    . $HOME/.profile_local
-fi
-
-# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    if [ -f "$HOME/.bashrc" ]; then
-        . "$HOME/.bashrc"
-    fi
-fi
+# Source .bashrc if running bash (not sure if this is needed?)
+[ -n "${BASH_VERSION}" ] && [ -f "${HOME}/.bashrc" ] && . "${HOME}/.bashrc"
 
