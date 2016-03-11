@@ -12,6 +12,8 @@ export DOTFILES_CONFIG="${DOTFILES_HOME}/config.yaml"
 export ISHLIB="${DOTFILES_HOME}/scripts/ishlib.sh"
 export NVM_DIR="${HOME}/.nvm"
 
+MY_TMPDIR="${HOME}/tmp"
+
 # Load ishlib
 # DEBUG=1 # Additional logging for ishlib functions..
 . "${ISHLIB}" || echo "failed to source ishlib at ${ISHLIB}" > DOT_PROFILE_FAIL
@@ -20,7 +22,10 @@ export NVM_DIR="${HOME}/.nvm"
 InitErrorLog "${HOME}/.profile_errors"
 
 # Use ishlib InitTempDir to initialize a (somewhat) private temporary directory inside /tmp
-InitTempDir "${HOME}/tmp"
+# NOTE: Not really secure!
+if InitTempDir "${MY_TMPDIR}"; then
+    export TMPDIR="${MY_TMPDIR}"
+fi
 
 # Applicatoin specific environment setup
 SourceFile "${DOTFILES_HOME}/scripts/loadNvm.sh"

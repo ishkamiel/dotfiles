@@ -1,7 +1,6 @@
 #! /bin/sh
 
-
-dotfilesUpdate() {
+dotbotUpdate() {
     dotbot="${DOTFILES_HOME}/dotbot/bin/dotbot"
 
     if [ ! -e ${DOTFILES_CONFIG} ]; then
@@ -15,4 +14,3 @@ dotfilesUpdate() {
     # git submodule update --init --recursive "${DIR}"
     "${dotbot}" -d "${DOTFILES_HOME}" -c "${DOTFILES_CONFIG}"
 }
-

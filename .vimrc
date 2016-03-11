@@ -396,7 +396,7 @@ set t_vb=
 " set textwidth=100               " text width for autoformatt stuff, or something
 let &textwidth=s:pd_textwidth
 " set textwidth=s:pd_textwidth
-" set autochdir            		" change the current working directory
+set autochdir            		" change the current working directory
 set exrc                        " find vimrc in working directory
 set secure                      " secure loading of non-default vimrc
 set pastetoggle=<F9>            " Toggle pasting mode (disables indenting)

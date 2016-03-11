@@ -1,63 +1,53 @@
-# Load ishlib helper functions
-. "${ISHLIB}" || echo "failed to source ishlib at ${ISHLIB}" > DOT_ZSHRC_FAIL
-
 # The .bashrc file is setup to automatically switch over to zsh, unless the NOBASH2ZSH
-# variable is set. Setting it here allows us to launch bash without reverting back to zsh
+# variable is set. Setting it here allows bash to be launched without automatically reverting
+# back to bash.
 export NOBASH2ZSH=1
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 export ZSH_CUSTOM=$HOME/.zsh-custom
 
-
-ZSH_URL="https://github.com/robbyrussell/oh-my-zsh.git"
-B_ENV=/usr/bin/env
-B_GIT=/usr/bin/git
-
-DEFAULT_USER='ishkamiel'
 ZSH_THEME="agnoster"
+
+# Used by the agnoster theme
+DEFAULT_USER='ishkamiel'
 
 # Oh-My-Zsh options
 CASE_SENSITIVE="true"
 COMPLETION_WAITING_DOTS="true"
-# ZSH_CUSTOM=/path/to/new-custom-folder
-plugins=(vi-mode gitignore)
+
+# Oh-My-Zsh plugins
+plugins=(\
+    vi-mode \
+    gitignore \
+    command-not-found \
+    colored-man-pages \
+    vundle \
+    # custom plugins
+    dotbot \
+    )
 
 # User configuration
 INC_APPEND_HISTORY=
 
+# Check if Oh-My-Zsh is installed, and possible install
+if [ ! -e "${ZSH}" ]; then; echo "clone oh-my-zsh?"; read -q answer; if [ "y" -eq "$answer" ]; then
+    git clone --depth=1 "https://github.com/robbyrussell/oh-my-zsh.git" "${ZSH}"
+fi; fi;
 
-# Install oh-my-zsh if not found
-if ! [ -e $ZSH ]; then
-    echo "oh-my-zsh not found, clone?"
-    read -q answer
-    if [ "y" -eq "$answer" ]; then
-        echo "Okay, trying to clone into $ZSH"
+# Load Oh-My-Zsh
+[ -e "${ZSH}/oh-my-zsh.sh" ] && source "${ZSH}/oh-my-zsh.sh"
 
-        # Clone!
-        $B_ENV $B_GIT clone --depth=1 $ZSH_URL $ZSH
-
-        # Just change over to a new instance
-        echo "Ready to start zsh!"
-        #exec /usr/bin/zsh
-    fi
-fi
-
-if [ -e "$ZSH/oh-my-zsh.sh" ]; then
-    source $ZSH/oh-my-zsh.sh
-fi
-
+# Additional aliases
 alias rm="rm -i"
 alias cp="cp -i"
 alias mv="mv -i"
 
-zstyle ':completion:*' special-dirs false
+# For "normal" .. .
+zstyle ':completion:*' special-dirs true
+
+# Don't share history between zsh instances
 unsetopt sharehistory
 
+# Ctrl-R backward search
 bindkey '^R' history-incremental-search-backward
-
-# Load commands/functions for dotfile management
-SourceFile "${DOTFILES_HOME}/scripts/dotfileFunctions.sh"
-
-# Remove ishlib functions
-CleanIshlib

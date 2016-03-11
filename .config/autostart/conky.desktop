@@ -2,7 +2,7 @@
 Name=Conky
 GenericName=
 Comment=
-Exec=/usr/bin/conky
+Exec=/home/ishkamiel/.conky/start_conky.sh
 Terminal=false
 Type=Application
 Icon=conky

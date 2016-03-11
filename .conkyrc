@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ]]
 
 conky.config = {
-    alignment = 'top_right',
+    alignment = 'top_left',
     background = true,
     border_width = 1,
     cpu_avg_samples = 2,
@@ -85,9 +85,4 @@ ${color lightgrey} ${top name 1} ${top pid 1} ${top cpu 1} ${top mem 1}
 ${color lightgrey} ${top name 2} ${top pid 2} ${top cpu 2} ${top mem 2}
 ${color lightgrey} ${top name 3} ${top pid 3} ${top cpu 3} ${top mem 3}
 ${color lightgrey} ${top name 4} ${top pid 4} ${top cpu 4} ${top mem 4}
-
-${color grey}Ubuntu Security Notices:
-${color #7f8ed3}${rss http://www.ubuntu.com/usn/rss.xml 10 item_titles 5}
-
-${color #7f8ed3}${texeci 30 repo_status.sh}
 ]]

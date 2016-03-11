@@ -9,6 +9,7 @@
     ~/.vimrc: .vimrc
     ~/.inputrc: .inputrc
     ~/.conkyrc: .conkyrc
+    ~/.conky: .conky
     ~/.config/autostart/guake.desktop:
       create: true
       path: .config/autostart/guake.desktop
@@ -25,18 +26,8 @@
     ~/.zprofile: .zprofile
     ~/.profile: .profile
     ~/.zsh_favlist: .zsh_favlist
-    ~/.zsh-custom/themes/agnoster.zsh-theme:
-      create: true
-      path: .zsh-custom/themes/agnoster.zsh-theme
+    ~/.zsh-custom: .zsh-custom
 - shell:
-  -
-    command: scripts/installOhMyZsh.sh
-    stdin: true
-    stdout: true
-  -
-    command: scripts/installVundle.sh
-    stdin: true
-    stdout: true
   -
     command: scripts/gsettings.sh
     stdin: true
