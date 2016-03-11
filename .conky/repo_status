@@ -40,5 +40,6 @@ conky.config = {
 }
 
 conky.text = [[
+${alignr}${color #555555}repos
 ${color #d37f8e}${texeci 10 repo_status.sh}
 ]]
