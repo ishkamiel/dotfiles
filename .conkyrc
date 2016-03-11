@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 conky.config = {
     alignment = 'top_right',
-    background = false,
+    background = true,
     border_width = 1,
     cpu_avg_samples = 2,
 	default_color = 'white',
@@ -53,7 +53,7 @@ conky.config = {
     own_window_class = 'Conky',
     own_window_type = 'normal',
 	own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
-	own_window_transparent = true,
+	--own_window_transparent = true,
 	own_window_argb_visual = true,
 	own_window_argb_value = 0,
     stippled_borders = 0,
@@ -65,11 +65,9 @@ conky.config = {
 }
 
 conky.text = [[
-${scroll 30 $nodename - $sysname $kernel on $machine | }
 $hr
 ${color grey}Uptime:$color $uptime
 ${color grey}Frequency (in MHz):$color $freq
-${color grey}Frequency (in GHz):$color $freq_g
 ${color grey}RAM Usage:$color $mem/$memmax - $memperc% ${membar 4}
 ${color grey}Swap Usage:$color $swap/$swapmax - $swapperc% ${swapbar 4}
 ${color grey}CPU Usage:$color $cpu% ${cpubar 4}
@@ -77,6 +75,8 @@ ${color grey}Processes:$color $processes  ${color grey}Running:$color $running_p
 $hr
 ${color grey}File systems:
  / $color${fs_used /}/${fs_size /} ${fs_bar 6 /}
+ /localstuff $color${fs_used /localstuff}/${fs_size /localstuff} ${fs_bar 6 /localstuff}
+ /stuff $color${fs_used /stuff}/${fs_size /stuff} ${fs_bar 6 /stuff}
 ${color grey}Networking:
 Up:$color ${upspeed eth0} ${color grey} - Down:$color ${downspeed eth0}
 $hr
@@ -87,7 +87,7 @@ ${color lightgrey} ${top name 3} ${top pid 3} ${top cpu 3} ${top mem 3}
 ${color lightgrey} ${top name 4} ${top pid 4} ${top cpu 4} ${top mem 4}
 
 ${color grey}Ubuntu Security Notices:
-${color #7f8ed3}${rss http://www.ubuntu.com/usn/rss.xml 1 item_titles 5}
+${color #7f8ed3}${rss http://www.ubuntu.com/usn/rss.xml 10 item_titles 5}
 
-${color #7f8ed3}${execi 300 repo_status.sh}
+${color #7f8ed3}${texeci 30 repo_status.sh}
 ]]

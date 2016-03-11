@@ -10,21 +10,21 @@ export EDITOR=/usr/bin/vim
 export DOTFILES_HOME="${HOME}/.dotfiles"
 export DOTFILES_CONFIG="${DOTFILES_HOME}/config.yaml"
 export ISHLIB="${DOTFILES_HOME}/scripts/ishlib.sh"
-export TMPDIR="${HOME}/tmp"
 export NVM_DIR="${HOME}/.nvm"
 
 # Load ishlib
+# DEBUG=1 # Additional logging for ishlib functions..
 . "${ISHLIB}" || echo "failed to source ishlib at ${ISHLIB}" > DOT_PROFILE_FAIL
 
 # Initialize separate error log for .profile
 InitErrorLog "${HOME}/.profile_errors"
 
 # Use ishlib InitTempDir to initialize a (somewhat) private temporary directory inside /tmp
-InitTempDir "${TMPDIR}"
+InitTempDir "${HOME}/tmp"
 
 # Applicatoin specific environment setup
 SourceFile "${DOTFILES_HOME}/scripts/loadNvm.sh"
-SourceFile "${DOTFILES_HOME}/startup/loadRubyGemPath.sh"
+SourceFile "${DOTFILES_HOME}/scripts/loadRubyGemPath.sh"
 # Add some paths
 AddToPath "/usr/local/heroku/bin"
 AddToPath "${HOME}/personal/bin"

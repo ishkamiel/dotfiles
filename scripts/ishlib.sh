@@ -1,10 +1,4 @@
 #! /bin/sh
-#
-# ishlib.sh
-# Copyright (C) 2016 ishkamiel <ishkamiel@thigreal>
-#
-# Distributed under terms of the MIT license.
-#
 
 _ISHLIB_ERRORFILE="${HOME}/.ishlib_errors"
 
@@ -25,15 +19,13 @@ InitTempDir() {
     tempdir=${1}
 
     if [ ! -e ${tempdir} ] || [ ! -O ${tempdir} ]; then
-        if [ -L ${tempdir} ]; then
-            # Remove dead link
-            rm ${tempdir}
-        fi
-        if command mktemp; then
+        # Remove possibe dead link
+        [ -L ${tempdir} ] && rm -f ${tempdir}
+
+        if command -v mktemp > /dev/null; then
             ln -s $(mktemp -d) ${tempdir}
-            if command setfacl; then
-                setfacl -d -m g::- ${tempdir}/.
-                setfacl -d -m o::- ${tempdir}/.
+            if command -v setfacl > /dev/null; then
+                setfacl -d -m o::- "${tempdir}/."
             else
                 ErrorLog "Cannot execute setfacl"
             fi
@@ -45,25 +37,26 @@ InitTempDir() {
 }
 
 AddToPath() {
-    newpath=${1}
+    newpath="${1}"
+    no_error="${2}"
 
     # Catch typos and bad additions
-    if [ ! -e ${newpath} ] || [ ! -d ${newpath} ]; then
-        ErrorLog "Trying to add non-existing path ${newpath}!"
+    if [ ! -e "${newpath}" ] || [ ! -d "${newpath}" ]; then
+        [ ! -n "${no_error}" ] && ErrorLog "Trying to add non-existing path ${newpath}"
     elif [[ "$PATH" =~ (^|:)"${newpath}"(:|$) ]]; then
-        ErrorLog "Already in path ${newpath}, skipping"
+        [ $DEBUG ] && ErrorLog "Already in path ${newpath}, skipping"
     else
         export PATH="$PATH:${newpath}"
     fi
 }
 
 SourceFile() {
-    filename=${1}
-    no_error=${2}
+    filename="${1}"
+    no_error="${2}"
 
-    if [ -s ${filename} ]; then
+    if [ -s "${filename}" ]; then
         . ${filename}
-    elif [ ! $no_error ]; then
+    elif [ ! -n "${no_error}" ]; then
         ErrorLog "SourceFile cannot find ${filename}"
     fi
 }

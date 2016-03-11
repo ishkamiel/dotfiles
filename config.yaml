@@ -12,6 +12,9 @@
     ~/.config/autostart/guake.desktop:
       create: true
       path: .config/autostart/guake.desktop
+    ~/.config/autostart/conky.desktop:
+      create: true
+      path: .config/autostart/conky.desktop
     ~/.config/terminator/config:
       create: truconfig
       path: .config/terminator/config

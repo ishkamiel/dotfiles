@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Conky
+GenericName=
+Comment=
+Exec=/usr/bin/conky
+Terminal=false
+Type=Application
+Icon=conky
+Categories=
+StartupNotify=false
