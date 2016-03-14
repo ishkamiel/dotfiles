@@ -6,6 +6,6 @@ conky -c ${DOTFILES_HOME}/.conky/configs/rss_feeds
 conky -c ${DOTFILES_HOME}/.conky/configs/system
 conky -c ${DOTFILES_HOME}/.conky/configs/cpu
 conky -c ${DOTFILES_HOME}/.conky/configs/ram
-conky -c ${DOTFILES_HOME}/.conky/configs/files
+conky -c ${DOTFILES_HOME}/.conky/configs/files_$(hostname)
 
 #conky -c ${DOTFILES_HOME}/.conky/default

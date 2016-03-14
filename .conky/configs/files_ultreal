@@ -22,7 +22,7 @@ conky.config = {
     minimum_height = 165,
     maximum_width = 295,
     gap_x = 0,
-    gap_y = 475,
+    gap_y = 415,
 
     -- ------------------------- Font
 
@@ -57,7 +57,8 @@ conky.text = [[
 ${voffset 25}${GOTO 50}${font}File System
 
 ${template0 /}
-${template0 /localstuff}
 ${template0 /stuff}
+${template0 /localstuff}
+
 ${image ~/.conky/graphics/files.png -p 0,15}
 ]];
