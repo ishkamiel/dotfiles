@@ -22,7 +22,7 @@ conky.config = {
     minimum_height = 165,
     maximum_width = 295,
     gap_x = 0,
-    gap_y = 470,
+    gap_y = 475,
 
     -- ------------------------- Font
 
