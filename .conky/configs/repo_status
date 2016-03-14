@@ -28,10 +28,10 @@ conky.config = {
 -- ------------------------- Font
     use_xft = true,
     -- xftalpha = 0.3,
-    font = 'DejaVu Sans Mono:size=14',
+    font = 'Hack regular:size=12',
 
 -- ------------------------- Color
-    default_color = '704045',
+    default_color = '504070',
 
 -- ------------------------- Other
     update_interval = 5
