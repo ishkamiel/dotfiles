@@ -24,7 +24,7 @@ conky.config = {
 
     -- ------------------------- Font
     use_xft = true,
-    xftalpha = 0.5,
+    -- xftalpha = 0.5,
     font = 'DejaVu Sans Mono:size=14',
 
     -- ------------------------- Color

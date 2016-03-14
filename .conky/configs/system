@@ -24,7 +24,7 @@ conky.config = {
 
 -- ------------------------- Font
 	use_xft = true,
-	xftalpha = 0.8,
+	-- xftalpha = 0.8,
 	override_utf8_locale = true,
 
 	draw_shades = true,
@@ -45,7 +45,7 @@ conky.config = {
 
 conky.text = [[
 ${voffset 25}${GOTO 50}${font}System
-${GOTO 50}${font}Uptime: ${font Monofur:size=8}${uptime_short}${alignr}(${color0}${exec ~/.conky/ConkyBar/scripts/uptime.sh}${color})
+${GOTO 50}${font}Uptime: ${font Monofur:size=8}${uptime_short}${alignr}(${color0}${exec awk '{printf "%.0f\n", $1+1}' /proc/uptime}${color})
 
 ${font Monofur:size=8}${GOTO 50}${font}Processes: ${font Monofur:size=8}${processes} (${color0}${running_processes} ${color}running)
 ${GOTO 50}${font}Threads: ${font Monofur:size=8}${running_threads}

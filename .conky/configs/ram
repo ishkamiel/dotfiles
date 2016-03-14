@@ -24,10 +24,10 @@ conky.config = {
 
 -- ------------------------- Font
 	use_xft = true,
-	xftalpha = 0.8,
+	-- xftalpha = 0.8,
 	override_utf8_locale = true,
 
-	draw_shades = true,
+	draw_shades = false,
 	default_shade_color = 'black',
 
 	draw_borders = false,
