@@ -1,31 +1,32 @@
 - clean: [ '~', '~/.config', '~/.ssh', '~/.config/upstart', '~/.config/autostart' ]
 - link:
     ~/.bashrc: .bashrc
+    ~/.config/autostart/conky.desktop:
+      create: true
+      path: .config/autostart/conky.desktop
+    ~/.config/autostart/guake.desktop:
+      create: true
+      path: .config/autostart/guake.desktop
+    ~/.config/gtk-3.0/gtk.css:
+      create: true
+      path: .config/gtk-3.0/gtk.css
+    ~/.config/terminator/config:
+      create: truconfig
+      path: .config/terminator/config
+    ~/.conky: .conky
+    ~/.fonts/ge-inspira.ttf:
+      create: true
+      path: .fonts/ge-inspira.ttf
     ~/.gitconfig: .gitconfig
+    ~/.inputrc: .inputrc
+    ~/.profile: .profile
     ~/.ssh/config:
       create: true
       path: .ssh/config
     ~/.tmux.conf: .tmux.conf
     ~/.vimrc: .vimrc
-    ~/.inputrc: .inputrc
-    ~/.conkyrc: .conkyrc
-    ~/.conky: .conky
-    ~/.config/autostart/guake.desktop:
-      create: true
-      path: .config/autostart/guake.desktop
-    ~/.config/autostart/conky.desktop:
-      create: true
-      path: .config/autostart/conky.desktop
-    ~/.config/terminator/config:
-      create: truconfig
-      path: .config/terminator/config
-    ~/.config/gtk-3.0/gtk.css:
-      create: true
-      path: .config/gtk-3.0/gtk.css
-    ~/.zshrc: .zshrc
     ~/.zprofile: .zprofile
-    ~/.profile: .profile
-    ~/.zsh_favlist: .zsh_favlist
+    ~/.zshrc: .zshrc
     ~/.zsh-custom: .zsh-custom
 - shell:
   -
