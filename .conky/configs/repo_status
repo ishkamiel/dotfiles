@@ -1,7 +1,7 @@
 -- vim: ft=lua
 
 conky.config = {
--- ------------------------- Windows Settings
+    -- ------------------------- Windows Settings
     own_window = true,
     own_window_class = 'Conky',
     own_window_type = 'normal',
@@ -12,31 +12,31 @@ conky.config = {
 
     background = true,
 
--- ------------------------- Position
+    -- ------------------------- Position
     alignment = 'top_right',
     gap_x = 10,
     gap_y = 100,
     minimum_height = 5,
     minimum_width = 5,
 
--- ------------------------- Drawing
+    -- ------------------------- Drawing
     draw_borders = false,
     draw_graph_borders = true,
     draw_outline = false,
     draw_shades = false,
 
--- ------------------------- Font
+    -- ------------------------- Font
     use_xft = true,
     -- xftalpha = 0.3,
     font = 'Hack regular:size=12',
 
--- ------------------------- Color
+    -- ------------------------- Color
     default_color = '504070',
 
--- ------------------------- Other
-    update_interval = 5
+    -- ------------------------- Other
+    update_interval = 2
 }
 
 conky.text = [[
-${color}${texeci 5 repo_status.sh}
+${color}${texeci 2 repo_status.sh}
 ]]

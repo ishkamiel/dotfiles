@@ -4,7 +4,7 @@ CONKY_LOG="${TMPDIR}/log/conky"
 CONF_DIR="${HOME}/.conky/configs"
 CONFIGS=(
 clock
-repo
+repo_status
 rss_feeds
 system
 cpu
@@ -14,6 +14,8 @@ files
 
 # create the log directory unless it exists
 [ -n "${CONKY_LOG}" ] && mkdir -p ${CONKY_LOG}
+
+# TODO log non existing files!
 
 h=$(hostname)
 for c in "${CONFIGS[@]}"; do
