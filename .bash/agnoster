@@ -1,4 +1,4 @@
-# vim: ft=sh fdm=marker foldlevel=0
+# vim: ft=sh
 
 # This is originally based on agnoster's Theme for ZSH
 #   https://gist.github.com/3712874
@@ -6,10 +6,8 @@
 #   https://gist.github.com/kruton/8345450
 
 CURRENT_BG='NONE'
-# SEGMENT_SEPARATOR='⮀'
 SEGMENT_SEPARATOR='\ue0b0'
 
-# ansi colors 'n stuff {{{
 text_effect() {
   case "$1" in
     reset)     echo 0;;
@@ -62,9 +60,7 @@ ansi_single() {
   echo -ne "\033[${1}m"
 }
 
-# }}}
-
-prompt_segment() { # {{{
+prompt_segment() {
     # Begin a segment. Takes two arguments, background and foreground. Both can be omitted,
     # rendering default background/foreground.
     local bg fg
@@ -93,7 +89,7 @@ prompt_segment() { # {{{
 
     [ -n "${3}" ] && echo -ne "$3"
     CURRENT_BG=$1
-} # }}}
+}
 
 ### Prompt components
 # Each component will draw itself, and hide itself if no information needs to be shown
@@ -103,7 +99,7 @@ prompt_context() {
     local user=`whoami`
 
     if [[ $user != $DEFAULT_USER || -n $SSH_CLIENT ]]; then
-        prompt_segment black default "$user@\h"
+        prompt_segment cyan black "$user@$(hostname)"
     fi
 }
 
@@ -112,16 +108,13 @@ git_status_dirty() {
     [[ -n $dirty ]] && echo "*"
 }
 
-
 # Git: branch/detached head, dirty status
-prompt_git() {
+_prompt_git() {
     local ref dirty
     local symbol_repo=""
-    local symbod_unsta="●"
-    local symbol_uncom="✚"
 
     if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
-        local staus=""
+        local status=""
         local s_uncom=
         local d_unsta=
         local d_untra=
@@ -129,32 +122,39 @@ prompt_git() {
 
         #ZSH_THEME_GIT_PROMPT_DIRTY='±'
 
+        IFS=''
         while read line; do
-            if [[ "${line}" =~ "^##" ]]; then
-                # TODO parse branch
+            re_first='^##[[:space:]](.+)\.\.\.'
+            if [[ "${line}" =~ ${re_first} ]]; then
+                branch=${BASH_REMATCH[1]}
                 [[ "${line}" =~ "ahead" ]] && ahead=1
-            elif [[ "${line}" =~ "^??" ]]; then;  d_untra=1
-            elif [[ "${line}" =~ "^ \w" ]]; then; d_unsta=1
-            elif [[ "${line}" =~ "^\w " ]]; then; d_uncom=1
+            elif [[ "${line}" =~ ^\?\? ]]; then
+                d_untra=1
+            elif [[ "${line}" =~ ^.[[:alpha:]] ]]; then
+                d_unsta=1
+            elif [[ "${line}" =~ ^[[:alpha:]][[:space:]] ]]; then
+                d_uncom=1
+            else
+                >&2 echo "_prompt_git: ${line}"
             fi
-        done < <(git status -sb | head -n2)
-
-        dirt
+        done < <(git status -sb)
+        unset IFS
 
         if [ -n "${d_unsta}" ] || [ -n "${d_untra}" ]; then
-            status="${status}${symbol_unsta}";
+            status="${status}●"
         fi
 
         if [ -n "${d_uncom}" ]; then
-            status="${status}${symbol_uncom}";
+            status="${status}✚"
         fi
 
         if [ -n "${d_unsta}" ] || [ -n "${d_untra}" ] || [ -n "${d_uncom}" ]; then
-            prompt_segment red black
+            prompt_segment magenta black
         else
             prompt_segment green black
         fi
-        echo -n "${ref/refs\/heads\// ${symbol_repo} }$dirty"
+
+        echo -n " ${symbol_repo} ${branch} ${status}"
     fi
 }
 
@@ -162,7 +162,7 @@ prompt_git() {
 prompt_dir() {
     prompt_segment blue black
 
-    echo -ne $(pwd | sed "s|^$HOME|~|" | awk -F '/' '{
+    echo -ne " "$(pwd | sed "s|^$HOME|~|" | awk -F '/' '{
         i=1;
         while (i < NF) {
             if (length($i) > 4) {
@@ -184,7 +184,7 @@ prompt_dir() {
 prompt_status() {
     local symbols
     symbols=()
-    [[ $RETVAL -ne 0 ]] && symbols+="(ansi_single $(fg_color red))✘"
+    [[ $RETVAL -ne 0 ]] && symbols+="$(ansi_single $(fg_color red))✘"
     [[ $UID -eq 0 ]] && symbols+="$(ansi_single $(fg_color yellow))⚡"
     [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="$(ansi_single $(fg_color cyan))⚙"
 
@@ -211,9 +211,9 @@ build_prompt() {
     RETVAL=$?
     echo -ne "$(ansi_single $(text_effect reset))"
     prompt_status
-    #prompt_context
+    prompt_context
     prompt_dir
-    prompt_git
+    _prompt_git
     prompt_end
 }
 
