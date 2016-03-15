@@ -1,11 +1,30 @@
-#! /bin/sh
+#!/bin/bash
 
-conky -c ${HOME}/.conky/configs/clock
-conky -c ${HOME}/.conky/configs/repo_status
-conky -c ${HOME}/.conky/configs/rss_feeds
-conky -c ${HOME}/.conky/configs/system
-conky -c ${HOME}/.conky/configs/cpu
-conky -c ${HOME}/.conky/configs/ram
-conky -c ${HOME}/.conky/configs/files_$(hostname)
+CONKY_LOG="${TMPDIR}/log/conky"
+CONF_DIR="${HOME}/.conky/configs"
+CONFIGS=(
+clock
+repo
+rss_feeds
+system
+cpu
+ram
+files
+)
 
-#conky -c ${DOTFILES_HOME}/.conky/default
+# create the log directory unless it exists
+[ -n "${CONKY_LOG}" ] && mkdir -p ${CONKY_LOG}
+
+h=$(hostname)
+for c in "${CONFIGS[@]}"; do
+    fn="${CONF_DIR}/${c}"
+
+    [ -e "${fn}_${h}" ] && fn="${fn}_${h}"
+
+    echo "starting $fn"
+    if [ -z "${CONKY_LOG}" ]; then
+        conky -c $fn
+    else
+        conky -c $fn &> ${CONKY_LOG}/${c}.log
+    fi
+done
