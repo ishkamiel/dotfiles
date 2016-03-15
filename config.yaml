@@ -1,4 +1,4 @@
-- clean: [ '~', '~/.config', '~/.ssh', '~/.config/upstart', '~/.config/autostart' ]
+- clean: [ '~', '~/.config', '~/.ssh', '~/.config/upstart', '~/.config/autostart', '~' ]
 - link:
     ~/.bashrc: .bashrc
     ~/.bash: .bash

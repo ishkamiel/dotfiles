@@ -11,59 +11,64 @@ SEGMENT_SEPARATOR='\ue0b0'
 VC_UNCOM="✚"
 VC_UNSTA=$(echo -e "\u25cf") #  ●
 VC_UNTRA=$(echo -e "\u25cb") #
+VC_SYMBOL=""
+
 #VC_UNSTA="●"
+#ZSH_THEME_GIT_PROMPT_DIRTY='±'
 
 text_effect() {
-  case "$1" in
-    reset)     echo 0;;
-    bold)      echo 1;;
-    underline) echo 4;;
-  esac
+    case "$1" in
+        reset)     echo 0;;
+        bold)      echo 1;;
+        underline) echo 4;;
+    esac
 }
 
 fg_color() {
-  case "$1" in
-    black)   echo 30;;
-    red)     echo 31;;
-    green)   echo 32;;
-    yellow)  echo 33;;
-    blue)    echo 34;;
-    magenta) echo 35;;
-    cyan)    echo 36;;
-    white)   echo 37;;
-  esac
+    case "$1" in
+        black)   echo 30;;
+        red)     echo 31;;
+        green)   echo 32;;
+        yellow)  echo 33;;
+        blue)    echo 34;;
+        magenta) echo 35;;
+        cyan)    echo 36;;
+        white)   echo 37;;
+    esac
 }
 
 bg_color() {
-  case "$1" in
-    black)   echo 40;;
-    red)     echo 41;;
-    green)   echo 42;;
-    yellow)  echo 43;;
-    blue)    echo 44;;
-    magenta) echo 45;;
-    cyan)    echo 46;;
-    white)   echo 47;;
-  esac;
+    case "$1" in
+        black)   echo 40;;
+        red)     echo 41;;
+        green)   echo 42;;
+        yellow)  echo 43;;
+        blue)    echo 44;;
+        magenta) echo 45;;
+        cyan)    echo 46;;
+        white)   echo 47;;
+    esac;
 }
 
 ansi() {
-  local seq
-  declare -a thecodes=("${!1}")
+    local seq
+    declare -a thecodes=("${!1}")
 
-  seq=""
-  for ((i = 0; i < ${#thecodes[@]}; i++)); do
-    if [[ -n $seq ]]; then
-      seq="${seq};"
-    fi
-    seq="${seq}${thecodes[$i]}"
-  done
-  echo -ne "\[\033[${seq}m\]"
+    seq=""
+    for ((i = 0; i < ${#thecodes[@]}; i++)); do
+        if [[ -n $seq ]]; then
+            seq="${seq};"
+        fi
+        seq="${seq}${thecodes[$i]}"
+    done
+    echo -ne "\[\033[${seq}m\]"
 }
 
 ansi_single() {
-  echo -ne "\[\033[${1}m\]"
+    echo -ne "\[\033[${1}m\]"
 }
+
+RESET="$(ansi_single $(text_effect reset))";
 
 prompt_segment() {
     # Begin a segment. Takes two arguments, background and foreground. Both can be omitted,
@@ -88,7 +93,7 @@ prompt_segment() {
 
     if [[ $CURRENT_BG != NONE && $1 != $CURRENT_BG ]]; then
         declare -a intermediate=($(fg_color $CURRENT_BG) $(bg_color $1))
-        echo -ne " $(ansi intermediate[@])${SEGMENT_SEPARATOR}"
+        echo -ne "$(ansi intermediate[@])${SEGMENT_SEPARATOR}"
     fi
     echo -ne "$(ansi codes[@])"
 
@@ -109,18 +114,15 @@ prompt_context() {
 }
 
 # Git: branch/detached head, dirty status
-_prompt_git() {
+prompt_git() {
     local symbol_repo=""
 
     if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
-        local status=""
+        # local status=""
         local s_uncom=
         local d_unsta=
         local d_untra=
         local branch=
-
-        #ZSH_THEME_GIT_PROMPT_DIRTY='±'
-
         IFS=''
         while read line; do
             re_first='^##[[:space:]](.+)\.\.\.'
@@ -128,6 +130,7 @@ _prompt_git() {
                 branch=${BASH_REMATCH[1]}
                 [[ "${line}" =~ "ahead" ]] && ahead=1
             elif [[ "${line}" =~ ^\?\? ]]; then
+                >&2 echo "untracked: $line"
                 d_untra=1
             elif [[ "${line}" =~ ^.[[:alpha:]] ]]; then
                 d_unsta=1
@@ -139,24 +142,16 @@ _prompt_git() {
         done < <(git status -sb)
         unset IFS
 
-        if [ -n "${d_unsta}" ] || [ -n "${d_untra}" ]; then
-            #status="${status}●"
-            status="${status}${VC_UNSTA}"
-        fi
-
-        # TODO add VC_UNTRA!!
-
-        if [ -n "${d_uncom}" ]; then
-            status="${status}${VC_UNCOM}"
-        fi
-
         if [ -n "${d_unsta}" ] || [ -n "${d_untra}" ] || [ -n "${d_uncom}" ]; then
             prompt_segment magenta black
         else
             prompt_segment green black
         fi
 
-        echo -n "  ${branch} ${status}"
+        echo -n " ${VC_SYMBOL} ${branch} "
+        [ -n "${d_untra}" ] && echo -n "${VC_UNTRA}"
+        [ -n "${d_unsta}" ] && echo -n "${VC_UNSTA}"
+        [ -n "${d_uncom}" ] && echo -n "${VC_UNCOM}"
     fi
 }
 
@@ -164,7 +159,7 @@ _prompt_git() {
 prompt_dir() {
     prompt_segment blue black
 
-    echo -ne " "$(pwd | sed "s|^$HOME|~|" | awk -F '/' '{
+    echo -ne $(pwd | sed "s|^$HOME|~|" | awk -F '/' '{
         i=1;
         while (i < NF) {
             if (length($i) > 4) {
@@ -189,8 +184,7 @@ prompt_status() {
     [[ $RETVAL -ne 0 ]] && symbols+="$(ansi_single $(fg_color red))✘"
     [[ $UID -eq 0 ]] && symbols+="$(ansi_single $(fg_color yellow))⚡"
     [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="$(ansi_single $(fg_color cyan))⚙"
-
-    [[ -n "$symbols" ]] && prompt_segment black default "$symbols"
+    [[ -n "$symbols" ]] && prompt_segment black default " $symbols "
 }
 
 # End the prompt, closing any open segments
@@ -204,11 +198,10 @@ prompt_end() {
 
 _build_prompt() {
     CURRENT_BG='black'
-
     prompt_status
     prompt_context
     prompt_dir
-    _prompt_git
+    prompt_git
     prompt_end
 }
 
@@ -217,12 +210,7 @@ _build_prompt() {
 build_prompt() {
     RETVAL=$?
 
-    res="$(ansi_single $(text_effect reset))";
-    prompt=$(_build_prompt)
-
-    export PS1="${res}$(_build_prompt) ${res}"
+    export PS1="${RESET}$(_build_prompt) ${RESET}"
 }
 
-#PS1="$(ansi_single $(text_effect reset))"'$(build_prompt)'
-# PS1="$(build_prompt)"
 PROMPT_COMMAND=build_prompt
