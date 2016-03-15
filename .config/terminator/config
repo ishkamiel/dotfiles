@@ -53,6 +53,7 @@
     background_type = transparent
     use_system_font = False
     foreground_color = "#ffffff"
+    show_titlebar = False
     font = Hack 11
 [layouts]
   [[default]]

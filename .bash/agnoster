@@ -1,12 +1,17 @@
 # vim: ft=sh
 
-# This is originally based on agnoster's Theme for ZSH
-#   https://gist.github.com/3712874
-# and further based on a bash conversion by Kenny Root
-#   https://gist.github.com/kruton/8345450
+# This is originally based on agnoster's Theme for ZSH [1], upon which Kenny Root [2] did some
+# modifications to adapt it to bash. Although this is a somewhat heavily modified version...
+#
+# [1] https://gist.github.com/3712874
+# [2] https://gist.github.com/kruton/8345450
 
 CURRENT_BG='NONE'
 SEGMENT_SEPARATOR='\ue0b0'
+VC_UNCOM="✚"
+VC_UNSTA=$(echo -e "\u25cf") #  ●
+VC_UNTRA=$(echo -e "\u25cb") #
+#VC_UNSTA="●"
 
 text_effect() {
   case "$1" in
@@ -135,11 +140,14 @@ _prompt_git() {
         unset IFS
 
         if [ -n "${d_unsta}" ] || [ -n "${d_untra}" ]; then
-            status="${status}●"
+            #status="${status}●"
+            status="${status}${VC_UNSTA}"
         fi
 
+        # TODO add VC_UNTRA!!
+
         if [ -n "${d_uncom}" ]; then
-            status="${status}✚"
+            status="${status}${VC_UNCOM}"
         fi
 
         if [ -n "${d_unsta}" ] || [ -n "${d_untra}" ] || [ -n "${d_uncom}" ]; then
