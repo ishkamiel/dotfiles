@@ -20,6 +20,7 @@
       path: .fonts/ge-inspira.ttf
     ~/.gitconfig: .gitconfig
     ~/.inputrc: .inputrc
+    ~/.pam_environment: .pam_environment
     ~/.profile: .profile
     ~/.ssh/config:
       create: true

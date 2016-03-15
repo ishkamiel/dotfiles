@@ -53,11 +53,11 @@ ansi() {
     fi
     seq="${seq}${thecodes[$i]}"
   done
-  echo -ne "\033[${seq}m"
+  echo -ne "\[\033[${seq}m\]"
 }
 
 ansi_single() {
-  echo -ne "\033[${1}m"
+  echo -ne "\[\033[${1}m\]"
 }
 
 prompt_segment() {
@@ -103,14 +103,8 @@ prompt_context() {
     fi
 }
 
-git_status_dirty() {
-    dirty=$(git status -s 2> /dev/null | tail -n 1)
-    [[ -n $dirty ]] && echo "*"
-}
-
 # Git: branch/detached head, dirty status
 _prompt_git() {
-    local ref dirty
     local symbol_repo=""
 
     if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
@@ -154,7 +148,7 @@ _prompt_git() {
             prompt_segment green black
         fi
 
-        echo -n " ${symbol_repo} ${branch} ${status}"
+        echo -n "  ${branch} ${status}"
     fi
 }
 
@@ -197,19 +191,12 @@ prompt_end() {
         declare -a codes=($(text_effect reset) $(fg_color $CURRENT_BG))
         echo -ne " $(ansi codes[@])${SEGMENT_SEPARATOR}"
     fi
-    declare -a reset=($(text_effect reset))
-    echo -ne " $(ansi reset[@])"
     CURRENT_BG=''
 }
 
-prompt_reset() {
-    echo -ne "$(ansi_single $(text_effect reset))"
-}
+_build_prompt() {
+    CURRENT_BG='black'
 
-## Main prompt
-build_prompt() {
-    RETVAL=$?
-    echo -ne "$(ansi_single $(text_effect reset))"
     prompt_status
     prompt_context
     prompt_dir
@@ -217,5 +204,17 @@ build_prompt() {
     prompt_end
 }
 
+
+## Main prompt
+build_prompt() {
+    RETVAL=$?
+
+    res="$(ansi_single $(text_effect reset))";
+    prompt=$(_build_prompt)
+
+    export PS1="${res}$(_build_prompt) ${res}"
+}
+
 #PS1="$(ansi_single $(text_effect reset))"'$(build_prompt)'
-PS1='$(build_prompt)'
+# PS1="$(build_prompt)"
+PROMPT_COMMAND=build_prompt

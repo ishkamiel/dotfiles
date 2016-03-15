@@ -31,10 +31,10 @@ fi
 SourceFile "${DOTFILES_HOME}/scripts/loadNvm.sh"
 SourceFile "${DOTFILES_HOME}/scripts/loadRubyGemPath.sh"
 # Add some paths
-AddToPath "/usr/local/heroku/bin"
-AddToPath "${HOME}/personal/bin"
-AddToPath "${HOME}/bin"
+AddToPath "${HOME}/personal/bin" 1
+AddToPath "${HOME}/bin"1
 AddToPath "${HOME}/.local/bin" 1
+AddToPath "/usr/local/heroku/bin" 1
 
 # If available, source non-version-controller .profile_local
 SourceFile "${HOME}/.profile_local" 1 # (1 suppresses logging on not found)
