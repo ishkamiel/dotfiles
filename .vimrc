@@ -263,9 +263,9 @@ function p_ultisnips.config() dict
 endfunction
 
 " }}}
-" -------------------------- vim-commentary {{{
+" -------------------------- vim-commentary (p_commentary) {{{
 
-let plugin = s:PdPluginManager.add('commentary', [
+let p_commentary = s:PdPluginManager.add('commentary', [
             \'tpope/vim-commentary'
             \])
 
@@ -367,6 +367,7 @@ endfunction
 
 " }}}
 
+let p_commentary.enabled=0
 " let p_nerdtree.enabled=0
 " let p_airline.enabled=0
 " let p_ycm.enabled=0

@@ -1,38 +1,119 @@
-# ~/.profile: executed by the command interpreter for login shells.
-# This also gets executed when setting up the desktop...
-#
-# Most of the main work is done in scripts loaded by the SourceFile command.
-#
-# The source $ISHLIB files is used to defined some helper functions (e.g. SourceFile, AddPath),
-# but no environmental variables or other side-effects get applied when it's sourced.
+# ~/.profile: executed by the command interpreter for login shells (and desktop :) )
+
+# Generic helper functions (ishlib) {{{
+
+_ISHLIB_ERRORFILE="${HOME}/.ishlib_errors"
+
+InitErrorLog() {
+    _ISHLIB_ERRORFILE="${1}"
+    filename="${_ISHLIB_ERRORFILE}"
+
+    if [ -e ${filename} ]; then
+        mv -f "${filename}" "${filename}.bak"
+    fi
+}
+
+ErrorLog() {
+    echo "$(date --rfc-3339=seconds) ${1}" >> "${_ISHLIB_ERRORFILE}"
+}
+
+InitTempDir() {
+    tempdir=${1}
+
+    if [ ! -e ${tempdir} ] || [ ! -O ${tempdir} ]; then
+        # Remove possibe dead link
+        [ -L ${tempdir} ] && rm -f ${tempdir}
+
+        if command -v mktemp > /dev/null; then
+            ln -s $(mktemp -d) ${tempdir}
+            if command -v setfacl > /dev/null; then
+                setfacl -d -m o::- "${tempdir}/."
+            else
+                ErrorLog "Cannot execute setfacl"
+            fi
+            mkdir ${tempdir}/vimbackup
+        else
+            ErrorLog "Cannot execute mktemp"
+        fi
+    fi
+
+    export TMPDIR="${1}"
+}
+
+AddToPath() {
+    newpath="${1}"
+    no_error="${2}"
+
+    # Catch typos and bad additions
+    if [ ! -e "${newpath}" ] || [ ! -d "${newpath}" ]; then
+        [ ! -n "${no_error}" ] && ErrorLog "Trying to add non-existing path ${newpath}"
+    elif [[ "$PATH" =~ (^|:)"${newpath}"(:|$) ]]; then
+        [ $DEBUG ] && ErrorLog "Already in path ${newpath}, skipping"
+    else
+        export PATH="$PATH:${newpath}"
+    fi
+}
+
+SourceFile() {
+    filename="${1}"
+    no_error="${2}"
+
+    if [ -s "${filename}" ]; then
+        . ${filename}
+    elif [ ! -n "${no_error}" ]; then
+        ErrorLog "SourceFile cannot find ${filename}"
+    fi
+}
+
+CleanIshlib() {
+    unset -f AddToPath
+    unset -f ErrorLog
+    unset -f InitErrorLog
+    unset -f InitTempDir
+    unset -f SourceFile
+    unset -f CleanIshlib
+
+    unset -f loadNVM
+    unset -f loadRuby
+}
+
+# }}}
+loadNVM() { # {{{
+    local NVM_DIR=${1}
+
+    if [ -s "${NVM_DIR}/nvm.sh" ]; then
+        . "${NVM_DIR}/nvm.sh"
+    else
+        ErrorLog "Couldn't find nvm at ${NVM_DIR}"
+    fi
+} # }}}
+loadRuby() { # {{{
+    local gempath="${1}"
+
+    if [ -e "${gempath}" ]; then
+        local ruby_version=$(ls ${gempath} | sort | tail -n 1);
+        local gem_bin="${gempath}/${ruby_version}/bin"
+        AddToPath "${gem_bin}"
+    else
+        ErrorLog "Cannot find Ruby in ${gempath}"
+    fi
+} # }}}
 
 export EDITOR=/usr/bin/vim
-export DOTFILES_HOME="${HOME}/.dotfiles"
-export DOTFILES_CONFIG="${DOTFILES_HOME}/config.yaml"
-export ISHLIB="${DOTFILES_HOME}/scripts/ishlib.sh"
-export NVM_DIR="${HOME}/.nvm"
-
-MY_TMPDIR="${HOME}/tmp"
-
-# Load ishlib
-# DEBUG=1 # Additional logging for ishlib functions..
-. "${ISHLIB}" || echo "failed to source ishlib at ${ISHLIB}" > DOT_PROFILE_FAIL
 
 # Initialize separate error log for .profile
 InitErrorLog "${HOME}/.profile_errors"
 
 # Use ishlib InitTempDir to initialize a (somewhat) private temporary directory inside /tmp
-# NOTE: Not really secure!
-if InitTempDir "${MY_TMPDIR}"; then
-    export TMPDIR="${MY_TMPDIR}"
-fi
+InitTempDir "${HOME}/tmp"
 
 # Applicatoin specific environment setup
-SourceFile "${DOTFILES_HOME}/scripts/loadNvm.sh"
-SourceFile "${DOTFILES_HOME}/scripts/loadRubyGemPath.sh"
+loadNVM "${HOME}/.nvm"
+# loadRuby "${HOME}/.gem/ruby"
+
 # Add some paths
 AddToPath "${HOME}/personal/bin" 1
-AddToPath "${HOME}/bin"1
+AddToPath "${HOME}/bin" 1
 AddToPath "${HOME}/.local/bin" 1
 AddToPath "/usr/local/heroku/bin" 1
 
@@ -41,3 +122,5 @@ SourceFile "${HOME}/.profile_local" 1 # (1 suppresses logging on not found)
 
 # Source .bashrc if running bash (not sure if this is needed?)
 [ -n "${BASH_VERSION}" ] && [ -f "${HOME}/.bashrc" ] && . "${HOME}/.bashrc"
+
+# vim: ft=sh fdm=marker foldlevel=0

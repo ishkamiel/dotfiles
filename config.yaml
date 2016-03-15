@@ -27,9 +27,6 @@
       path: .ssh/config
     ~/.tmux.conf: .tmux.conf
     ~/.vimrc: .vimrc
-    ~/.zprofile: .zprofile
-    ~/.zshrc: .zshrc
-    ~/.zsh-custom: .zsh-custom
 - shell:
   -
     command: scripts/gsettings.sh
