@@ -64,7 +64,7 @@ if [ -x $ZSH_BIN ] && [ -x $TMUX_BIN ] && [ ! -n "$TMUX_SESSION" ];then
 fi
 
 # If we're still here, let's just try to switch to zsh.
-if [ -e /usr/bin/zsh ]; then
+if [ ! -n "${ZSH}" ] && [ -e /usr/bin/zsh ]; then
     # Switch to zsh if available
     exec /usr/bin/zsh
 fi
@@ -219,12 +219,14 @@ Pd_cwd="${BBlue}\w${Color_Off}"
 Pd_default="${Pd_userNhost}:${Pd_cwd}"
 Pd_time="${BCyan}\T${Color_Off}"
 
-if [ -f .git-prompt.sh ]; then
-    source .git-prompt.sh
-    #PROMPT_COMMAND='__git_ps1 "${Pd_jobs} ${Pd_chroot}${Pd_userNhost}" " ${Pd_cwd} \n \$ "'
-    PROMPT_COMMAND='__git_ps1 "${Pd_jobs} ${Pd_chroot}${Pd_userNhost}:${Pd_cwd}" "\$ "'
-else
-    PS1="${Pd_jobs} ${Pd_chroot}${Pd_userNhost} ${Pd_cwd}\$ "
+if false; then
+    if [ -f .git-prompt.sh ]; then
+        source .git-prompt.sh
+        #PROMPT_COMMAND='__git_ps1 "${Pd_jobs} ${Pd_chroot}${Pd_userNhost}" " ${Pd_cwd} \n \$ "'
+        PROMPT_COMMAND='__git_ps1 "${Pd_jobs} ${Pd_chroot}${Pd_userNhost}:${Pd_cwd}" "\$ "'
+    else
+        PS1="${Pd_jobs} ${Pd_chroot}${Pd_userNhost} ${Pd_cwd}\$ "
+    fi
 fi
 
 # }}}
