@@ -68,6 +68,7 @@
     scrollback_lines = 0
     background_type = transparent
     background_image = None
+    foreground_color = "#ffffff"
     icon_bell = False
     font = Hack 11
 [layouts]
