@@ -1,4 +1,9 @@
 [global_config]
+  title_transmit_bg_color = "#333333"
+  title_receive_fg_color = "#000000"
+  inactive_color_offset = 0.52
+  title_transmit_fg_color = "#000000"
+  title_inactive_bg_color = "#0e0e0e"
 [keybindings]
   cycle_prev = None
   next_tab = None
@@ -47,13 +52,23 @@
 [profiles]
   [[default]]
     scrollbar_position = hidden
-    palette = "#000000:#cd0000:#00cd00:#cdcd00:#1e90ff:#cd00cd:#00cdcd:#e5e5e5:#4c4c4c:#ff0000:#00ff00:#ffff00:#4682b4:#ff00ff:#00ffff:#ffffff"
-    background_image = None
-    background_darkness = 0.94
-    background_type = transparent
     use_system_font = False
+    background_darkness = 0.94
+    scrollback_lines = 0
+    background_type = transparent
+    background_image = None
     foreground_color = "#ffffff"
+    icon_bell = False
     show_titlebar = False
+    font = Hack 11
+  [[labs]]
+    scrollbar_position = hidden
+    use_system_font = False
+    background_darkness = 0.94
+    scrollback_lines = 0
+    background_type = transparent
+    background_image = None
+    icon_bell = False
     font = Hack 11
 [layouts]
   [[default]]
@@ -83,19 +98,19 @@
       order = 1
       parent = child1
     [[[terminal2]]]
-      profile = default
+      profile = labs
       command = ssh lab1
       type = Terminal
       order = 0
       parent = child1
     [[[terminal5]]]
-      profile = default
+      profile = labs
       command = ssh lab3
       type = Terminal
       order = 1
       parent = child3
     [[[terminal4]]]
-      profile = default
+      profile = labs
       command = ssh lab2
       type = Terminal
       order = 0
