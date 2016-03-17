@@ -13,6 +13,13 @@ VC_UNSTA=$(echo -e "\u25cf") #  ●
 VC_UNTRA=$(echo -e "\u25cb") #
 VC_SYMBOL=""
 
+# TODO:
+GIT_SH_PROMPT="/usr/lib/git-core/git-sh-prompt"
+
+if [ -e ${GIT_SH_PROMPT} ]; then
+    echo "TODO: ok"
+fi
+
 #VC_UNSTA="●"
 #ZSH_THEME_GIT_PROMPT_DIRTY='±'
 
