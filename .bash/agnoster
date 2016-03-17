@@ -1,229 +1,231 @@
-# vim: ft=sh
-
+# vim: ft=sh fdm=marker foldlevel=0
+####################################################################################################
+#
 # This is originally based on agnoster's Theme for ZSH [1], upon which Kenny Root [2] did some
 # modifications to adapt it to bash. Although this is a somewhat heavily modified version...
 #
 # [1] https://gist.github.com/3712874
 # [2] https://gist.github.com/kruton/8345450
+#
+####################################################################################################
 
-CURRENT_BG='NONE'
-SEGMENT_SEPARATOR='\ue0b0'
-VC_UNCOM="✚"
-VC_UNSTA=$(echo -e "\u25cf") #  ●
-VC_UNTRA=$(echo -e "\u25cb") #
-VC_SYMBOL=""
 
-# TODO:
-GIT_SH_PROMPT="/usr/lib/git-core/git-sh-prompt"
+####################################################################################################
+# SETTINGS
 
-if [ -e ${GIT_SH_PROMPT} ]; then
-    echo "TODO: ok"
-fi
+# AGN_PROMPT_GIT=false|FILENAME (default=/usr/lib/git-core/git-sh-prompt)
+#----------------------------------------------------
+#
+# The git shell prompt script uses some environmental variables to customize the proivded
+# information. This script takes into acount, but doesn't require the following settings:
+#   GIT_PS1_SHOWDIRTYSTATE=true
+#   GIT_PS1_SHOWUNTRACKEDFILES=true
+#   GIT_PS1_SHOWUPSTREAM="auto"
+#   GIT_PS1_SHOWCOLORHINTS=true
+# (Please see the the git-shell$GIT_SH_PROMPT file itself for more details)
+#---------------------------------------------------------------------------------------------------
 
-#VC_UNSTA="●"
-#ZSH_THEME_GIT_PROMPT_DIRTY='±'
 
-text_effect() {
-    case "$1" in
-        reset)     echo 0;;
-        bold)      echo 1;;
-        underline) echo 4;;
-    esac
-}
 
-fg_color() {
-    case "$1" in
-        black)   echo 30;;
-        red)     echo 31;;
-        green)   echo 32;;
-        yellow)  echo 33;;
-        blue)    echo 34;;
-        magenta) echo 35;;
-        cyan)    echo 36;;
-        white)   echo 37;;
-    esac
-}
 
-bg_color() {
-    case "$1" in
-        black)   echo 40;;
-        red)     echo 41;;
-        green)   echo 42;;
-        yellow)  echo 43;;
-        blue)    echo 44;;
-        magenta) echo 45;;
-        cyan)    echo 46;;
-        white)   echo 47;;
-    esac;
-}
+####################################################################################################
+# __build_prompt
+#
+# This is the main function that rebuilds the dynamic parts of the prompt. I've elected to use
+# inner functions in order to minimize the amount of functions "leaking out". Much of the basic
+# parts, like hte __prompt_segment function and call the color functions are from Kenny Root's
+# bash converison.
+#
+# The style is obviously more or less the same as agnoster's theme, but I've change some colors
+# to accomodate my color-blindness.
+__agn_build_prompt() {
+    RETVAL=$?
+    __agn_CURRENT_BG='NONE' # default to no background
 
-ansi() {
-    local seq
-    declare -a thecodes=("${!1}")
+    # Define all the functions that will be needed.
+    # Color functions {{{
+    text_effect() {
+        case "$1" in
+            reset)     echo 0;;
+            bold)      echo 1;;
+            underline) echo 4;;
+        esac
+    }
 
-    seq=""
-    for ((i = 0; i < ${#thecodes[@]}; i++)); do
-        if [[ -n $seq ]]; then
-            seq="${seq};"
-        fi
-        seq="${seq}${thecodes[$i]}"
-    done
-    echo -ne "\[\033[${seq}m\]"
-}
+    fg_color() {
+        case "$1" in
+            black)   echo 30;;
+            red)     echo 31;;
+            green)   echo 32;;
+            yellow)  echo 33;;
+            blue)    echo 34;;
+            magenta) echo 35;;
+            cyan)    echo 36;;
+            white)   echo 37;;
+        esac
+    }
 
-ansi_single() {
-    echo -ne "\[\033[${1}m\]"
-}
+    bg_color() {
+        case "$1" in
+            black)   echo 40;;
+            red)     echo 41;;
+            green)   echo 42;;
+            yellow)  echo 43;;
+            blue)    echo 44;;
+            magenta) echo 45;;
+            cyan)    echo 46;;
+            white)   echo 47;;
+        esac;
+    }
 
-__prompt_segment() {
-    # Begin a segment. Takes two arguments, background and foreground. Both can be omitted,
-    # rendering default background/foreground.
-    local bg fg
+    ansi() {
+        local seq
+        declare -a thecodes=("${!1}")
 
-    declare -a codes=($(fg_color $1) $(bg_color $2))
-
-    if [[ -z $1 || ( -z $2 && $2 != default ) ]]; then
-        codes=("${codes[@]}" $(text_effect reset))
-    fi
-
-    if [[ -n $2 ]]; then
-        fg=$(fg_color $2)
-        codes=("${codes[@]}" $fg)
-    fi
-
-    if [ -n "$1" ]; then
-        bg=$(bg_color $1)
-        codes=("${codes[@]}" $bg)
-    fi
-
-    if [[ $CURRENT_BG != NONE && $1 != $CURRENT_BG ]]; then
-        declare -a intermediate=($(fg_color $CURRENT_BG) $(bg_color $1))
-        echo -ne "$(ansi intermediate[@])${SEGMENT_SEPARATOR}"
-    fi
-    echo -ne "$(ansi codes[@])"
-
-    [ -n "${3}" ] && echo -ne "$3"
-    CURRENT_BG=$1
-}
-
-### Prompt components
-# Each component will draw itself, and hide itself if no information needs to be shown
-
-# Context: user@hostname (who am I and where am I)
-__prompt_context() {
-    local user=`whoami`
-
-    if [[ $user != $DEFAULT_USER || -n $SSH_CLIENT ]]; then
-        __prompt_segment cyan black "$user@$(hostname)"
-    fi
-}
-
-# Git: branch/detached head, dirty status
-__prompt_git() {
-    # TODO: Maybe I should use the git provided git-prompt stuff?
-
-    local symbol_repo=""
-
-    if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
-        # local status=""
-        local s_uncom=
-        local d_unsta=
-        local d_untra=
-        local branch=
-        IFS=''
-        while read line; do
-            if [[ "${line}" =~ ^## ]]; then
-                re_first='^##[[:space:]](.+)\.\.\.'
-                if [[ "${line}" =~ ${re_first} ]]; then
-                    branch=${BASH_REMATCH[1]}
-                    [[ "${line}" =~ "ahead" ]] && ahead=1
-                elif [[ "${line}" =~ \(no[[:space:]]branch\)$ ]]; then
-                    branch="<detached>"
-                else
-                    >&2 echo "_prompt_git[1]: ${line}"
-                fi
-            elif [[ "${line}" =~ ^\?\? ]]; then
-                d_untra=1
-            elif [[ "${line}" =~ ^.[[:alpha:]] ]]; then
-                d_unsta=1
-            elif [[ "${line}" =~ ^[[:alpha:]][[:space:]] ]]; then
-                d_uncom=1
-            else
-                >&2 echo "_prompt_git[2]: ${line}"
+        seq=""
+        for ((i = 0; i < ${#thecodes[@]}; i++)); do
+            if [[ -n $seq ]]; then
+                seq="${seq};"
             fi
-        done < <(git status -sb)
-        unset IFS
+            seq="${seq}${thecodes[$i]}"
+        done
+        echo -ne "\[\033[${seq}m\]"
+    }
 
-        if [ -n "${d_unsta}" ] || [ -n "${d_untra}" ] || [ -n "${d_uncom}" ]; then
-            __prompt_segment magenta black
-        else
-            __prompt_segment green black
+    ansi_single() {
+        echo -ne "\[\033[${1}m\]"
+    }
+
+    #}}}
+    __prompt_segment() { #{{{
+        # Begin a segment. Takes two arguments, background and foreground. Both can be omitted,
+        # rendering default background/foreground.
+        local bg fg
+
+        declare -a codes=($(fg_color $1) $(bg_color $2))
+
+        if [[ -z $1 || ( -z $2 && $2 != default ) ]]; then
+            codes=("${codes[@]}" $(text_effect reset))
         fi
 
-        echo -n " ${VC_SYMBOL} ${branch} "
-        [ -n "${d_untra}" ] && echo -n "${VC_UNTRA}"
-        [ -n "${d_unsta}" ] && echo -n "${VC_UNSTA}"
-        [ -n "${d_uncom}" ] && echo -n "${VC_UNCOM}"
-    fi
-}
+        if [[ -n $2 ]]; then
+            fg=$(fg_color $2)
+            codes=("${codes[@]}" $fg)
+        fi
 
-# Dir: current working directory
-__prompt_dir() {
-    __prompt_segment blue black
+        if [ -n "$1" ]; then
+            bg=$(bg_color $1)
+            codes=("${codes[@]}" $bg)
+        fi
 
-    echo -ne " $(pwd | sed "s|^$HOME|~|" | awk -F '/' '{
-        i=1;
-        while (i < NF) {
-            if (length($i) > 4) {
-                printf "%s../", substr($i, 1, 2);
-            }
+        if [[ $__agn_CURRENT_BG != NONE && $1 != $__agn_CURRENT_BG ]]; then
+            declare -a intermediate=($(fg_color $__agn_CURRENT_BG) $(bg_color $1))
+            echo -ne " $(ansi intermediate[@])\ue0b0 "
+        fi
+        echo -ne "$(ansi codes[@])"
+
+        [ -n "${3}" ] && echo -ne "$3"
+        __agn_CURRENT_BG=$1
+    } #}}}
+    __prompt_dir() { # {{{
+
+        __prompt_segment blue black
+        pwd | sed "s|^$HOME|~|" | awk -F '/' '
+        {
+            i=1;
+            while (i < NF) {
+                if (length($i) > 4) {
+                    printf "%s../", substr($i, 1, 2);
+                }
             else {
                 printf "%s/", $i;
             }
             ++i;
         }
-        printf "%s\n", $i;
-    }') "
-}
+        printf "%s\n", $i; }' | xargs echo -n
+    } # }}}
+    __prompt_context() { #{{{
+        local user=`whoami`
+        [[ $user != $DEFAULT_USER || -n $SSH_CLIENT ]] && __prompt_segment cyan black "$user@$(hostname)"
+    } #}}}
+    __prompt_status() { #{{{
+        local symbols=()
+        [[ $RETVAL -ne 0 ]] && symbols+="$(ansi_single $(fg_color red))✘"
+        [[ $UID -eq 0 ]] && symbols+="$(ansi_single $(fg_color yellow))⚡"
+        [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="$(ansi_single $(fg_color cyan))⚙"
+        [[ -n "$symbols" ]] && __prompt_segment black default " $symbols "
+    } #}}}
+    __prompt_git() { #{{{
+        local s_repo=""
 
-# Status:
-# - was there an error
-# - am I root
-# - are there background jobs?
-__prompt_status() {
-    local symbols
-    symbols=()
-    [[ $RETVAL -ne 0 ]] && symbols+="$(ansi_single $(fg_color red))✘"
-    [[ $UID -eq 0 ]] && symbols+="$(ansi_single $(fg_color yellow))⚡"
-    [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="$(ansi_single $(fg_color cyan))⚙"
-    [[ -n "$symbols" ]] && __prompt_segment black default " $symbols "
-}
+        local unsta='\u25cb' # ○
+        local uncom='\u25cf' # ●
+        local untra='\u25cc' # ◌
 
-# End the prompt, closing any open segments
-__prompt_end() {
-    if [ -n "${CURRENT_BG}" ]; then
-        declare -a codes=($(text_effect reset) $(fg_color $CURRENT_BG))
-        echo -ne " $(ansi codes[@])${SEGMENT_SEPARATOR}"
-    fi
-    CURRENT_BG=''
-}
+        local s_even='' # '\u25b4' # ▴
+        local s_ahead='\u25b8'
+        local s_behind='\u25c2'
 
-__build_prompt() {
-    CURRENT_BG='black'
+        local status=$(__git_ps1)
+
+        if $__agn_GIT_PROMPT; then
+            status=${status:2:$((${#status} - 3))}
+            if [ -n "${status}" ]; then
+                if [[ "${status}" =~ [[:space:]] ]]; then
+                    __prompt_segment magenta black
+                else
+                    __prompt_segment green black
+                fi
+
+                status=${status/\*/${unsta}}
+                status=${status/\+/${uncom}}
+                status=${status/\%/${untra}}
+                status=${status/\=/${s_even}}
+
+                echo -ne "${s_repo}${status}"
+            fi
+        fi
+    } #}}}
+
+    #DEFAULT_USER=''
+
+    # Build the different components
     __prompt_status
     __prompt_context
     __prompt_dir
     __prompt_git
-    __prompt_end
+
+    # Close of the last segment
+    if [ -n "${__agn_CURRENT_BG}" ]; then
+        declare -a codes=($(text_effect reset) $(fg_color $__agn_CURRENT_BG))
+        echo -ne " $(ansi codes[@])\ue0b0"
+    fi
+
+    # Unset bg variable
+    unset __agn_CURRENT_BG
 }
 
+####################################################################################################
+# Initial setup
 
-RESET="$(ansi_single $(text_effect reset))";
+# Some (internal) state variables
+__agn_GIT_PROMPT=false
+# AGN_GIT_SH_PROMPT="/usr/lib/git-core/git-sh-prompt"
 
-## Main prompt
-build_prompt() {
-    RETVAL=$?
-    export PS1="${RESET}$(__build_prompt) ${RESET}"
-}
+# Check git-prompt availability
+if [ -z ${AGN_PROMPT_GIT+x} ] || [ -n "${AGN_PROMPT_GIT}" ]; then
+    [ -z "${AGN_PROMPT_GIT}" ] && AGN_PROMPT_GIT="/usr/lib/git-core/git-sh-prompt"
 
-PROMPT_COMMAND=build_prompt
+    if [ -e "${AGN_PROMPT_GIT}" ]; then
+        source "${AGN_PROMPT_GIT}"
+        __agn_GIT_PROMPT=true
+    fi
+fi
+
+# For readability save the reset character (zero-width character that resets colors)
+reset="\[\033[0m\]"
+# Set the basic PROMPT_COMMAND (this will be by bash before displaying the prompt defined in PS1.
+PROMPT_COMMAND="export PS1=\"${reset}\$(__agn_build_prompt)${reset} \""
+
+# Unset variables
+unset reset

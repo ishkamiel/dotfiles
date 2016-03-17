@@ -28,6 +28,12 @@ DEFAULT_USER=ishkamiel
 source ${HOME}/.bash/agnoster
 source ${HOME}/.bash/aliases
 
+# Git prompt settings (used by the modified agnoster theme)
+export GIT_PS1_SHOWDIRTYSTATE=true
+export GIT_PS1_SHOWUNTRACKEDFILES=true
+export GIT_PS1_SHOWUPSTREAM="auto"
+export GIT_PS1_SHOWCOLORHINTS=true
+
 HISTSIZE=2000
 HISTFILESIZE=4000
 HISTCONTROL=ignoreboth  # Ignore leading space & duplicates (ignorespace ignoredups)
