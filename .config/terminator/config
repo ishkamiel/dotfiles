@@ -1,0 +1,155 @@
+[global_config]
+  title_transmit_fg_color = "#000000"
+  title_inactive_fg_color = "#111111"
+  title_transmit_bg_color = "#333333"
+  title_receive_fg_color = "#000000"
+  inactive_color_offset = 0.52
+  title_inactive_bg_color = "#000000"
+[keybindings]
+  cycle_prev = None
+  next_tab = None
+  close_window = None
+  group_tab = None
+  resize_left = None
+  broadcast_all = <Alt>b
+  rotate_ccw = None
+  reset_clear = None
+  go_right = <Alt>l
+  new_tab = None
+  resize_right = None
+  resize_down = <Shift><Alt>j
+  toggle_zoom = <Shift><Alt>m
+  scaled_zoom = None
+  zoom_in = None
+  group_all = None
+  move_tab_right = None
+  prev_tab = None
+  split_vert = <Shift><Alt>v
+  ungroup_all = None
+  broadcast_off = <Alt>n
+  ungroup_tab = None
+  paste = None
+  cycle_next = None
+  zoom_out = None
+  broadcast_group = None
+  go_prev = None
+  close_term = None
+  new_terminator = None
+  go_next = None
+  go_left = <Alt>h
+  copy = None
+  hide_window = None
+  reset = None
+  search = None
+  go_up = <Alt>k
+  resize_up = <Shift><Alt>k
+  rotate_cw = None
+  split_horiz = <Shift><Alt>h
+  zoom_normal = None
+  go_down = <Alt>j
+  new_window = None
+  move_tab_left = None
+  toggle_scrollbar = None
+[profiles]
+  [[default]]
+    scrollbar_position = hidden
+    use_system_font = False
+    background_darkness = 0.94
+    scrollback_lines = 0
+    background_type = transparent
+    background_image = None
+    foreground_color = "#ffffff"
+    icon_bell = False
+    show_titlebar = False
+    font = Hack 11
+  [[labs]]
+    scrollbar_position = hidden
+    use_system_font = False
+    background_darkness = 0.94
+    scrollback_lines = 0
+    background_type = transparent
+    background_image = None
+    foreground_color = "#ffffff"
+    icon_bell = False
+    font = Hack 11
+[layouts]
+  [[default]]
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+      profile = default
+      command = ""
+    [[[window0]]]
+      type = Window
+      parent = ""
+  [[labs]]
+    [[[child0]]]
+      position = 49:24
+      type = Window
+      order = 0
+      parent = ""
+      size = 1871, 1056
+    [[[child1]]]
+      position = 528
+      type = VPaned
+      order = 0
+      parent = child0
+    [[[child3]]]
+      position = 935
+      type = HPaned
+      order = 1
+      parent = child1
+    [[[terminal2]]]
+      profile = labs
+      command = ssh lab1
+      type = Terminal
+      order = 0
+      parent = child1
+    [[[terminal5]]]
+      profile = labs
+      command = ssh lab3
+      type = Terminal
+      order = 1
+      parent = child3
+    [[[terminal4]]]
+      profile = labs
+      command = ssh lab2
+      type = Terminal
+      order = 0
+      parent = child3
+  [[vlab]]
+    [[[child0]]]
+      position = 49:24
+      type = Window
+      order = 0
+      parent = ""
+      size = 1317, 744
+    [[[child1]]]
+      position = 372
+      type = VPaned
+      order = 0
+      parent = child0
+    [[[child3]]]
+      position = 658
+      type = HPaned
+      order = 1
+      parent = child1
+    [[[terminal2]]]
+      profile = default
+      command = ssh vlab1
+      type = Terminal
+      order = 0
+      parent = child1
+    [[[terminal5]]]
+      profile = default
+      command = ssh vlab3
+      type = Terminal
+      order = 1
+      parent = child3
+    [[[terminal4]]]
+      profile = default
+      command = ssh vlab2
+      type = Terminal
+      order = 0
+      parent = child3
+[plugins]

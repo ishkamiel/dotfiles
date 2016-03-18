@@ -1,0 +1,38 @@
+- clean: [ '~', '~/.config', '~/.ssh', '~/.config/upstart', '~/.config/autostart', '~' ]
+- link:
+    ~/.bashrc: .bashrc
+    ~/.bash: .bash
+    ~/.config/autostart/conky.desktop:
+      create: true
+      path: .config/autostart/conky.desktop
+    ~/.config/autostart/guake.desktop:
+      create: true
+      path: .config/autostart/guake.desktop
+    ~/.config/gtk-3.0/gtk.css:
+      create: true
+      path: .config/gtk-3.0/gtk.css
+    ~/.config/terminator/config:
+      create: truconfig
+      path: .config/terminator/config
+    ~/.conky: .conky
+    ~/.fonts/ge-inspira.ttf:
+      create: true
+      path: .fonts/ge-inspira.ttf
+    ~/.gitconfig: .gitconfig
+    ~/.inputrc: .inputrc
+    ~/.pam_environment: .pam_environment
+    ~/.profile: .profile
+    ~/.ssh/config:
+      create: true
+      path: .ssh/config
+    ~/.tmux.conf: .tmux.conf
+    ~/.vimrc: .vimrc
+- shell:
+  -
+    command: scripts/gsettings.sh
+    stdin: true
+    stdout: true
+#  -
+#    command: vim +PluginInstall +qall
+#    stdin: true
+#    stdout: true

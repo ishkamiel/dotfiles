@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Conky
+GenericName=
+Comment=
+Exec=/home/ishkamiel/.conky/start.sh
+Terminal=false
+Type=Application
+Icon=conky
+Categories=
+StartupNotify=false

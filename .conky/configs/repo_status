@@ -1,0 +1,42 @@
+-- vim: ft=lua
+
+conky.config = {
+    -- ------------------------- Windows Settings
+    own_window = true,
+    own_window_class = 'Conky',
+    own_window_type = 'dock',
+    own_window_transparent = true,
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+    own_window_argb_visual = true,
+    own_window_argb_value = 0,
+
+    background = true,
+
+    -- ------------------------- Position
+    alignment = 'top_right',
+    gap_x = 10,
+    gap_y = 100,
+    minimum_height = 5,
+    minimum_width = 5,
+
+    -- ------------------------- Drawing
+    draw_borders = false,
+    draw_graph_borders = true,
+    draw_outline = false,
+    draw_shades = false,
+
+    -- ------------------------- Font
+    use_xft = true,
+    -- xftalpha = 0.3,
+    font = 'Hack regular:size=12',
+
+    -- ------------------------- Color
+    default_color = '504070',
+
+    -- ------------------------- Other
+    update_interval = 2
+}
+
+conky.text = [[
+${color}${texeci 2 repo_status.sh}
+]]

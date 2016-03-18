@@ -1,0 +1,58 @@
+
+! Xcursor -----------------------------------------------------------
+Xcursor.theme: Adwaita
+Xcursor.size:  22
+
+! yeahconsole --------------------------------------------------------
+yeahconsole*toggleKey: Alt+section
+yeahconsole*term: urxvtc
+! yeahconsole*faceName: Monospace:size=12:antialias=true
+yeahconsole*consoleHeight: 40
+yeahconsole*aniDelay: 0
+yeahconsole*stepSize: 0
+yeahconsole*restart: 0
+
+! xterm -------------------------------------------------------------
+! xterm*faceName: Ubuntu Mono for Powerline:antialias=true
+xterm*faceName: Monospace:antialias=true
+xterm*faceSize: 11
+xterm*termName: xterm-256color
+xterm*saveLines: 4096
+xterm*scrollBar: false
+xterm*dynamicColors: true
+xterm*utf8: 3
+
+! rxvt-unicode ------------------------------------------------------
+!URxvt.font: xft:Ubuntu Mono:antialias=true:size=14
+URxvt.saveLines: 1024
+URxvt.scrollBar: false
+!URxvt.fading:  60
+URxvt.visualBell: false
+URxvt.termName:  screen-256color
+URxvt.secondaryScreen: 1
+URxvt.secondaryScroll: 0
+URxvt.secondaryWheel: 1
+! URxvt*perl-ext:
+! URxvt*perl-ext-common:
+URxvt.perl-ext-common: default,matcher
+URxvt.url-launcher: /usr/bin/firefox
+URxvt.matcher.button: 1
+URxvt*background: #000000
+URxvt*foreground: #d0d0d0
+URxvt*cursorColor: #d0d0d0
+URxvt*color0: #000000
+URxvt*color1: #960050
+URxvt*color2: #66aa11
+URxvt*color3: #c47f2c
+URxvt*color4: #30309b
+URxvt*color5: #7e40a5
+URxvt*color6: #3579a8
+URxvt*color7: #9999aa
+URxvt*color8: #303030
+URxvt*color9: #ff0090
+URxvt*color10: #80ff00
+URxvt*color11: #ffba68
+URxvt*color12: #5f5fee
+URxvt*color13: #bb88dd
+URxvt*color14: #4eb4fa
+URxvt*color15: #d0d0d0

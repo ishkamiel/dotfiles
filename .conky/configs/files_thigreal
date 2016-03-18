@@ -1,0 +1,61 @@
+-- vim: ft=lua
+
+conky.config = {
+    -- ------------------------- Windows Settings
+
+    own_window = true,
+    own_window_class = 'Conky',
+    own_window_type = 'dock',
+    own_window_transparent = false,
+    own_window_hints = 'undecorated,sticky,below,skip_taskbar,skip_pager',
+    own_window_argb_visual = true,
+    own_window_argb_value = 0,
+
+    double_buffer = true,
+    background = true,
+
+    -- ------------------------- Position
+
+    alignment = 'top_left',
+
+    minimum_width = 295,
+    minimum_height = 165,
+    maximum_width = 295,
+    gap_x = 0,
+    gap_y = 415,
+
+    -- ------------------------- Font
+
+    use_xft = true,
+    -- xftalpha = 0.8,
+    override_utf8_locale = true,
+
+    draw_shades = false,
+    default_shade_color = 'black',
+
+    draw_borders = false,
+    draw_outline = false,
+
+    font = 'Monofur:bold:size=8',
+
+    -- ------------------------- Color
+
+    default_color = 'DCDCDC',
+    color0 = '1793d0',
+    color1 = '999999',
+    color2 = '444444',
+
+    -- ------------------------- Other
+
+    update_interval = 1,
+
+    template0 = [[${GOTO 50}${color}${font Monofour:size=8}\1 ${alignr}${font Monofour:size=7}${fs_used \1}${fs_size \1}
+    ${GOTO 50}${color2}${fs_bar 6 \1}%]],
+};
+
+conky.text = [[
+${voffset 25}${GOTO 50}${font}File System
+
+${template0 /}
+${image ~/.conky/graphics/files.png -p 0,15}
+]];

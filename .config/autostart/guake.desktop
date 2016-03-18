@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Guake
+GenericName=Drop down terminal
+Comment=
+Exec=/usr/bin/env DROPDOWNTERMINAL=1 /usr/bin/guake
+Terminal=false
+Type=Application
+Icon=guake
+Categories=
+StartupNotify=false
