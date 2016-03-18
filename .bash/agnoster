@@ -208,11 +208,9 @@ prompt_command() {
 }
 
 ####################################################################################################
-# Initial setup
+# Startup
 
-# Some (internal) state variables
 __agn_GIT_PROMPT=false
-# AGN_GIT_SH_PROMPT="/usr/lib/git-core/git-sh-prompt"
 
 # Check git-prompt availability
 if [ -z ${AGN_PROMPT_GIT+x} ] || [ -n "${AGN_PROMPT_GIT}" ]; then
@@ -224,11 +222,4 @@ if [ -z ${AGN_PROMPT_GIT+x} ] || [ -n "${AGN_PROMPT_GIT}" ]; then
     fi
 fi
 
-# For readability save the reset character (zero-width character that resets colors)
-reset="\[\033[0m\]"
-# Set the basic PROMPT_COMMAND (this will be by bash before displaying the prompt defined in PS1.
-#PROMPT_COMMAND="export PS1=\"${reset}\$(prompt_command)${reset} \""
-PROMPT_COMMAND=prompt_command
-
-# Unset variables
-unset reset
+PROMPT_COMMAND='PS1=$(prompt_command)'
