@@ -1,0 +1,65 @@
+#! /bin/sh
+# This is a simle wrapper around dotbot [1] by Anish Athalye.
+#
+#  [1] https://github.com/anishathalye/dotbot
+
+# Set to customize dotfile location
+# DOTFILES=/path/to/dotfile/dir (default: ~/.dotfiles)
+# Set to  cutomize dotbot config file to use
+# DOTBOT_CONFIG=/path/to/dotbot_config.yaml (default: $DOTFILES/.install.conf.yaml)
+
+
+# Options for tinkering with script
+CREATE_CONFIG=true
+UPDATE_DOTBOT=true
+
+# Set default values for running without custom paths
+[ -z "${DOTFILES}" ] && DOTFILES="${HOME}/.dotfiles"
+[ -z "${DOTBOT_CONFIG}" ] && DOTBOT_CONFIG="${DOTFILES}/install.conf.yaml"
+
+dotbotUpdate() {
+    local dotfiles="${DOTFILES}"
+    local config="${DOTBOT_CONFIG}"
+    local dotbot_dir="${dotfiles}/dotbot"
+    local dotbot_bin="${dotbot_dir}/bin/dotbot"
+
+    if [ ! -e "${dotfiles}" ]; then
+        echo "Cannot find dotfiles at ${dotfiles}."
+        echo "\tSet \$DOTFILES to customize location."
+        return 1
+    fi
+
+
+    if [ ! -e "${config}" ]; then
+        if $CREATE_CONFIG; then
+            echo "Cannot find config at ${config}, creating empty config"
+            echo "See https://github.com/anishathalye/dotbot for file format n' stuff."
+            touch "${config}"
+        else
+            echo "Cannot find config at ${config}."
+            echo "Set \$DOTBOT_CONFIG to customize location."
+            echo "See https://github.com/anishathalye/dotbot for file format n' stuff."
+            return 1
+        fi
+    fi
+
+    # TODO Check dotbot install scripts for more automation
+    [ ! -e "${dotbot_dir}" ] && mkdir -p "${dotbot_dir}"
+
+    if $UPDATE_DOTBOT; then
+        if git submodule update --init --recursive "${dotbot_dir}"; then
+            >&2 echo "{BASH_SOURCE[0]}: dotbot update failed!"
+        fi
+    fi
+
+    if [ ! -e "${dotbot_bin}" ]; then
+        echo "Cannot find ${dotbot_bin}."
+        echo "See https://github.com/anishathalye/dotbot to install."
+        return 1
+    fi
+
+    "${dotbot}" -d "${dotfiles}" -c "${config}"
+    return 0
+}
+
+dotbotUpdate

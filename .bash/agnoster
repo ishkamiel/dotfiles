@@ -38,7 +38,7 @@
 #
 # The style is obviously more or less the same as agnoster's theme, but I've change some colors
 # to accomodate my color-blindness.
-__agn_build_prompt() {
+prompt_command() {
     RETVAL=$?
     __agn_CURRENT_BG='NONE' # default to no background
 
@@ -188,6 +188,7 @@ __agn_build_prompt() {
     } #}}}
 
     #DEFAULT_USER=''
+    echo -ne "\[\033[0m\]"
 
     # Build the different components
     __prompt_status
@@ -203,6 +204,7 @@ __agn_build_prompt() {
 
     # Unset bg variable
     unset __agn_CURRENT_BG
+    echo -ne "\[\033[0m\]"
 }
 
 ####################################################################################################
@@ -225,7 +227,8 @@ fi
 # For readability save the reset character (zero-width character that resets colors)
 reset="\[\033[0m\]"
 # Set the basic PROMPT_COMMAND (this will be by bash before displaying the prompt defined in PS1.
-PROMPT_COMMAND="export PS1=\"${reset}\$(__agn_build_prompt)${reset} \""
+#PROMPT_COMMAND="export PS1=\"${reset}\$(prompt_command)${reset} \""
+PROMPT_COMMAND=prompt_command
 
 # Unset variables
 unset reset
