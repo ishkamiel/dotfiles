@@ -458,7 +458,8 @@ set guioptions-=L  "remove left-hand scroll bar
 set background=dark
 set t_Co=25
 set t_ut=
-colorscheme pablo
+colorscheme elflord
+" colorscheme pablo
 " hi FoldColumn ctermfg=DarkCyan ctermbg=8
 
 "-------------------------------------------------------------------------------
