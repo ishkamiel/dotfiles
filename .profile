@@ -112,7 +112,7 @@ loadNVM "${HOME}/.nvm"
 # loadRuby "${HOME}/.gem/ruby"
 
 # Add some paths
-AddToPath "${HOME}/personal/bin" 1
+AddToPath "${HOME}/.dotfiles/bin" 1
 AddToPath "${HOME}/bin" 1
 AddToPath "${HOME}/.local/bin" 1
 AddToPath "/usr/local/heroku/bin" 1
