@@ -188,6 +188,9 @@ prompt_command() {
                     status=${status/\*/${unsta}}
                     status=${status/\+/${uncom}}
                     status=${status/\%/${untra}}
+
+                    status=${status/\>/${s_ahead}}
+                    status=${status/\</${s_begin}}
                     status=${status/\=/${s_even}}
                 else
                     s_repo=' '
