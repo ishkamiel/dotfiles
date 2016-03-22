@@ -22,8 +22,8 @@ export GIT_PS1_SHOWUNTRACKEDFILES=true
 export GIT_PS1_SHOWUPSTREAM="auto"
 export GIT_PS1_SHOWCOLORHINTS=true
 
-HISTSIZE=2000           # Bash command line history size
-HISTFILESIZE=4000
+HISTSIZE=5000           # Bash command line history size
+HISTFILESIZE=10000
 HISTCONTROL=ignoreboth  # Ignore leading space & duplicates (ignorespace ignoredups)
 shopt -s histappend     # append to the history file, don't overwrite it
 shopt -s checkwinsize   # update LINES and COLUMNS after commands

@@ -79,7 +79,7 @@ CleanIshlib() {
 
 # }}}
 loadNVM() { # {{{
-    local NVM_DIR=${1}
+    export NVM_DIR=${1}
 
     if [ -s "${NVM_DIR}/nvm.sh" ]; then
         . "${NVM_DIR}/nvm.sh"
