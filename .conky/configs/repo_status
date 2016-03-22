@@ -28,7 +28,7 @@ conky.config = {
     -- ------------------------- Font
     use_xft = true,
     -- xftalpha = 0.3,
-    font = 'Hack regular:size=12',
+    font = 'Hack:size=12',
 
     -- ------------------------- Color
     default_color = '504070',
