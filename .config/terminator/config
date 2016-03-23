@@ -72,6 +72,11 @@
     foreground_color = "#ffffff"
     icon_bell = False
     font = Hack 11
+  [[light]]
+    use_system_font = False
+    font = Hack 11
+    background_color = "#ffffff"
+    foreground_color = "#000000"
 [layouts]
   [[default]]
     [[[child1]]]
