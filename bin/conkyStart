@@ -1,5 +1,6 @@
 #!/bin/bash
 
+CONKY_OPTS=""
 CONKY_LOG="${TMPDIR}/log/conky"
 CONF_DIR="${HOME}/.conky/configs"
 CONFIGS=(
@@ -13,25 +14,46 @@ repo_status
 )
 
 # create the log directory unless it exists
-[ -n "${CONKY_LOG}" ] && mkdir -p ${CONKY_LOG}
+[ -n "${CONKY_LOG}" ] && mkdir -p $(dirname "${CONKY_LOG}")
+# move old logfile
+[ -e "${CONKY_LOG}" ] && mv "${CONKY_LOG}" "${CONKY_LOG}.bak"
 
-# TODO log non existing files!
+log() {
+    if [ -z "${CONKY_LOG}" ]; then
+        echo "${1}"
+    else
+        echo "${1}" \
+            | awk '{ print strftime("%s: "), $0; fflush(); }'\
+            >> "${CONKY_LOG}"
+    fi
+}
+
+startOne() {
+    local filename=${1}
+
+    if [ -z "${CONKY_LOG}" ]; then
+        conky "$CONKY_OPTS" -c "${filename}"
+    else
+        {(conky "$CONKY_OPTS" -c "${filename}" 2>&1 \
+            | awk "{ print strftime(\"%: $(basename ${filename}):\"), \$0; fflush(); }"\
+            >> "${CONKY_LOG}") &}
+    fi
+}
 
 startAll() {
-    h=$(hostname)
+    local host=$(hostname)
+
     for c in "${CONFIGS[@]}"; do
         fn="${CONF_DIR}/${c}"
 
-        [ -e "${fn}_${h}" ] && fn="${fn}_${h}"
+        # Check for host specific config
+        [ -e "${fn}_${host}" ] && fn="${fn}_${host}"
 
-        #echo "starting $fn"
-        if [ -z "${CONKY_LOG}" ]; then
-            conky -c $fn
-        else
-            conky -c $fn &> ${CONKY_LOG}/${c}.log
-        fi
+        log "starting $(basename ${fn})"
+        startOne "${fn}"
         sleep 1
     done
+    log "startAll completed"
 }
 
 startAll &

@@ -2,8 +2,6 @@
 
 USE_SYMBOLS=true
 
-repos=(${MY_REPOSITORIES//;/ })
-
 createTempdir() { #{{{
     local dirname="${1}"
     local tmpdir="${TMPDIR}"
@@ -106,9 +104,19 @@ showAll() { #{{{
             echo "Can't find git repository at ${repo}"
         fi
     done
+
+    return 0
 } #}}}
 
+if [ -z "${MY_REPOSITORIES}" ]; then
+    echo "MY_REPOSITORIES empty, nothing to do"
+    exit 0
+fi
+
+repos=(${MY_REPOSITORIES//;/ })
+
 if [ "${1}" = "update" ]; then
+    sleep 10
     updateAll
 fi
 
