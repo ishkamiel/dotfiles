@@ -10,6 +10,7 @@
     ~/.bash: .bash
     ~/.config/autostart/conky.desktop: .config/autostart/conky.desktop
     ~/.config/autostart/guake.desktop: .config/autostart/guake.desktop
+    ~/.config/autostart/repoUpdate.desktop: .config/autostart/repoUpdate.desktop
     ~/.config/gtk-3.0/gtk.css: .config/gtk-3.0/gtk.css
     ~/.config/terminator/config: .config/terminator/config
     ~/.conky: .conky

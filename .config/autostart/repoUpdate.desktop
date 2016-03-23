@@ -2,7 +2,7 @@
 Name=Conky
 GenericName=
 Comment=
-Exec=conkyStart
+Exec=repo_status.sh update
 Terminal=false
 Type=Application
 Icon=conky

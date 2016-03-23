@@ -49,7 +49,7 @@ dotbotUpdate() {
     [ ! -e "${dotbot_dir}" ] && mkdir -p "${dotbot_dir}"
 
     if $UPDATE_DOTBOT; then
-        git submodule add https://github.com/anishathalye/dotbot
+        #git submodule add https://github.com/anishathalye/dotbot
         git submodule update --init --recursive "${dotbot_dir}"
     fi
 
