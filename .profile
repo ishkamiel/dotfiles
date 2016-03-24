@@ -100,6 +100,7 @@ loadRuby() { # {{{
 } # }}}
 
 export EDITOR=/usr/bin/vim
+export DOTFILES="${HOME}/.dotfiles"
 
 # Initialize separate error log for .profile
 InitErrorLog "${HOME}/.profile_errors"

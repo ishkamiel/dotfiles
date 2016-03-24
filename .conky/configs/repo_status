@@ -8,7 +8,7 @@ conky.config = {
     own_window_argb_visual = true,
     own_window_argb_value = 0,
 
-    background = false,
+    background = true,
 
     -- ------------------------- Position
     alignment = 'top_right',
@@ -36,7 +36,7 @@ conky.config = {
 }
 
 conky.text = [[
-${color}${texeci 2 repo_status.sh}
+${color}${texeci 2 ~/.dotfiles/bin/repo_status.sh}
 ]]
 
 -- vim: ft=lua

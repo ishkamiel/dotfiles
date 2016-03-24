@@ -1,0 +1,52 @@
+#!/bin/bash
+
+gitStatus() { #{{{
+    local path="${1}"
+    local git_ps1_file="/usr/lib/git-core/git-sh-prompt"
+    local s_repo='\ue0a0' # 
+    local unsta='\u25cb' # ○
+    local uncom='\u25cf' # ●
+    local untra='\u25cc' # ◌
+    local s_ahead='\u25b8' # ▸
+    local s_behind='\u25c2' # ◂
+    local s_even='' # '\u25b4' # ▴
+
+    [ -n "${path}" ] && cd "${path}"
+
+    if [ "$(declare -f __git_ps1 > /dev/null; echo $?)" = 1 ]; then
+        source "${git_ps1_file}"
+        if [ "$(declare -f __git_ps1 > /dev/null; echo $?)" = 1 ]; then
+            echo "Failed to load __git_ps1 from ${git_ps1_file}"
+            return 0
+        fi
+    fi
+
+    local status=$(__git_ps1)
+
+    status=${status:2:$((${#status} - 3))}
+
+    # Add space before status symbols
+    if [[ ${status} =~ ^(.*[[:alnum:]])(<|>|<>)$ ]]; then
+        status="${BASH_REMATCH[1]} ${BASH_REMATCH[2]}"
+    fi
+
+    if [ -n "${status}" ]; then
+        if $use_symbols; then
+            status=${status/\*/${unsta}}
+            status=${status/\+/${uncom}}
+            status=${status/\%/${untra}}
+
+            status=${status/\>/${s_ahead}}
+            status=${status/\</${s_behind}}
+            status=${status/\=/${s_even}}
+        else
+            s_repo=' '
+        fi
+
+        echo -ne "${status}"
+    fi
+
+    [ -n "${path}" ] && cd - > /dev/null
+} #}}}
+
+# vim: ft=sh fdm=marker foldlevel=0

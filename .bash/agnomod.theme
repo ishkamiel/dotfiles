@@ -164,40 +164,16 @@ prompt_command() {
         [[ -n "$symbols" ]] && __prompt_segment black default " $symbols "
     } #}}}
     __prompt_git() { #{{{
-        if $__agn_GIT_PROMPT; then
+        local status=$(gitStatus)
 
-            local status=$(__git_ps1)
-
-            local s_repo='\ue0a0' # 
-            local unsta='\u25cb' # ○
-            local uncom='\u25cf' # ●
-            local untra='\u25cc' # ◌
-            local s_ahead='\u25b8' # ▸
-            local s_behind='\u25c2' # ◂
-            local s_even='' # '\u25b4' # ▴
-
-            status=${status:2:$((${#status} - 3))}
-            if [ -n "${status}" ]; then
-                if [[ "${status}" =~ [[:space:]] ]]; then
-                    __prompt_segment magenta black
-                else
-                    __prompt_segment green black
-                fi
-
-                if $use_symbols; then
-                    status=${status/\*/${unsta}}
-                    status=${status/\+/${uncom}}
-                    status=${status/\%/${untra}}
-
-                    status=${status/\>/${s_ahead}}
-                    status=${status/\</${s_behind}}
-                    status=${status/\=/${s_even}}
-                else
-                    s_repo=' '
-                fi
-
-                echo -ne "${s_repo}${status}"
+        if [ -n "${status}" ]; then
+            if [[ "${status}" =~ [[:space:]] ]]; then
+                __prompt_segment magenta black
+            else
+                __prompt_segment green black
             fi
+
+            echo -ne "${status}"
         fi
     } #}}}
 
@@ -224,16 +200,6 @@ prompt_command() {
 ####################################################################################################
 # Startup
 
-__agn_GIT_PROMPT=false
-
-# Check git-prompt availability
-if [ -z ${AGN_PROMPT_GIT+x} ] || [ -n "${AGN_PROMPT_GIT}" ]; then
-    [ -z "${AGN_PROMPT_GIT}" ] && AGN_PROMPT_GIT="/usr/lib/git-core/git-sh-prompt"
-
-    if [ -e "${AGN_PROMPT_GIT}" ]; then
-        source "${AGN_PROMPT_GIT}"
-        __agn_GIT_PROMPT=true
-    fi
-fi
+source "${DOTFILES}/.bash/lib/gitStatus"
 
 PROMPT_COMMAND='PS1=$(prompt_command)'

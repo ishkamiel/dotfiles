@@ -1,7 +1,23 @@
 #!/bin/bash
 
 USE_SYMBOLS=true
+export GIT_PS1_SHOWDIRTYSTATE=true
+export GIT_PS1_SHOWUNTRACKEDFILES=true
+export GIT_PS1_SHOWUPSTREAM="auto"
+export GIT_PS1_SHOWCOLORHINTS=true
 
+loadGitStatus() { #{{{
+    # Check if we've already got a gitStatus command
+    if ! $(type gitStatus &> /dev/null); then
+        local filename="${DOTFILES}/.bash/lib/gitStatus"
+        [ -z "${DOTFILES}" ] && filename="${HOME}${filename}"
+        if [ -e  "${filename}" ]; then
+            source "${filename}"
+        else
+            >&2 echo "Cannot find gitStatus file to source!"
+        fi
+    fi
+} #}}}
 createTempdir() { #{{{
     local dirname="${1}"
     local tmpdir="${TMPDIR}"
@@ -19,55 +35,6 @@ getRepositoryNameLength() { #{{{
         fi
     done
     echo -ne "${max}"
-} #}}}
-sourceGitShPrompt() { #{{{
-    if [ "$(declare -f __git_ps1 > /dev/null; echo $?)" = 1 ]; then
-        source "/usr/lib/git-core/git-sh-prompt"
-        if [ "$(declare -f __git_ps1 > /dev/null; echo $?)" = 1 ]; then
-            echo "Failed to load __git_ps1"
-            return 0
-        fi
-    fi
-} #}}}
-gitStatus() { #{{{
-    # Load the git-core git-sh-prompt thing
-    sourceGitShPrompt
-
-    cd "${1}"
-
-    local allAlone='[[:alnum:]](<|>)$'
-
-    local status=$(__git_ps1)
-
-    local unsta='\u25cb' # ○
-    local uncom='\u25cf' # ●
-    local untra='\u25cc' # ◌
-    local s_ahead='\u25b8' # ▸
-    local s_behind='\u25c2' # ◂
-    local s_even='' # '\u25b4' # ▴
-
-    # remove the surrounding parens
-    status=${status:2:$((${#status} - 3))}
-
-    if [ -n "${status}" ]; then
-        if $USE_SYMBOLS; then
-            if [[ ${status} =~ $allAlone ]]; then
-                local sym=${status:$(( ${#status} - 1 ))}
-                status="${status::-1} ${sym}"
-            fi
-            status=${status/\*/${unsta}}
-            status=${status/\+/${uncom}}
-            status=${status/\%/${untra}}
-
-            status=${status/\>/${s_ahead}}
-            status=${status/\</${s_behind}}
-            status=${status/\=/${s_even}}
-        fi
-
-        echo -ne "${status}"
-    fi
-
-    cd - > /dev/null
 } #}}}
 updateRepo() { #{{{
     local repo="${1}"
@@ -90,8 +57,8 @@ updateAll() { #{{{
     done
 } #}}}
 showAll() { #{{{
+    loadGitStatus
     local repoLen=$(getRepositoryNameLength)
-    sourceGitShPrompt
 
     for repo in "${repos[@]}"; do
         if [ -d "${repo}/.git" ]; then
@@ -109,16 +76,17 @@ showAll() { #{{{
 } #}}}
 
 if [ -z "${MY_REPOSITORIES}" ]; then
-    echo "MY_REPOSITORIES empty, nothing to do"
+    >&2 echo "MY_REPOSITORIES empty, nothing to do"
     exit 0
 fi
 
 repos=(${MY_REPOSITORIES//;/ })
 
 if [ "${1}" = "update" ]; then
-    sleep 10
-    updateAll
+    echo "Updating repos in background"
+    updateAll &
+else
+    showAll
 fi
 
-showAll
 # vim: ft=sh fdm=marker foldlevel=0

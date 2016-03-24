@@ -5,18 +5,14 @@ CONKY_LOG="${TMPDIR}/log/conky"
 CONF_DIR="${HOME}/.conky/configs"
 CONFIGS=(
 clock
+repo_status
+rss_feeds
 system
 cpu
 ram
 files
-rss_feeds
-repo_status
 )
 
-# create the log directory unless it exists
-[ -n "${CONKY_LOG}" ] && mkdir -p $(dirname "${CONKY_LOG}")
-# move old logfile
-[ -e "${CONKY_LOG}" ] && mv "${CONKY_LOG}" "${CONKY_LOG}.bak"
 
 log() {
     if [ -z "${CONKY_LOG}" ]; then
@@ -51,9 +47,16 @@ startAll() {
 
         log "starting $(basename ${fn})"
         startOne "${fn}"
-        sleep 1
+        #sleep 1
     done
     log "startAll completed"
 }
+
+if [ -n "${CONKY_LOG}" ]; then
+    # create the log directory unless it exists
+    mkdir -p $(dirname "${CONKY_LOG}")
+    # move old logfile
+    [ -e "${CONKY_LOG}" ] && mv "${CONKY_LOG}" "${CONKY_LOG}.bak"
+fi
 
 startAll &
