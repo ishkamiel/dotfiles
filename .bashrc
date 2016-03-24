@@ -28,6 +28,3 @@ HISTCONTROL=ignoreboth  # Ignore leading space & duplicates (ignorespace ignored
 shopt -s histappend     # append to the history file, don't overwrite it
 shopt -s checkwinsize   # update LINES and COLUMNS after commands
 shopt -s globstar       # enable ** to match in subdirs
-
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"

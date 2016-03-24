@@ -72,11 +72,7 @@ CleanIshlib() {
     unset -f InitTempDir
     unset -f SourceFile
     unset -f CleanIshlib
-
-    unset -f loadNVM
-    unset -f loadRuby
 }
-
 # }}}
 loadNVM() { # {{{
     export NVM_DIR=${1}
@@ -87,6 +83,12 @@ loadNVM() { # {{{
         ErrorLog "Couldn't find nvm at ${NVM_DIR}"
     fi
 } # }}}
+loadRVM() { #{{{
+    # Add RVM to PATH for scripting
+    AddToPath "$HOME/.rvm/bin"
+    # Load RVM into a shell session *as a function*
+    [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+} #}}}
 loadRuby() { # {{{
     local gempath="${1}"
 
@@ -110,6 +112,7 @@ InitTempDir "${HOME}/tmp"
 
 # Applicatoin specific environment setup
 loadNVM "${HOME}/.nvm"
+loadRVM
 # loadRuby "${HOME}/.gem/ruby"
 
 # Add some paths
@@ -124,4 +127,10 @@ SourceFile "${HOME}/.profile_local" 1 # (1 suppresses logging on not found)
 # Source .bashrc if running bash (not sure if this is needed?)
 [ -n "${BASH_VERSION}" ] && [ -f "${HOME}/.bashrc" ] && . "${HOME}/.bashrc"
 
+####################################################################################################
+# Unset functions so they don't escape
+CleanIshlib
+unset -f loadNVM
+unset -f loadRVM
+unset -f loadRuby
 # vim: ft=sh fdm=marker foldlevel=0
