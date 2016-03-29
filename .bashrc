@@ -29,8 +29,5 @@ shopt -s histappend     # append to the history file, don't overwrite it
 shopt -s checkwinsize   # update LINES and COLUMNS after commands
 shopt -s globstar       # enable ** to match in subdirs
 
-# Fix sudo completion
-complete -cf sudo
-
 # Switch xterm to xterm-256color
 [ "$TERM" = "xterm" ] && export TERM="xterm-256color"

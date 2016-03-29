@@ -1,47 +1,11 @@
 " vim:fdm=marker foldlevel=0
 
-let s:verbose=0 " enable additional output on load
-let s:load_vundle_plugins=1 " master toggle for all plugins
-
-" Text width to use
+" Text and side panel widths
 let s:pd_textwidth=100
-" Side panel width
 let s:pd_sidewidth = max([10, min([40, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
 
-" -------------------------- Helper functions {{{
-
-function! TrimWhiteSpace()
-    %s/\s\+$//e
-endfunction
-
-function PrintMsg(msg)
-    if s:verbose
-        echom a:msg
-    endif
-endfunction
-
-function! OnWindows()
-    if has("win32") || has("win16")
-        return 1
-    endif
-    return 0
-endfunction
-
-function! IsFileLoaded()
-    " TODO: fix this crap!
-    " This is heavily inspired by http://vim.wikia.com/wiki/List_loaded_scripts
-    " let old_more = &more " Save more value
-    " set no_more
-
-    " redir => lines " redirect output
-    silent execute 'scriptnames'
-    " redir END " stop redirect
-
-    " let &more = save_more " Restore more value
-endfunction
-
-" }}}
-" -------------------------- PdPM {{{
+let s:load_vundle_plugins=1 " master swith for plugins
+" -------------------------- PdPM (Vundle wrapper){{{
 "  DESCRIPTION:
 "
 "  This is a very simple wrapper around Vundle, mainly intended for a clearer(?)
@@ -110,7 +74,7 @@ function InitPdPM()
         " install: git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
         set rtp+=~/.vim/bundle/Vundle.vim
-        if OnWindows()
+        if has("win32") || has("win16")
             let path='~/vimfiles/bundle'
             set rtp+=~/vimfiles/bundle/Vundle.vim
         endif
@@ -128,9 +92,13 @@ function InitPdPM()
 
         for pack in self.packs
             if !pack.enabled
-                call PrintMsg(pack.plugin . " DISABLED")
+                if s:verbose
+                    echom pack.plugin . " DISABLED"
+                endif
             elseif has_key(pack, 'conditional') && !pack.conditional()
-                call PrintMsg(pack.plugin . " DIABLED (conditional)")
+                if s:verbose
+                    echom pack.plugin . " DIABLED (conditional)"
+                endif
                 let pack.enabled = 0
             endif
 
@@ -183,7 +151,7 @@ endfunction
 let s:PdPM = InitPdPM()
 
 " Side panels and statusline
-for p in s:PdPM.add('scrooloose/NERDTree', { 'nossh': 1 }) "{{{
+for p in s:PdPM.add('scrooloose/NERDTree', {}) "{{{
     " https://github.com/scrooloose/nerdtree
 
     function p.config() dict
@@ -196,7 +164,7 @@ for p in s:PdPM.add('scrooloose/NERDTree', { 'nossh': 1 }) "{{{
     endfunction
 
 endfor "}}}
-for p in s:PdPM.add('jistr/vim-nerdtree-tabs', { 'nossh': 1 }) "{{{
+for p in s:PdPM.add('jistr/vim-nerdtree-tabs', {}) "{{{
 
     function p.config() dict
         " Open NERDTree on console vim startup
@@ -213,7 +181,7 @@ for p in s:PdPM.add('jistr/vim-nerdtree-tabs', { 'nossh': 1 }) "{{{
     endfunction
 
 endfor "}}}
-for p in s:PdPM.add('Xuyuanp/nerdtree-git-plugin', { 'nossh': 1}) "{{{
+for p in s:PdPM.add('Xuyuanp/nerdtree-git-plugin', {}) "{{{
 
 endfor "}}}
 for p in s:PdPM.add('majutsushi/tagbar', {}) "{{{
@@ -239,7 +207,7 @@ for p in s:PdPM.add('bling/vim-airline', {}) "{{{
 
 endfor "}}}
 " Autocompletion and syntax checking stuff
-for p in s:PdPM.add('Valloric/YouCompleteMe', { 'nossh': 1 }) "{{{
+for p in s:PdPM.add('Valloric/YouCompleteMe', {}) "{{{
 
     function p.config() dict
         " Set YouCompleteMe trigger key
@@ -295,11 +263,19 @@ for p in s:PdPM.add('scrooloose/syntastic', {}) "{{{
     endfunction
 
 endfor "}}}
-" Other plugins
-for p in s:PdPM.add('scrooloose/nerdcommenter', {}) "{{{
+" Git
+for p in s:PdPM.add('tpope/vim-fugitive', {}) "{{{
 
 endfor "}}}
-for p in s:PdPM.add('tpope/vim-fugitive', { 'disabled': 1 }) "{{{
+for p in s:PdPM.add('airblade/vim-gitgutter', {}) "{{{
+
+    function p.config() dict
+        " let g:gitgutter_highlight_lines = 1
+    endfunction
+
+endfor "}}}
+" Other plugins
+for p in s:PdPM.add('scrooloose/nerdcommenter', {}) "{{{
 
 endfor "}}}
 for p in s:PdPM.add('aperezdc/vim-template', {}) "{{{
@@ -312,8 +288,8 @@ endfor "}}}
 for p in s:PdPM.add('morhetz/gruvbox', {}) "{{{
 
     function p.config() dict
-        let g:gruvbox_contrast_drak = 'medium'
-        let g:gruvbox_contrast_light = 'medium'
+        " let g:gruvbox_contrast_drak = 'medium
+        " let g:gruvbox_contrast_light = 'medium'
     endfunction
 
 endfor "}}}
@@ -342,6 +318,7 @@ endfor "}}}
 call s:PdPM.loadAll()
 
 " -------------------------- General vim config {{{
+
 set nocompatible                " Load non-Vi-compaitlbe settings
 syntax on                       " Syntax highlighting
 filetype plugin indent on       " Use indening
@@ -372,6 +349,8 @@ set spelllang=en                " languages used for spelling
 set completeopt-=preview        " remove extended preview from autocinserts (scratch window)
 set hlsearch                    " highlight searches
 
+set updatetime=500              " Milliseconds between writes (affects git-gutter update speed)
+
 set foldmethod=syntax           " Syntax based folding
 set foldlevel=999               " Display everything by default
 set foldnestmax=1
@@ -384,11 +363,10 @@ if version >= 704
     " highlight ColorColumn ctermbg=8
 endif
 
-" set foldlevelstart=1
-" set foldcolumn=4
-" inoremap <F9> <C-O>za
-" nnoremap <A-Space> za
-" onoremap <F9> <C-C>za
+" colorshceme stuff
+set t_ut=
+set background=dark
+colorscheme gruvbox
 
 " disable arrow keys
 nnoremap <up> <nop>
@@ -400,42 +378,14 @@ nnoremap <right> <nop>
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
 
-" }}}
-" -------------------------- Windows stuff {{{
-
-if has("win32") || has("win16")
-    set backupdir=~/vimbackup
-    set directory=~/vimbackup
-    set lines=40 columns=160
-endif
-
-" }}}
-" -------------------------- gVim stuff {{{
-
-" GVim config
-set guioptions-=m  "remove menu bar
-set guioptions-=T  "remove toolbar
-set guioptions-=r  "remove right-hand scroll bar
-set guioptions-=L  "remove left-hand scroll bar
-
-" }}}
-" -------------------------- Color themes and styling {{{
-
-set background=dark
-" set t_Co=25
-set t_ut=
-colorscheme gruvbox
-" colorscheme pablo
-" hi FoldColumn ctermfg=DarkCyan ctermbg=8
-
-"-------------------------------------------------------------------------------
-" }}}
-
-" -------------------------- Generic AutoCommands {{{
-
 if has("autocmd")
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
+
+" Trim whitespace
+function! TrimWhiteSpace()
+    %s/\s\+$//e
+endfunction
 
 augroup trimWhiteSpace
     autocmd!
@@ -446,5 +396,19 @@ augroup trimWhiteSpace
 augroup END
 
 " }}}
-"
+" -------------------------- Windows & gVim stuff {{{
+
+if has("win32") || has("win16")
+    set backupdir=~/vimbackup
+    set directory=~/vimbackup
+    set lines=40 columns=160
+endif
+
+set guioptions-=m  "remove menu bar
+set guioptions-=T  "remove toolbar
+set guioptions-=r  "remove right-hand scroll bar
+set guioptions-=L  "remove left-hand scroll bar
+
+" }}}
+
 call s:PdPM.configureAll()
