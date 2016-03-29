@@ -207,7 +207,9 @@ for p in s:PdPM.add('bling/vim-airline', {}) "{{{
 
 endfor "}}}
 " Autocompletion and syntax checking stuff
-for p in s:PdPM.add('Valloric/YouCompleteMe', {}) "{{{
+for p in s:PdPM.add('Valloric/YouCompleteMe', {'nossh': 1}) "{{{
+    " Keeping this disable on remote hosts as it requires additional installation of
+    " build tools (at least 86.1MB extra on thin server).
 
     function p.config() dict
         " Set YouCompleteMe trigger key
