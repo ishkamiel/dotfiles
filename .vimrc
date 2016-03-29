@@ -1,8 +1,11 @@
 " vim:fdm=marker foldlevel=0
 
-let s:verbose=0
-let s:load_vundle_plugins=1
+let s:verbose=0 " enable additional output on load
+let s:load_vundle_plugins=1 " master toggle for all plugins
+
+" Text width to use
 let s:pd_textwidth=100
+" Side panel width
 let s:pd_sidewidth = max([10, min([40, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
 
 " -------------------------- Helper functions {{{
@@ -38,34 +41,53 @@ function! IsFileLoaded()
 endfunction
 
 " }}}
-" -------------------------- PluginPackManager {{{
+" -------------------------- PdPM {{{
 "  DESCRIPTION:
 "
 "  This is a very simple wrapper around Vundle, mainly intended for a clearer(?)
 "  configuration file structure. PluginPacks are declared in an OO style together
-"  with any accompanying conguration. The plugins are immediately loaded, but
-"  configuration functions for all packs are called in one go by calling Configure
-"  packs.
+"  with any accompanying conguration. The plugins are in one go when calling
+"  loadAll, and configured when calling configureAll.
 "
 "  SYNOPSIS:
 "
-"       let plugin = InitPluginPack([ pluginNames ])
-"       function plugin.config() dict
-"           ... do whatever ...
-"       endfunction
+"       " Initialize manager
+"       let pm = InitPdPM()
 "
-"       let plugin = InitPluginPack([ pluginNames ])
-"       " ... etc ...
+"       " add plugin
+"       pm.add('some/plugin', {})
 "
-"       plugin.enabled = 0 " Disable plugin from being loaded & configured
+"       " add disabled plugin (for quick temporary disabling)
+"       pm.add('some/plugin', { 'disabled': 1 }
 "
-"       call LoadPluginPacks()
-"       call ConfigurePluginPacks)
+"       " add plugin, but don't load when SSHing (fails when sudoing)
+"       pm.add('some/plugin', { 'nossh': 1 }
 "
-"  TODO: Add simple check for local install (Ubuntu vim-addons-manager?)
-"  TODO: Check success of plugin loading
+"       " add plugin with custom config
+"       for plugin in pm.add('some/plugin', {})
+"
+"           " Note that the plugin is not loaded at this point!
+"           " You could however do some other checks here and disable based on that.
+"           " Just do 'let plugin.enabled = 0' do disable
+"
+"           function plugin.config() dict
+"               " This run when pm.configureAll is ran
+"           endfunction
+"
+"       endfor
+"
+"       " Load all plugins
+"       call pm.loadAll()
+"
+"       " Then do some other stuff
+"       ... something? ...
+"
+"       " Run each plugins config function (if provided)
+"       call pm.configureAll()
+"
+"       " An maybe do some more other stuff?
 
-function InitPdPluginManager()
+function InitPdPM()
     let pm = { 'packs': [], 'enabled': 0 }
 
     " Check some stuff before enabling
@@ -106,20 +128,14 @@ function InitPdPluginManager()
 
         for pack in self.packs
             if !pack.enabled
-                call PrintMsg(pack.name . " is disabled")
+                call PrintMsg(pack.plugin . " DISABLED")
             elseif has_key(pack, 'conditional') && !pack.conditional()
-                call PrintMsg("Disabling " . pack.name)
+                call PrintMsg(pack.plugin . " DIABLED (conditional)")
                 let pack.enabled = 0
             endif
 
             if pack.enabled
-                if filereadable(self.plugindir . pack.name)
-                    call PrintMsg("Found " . pack.name . " in .vim/plugins, skipping")
-                else
-                    for plugin in pack.plugins
-                        Plugin plugin
-                    endfor
-                endif
+                Plugin pack.plugin
             endif
         endfor
 
@@ -140,10 +156,23 @@ function InitPdPluginManager()
         endfor
     endfunction
 
-    function pm.add(name, plugins)  dict
-        let pack = { 'name': a:name, 'plugins': a:plugins, 'enabled': 1, 'loaded': 0, 'pm': self }
+    function pm.add(plugin, params)  dict
+        let pack = { 'plugin': a:plugin, 'enabled': 1, 'loaded': 0, 'pm': self }
+
+        if has_key(a:params, 'disabled') && a:params.disabled
+            let pack.enabled = 0
+        endif
+
+        if has_key(a:params, 'nossh') && a:params.nossh
+            " FIXME: This fails when sudoing!
+             if exists("$SSH_TTY")
+                 let pack.enabled = 0
+             endif
+        endif
+
         call add(self.packs, pack)
-        return pack
+        " Return array for misuse of for loops :)
+        return [pack]
     endfunction
 
     return pm
@@ -151,229 +180,166 @@ endfunction
 
 " }}}
 
-let s:PdPluginManager = InitPdPluginManager()
+let s:PdPM = InitPdPM()
 
-" -------------------------- NERDTree (p_nerdtree) {{{
-" https://github.com/scrooloose/nerdtree
+" Side panels and statusline
+for p in s:PdPM.add('scrooloose/NERDTree', { 'nossh': 1 }) "{{{
+    " https://github.com/scrooloose/nerdtree
 
-let p_nerdtree = s:PdPluginManager.add('nerdtree', [
-            \'scrooloose/NERDTree',
-            \'jistr/vim-nerdtree-tabs',
-            \'Xuyuanp/nerdtree-git-plugin'
-            \])
+    function p.config() dict
+        " NERDTree_tabs manages most of this...
+        " autocmd vimenter * NERDTree
+        " map <C-n> :NERDTreeToggle<CR>
+        let g:NERDTreeWinSize=s:pd_sidewidth
+        " close NERDTree if it's the last one left
+        " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+    endfunction
 
-function p_nerdtree.conditional() dict
-    if exists("$SSH_TTY")
-        " Seems to be causing exessive network usage...
-        return 0
-    endif
-    return 1
-endfunction
+endfor "}}}
+for p in s:PdPM.add('jistr/vim-nerdtree-tabs', { 'nossh': 1 }) "{{{
 
-function p_nerdtree.config() dict
-    " NERDTree_tabs manages most of this...
-    " autocmd vimenter * NERDTree
-    " map <C-n> :NERDTreeToggle<CR>
-    let g:NERDTreeWinSize=s:pd_sidewidth
-    " close NERDTree if it's the last one left
-    " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+    function p.config() dict
+        " Open NERDTree on console vim startup
+        let g:nerdtree_tabs_open_on_console_startup=1 " (default: 0)
 
+        " On startup, focus NERDTree if opening a directory, focus file if opening a file.
+        " (When set to 2, always focus file window after startup).
+        let g:nerdtree_tabs_smart_startup_focus=2 " (default: 1)
 
-    " Open NERDTree on console vim startup
-    let g:nerdtree_tabs_open_on_console_startup=1 " (default: 0)
+        " When switching into a tab, make sure that focus is on the file window, not in
+        " the NERDTree window. (Note that this can get annoying if you use NERDTree's
+        " feature 'open in new tab silently', as you will lose focus on the NERDTree.)
+        let g:nerdtree_tabs_focus_on_files=1 " (default: 0)
+    endfunction
 
-    " On startup, focus NERDTree if opening a directory, focus file if opening a file.
-    " (When set to 2, always focus file window after startup).
-    let g:nerdtree_tabs_smart_startup_focus=2 " (default: 1)
+endfor "}}}
+for p in s:PdPM.add('Xuyuanp/nerdtree-git-plugin', { 'nossh': 1}) "{{{
 
-    " When switching into a tab, make sure that focus is on the file window, not in
-    " the NERDTree window. (Note that this can get annoying if you use NERDTree's
-    " feature 'open in new tab silently', as you will lose focus on the NERDTree.)
-    let g:nerdtree_tabs_focus_on_files=1 " (default: 0)
-endfunction
+endfor "}}}
+for p in s:PdPM.add('majutsushi/tagbar', {}) "{{{
 
-" }}}
-" -------------------------- tagbar {{{
+    function p.config() dict
+        " if has("win32") || has("win16")
+        "     let g:tagbar_ctags_bin = 'C:\Users\ishkamiel\Documents\installs\ctags\ctags.exe'
+        " endif
+        nmap <F8> :TagbarToggle<CR>
+        "" nmap <F8> :TagbarOpenAutoClose<CR>
+        let g:tagbar_width=s:pd_sidewidth
+        "let g:tagbar_sort=0                 " 1 -> alphabetical sorting
+        autocmd VimEnter * nested :call tagbar#autoopen(1)
+    endfunction
 
-let plugin = s:PdPluginManager.add('tagbar', [
-            \'majutsushi/tagbar'
-            \])
+endfor "}}}
+for p in s:PdPM.add('bling/vim-airline', {}) "{{{
 
-function plugin.config() dict
-    " if has("win32") || has("win16")
-    "     let g:tagbar_ctags_bin = 'C:\Users\ishkamiel\Documents\installs\ctags\ctags.exe'
-    " endif
-    nmap <F8> :TagbarToggle<CR>
-    "" nmap <F8> :TagbarOpenAutoClose<CR>
-    let g:tagbar_width=s:pd_sidewidth
-    "let g:tagbar_sort=0                 " 1 -> alphabetical sorting
-    autocmd VimEnter * nested :call tagbar#autoopen(1)
-endfunction
+    function p.config() dict
+        let g:airline#extensions#tabline#enabled = 1
+        let g:airline_powerline_fonts = 1
+    endfunction
 
-" }}}
-" -------------------------- YouCompleteMe (p_ycm) {{{
+endfor "}}}
+" Autocompletion and syntax checking stuff
+for p in s:PdPM.add('Valloric/YouCompleteMe', { 'nossh': 1 }) "{{{
 
-let p_ycm = s:PdPluginManager.add('youcompleteme.vim', [
-            \'Valloric/YouCompleteMe'
-            \])
+    function p.config() dict
+        " Set YouCompleteMe trigger key
+        " let g:ycm_key_list_select_completion = ['<Down>']
+        " let g:ycm_key_list_previous_completion = ['<Up>']
+        " let g:ycm_extra_conf_globlist = ['~/gameProject/*']
+        let g:ycm_use_ultisnips_completer = 1
+        " let g:ycm_collect_identifiers_from_comments_and_strings = 1
+    endfunction
 
-function p_ycm.conditional() dict
-    " Not really nice on remote hosts, compiling and stuff :(
-    if exists("$SSH_TTY")
-        return 0
-    endif
-    return 1
-endfunction
+endfor "}}}
+for p in s:PdPM.add('ultisnips', {}) "{{{
 
-function p_ycm.config() dict
-    " Set YouCompleteMe trigger key
-    " let g:ycm_key_list_select_completion = ['<Down>']
-    " let g:ycm_key_list_previous_completion = ['<Up>']
-    " let g:ycm_extra_conf_globlist = ['~/gameProject/*']
-    let g:ycm_use_ultisnips_completer = 1
-    " let g:ycm_collect_identifiers_from_comments_and_strings = 1
-endfunction
+    function p.config() dict
+        " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+        let g:UltiSnipsExpandTrigger="<c-l>"
+        let g:UtliSnipsEditSplit="normal"
+        " let g:UltiSnipsListSnippets="<c-Right>"
+        let g:UltiSnipsJumpForwardTrigger="<tab>"
+        " let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
-" }}}
-" -------------------------- UltiSnips (p_ultisnips) {{{
+        " If you want :UltiSnipsEdit to split your window.
+        let g:UltiSnipsEditSplit="vertical"
+    endfunction
 
-let p_ultisnips = s:PdPluginManager.add('ultisnips', [
-            \'SirVer/ultisnips',
-            \'honza/vim-snippets'
-            \])
+endfor "}}}
+for p in s:PdPM.add('honza/vim-snippets', {} ) "{{{
 
-function p_ultisnips.conditional() dict
-    " Not really nice on remote hosts, compiling and stuff :(
-    if exists("$SSH_TTY")
-        return 0
-    endif
-    return 1
-endfunction
+endfor "}}}
+for p in s:PdPM.add('scrooloose/syntastic', {}) "{{{
 
-function p_ultisnips.config() dict
-    " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-    let g:UltiSnipsExpandTrigger="<c-l>"
-    let g:UtliSnipsEditSplit="normal"
-    " let g:UltiSnipsListSnippets="<c-Right>"
-    let g:UltiSnipsJumpForwardTrigger="<tab>"
-    " let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+    function p.config() dict
+        set statusline+=%#warningmsg#
+        set statusline+=%{SyntasticStatuslineFlag()}
+        set statusline+=%*
+        "
+        let g:syntastic_aggregate_errors=0 " run all checkers and aggregate results
+        let g:syntastic_always_populate_loc_list=1
+        let g:syntastic_auto_loc_list=2
+        let g:syntastic_loc_list_height=5
+        let g:syntastic_check_on_open=1
+        let g:syntastic_check_on_wq=0
+        "
+        let g:syntastic_enable_balloons=1
+        let g:syntastic_enable_signs=1
+        "
+        "let g:syntastic_perl_checkers = ['perlcritic']
 
-    " If you want :UltiSnipsEdit to split your window.
-    let g:UltiSnipsEditSplit="vertical"
-endfunction
+        " let g:syntastic_enable_perl_checker = 1
+        " let g:syntastic_javascript_checkers = ['jshint']
+        " let g:syntastic_mode_map = { 'passive_filetypes': ['html'] } " don't check html
+        " let g:syntastic_c_check_header = 1
+    endfunction
 
-" }}}
-" -------------------------- vim-commentary (p_commentary) {{{
+endfor "}}}
+" Other plugins
+for p in s:PdPM.add('scrooloose/nerdcommenter', {}) "{{{
 
-let p_commentary = s:PdPluginManager.add('commentary', [
-            \'tpope/vim-commentary'
-            \])
+endfor "}}}
+for p in s:PdPM.add('tpope/vim-fugitive', { 'disabled': 1 }) "{{{
 
-" }}}
-" -------------------------- nerdcommenter (p_nerdcommenter) {{{
+endfor "}}}
+for p in s:PdPM.add('aperezdc/vim-template', {}) "{{{
 
-let p_nerdcommenter = s:PdPluginManager.add('p_nerdcommenter', [
-            \'scrooloose/nerdcommenter'
-            \])
+    function p.config() dict
+        let g:templates_directory='~/.vim/my_templates'
+    endfunction
 
-" }}}
-" -------------------------- Syntastic {{{
+endfor "}}}
+for p in s:PdPM.add('morhetz/gruvbox', {}) "{{{
 
-let plugin = s:PdPluginManager.add('syntastic.vim', [
-            \'scrooloose/syntastic'
-            \])
+    function p.config() dict
+        let g:gruvbox_contrast_drak = 'medium'
+        let g:gruvbox_contrast_light = 'medium'
+    endfunction
 
-function plugin.config() dict
-    set statusline+=%#warningmsg#
-    set statusline+=%{SyntasticStatuslineFlag()}
-    set statusline+=%*
-    "
-    let g:syntastic_aggregate_errors=0 " run all checkers and aggregate results
-    let g:syntastic_always_populate_loc_list=1
-    let g:syntastic_auto_loc_list=2
-    let g:syntastic_loc_list_height=5
-    let g:syntastic_check_on_open=1
-    let g:syntastic_check_on_wq=0
-    "
-    let g:syntastic_enable_balloons=1
-    let g:syntastic_enable_signs=1
-    "
-    "let g:syntastic_perl_checkers = ['perlcritic']
+endfor "}}}
+" Filtype plugins
+for p in s:PdPM.add('Matt-Deacalion/vim-systemd-syntax', {}) "{{{
 
-    " let g:syntastic_enable_perl_checker = 1
-    " let g:syntastic_javascript_checkers = ['jshint']
-    " let g:syntastic_mode_map = { 'passive_filetypes': ['html'] } " don't check html
-    " let g:syntastic_c_check_header = 1
-endfunction
+endfor "}}}
+for p in s:PdPM.add('lervag/vimtex', {}) "{{{
 
-" }}}
-" -------------------------- vim-fugitive {{{
+    function p.config() dict
+        " let g:vimtex_fold_enabled=1
+        " let g:vimtex_fold_comments=1
+        " let g:vimtex_fold_manual=1
 
-" let plugin = s:PdPluginManager.add('fugitive', [
-"             \'tpope/vim-fugitive'
-"             \])
+        augroup vimtex
+            autocmd!
+            autocmd BufNewFile,BufRead *.tex setlocal foldlevel=0
+            autocmd BufNewFile,BufRead *.tex setlocal spell
+            autocmd BufNewFile,BufRead *.tex let g:syntastic_quiet_messages = { "regex": 'You should put a space in front of parenthesis' }
+            " autocmd BufNewFile,BufRead *.tex nnoremap <buffer> <silent> <Space> :call vimtex#fold#refresh('za')<CR>
+        augroup END
+    endfunction
 
-" }}}
-" -------------------------- vim-airline (p_airline) {{{
+endfor "}}}
 
-let p_airline = s:PdPluginManager.add('airline', [
-            \'bling/vim-airline'
-            \])
-
-function p_airline.config() dict
-    let g:airline#extensions#tabline#enabled = 1
-    let g:airline_powerline_fonts = 1
-endfunction
-
-" }}}
-" -------------------------- vim-templates (vtemplates) {{{
-
-let vtemplates = s:PdPluginManager.add('vim-templates', [
-            \'aperezdc/vim-template'
-            \])
-
-function vtemplates.config() dict
-    let g:templates_directory='~/.vim/my_templates'
-endfunction
-
-" }}}
-
-" -------------------------- systemd {{{
-
-let plugin = s:PdPluginManager.add('systemd syntax', [
-            \'Matt-Deacalion/vim-systemd-syntax'
-            \])
-
-" }}}
-" -------------------------- VimTex (vimtex) {{{
-
-let vimtex = s:PdPluginManager.add('systemd syntax', [
-            \'lervag/vimtex'
-            \])
-
-function vimtex.config() dict
-    " let g:vimtex_fold_enabled=1
-    " let g:vimtex_fold_comments=1
-    " let g:vimtex_fold_manual=1
-
-    augroup vimtex
-        autocmd!
-        autocmd BufNewFile,BufRead *.tex setlocal foldlevel=0
-        autocmd BufNewFile,BufRead *.tex setlocal spell
-        autocmd BufNewFile,BufRead *.tex let g:syntastic_quiet_messages = { "regex": 'You should put a space in front of parenthesis' }
-        " autocmd BufNewFile,BufRead *.tex nnoremap <buffer> <silent> <Space> :call vimtex#fold#refresh('za')<CR>
-    augroup END
-endfunction
-
-" }}}
-
-let p_commentary.enabled=0
-" let p_nerdtree.enabled=0
-" let p_airline.enabled=0
-" let p_ycm.enabled=0
-" let p_ultisnips.enabled=0
-
-call s:PdPluginManager.loadAll()
+call s:PdPM.loadAll()
 
 " -------------------------- General vim config {{{
 set nocompatible                " Load non-Vi-compaitlbe settings
@@ -456,9 +422,9 @@ set guioptions-=L  "remove left-hand scroll bar
 " -------------------------- Color themes and styling {{{
 
 set background=dark
-set t_Co=25
+" set t_Co=25
 set t_ut=
-colorscheme delek
+colorscheme gruvbox
 " colorscheme pablo
 " hi FoldColumn ctermfg=DarkCyan ctermbg=8
 
@@ -481,9 +447,4 @@ augroup END
 
 " }}}
 "
-call s:PdPluginManager.configureAll()
-
-" python from powerline.vim import setup as powerline_setup
-" python powerline_setup()
-" python del powerline_setup
-
+call s:PdPM.configureAll()

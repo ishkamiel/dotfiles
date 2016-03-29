@@ -11,6 +11,7 @@ source "${HOME}/.bash/tmux"
 
 set -o vi
 export EDITOR="/usr/bin/vim"
+[ "$TERM" = "xterm" ] && export TERM="xterm-256color"
 
 DEFAULT_USER=ishkamiel
 source ${HOME}/.bash/agnomod.theme
