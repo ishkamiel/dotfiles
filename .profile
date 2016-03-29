@@ -121,11 +121,13 @@ AddToPath "${HOME}/bin" 1
 AddToPath "${HOME}/.local/bin" 1
 AddToPath "/usr/local/heroku/bin" 1
 
-# If available, source non-version-controller .profile_local
+# If available, source non-version-controller .profile_local and personalized config
 SourceFile "${HOME}/.profile_local" 1 # (1 suppresses logging on not found)
+SourceFile "${DOTFILES}/config" 1
 
 # Source .bashrc if running bash (not sure if this is needed?)
 [ -n "${BASH_VERSION}" ] && [ -f "${HOME}/.bashrc" ] && . "${HOME}/.bashrc"
+
 
 ####################################################################################################
 # Unset functions so they don't escape

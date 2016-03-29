@@ -15,7 +15,6 @@
     ~/.config/terminator/config: .config/terminator/config
     ~/.conky: .conky
     ~/.fonts/ge-inspira.ttf: .fonts/ge-inspira.ttf
-    ~/.gitconfig: .gitconfig
     ~/.inputrc: .inputrc
     ~/.pam_environment: .pam_environment
     ~/.profile: .profile

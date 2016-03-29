@@ -12,7 +12,6 @@ source "${HOME}/.bash/tmux"
 set -o vi
 export EDITOR="/usr/bin/vim"
 
-DEFAULT_USER=ishkamiel
 source ${HOME}/.bash/agnomod.theme
 source ${HOME}/.bash/aliases
 
