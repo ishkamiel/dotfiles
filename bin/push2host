@@ -16,15 +16,8 @@ RSYNC_OPTS="$RSYNC_OPTS -y"                 # increase verbosity
 RSYNC_OPTS="$RSYNC_OPTS -h"                 # human readable
 RSYNC_OPTS="$RSYNC_OPTS --progress"         # show progress during transfer
 
-files=".gitconfig"
-files="$files .profile"
-files="$files .bashrc"
-files="$files .bash"
-files="$files .bashrc"
-files="$files .tmux.conf"
-files="$files .inputrc"
-files="$files .vimrc"
-files="$files .vim/bundle/Vundle.vim"
+files=".dotfiles"
+#files="$files .vim/bundle/Vundle.vim"
 
 # Change to home directory, since we are using relative path names
 cd $HOME

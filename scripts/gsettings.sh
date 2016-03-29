@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ ! -x "$(which gsettings)" ]; then
+    echo "No gsettings command found, skipping"
+    exit
+fi
+
 # Fix desktop background and right-click
 gsettings set org.gnome.settings-daemon.plugins.background active false
 # Disable annoying search on type thing
