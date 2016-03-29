@@ -52,7 +52,7 @@ let s:load_vundle_plugins=1 " master swith for plugins
 "       " An maybe do some more other stuff?
 
 function InitPdPM()
-    let pm = { 'packs': [], 'enabled': 0 }
+    let pm = { 'packs': [], 'enabled': 0, 'verbose': 0}
 
     " Check some stuff before enabling
     if s:load_vundle_plugins
@@ -92,11 +92,11 @@ function InitPdPM()
 
         for pack in self.packs
             if !pack.enabled
-                if s:verbose
+                if self.verbose
                     echom pack.plugin . " DISABLED"
                 endif
             elseif has_key(pack, 'conditional') && !pack.conditional()
-                if s:verbose
+                if self.verbose
                     echom pack.plugin . " DIABLED (conditional)"
                 endif
                 let pack.enabled = 0
