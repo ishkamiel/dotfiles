@@ -21,12 +21,13 @@
     ~/.profile: .profile
     ~/.tmux.conf: .tmux.conf
     ~/.vimrc: .vimrc
+    ~/.vim/bundle: .vim/bundle
 - shell:
   -
-    command: scripts/gsettings.sh
+    command: setup_scripts/gsettings.sh
     stdin: true
     stdout: true
-#  -
-#    command: vim +PluginInstall +qall
-#    stdin: true
-#    stdout: true
+  -
+    command: setup_scripts/vundle.sh
+    stdin: true
+    stdout: true
