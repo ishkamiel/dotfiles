@@ -398,6 +398,11 @@ augroup trimWhiteSpace
 augroup END
 
 " }}}
+" -------------------------- FileType specific stuff{{{
+
+let g:tex_comment_nospell=1
+
+" }}}
 " -------------------------- Windows & gVim stuff {{{
 
 if has("win32") || has("win16")
