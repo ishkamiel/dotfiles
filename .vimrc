@@ -280,19 +280,15 @@ endfor "}}}
 for p in s:PdPM.add('scrooloose/nerdcommenter', {}) "{{{
 
 endfor "}}}
-for p in s:PdPM.add('aperezdc/vim-template', {}) "{{{
-
-    function p.config() dict
-        let g:templates_directory='~/.vim/my_templates'
-    endfunction
-
-endfor "}}}
 for p in s:PdPM.add('morhetz/gruvbox', {}) "{{{
 
     function p.config() dict
         " let g:gruvbox_contrast_drak = 'medium
         " let g:gruvbox_contrast_light = 'medium'
     endfunction
+
+endfor "}}}
+for p in s:PdPM.add('vimchant', {}) "{{{
 
 endfor "}}}
 " Filtype plugins
