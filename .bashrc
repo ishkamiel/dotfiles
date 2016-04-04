@@ -21,14 +21,14 @@ export GIT_PS1_SHOWUNTRACKEDFILES=true
 export GIT_PS1_SHOWUPSTREAM="auto"
 export GIT_PS1_SHOWCOLORHINTS=true
 
-
+# History stuff
 HISTSIZE=5000           # Bash command line history size
 HISTFILESIZE=10000
 HISTCONTROL=ignoreboth  # Ignore leading space & duplicates (ignorespace ignoredups)
 shopt -s histappend     # append to the history file, don't overwrite it
+
 shopt -s checkwinsize   # update LINES and COLUMNS after commands
 shopt -s globstar       # enable ** to match in subdirs
-
 
 set -o vi               # enable Bash Vim mode
 set -o ignoreeof        # ignore ctrl-D
@@ -39,5 +39,10 @@ export EDITOR="/usr/bin/vim"
 # Switch xterm to xterm-256color
 [ "$TERM" = "xterm" ] && export TERM="xterm-256color"
 
-# Needs to be loaded here
+# Load RVM into a shell session *as a function*
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+# Map e to some vim
+alias e="vi"
+command -v vim >/dev/null 2>&1 && alias e="vim"
+command -v nvim >/dev/null 2>&1 && alias e="nvim"

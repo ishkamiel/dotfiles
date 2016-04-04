@@ -74,32 +74,6 @@ CleanIshlib() {
     unset -f CleanIshlib
 }
 # }}}
-loadNVM() { # {{{
-    export NVM_DIR=${1}
-
-    if [ -s "${NVM_DIR}/nvm.sh" ]; then
-        . "${NVM_DIR}/nvm.sh"
-    else
-        ErrorLog "Couldn't find nvm at ${NVM_DIR}"
-    fi
-} # }}}
-loadRVM() { #{{{
-    # Add RVM to PATH for scripting
-    AddToPath "$HOME/.rvm/bin"
-    # Load RVM into a shell session *as a function*
-    [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-} #}}}
-loadRuby() { # {{{
-    local gempath="${1}"
-
-    if [ -e "${gempath}" ]; then
-        local ruby_version=$(ls ${gempath} | sort | tail -n 1);
-        local gem_bin="${gempath}/${ruby_version}/bin"
-        AddToPath "${gem_bin}"
-    else
-        ErrorLog "Cannot find Ruby in ${gempath}"
-    fi
-} # }}}
 
 export EDITOR=/usr/bin/vim
 export DOTFILES="${HOME}/.dotfiles"
@@ -110,10 +84,12 @@ InitErrorLog "${HOME}/.profile_errors"
 # Use ishlib InitTempDir to initialize a (somewhat) private temporary directory inside /tmp
 InitTempDir "${HOME}/tmp"
 
-# Applicatoin specific environment setup
-loadNVM "${HOME}/.nvm"
-loadRVM
-# loadRuby "${HOME}/.gem/ruby"
+# NVM (Node version manager)
+[[ -s "${NVM_DIR}/nvm.sh" ]] && . "${NVM_DIR}/nvm.sh"
+
+# RVM (Ruby version manager)
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+AddToPath "$HOME/.rvm/bin" 1
 
 # Add some paths
 AddToPath "${HOME}/.dotfiles/bin" 1
@@ -132,7 +108,4 @@ SourceFile "${DOTFILES}/config" 1
 ####################################################################################################
 # Unset functions so they don't escape
 CleanIshlib
-unset -f loadNVM
-unset -f loadRVM
-unset -f loadRuby
 # vim: ft=sh fdm=marker foldlevel=0

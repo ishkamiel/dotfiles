@@ -8,6 +8,7 @@
 - link:
     ~/.bashrc: .bashrc
     ~/.bash: .bash
+    ~/.bash_profile: .bash_profile
     ~/.config/autostart/conky.desktop: .config/autostart/conky.desktop
     ~/.config/autostart/guake.desktop: .config/autostart/guake.desktop
     ~/.config/autostart/repoUpdate.desktop: .config/autostart/repoUpdate.desktop
