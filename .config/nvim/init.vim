@@ -1,0 +1,97 @@
+call plug#begin()
+let g:plugDir = '~/.config/nvim/plugged/'
+
+Plug 'tpope/vim-sensible'
+Plug 'morhetz/gruvbox'
+Plug 'scrooloose/NERDTree'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'majutsushi/tagbar'
+Plug 'bling/vim-airline'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer --clang-completer' }
+Plug 'honza/vim-snippets' | Plug 'SirVer/ultisnips'
+Plug 'scrooloose/syntastic'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'scrooloose/nerdcommenter'
+Plug 'vimchant'
+Plug 'ntpeters/vim-better-whitespace'
+
+Plug 'Matt-Deacalion/vim-systemd-syntax', { 'for': 'systemd' }
+Plug 'lervag/vimtex', { 'for': 'tex' }
+
+call plug#end()
+
+" Config
+set scrolloff=10
+set secure
+set shiftwidth=4
+set pastetoggle=<F9>
+set tabstop=4
+
+" Colorscheme stuff
+set background=dark
+colorscheme gruvbox
+
+" Keyboard mappings
+nmap <F8> :TagbarToggle<CR>
+
+
+"-------------------------------------------------------------------------------
+" Plugin config
+"-------------------------------------------------------------------------------
+
+" YouCompleteMe
+" let g:ycm_use_ultisnips_completer = 1
+
+" UltiSnips
+" let g:UltiSnipsExpandTrigger='<c-l>'
+" let g:UltiSnipsJumpForwardTrigger='<c-n>'
+" let g:UltiSnipsJumpBackwardTrigger='<c-p>'
+
+" Tagbar
+augroup tagbar
+	autocmd!
+	" let g:tagbar_width=s:pd_sidewidth
+	autocmd VimEnter * nested :call tagbar#autoopen(1)
+augroup END
+
+" Let vim-nerdtree-tabs manage the NERDTree
+let g:nerdtree_tabs_open_on_console_startup=1
+let g:nerdtree_tabs_smart_startup_focus=2
+let g:nerdtree_tabs_focus_on_files=1
+
+" airline stuff
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+
+" Syntastic
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+"let g:syntastic_aggregate_errors=0 " run all checkers and aggregate results
+"let g:syntastic_always_populate_loc_list=1
+"let g:syntastic_auto_loc_list=2
+"let g:syntastic_loc_list_height=5
+let g:syntastic_check_on_open=1
+"let g:syntastic_check_on_wq=0
+let g:syntastic_enable_balloons=1
+let g:syntastic_enable_signs=1
+
+" better-whitesapce
+highlight ExtraWhitespace ctermbg=black
+autocmd BufWritePre * StripWhitespace
+
+"-------------------------------------------------------------------------------
+" Filetype specfic
+"-------------------------------------------------------------------------------
+
+" LaTmeX
+let g:tex_comment_nospell=1
+augroup vimtex
+	autocmd!
+	autocmd BufNewFile,BufRead *.tex setlocal spell
+	" autocmd BufNewFile,BufRead *.tex let g:syntastic_quiet_messages = { "regex": 'You should put a space in front of parenthesis' }
+	" autocmd BufNewFile,BufRead *.tex nnoremap <buffer> <silent> <Space> :call vimtex#fold#refresh('za')<CR>
+augroup END
+

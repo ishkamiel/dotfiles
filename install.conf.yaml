@@ -13,6 +13,7 @@
     ~/.config/autostart/guake.desktop: .config/autostart/guake.desktop
     ~/.config/autostart/repoUpdate.desktop: .config/autostart/repoUpdate.desktop
     ~/.config/gtk-3.0/gtk.css: .config/gtk-3.0/gtk.css
+    ~/.config/nvim/init.vim: .config/nvim/init.vim
     ~/.config/terminator/config: .config/terminator/config
     ~/.conky: .conky
     ~/.fonts/ge-inspira.ttf: .fonts/ge-inspira.ttf
@@ -28,6 +29,10 @@
     stdin: true
     stdout: true
   -
-    command: setup_scripts/vundle.sh
+    command: setup_scripts/vim.sh
+    stdin: true
+    stdout: true
+  -
+    command: setup_scripts/neovim.sh
     stdin: true
     stdout: true
