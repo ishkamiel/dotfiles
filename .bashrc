@@ -3,8 +3,12 @@ case $- in # Stop unless interactive
     *) return;;
 esac
 
-# Load the system default bashrc
-[ -e /etc/bash.bashrc ] && source /etc/bash.bashrc
+# Load system bash_completion stuff
+if [ -f /usr/share/bash-completion/bash_completion ]; then
+	. /usr/share/bash-completion/bash_completion
+elif [ -f /etc/bash_completion ]; then
+	. /etc/bash_completion
+fi
 
 # This will possibly load tmux, just uncomment to disable
 source "${HOME}/.bash/tmux"
