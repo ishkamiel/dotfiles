@@ -1,4 +1,0 @@
-# This contains user specific stuff and should be edited if the dotfiles are used as such
-export DEFAULT_USER=ishkamiel
-
-# vim: ft=sh

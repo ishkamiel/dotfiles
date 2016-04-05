@@ -1,3 +1,4 @@
+# vim: fdm=marker foldlevel=0
 # ~/.profile: executed by the command interpreter for login shells (and desktop :) )
 
 # Generic helper functions (ishlib) {{{
@@ -87,9 +88,9 @@ InitTempDir "${HOME}/tmp"
 # NVM (Node version manager)
 [[ -s "${NVM_DIR}/nvm.sh" ]] && . "${NVM_DIR}/nvm.sh"
 
-# RVM (Ruby version manager)
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-AddToPath "$HOME/.rvm/bin" 1
+# RVM
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 # Add some paths
 AddToPath "${HOME}/.dotfiles/bin" 1
@@ -97,15 +98,13 @@ AddToPath "${HOME}/bin" 1
 AddToPath "${HOME}/.local/bin" 1
 AddToPath "/usr/local/heroku/bin" 1
 
-# If available, source non-version-controller .profile_local and personalized config
-SourceFile "${HOME}/.profile_local" 1 # (1 suppresses logging on not found)
-SourceFile "${DOTFILES}/config" 1
-
 # Source .bashrc if running bash (not sure if this is needed?)
 [ -n "${BASH_VERSION}" ] && [ -f "${HOME}/.bashrc" ] && . "${HOME}/.bashrc"
 
+# source ~/.profile_local (See example .profile_local for some variables that stuff in these scripts)
+SourceFile "${HOME}/.profile_local" 1 # (1 suppresses logging on not found)
 
 ####################################################################################################
 # Unset functions so they don't escape
 CleanIshlib
-# vim: ft=sh fdm=marker foldlevel=0
+

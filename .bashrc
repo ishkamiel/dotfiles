@@ -10,14 +10,27 @@ elif [ -f /etc/bash_completion ]; then
 	. /etc/bash_completion
 fi
 
-# This will possibly load tmux, just uncomment to disable
-source "${HOME}/.bash/tmux"
+# Switch xterm to xterm-256color (needs to be set before launching tmux!)
+[ "$TERM" = "xterm" ] && export TERM="xterm-256color"
 
-# Load the agnoster/powerline theme
-source ${HOME}/.bash/agnomod.theme
+# Check if we've got tmux available
+if [ -x /usr/bin/tmux ] && [ -z "${TMUX}" ];then
+	# Start tmux if DROPDOWNTERMINAL or SSH_TTY set
+	# 	DROPDOWNTERMINAL is manually set when I launch guake
+	#	SSH_TTY is automatically set for ssh sessions
+    TMUX_SESSION=
+    [[ -n "${DROPDOWNTERMINAL}" ]] && TMUX_SESSION='dd'
+    [[ -n "${SSH_TTY}" ]] && TMUX_SESSION='ssh'
+	if [ -n "${TMUX_SESSION}" ]; then
+        exec /usr/bin/tmux new-session -s $TMUX_SESSION -A -D
+	fi
+fi
+
+# Load the agnoster/powerline prompt theme
+source "${DOTFILES}/bash/agnomod.theme"
 
 # Load bash aliases
-source ${HOME}/.bash/aliases
+source ${HOME}/.bash_aliases
 
 # Git prompt settings (used by the modified agnoster theme)
 export GIT_PS1_SHOWDIRTYSTATE=true
@@ -40,13 +53,4 @@ set -o ignoreeof        # ignore ctrl-D
 # Set vim to default editor
 export EDITOR="/usr/bin/vim"
 
-# Switch xterm to xterm-256color
-[ "$TERM" = "xterm" ] && export TERM="xterm-256color"
-
-# Load RVM into a shell session *as a function*
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-
-# Map e to some vim
-alias e="vi"
-command -v vim >/dev/null 2>&1 && alias e="vim"
-command -v nvim >/dev/null 2>&1 && alias e="nvim"
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting

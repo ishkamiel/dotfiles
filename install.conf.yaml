@@ -7,7 +7,7 @@
 
 - link:
     ~/.bashrc: .bashrc
-    ~/.bash: .bash
+    ~/.bash_aliases: .bash_aliases
     ~/.bash_profile: .bash_profile
     ~/.config/autostart/conky.desktop: .config/autostart/conky.desktop
     ~/.config/autostart/guake.desktop: .config/autostart/guake.desktop
@@ -22,7 +22,6 @@
     ~/.profile: .profile
     ~/.tmux.conf: .tmux.conf
     ~/.vimrc: .vimrc
-    ~/.vim/bundle: .vim/bundle
 - shell:
   -
     command: setup_scripts/gsettings.sh

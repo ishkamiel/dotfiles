@@ -9,7 +9,7 @@ export GIT_PS1_SHOWCOLORHINTS=true
 loadGitStatus() { #{{{
     # Check if we've already got a gitStatus command
     if ! $(type gitStatus &> /dev/null); then
-        local filename="${DOTFILES}/.bash/lib/gitStatus"
+        local filename="${DOTFILES}/bash/lib/gitStatus"
         [ -z "${DOTFILES}" ] && filename="${HOME}${filename}"
         if [ -e  "${filename}" ]; then
             source "${filename}"

@@ -1,9 +1,24 @@
-#! /bin/sh
+#!/bin/bash
 
-if command -v vim >/dev/null 2>&1 && alias e="vim"
-then
-    git submodule update --init --recursive "${HOME}/.vim/bundle/Vundle.vim"
-    vim +PluginInstall +qall
-else
-    echo "Cannot find vim, skipping vim config"
+FILENAME="${HOME}/.vim/autoload/plug.vim"
+URL="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+
+if [[ ! -e "${FILENAME}" ]]; then
+    echo "Downloading vim-plug"
+    [[ -e "${FILENAME}" ]] || curl -fLo "${FILENAME}" --create-dirs "${URL}"
+fi
+vim +PlugInstall +qall
+
+if [[ ! "${DEFAULT_HOSTNAME}" = $(hostname) ]]; then
+    DST="${HOME}/.vimrc"
+    SRC="${DOTFILES}/.vimrc_lite"
+
+    # Exit unless a lite version exists
+    [[ -e $SRC ]] || exit
+
+    # Exit unless dest safe to remove
+    [[ -e $DST ]] && [[ ! -h $DST ]] && exit
+
+    [[ -e $DST ]] && rm $DST
+    ln -s $SRC $DST
 fi

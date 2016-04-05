@@ -200,6 +200,6 @@ prompt_command() {
 ####################################################################################################
 # Startup
 
-source "${DOTFILES}/.bash/lib/gitStatus"
+source "${DOTFILES}/bash/lib/gitStatus"
 
 PROMPT_COMMAND='PS1=$(prompt_command)'

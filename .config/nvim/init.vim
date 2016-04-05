@@ -13,9 +13,10 @@ Plug 'honza/vim-snippets' | Plug 'SirVer/ultisnips'
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-commentary'
 Plug 'vimchant'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'ctrlpvim/ctrlp.vim'
 
 Plug 'Matt-Deacalion/vim-systemd-syntax', { 'for': 'systemd' }
 Plug 'lervag/vimtex', { 'for': 'tex' }
@@ -24,14 +25,26 @@ call plug#end()
 
 " Config
 set scrolloff=10
+set autochdir
 set secure
 set shiftwidth=4
 set pastetoggle=<F9>
 set tabstop=4
+set ttimeout
+set ttimeoutlen=0
+
+" vim file location
+set backupdir=~/tmp/vimbackup,.,~
+set directory=~/tmp/vimbackup,.,~
 
 " Colorscheme stuff
 set background=dark
 colorscheme gruvbox
+
+" Remember file locations
+if has("autocmd")
+	au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
 
 " Keyboard mappings
 nmap <F8> :TagbarToggle<CR>
@@ -66,9 +79,9 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 
 " Syntastic
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 "let g:syntastic_aggregate_errors=0 " run all checkers and aggregate results
 "let g:syntastic_always_populate_loc_list=1
 "let g:syntastic_auto_loc_list=2
@@ -94,4 +107,3 @@ augroup vimtex
 	" autocmd BufNewFile,BufRead *.tex let g:syntastic_quiet_messages = { "regex": 'You should put a space in front of parenthesis' }
 	" autocmd BufNewFile,BufRead *.tex nnoremap <buffer> <silent> <Space> :call vimtex#fold#refresh('za')<CR>
 augroup END
-
