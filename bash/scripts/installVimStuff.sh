@@ -10,21 +10,18 @@ URL_PLUG="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 ##########################
 
 if [[ ! -e "${FN_VIM}" ]]; then
-	echo "Downloading vim-plug"
-	downloadFile "${FN_VIM}" "${URL_PLUG}"
+	downloadFile "${URL_PLUG}" "${FN_VIM}"
 fi
-vim +PlugInstall +qall
+[[ -e ${FN_VIM} ]] && vim +PlugInstall +qall
 
 # Install vim-plug for neovim IF it's installed
 ###############################################
 
 if command -v nvim >/dev/null 2>&1
 then
-	if [[ ! -e "${FN_NEOVIM}" ]]; then
-		echo "Downloading vim-plug"
-		downloadFile "${FN_NEOVIM}" "${URL_PLUG}"
+	if [[ ! -e ${FN_NEOVIM} ]] && [[ -e ${FN_VIM} ]]; then
+		# If needed, just copy vim-plug into neovim from vim
+		cp ${FN_VIM} ${FN_NEOVIM}
 	fi
-    nvim +PlugInstall +qall
-else
-    echo "Cannot find nvim, skipping neovim config"
+    [[ -e ${FN_NEOVIM} ]] && nvim +PlugInstall +qall
 fi
