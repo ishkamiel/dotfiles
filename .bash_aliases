@@ -16,4 +16,4 @@ alias mv="mv -i"
 # Map e to some vim
 alias e="vi"
 command -v vim >/dev/null 2>&1 && alias e="vim"
-# command -v nvim >/dev/null 2>&1 && alias e="nvim"
+command -v nvim >/dev/null 2>&1 && alias e="nvim"

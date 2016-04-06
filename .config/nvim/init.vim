@@ -1,7 +1,6 @@
 call plug#begin()
 let g:plugDir = '~/.config/nvim/plugged/'
 
-Plug 'tpope/vim-sensible'
 Plug 'morhetz/gruvbox'
 Plug 'scrooloose/NERDTree'
 Plug 'jistr/vim-nerdtree-tabs'
@@ -30,8 +29,6 @@ set secure
 set shiftwidth=4
 set pastetoggle=<F9>
 set tabstop=4
-set ttimeout
-set ttimeoutlen=0
 
 " vim file location
 set backupdir=~/tmp/vimbackup,.,~

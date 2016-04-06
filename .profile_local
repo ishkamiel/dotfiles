@@ -3,12 +3,6 @@
 # username matches DEFAULT_USER no username is shown.
 # export DEFAULT_USER=$(whoami)
 
-# DEFAULT_HOSTNAME="
-# This is used in some cases to determine whether or not to use 'light' or 'full' versions of
-# settings. (e.g. if DEFAULT_HOSTNAME is non-empty and doesn't match the current hostname
-# the vim setup script will link vimrc to vimrc_light)
-# export DEFAULT_HOSTNAME=$(hostname)
-
 # MY_REPOSITORIES="PATH1;PATH2"
 # This is just a comma separated list of paths to git repositories, this is used byt the
 # repo_status script to determine where to look for repositories.

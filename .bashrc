@@ -22,7 +22,8 @@ if [ -x /usr/bin/tmux ] && [ -z "${TMUX}" ];then
     [[ -n "${DROPDOWNTERMINAL}" ]] && TMUX_SESSION='dd'
     [[ -n "${SSH_TTY}" ]] && TMUX_SESSION='ssh'
 	if [ -n "${TMUX_SESSION}" ]; then
-        exec /usr/bin/tmux new-session -s $TMUX_SESSION -A -D
+        #exec /usr/bin/tmux new-session -s $TMUX_SESSION -A -D
+        exec /usr/bin/tmux new-session -s $TMUX_SESSION -A
 	fi
 fi
 

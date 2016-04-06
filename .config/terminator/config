@@ -55,7 +55,7 @@
     scrollbar_position = hidden
     use_system_font = False
     background_darkness = 0.94
-    scrollback_lines = 0
+    scrollback_lines = 1000
     background_type = transparent
     background_image = None
     foreground_color = "#ffffff"
