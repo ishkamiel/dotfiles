@@ -11,10 +11,12 @@ downloadFile() {
 
 	if command -v curl >/dev/null 2>&1
 	then
+        mkdir -p $(dirname "${dst}")
 		echo "downloading ${src} to ${dst}"
     	curl --progress-bar -fLo "${dst}" --create-dirs "${src}"
 	elif command -v wget >/dev/null 2>&1
 	then
+        mkdir -p $(dirname "${dst}")
 		wget -nv -O "${dst}" "${src}"
 	else
 		echo "Need either curl or wget to download ${src}"
