@@ -150,7 +150,7 @@ prompt_command() {
             }
             ++i;
         }
-        printf "%s\n", $i; }' | xargs echo -n
+        printf "%s", $i; }'
     } # }}}
     __prompt_context() { #{{{
         local user=`whoami`
