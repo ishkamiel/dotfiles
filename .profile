@@ -78,6 +78,7 @@ CleanIshlib() {
 
 export EDITOR=/usr/bin/vim
 export DOTFILES="${HOME}/.dotfiles"
+export DOTFILES_BASH="${DOTFILES}/bash"
 
 # Initialize separate error log for .profile
 InitErrorLog "${HOME}/.profile_errors"

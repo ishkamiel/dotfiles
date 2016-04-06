@@ -28,7 +28,7 @@ if [ -x /usr/bin/tmux ] && [ -z "${TMUX}" ];then
 fi
 
 # Load the agnoster/powerline prompt theme
-source "${DOTFILES}/bash/agnomod.theme"
+source "${DOTFILES_BASH}/agnomod.theme"
 
 # Load bash aliases
 source ${HOME}/.bash_aliases

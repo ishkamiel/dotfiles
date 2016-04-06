@@ -24,14 +24,10 @@
     ~/.vimrc: .vimrc
 - shell:
   -
-    command: setup_scripts/gsettings.sh
+    command: bash/scripts/desktopSettings.sh
     stdin: true
     stdout: true
   -
-    command: setup_scripts/vim.sh
-    stdin: true
-    stdout: true
-  -
-    command: setup_scripts/neovim.sh
+    command: bash/scripts/installVimStuff.sh
     stdin: true
     stdout: true
