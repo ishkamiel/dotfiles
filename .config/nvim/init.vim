@@ -1,6 +1,4 @@
 call plug#begin()
-let g:plugDir = '~/.config/nvim/plugged/'
-
 Plug 'morhetz/gruvbox'
 Plug 'scrooloose/NERDTree'
 Plug 'jistr/vim-nerdtree-tabs'
@@ -16,17 +14,24 @@ Plug 'tpope/vim-commentary'
 Plug 'vimchant'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'ctrlpvim/ctrlp.vim'
-
 Plug 'Matt-Deacalion/vim-systemd-syntax', { 'for': 'systemd' }
 Plug 'lervag/vimtex', { 'for': 'tex' }
-
 call plug#end()
 
-" Config
+" -----------------------------------------------------------------
+" Basic config
+" -----------------------------------------------------------------
+
+" Text and side panel widths
+let g:pd_textwidth=100
+let g:pd_sidewidth = max([10, min([40, ((&columns - g:pd_textwidth - 5 ) / 2) ])])
+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0123456789
 set scrolloff=10
 set autochdir
 set secure
 set shiftwidth=4
+set nowrap
+let &textwidth=g:pd_textwidth
 set pastetoggle=<F9>
 set tabstop=4
 
@@ -46,36 +51,51 @@ endif
 " Keyboard mappings
 nmap <F8> :TagbarToggle<CR>
 
+augroup PanelSize
+	autocmd!
+	autocmd VimResized * let g:pd_sidewidth = max([23, min([40, ((&columns - g:pd_textwidth - 5 ) / 2) ])])
+	autocmd VimResized let g:tagbar_width=g:pd_sidewidth
+	autocmd VimResized let g:NERDTreeWinSize=g:pd_sidewidth
+augroup END
 
 "-------------------------------------------------------------------------------
 " Plugin config
 "-------------------------------------------------------------------------------
 
 " YouCompleteMe
+"-------------------------------------------------------------------------------
 " let g:ycm_use_ultisnips_completer = 1
 
 " UltiSnips
+"-------------------------------------------------------------------------------
 " let g:UltiSnipsExpandTrigger='<c-l>'
 " let g:UltiSnipsJumpForwardTrigger='<c-n>'
 " let g:UltiSnipsJumpBackwardTrigger='<c-p>'
 
 " Tagbar
+"-------------------------------------------------------------------------------
+let g:tagbar_width=g:pd_sidewidth
+
 augroup tagbar
 	autocmd!
-	" let g:tagbar_width=s:pd_sidewidth
 	autocmd VimEnter * nested :call tagbar#autoopen(1)
 augroup END
 
-" Let vim-nerdtree-tabs manage the NERDTree
+
+" NERDTree
+"-------------------------------------------------------------------------------
+let g:NERDTreeWinSize=g:pd_sidewidth
 let g:nerdtree_tabs_open_on_console_startup=1
 let g:nerdtree_tabs_smart_startup_focus=2
 let g:nerdtree_tabs_focus_on_files=1
 
 " airline stuff
+"-------------------------------------------------------------------------------
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 
 " Syntastic
+"-------------------------------------------------------------------------------
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -89,6 +109,7 @@ let g:syntastic_enable_balloons=1
 let g:syntastic_enable_signs=1
 
 " better-whitesapce
+"-------------------------------------------------------------------------------
 highlight ExtraWhitespace ctermbg=black
 autocmd BufWritePre * StripWhitespace
 
@@ -96,7 +117,8 @@ autocmd BufWritePre * StripWhitespace
 " Filetype specfic
 "-------------------------------------------------------------------------------
 
-" LaTmeX
+" LaTeX
+"-------------------------------------------------------------------------------
 let g:tex_comment_nospell=1
 augroup vimtex
 	autocmd!
