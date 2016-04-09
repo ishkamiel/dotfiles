@@ -30,9 +30,6 @@ fi
 # Load the agnoster/powerline prompt theme
 source "${DOTFILES_BASH}/agnomod.theme"
 
-# Load bash aliases
-source ${HOME}/.bash_aliases
-
 # Git prompt settings (used by the modified agnoster theme)
 export GIT_PS1_SHOWDIRTYSTATE=true
 export GIT_PS1_SHOWUNTRACKEDFILES=true
@@ -53,5 +50,9 @@ set -o ignoreeof        # ignore ctrl-D
 
 # Set vim to default editor
 export EDITOR="/usr/bin/vim"
+command -v nvim >/dev/null 2>&1 && export EDITOR="$(which nvim)"
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+# Load bash aliases
+source ${HOME}/.bash_aliases
