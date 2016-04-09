@@ -24,7 +24,9 @@ call plug#end()
 
 " Text and side panel widths
 let g:pd_textwidth=100
-let g:pd_sidewidth = max([10, min([40, ((&columns - g:pd_textwidth - 5 ) / 2) ])])
+let g:pd_min_sidewidth=20
+let g:pd_max_sidewidth=40
+let g:pd_sidewidth = max([g:pd_min_sidewidth, min([g:pd_max_sidewidth, ((&columns - g:pd_textwidth - 5 ) / 2) ])])
 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0123456789
 set scrolloff=10
 set autochdir
@@ -53,7 +55,7 @@ nmap <F8> :TagbarToggle<CR>
 
 augroup PanelSize
 	autocmd!
-	autocmd VimResized * let g:pd_sidewidth = max([23, min([40, ((&columns - g:pd_textwidth - 5 ) / 2) ])])
+	autocmd VimResized let g:pd_sidewidth = max([g:pd_min_sidewidth, min([g:pd_max_sidewidth, ((&columns - g:pd_textwidth - 5 ) / 2) ])])
 	autocmd VimResized let g:tagbar_width=g:pd_sidewidth
 	autocmd VimResized let g:NERDTreeWinSize=g:pd_sidewidth
 augroup END
