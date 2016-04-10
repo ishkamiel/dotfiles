@@ -23,17 +23,14 @@ call plug#end()
 " -----------------------------------------------------------------
 
 " Text and side panel widths
-let g:pd_textwidth=100
-let g:pd_min_sidewidth=20
-let g:pd_max_sidewidth=40
-let g:pd_sidewidth = max([g:pd_min_sidewidth, min([g:pd_max_sidewidth, ((&columns - g:pd_textwidth - 5 ) / 2) ])])
-"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0123456789
 set scrolloff=10
 set autochdir
 set secure
 set shiftwidth=4
 set nowrap
-let &textwidth=g:pd_textwidth
+set textwidth=100
+let g:pd_sidewidth_min=20
+let g:pd_sidewidth_max=40
 set pastetoggle=<F9>
 set tabstop=4
 
@@ -53,11 +50,21 @@ endif
 " Keyboard mappings
 nmap <F8> :TagbarToggle<CR>
 
+" Side-panel resizing
+function ResizePanels()
+	echom "Resizing panels!"
+	let l:pd_sidewidth = max([g:pd_sidewidth_min, min([g:pd_sidewidth_max, ((&columns - &textwidth - 5 ) / 2) ])])
+	let g:tagbar_width=l:pd_sidewidth
+	let g:NERDTreeWinSize=l:pd_sidewidth
+endfunction
+
 augroup PanelSize
 	autocmd!
-	autocmd VimResized let g:pd_sidewidth = max([g:pd_min_sidewidth, min([g:pd_max_sidewidth, ((&columns - g:pd_textwidth - 5 ) / 2) ])])
-	autocmd VimResized let g:tagbar_width=g:pd_sidewidth
-	autocmd VimResized let g:NERDTreeWinSize=g:pd_sidewidth
+	" Need to use VimEnter to set the sizes, neovim executes rc before setting up ui (and
+	" initializing columns, lines and such).
+	autocmd VimEnter * call ResizePanels()
+	" This doesn't seem to work for resize though :(
+	autocmd VimResized * call ResizePanels()
 augroup END
 
 "-------------------------------------------------------------------------------
@@ -76,7 +83,6 @@ augroup END
 
 " Tagbar
 "-------------------------------------------------------------------------------
-let g:tagbar_width=g:pd_sidewidth
 
 augroup tagbar
 	autocmd!
@@ -86,7 +92,6 @@ augroup END
 
 " NERDTree
 "-------------------------------------------------------------------------------
-let g:NERDTreeWinSize=g:pd_sidewidth
 let g:nerdtree_tabs_open_on_console_startup=1
 let g:nerdtree_tabs_smart_startup_focus=2
 let g:nerdtree_tabs_focus_on_files=1
