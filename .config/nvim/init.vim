@@ -5,7 +5,7 @@ Plug 'jistr/vim-nerdtree-tabs'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'majutsushi/tagbar'
 Plug 'bling/vim-airline'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer --clang-completer' }
+Plug 'Valloric/YouCompleteMe' " , { 'do': './install.py --tern-completer --clang-completer' }
 Plug 'honza/vim-snippets' | Plug 'SirVer/ultisnips'
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-fugitive'
@@ -23,7 +23,7 @@ call plug#end()
 " -----------------------------------------------------------------
 
 " Text and side panel widths
-set scrolloff=10
+set scrolloff=1000
 set autochdir
 set secure
 set shiftwidth=4
@@ -52,7 +52,6 @@ nmap <F8> :TagbarToggle<CR>
 
 " Side-panel resizing
 function ResizePanels()
-	echom "Resizing panels!"
 	let l:pd_sidewidth = max([g:pd_sidewidth_min, min([g:pd_sidewidth_max, ((&columns - &textwidth - 5 ) / 2) ])])
 	let g:tagbar_width=l:pd_sidewidth
 	let g:NERDTreeWinSize=l:pd_sidewidth
@@ -115,7 +114,6 @@ let g:syntastic_check_on_open=1
 let g:syntastic_enable_balloons=1
 let g:syntastic_enable_signs=1
 
-" better-whitesapce
 "-------------------------------------------------------------------------------
 highlight ExtraWhitespace ctermbg=black
 autocmd BufWritePre * StripWhitespace
@@ -127,9 +125,5 @@ autocmd BufWritePre * StripWhitespace
 " LaTeX
 "-------------------------------------------------------------------------------
 let g:tex_comment_nospell=1
-augroup vimtex
-	autocmd!
-	autocmd BufNewFile,BufRead *.tex setlocal spell
-	" autocmd BufNewFile,BufRead *.tex let g:syntastic_quiet_messages = { "regex": 'You should put a space in front of parenthesis' }
-	" autocmd BufNewFile,BufRead *.tex nnoremap <buffer> <silent> <Space> :call vimtex#fold#refresh('za')<CR>
-augroup END
+let g:vimtex_latexmk_progname='nvr'
+" let g:vimtex_latexmk_callback=0
