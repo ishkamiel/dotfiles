@@ -56,3 +56,6 @@ export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 # Load bash aliases
 source ${HOME}/.bash_aliases
+
+# Load bash functions
+source "${DOTFILES}/bash/functions/gitignore.sh"
