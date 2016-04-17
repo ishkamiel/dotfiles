@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 
-[[ -z "${DOTFILES_BASH}" ]] && export $DOTFILES_BASH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../bash"
+[[ -z "${DOTFILES_BASH}" ]] && export DOTFILES_BASH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../bash"
 if [[ -e "${DOTFILES_BASH}/lib/downloadFile.sh" ]]; then
 	source "${DOTFILES_BASH}/lib/downloadFile.sh"
 else
 	exit 1;
 fi
-
 
 FN_VIM="${HOME}/.vim/autoload/plug.vim"
 FN_NEOVIM="${HOME}/.config/nvim/autoload/plug.vim"
@@ -15,8 +14,13 @@ URL_PLUG="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 # Install vim-plug for vim
 ##########################
 
-if [[ ! -e "${FN_VIM}" ]]; then
-	mkdir -p ${FN_VIM}
+if [[ -e "${FN_VIM}" ]]; then
+	if [[ ! -f "${FN_VIM}" ]]; then
+		echo "Found ${FN_VIM}, but it's not a file!"
+		exit 1;
+	fi
+else
+	mkdir -p "$(dirname ${FN_VIM})"
 	downloadFile "${URL_PLUG}" "${FN_VIM}"
 fi
 echo "Trying to launch vim for plugin install"
