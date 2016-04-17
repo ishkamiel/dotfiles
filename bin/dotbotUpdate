@@ -14,8 +14,8 @@ CREATE_CONFIG=true
 UPDATE_DOTBOT=true
 
 # Set default values for running without custom paths
-[ -z "${DOTFILES}" ] && DOTFILES="${HOME}/.dotfiles"
-[ -z "${DOTBOT_CONFIG}" ] && DOTBOT_CONFIG="${DOTFILES}/install.conf.yaml"
+[ -z "${DOTFILES}" ] && export DOTFILES="${HOME}/.dotfiles"
+[ -z "${DOTBOT_CONFIG}" ] && export DOTBOT_CONFIG="${DOTFILES}/install.conf.yaml"
 
 dotbotUpdate() {
     local dotfiles="${DOTFILES}"

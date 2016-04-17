@@ -24,10 +24,10 @@
     ~/.vimrc: .vimrc
 - shell:
   -
-    command: bash/scripts/desktopSettings.sh
+    command: bin/desktopSettings.sh
     stdin: true
     stdout: true
   -
-    command: bash/scripts/installVimStuff.sh
+    command: bin/installVimStuff.sh
     stdin: true
     stdout: true
