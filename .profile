@@ -105,6 +105,8 @@ AddToPath "/usr/local/heroku/bin" 1
 # source ~/.profile_local (See example .profile_local for some variables that stuff in these scripts)
 SourceFile "${HOME}/.profile_local" 1 # (1 suppresses logging on not found)
 
+export PERL5LIB="${HOME}/perl5/lib"
+
 ####################################################################################################
 # Unset functions so they don't escape
 CleanIshlib
