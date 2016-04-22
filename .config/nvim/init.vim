@@ -26,6 +26,7 @@ call plug#end()
 set scrolloff=1000
 set autochdir
 set secure
+set expandtab
 set shiftwidth=4
 set nowrap
 set textwidth=100
