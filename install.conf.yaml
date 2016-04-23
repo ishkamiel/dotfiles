@@ -22,6 +22,8 @@
     ~/.profile: .profile
     ~/.tmux.conf: .tmux.conf
     ~/.vimrc: .vimrc
+    ~/.vimperatorrc: .vimperatorrc
+    ~/.vimperator/colors: .vimperator/colors
 - shell:
   -
     command: bin/desktopSettings.sh

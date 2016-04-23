@@ -1,0 +1,7 @@
+colorscheme solarized
+
+" Set some Firefox options (about:config)
+" """""""""""""""""""""""""""""""""""""""
+
+" don't close the window with last tab
+set! browser.tabs.closeWindowWithLastTab=false
