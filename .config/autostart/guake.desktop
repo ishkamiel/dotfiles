@@ -2,7 +2,7 @@
 Name=Guake
 GenericName=Drop down terminal
 Comment=
-Exec=/usr/bin/env DROPDOWNTERMINAL=1 /usr/bin/guake
+Exec=/usr/bin/env DROPDOWNTERMINAL=1 /usr/bin/tilda
 Terminal=false
 Type=Application
 Icon=guake

@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=Conky
+Name=repo_status.sh
 GenericName=
 Comment=
 Exec=repo_status.sh update
