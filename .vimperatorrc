@@ -1,5 +1,8 @@
 colorscheme solarized
 
+" Use same completion as the firefox addressbar
+set complete=l
+
 " Set some Firefox options (about:config)
 " """""""""""""""""""""""""""""""""""""""
 
