@@ -9,6 +9,8 @@ then
     gsettings set org.gnome.nautilus.preferences enable-interactive-search false
     # Enable delete contect menu action
     gsettings set org.gnome.nautilus.preferences enable-delete true
+    # Don't autopopup nautilus window on USB (or phone) plugins
+    gsettings set org.gnome.desktop.media-handling automount-open false
 
     # Caps lock to escape
     gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
