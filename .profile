@@ -97,6 +97,7 @@ export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 AddToPath "${HOME}/.dotfiles/bin" 1
 AddToPath "${HOME}/personal/bin" 1
 AddToPath "${HOME}/Android/Sdk/platform-tools" 1
+AddToPath "${HOME}/Android/Sdk/tools" 1
 AddToPath "${HOME}/bin" 1
 AddToPath "${HOME}/.local/bin" 1
 AddToPath "/usr/local/heroku/bin" 1
