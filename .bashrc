@@ -59,3 +59,5 @@ source ${HOME}/.bash_aliases
 
 # Load bash functions
 source "${DOTFILES}/bash/functions/gitignore.sh"
+
+cd

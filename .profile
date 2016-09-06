@@ -100,7 +100,7 @@ AddToPath "${HOME}/Android/Sdk/platform-tools" 1
 AddToPath "${HOME}/Android/Sdk/tools" 1
 AddToPath "${HOME}/bin" 1
 AddToPath "${HOME}/.local/bin" 1
-AddToPath "${HOME}/.linuxbrew/bin/" 1
+AddToPath "${HOME}/.linuxbrew/bin" 1
 AddToPath "/usr/local/heroku/bin" 1
 
 # Source .bashrc if running bash (not sure if this is needed?)
