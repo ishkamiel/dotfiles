@@ -23,3 +23,8 @@ set revert-all-at-newline on
 # If set to ‘on’, a character denoting a file's type is appended to the filename when listing
 # possible completions. The default is ‘off’.
 set visible-stats on
+
+# vi everywhere!
+set editing-mode vi
+set keymap vi
+set convert-meta on

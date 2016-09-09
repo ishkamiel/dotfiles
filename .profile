@@ -100,6 +100,7 @@ AddToPath "${HOME}/Android/Sdk/platform-tools" 1
 AddToPath "${HOME}/Android/Sdk/tools" 1
 AddToPath "${HOME}/bin" 1
 AddToPath "${HOME}/.local/bin" 1
+AddToPath "${HOME}/.linuxbrew/bin" 1
 AddToPath "/usr/local/heroku/bin" 1
 
 # Mail env
@@ -112,6 +113,9 @@ export MAIL=/var/spool/mail/${USER}
 SourceFile "${HOME}/.profile_local" 1 # (1 suppresses logging on not found)
 
 export PERL5LIB="${HOME}/perl5/lib/perl5"
+
+# Fix for intellj IDEs: https://youtrack.jetbrains.com/issue/IDEA-78860
+export IBUS_ENABLE_SYNC_MODE=1
 
 ####################################################################################################
 # Unset functions so they don't escape
