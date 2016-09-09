@@ -102,6 +102,9 @@ AddToPath "${HOME}/bin" 1
 AddToPath "${HOME}/.local/bin" 1
 AddToPath "/usr/local/heroku/bin" 1
 
+# Mail env
+export MAIL=/var/spool/mail/${USER}
+
 # Source .bashrc if running bash (not sure if this is needed?)
 [ -n "${BASH_VERSION}" ] && [ -f "${HOME}/.bashrc" ] && . "${HOME}/.bashrc"
 
