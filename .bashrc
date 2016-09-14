@@ -41,6 +41,13 @@ HISTSIZE=5000           # Bash command line history size
 HISTFILESIZE=10000
 HISTCONTROL=ignoreboth  # Ignore leading space & duplicates (ignorespace ignoredups)
 shopt -s histappend     # append to the history file, don't overwrite it
+# After each command, append to the history file and reread it
+PROMPT_COMMAND_HIST="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+if [[ -z "${PROMPT_COMMAND}" ]]; then
+	export PROMPT_COMMAND="${PROMPT_COMMAND_HIST}"
+else
+	export PROMPT_COMMAND="${PROMPT_COMMAND}; ${PROMPT_COMMAND_HIST}"
+fi
 
 shopt -s checkwinsize   # update LINES and COLUMNS after commands
 shopt -s globstar       # enable ** to match in subdirs

@@ -34,6 +34,7 @@ set tabstop=8
 set softtabstop=8
 set nowrap
 set textwidth=100
+set colorcolumn=81
 let g:pd_sidewidth_min=20
 let g:pd_sidewidth_max=40
 set pastetoggle=<F9>
@@ -121,7 +122,7 @@ let g:syntastic_enable_signs=1
 
 "-------------------------------------------------------------------------------
 highlight ExtraWhitespace ctermbg=black
-autocmd BufWritePre * StripWhitespace
+"autocmd BufWritePre * StripWhitespace
 
 "-------------------------------------------------------------------------------
 " Filetype specfic
