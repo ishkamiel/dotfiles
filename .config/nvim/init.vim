@@ -133,6 +133,7 @@ highlight ExtraWhitespace ctermbg=black
 let g:tex_comment_nospell=1
 let g:vimtex_latexmk_progname='nvr'
 " let g:vimtex_latexmk_callback=0
+au BufRead,BufNewFile *.tex        set cc=
 
 
 " cscope
