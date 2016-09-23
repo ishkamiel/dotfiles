@@ -67,4 +67,7 @@ source ${HOME}/.bash_aliases
 # Load bash functions
 source "${DOTFILES}/bash/functions/gitignore.sh"
 
+# Load local bashrc
+source ${HOME}/.bashrc_local
+
 cd
