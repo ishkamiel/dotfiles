@@ -13,5 +13,8 @@ alias rm="rm -i"
 alias cp="cp -i"
 alias mv="mv -i"
 
+# make with -j set to online processor count
+alias makej="make -j `getconf _NPROCESSORS_ONLN`"
+
 # Map e to some vim
 command -v nvim >/dev/null 2>&1 && alias vim="nvim"
