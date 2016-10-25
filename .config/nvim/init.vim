@@ -39,6 +39,9 @@ let g:pd_sidewidth_min=20
 let g:pd_sidewidth_max=40
 set pastetoggle=<F9>
 
+" clipboard
+set clipboard=unnamedplus
+
 " vim file location
 set backupdir=~/tmp/vimbackup,.,~
 set directory=~/tmp/vimbackup,.,~
