@@ -27,4 +27,4 @@ set visible-stats on
 # vi everywhere!
 set editing-mode vi
 set keymap vi
-set convert-meta on
+set convert-meta off
