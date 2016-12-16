@@ -5,13 +5,15 @@ call plug#begin()
 
 Plug 'scrooloose/NERDTree'
 Plug 'jistr/vim-nerdtree-tabs'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'bling/vim-airline'
-Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
 Plug 'morhetz/gruvbox'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'majutsushi/tagbar'
+Plug 'lervag/vimtex', { 'for': 'tex' }
 
 call plug#end()
 
@@ -25,29 +27,29 @@ let s:pd_sidewidth = max([10, min([40, ((&columns - s:pd_textwidth - 5 ) / 2) ])
 set nocompatible                " Load non-Vi-compaitlbe settings
 syntax on                       " Syntax highlighting
 filetype plugin indent on       " Use indening
-set autoread              	    " read open files again when changed outside Vim
-set autowrite             	    " write a modified buffer on each :next , ...
+" set autoread        	    	" read open files again when changed outside Vim
+set autowrite             	" write a modified buffer on each :next , ...
 set backspace=indent,eol,start 	" allow backspacing over everything in insert mode
-set backup						" keep a backup file
-set browsedir=current   		" which directory to use for the file browser
-set history=50					" command line history
-set incsearch             		" use incremental search
-set nowrap                		" do not wrap lines
-set ruler						" show the cursor position all the time
-set shiftwidth=4        		" number of spaces to use for each step of indent
-set showcmd						" display incomplete commands
-set tabstop=4            		" number of spaces that a <Tab> in the file counts for
-set expandtab                   " insert spaces instead of tabs
-set visualbell 		           	" visual bell instead of beeping
+set backup			" keep a backup file
+" set browsedir=current   	" which directory to use for the file browser
+set history=50			" command line history
+set incsearch             	" use incremental search
+set nowrap                	" do not wrap lines
+" set ruler			" show the cursor position all the time
+set shiftwidth=8        	" number of spaces to use for each step of indent
+set tabstop=8            	" number of spaces that a <Tab> in the file counts for
+set showcmd			" display incomplete commands
+" set expandtab                 " insert spaces instead of tabs
+set visualbell 		        " visual bell instead of beeping
 set t_vb=
 let &textwidth=s:pd_textwidth
-set autochdir            		" change the current working directory
+set noautochdir            	" change the current working directory
 set secure                      " secure loading of non-default vimrc
 set pastetoggle=<F9>            " Toggle pasting mode (disables indenting)
 set scrolloff=10                " Keep this many lines visible below cursor
 set completeopt-=preview        " remove extended preview from autoinserts (scratch window)
 set hlsearch                    " highlight searches
-set updatetime=500              " Milliseconds between writes (affects git-gutter update speed)
+" set updatetime=500       	" Milliseconds between writes (affects git-gutter update speed)
 set foldmethod=syntax           " Syntax based folding
 set foldlevel=999               " Display everything by default
 set foldnestmax=1
@@ -76,6 +78,7 @@ if has("autocmd")
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
+
 " -----------------------------------------------------------------
 " Plugin config
 " -----------------------------------------------------------------
@@ -92,7 +95,12 @@ let g:airline_powerline_fonts = 1
 
 " better-whitesapce
 highlight ExtraWhitespace ctermbg=black
-autocmd BufWritePre * StripWhitespace
+" autocmd BufWritePre * StripWhitespace
+
+" tagbar
+nmap <F8> :TagbarToggle<CR>
+
+highlight ExtraWhitespace ctermbg=black
 
 " -----------------------------------------------------------------
 " GVim config

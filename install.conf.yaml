@@ -22,6 +22,8 @@
     ~/.profile: .profile
     ~/.tmux.conf: .tmux.conf
     ~/.vimrc: .vimrc
+    ~/.vim/ftplugin/gitcommit.vim: .vim/ftplugin/gitcommit.vim
+    ~/.vim/plugin/cscope_maps.vim: .vim/plugin/cscope_maps.vim
     ~/.vimperatorrc: .vimperatorrc
     ~/.vimperator/colors: .vimperator/colors
 - shell:
