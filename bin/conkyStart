@@ -1,18 +1,18 @@
 #!/bin/bash
 
+# requires
+# gawk, or other extended awk
+
 CONKY_OPTS=""
 CONKY_LOG="${TMPDIR}/log/conky"
 CONF_DIR="${HOME}/.conky/configs"
-CONFIGS=(
-clock
-repo_status
-rss_feeds
-system
-cpu
-ram
-files
-)
 
+if [ -z "${MY_CONKY_CONFIGS}" ]; then
+	echo "Set MY_CONKY_CONFIG environmental variable before launching!"
+	exit;
+fi
+
+CONFIGS=(${MY_CONKY_CONFIGS//;/ })
 
 log() {
     if [ -z "${CONKY_LOG}" ]; then
