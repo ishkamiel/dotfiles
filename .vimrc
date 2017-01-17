@@ -84,8 +84,10 @@ endif
 " -----------------------------------------------------------------
 
 " NERDTree
+nmap <F7> :NERDTreeTabsToggle<CR>
+
 let g:NERDTreeWinSize=s:pd_sidewidth
-let g:nerdtree_tabs_open_on_console_startup=1 " (default: 0)
+let g:nerdtree_tabs_open_on_console_startup=0 " (default: 0)
 let g:nerdtree_tabs_smart_startup_focus=2 " (default: 1)
 let g:nerdtree_tabs_focus_on_files=1 " (default: 0)
 
