@@ -4,12 +4,8 @@
 call plug#begin()
 
 Plug 'scrooloose/NERDTree'
-Plug 'jistr/vim-nerdtree-tabs'
-" Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'bling/vim-airline'
-" Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
-" Plug 'airblade/vim-gitgutter'
 Plug 'morhetz/gruvbox'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'majutsushi/tagbar'
@@ -36,6 +32,7 @@ set history=50			" command line history
 set incsearch             	" use incremental search
 set nowrap                	" do not wrap lines
 " set ruler			" show the cursor position all the time
+set laststatus=2		" always show the statusbar
 set shiftwidth=8        	" number of spaces to use for each step of indent
 set tabstop=8            	" number of spaces that a <Tab> in the file counts for
 set showcmd			" display incomplete commands
@@ -84,12 +81,9 @@ endif
 " -----------------------------------------------------------------
 
 " NERDTree
-nmap <F7> :NERDTreeTabsToggle<CR>
+nmap <F7> :NERDTreeToggle<CR>
 
 let g:NERDTreeWinSize=s:pd_sidewidth
-let g:nerdtree_tabs_open_on_console_startup=0 " (default: 0)
-let g:nerdtree_tabs_smart_startup_focus=2 " (default: 1)
-let g:nerdtree_tabs_focus_on_files=1 " (default: 0)
 
 " airline stuff
 let g:airline#extensions#tabline#enabled = 1
