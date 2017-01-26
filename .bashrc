@@ -1,6 +1,6 @@
 case $- in # Stop unless interactive
-    *i*) ;;
-    *) return;;
+	*i*) ;;
+	*) return;;
 esac
 
 # Load system bash_completion stuff
@@ -18,12 +18,12 @@ if [ -x /usr/bin/tmux ] && [ -z "${TMUX}" ];then
 	# Start tmux if DROPDOWNTERMINAL or SSH_TTY set
 	# 	DROPDOWNTERMINAL is manually set when I launch guake
 	#	SSH_TTY is automatically set for ssh sessions
-    TMUX_SESSION=
-    [[ -n "${DROPDOWNTERMINAL}" ]] && TMUX_SESSION='dd'
-    [[ -n "${SSH_TTY}" ]] && TMUX_SESSION='ssh'
+	TMUX_SESSION=
+	[[ -n "${DROPDOWNTERMINAL}" ]] && TMUX_SESSION='dd'
+	[[ -n "${SSH_TTY}" ]] && TMUX_SESSION='ssh'
 	if [ -n "${TMUX_SESSION}" ]; then
-        #exec /usr/bin/tmux new-session -s $TMUX_SESSION -A -D
-        exec /usr/bin/tmux new-session -s $TMUX_SESSION -A
+		#exec /usr/bin/tmux new-session -s $TMUX_SESSION -A -D
+		exec /usr/bin/tmux new-session -s $TMUX_SESSION -A
 	fi
 fi
 
