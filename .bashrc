@@ -10,20 +10,37 @@ elif [ -f /etc/bash_completion ]; then
 	. /etc/bash_completion
 fi
 
-# Switch xterm to xterm-256color (needs to be set before launching tmux!)
-[ "$TERM" = "xterm" ] && export TERM="xterm-256color"
+# ISHDOT_TMUX_DISABLE=1	# Disable all tmux stuff
+ISHDOT_TMUX_ALWAYS=1 	# Always try to enter a tmux session
 
-# Check if we've got tmux available
-if [ -x /usr/bin/tmux ] && [ -z "${TMUX}" ];then
-	# Start tmux if DROPDOWNTERMINAL or SSH_TTY set
-	# 	DROPDOWNTERMINAL is manually set when I launch guake
-	#	SSH_TTY is automatically set for ssh sessions
-	TMUX_SESSION=
-	[[ -n "${DROPDOWNTERMINAL}" ]] && TMUX_SESSION='dd'
-	[[ -n "${SSH_TTY}" ]] && TMUX_SESSION='ssh'
-	if [ -n "${TMUX_SESSION}" ]; then
-		#exec /usr/bin/tmux new-session -s $TMUX_SESSION -A -D
-		exec /usr/bin/tmux new-session -s $TMUX_SESSION -A
+# Switch xterm to xterm-256color (needs to be set before launching tmux!)
+[[ "${TERM}" = "xterm" ]] && export TERM="xterm-256color"
+
+# Do tmux stuff if enabled
+if [ -z "${ISHDOT_TMUX_DISABLE}" ]; then
+	if [[ ! -x /usr/bin/tmux ]]; then
+		echo "Cannot find tmux executable!"
+	elif [ -z "${TMUX}" ]; then # Don't nest tmux!
+		TMUX_SESSION=;
+
+		if [ -n "${DROPDOWNTERMINAL}" ]; then
+			# Set manually when launching guake/tilda to always use same session
+			TMUX_SESSION='dd'
+		elif [ -n "${SSH_TTY}" ]; then
+			# SSH_TTY is automatically set for ssh sessions
+			TMUX_SESSION='ssh'
+		elif [ -n "${ISHDOT_TMUX_ALWAYS}" ]; then
+			# Try to find a detached session
+			TMUX_SESSION=$(tmux list-sessions \
+				-F '#{session_attached},#{session_name}' |\
+				grep ^0 | head -n1 | sed 's/.*,//')
+		fi
+
+		if [ -n "${TMUX_SESSION}" ]; then
+			exec /usr/bin/tmux new-session -s $TMUX_SESSION -A
+		elif [ -n "${ISHDOT_TMUX_ALWAYS}" ]; then
+			exec /usr/bin/tmux new-session
+		fi
 	fi
 fi
 
@@ -81,3 +98,5 @@ if [ -n "${CCACHE_DIR}" ]; then
 	export MAKEFLAGS="CFLAGS=-fdiagnostics-color=always"
 	[ -e "${CCACHE_DIR}" ] || mkdir -p "${CCACHE_DIR}"
 fi
+
+# vim: fdm=marker foldlevel=0 shiftwidth=4 tabstop=4
