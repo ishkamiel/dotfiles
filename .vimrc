@@ -59,7 +59,6 @@ if has("win32") || has("win16")
     set directory=~/vimbackup
 endif
 
-
 " Disable spellchecks in comments
 let g:tex_comment_nospell=1
 
@@ -76,25 +75,31 @@ if has("autocmd")
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
-
 " -----------------------------------------------------------------
 " Plugin config
 " -----------------------------------------------------------------
 
 " NERDTree
+"
 nmap <F7> :NERDTreeToggle<CR>
 
 let g:NERDTreeWinSize=s:pd_sidewidth
 
 " airline stuff
+"
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
+" The `unique_tail_improved` - another algorithm, that will smartly uniquify
+" buffers names with similar filename, suppressing common parts of paths.
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 
 " better-whitesapce
+"
 highlight ExtraWhitespace ctermbg=black
 " autocmd BufWritePre * StripWhitespace
 
 " tagbar
+"
 nmap <F8> :TagbarToggle<CR>
 
 highlight ExtraWhitespace ctermbg=black
@@ -108,3 +113,15 @@ set guioptions-=m  "remove menu bar
 set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scroll bar
 set guioptions-=L  "remove left-hand scroll bar
+
+" -----------------------------------------------------------------
+" FileType config
+" -----------------------------------------------------------------
+
+augroup ft_mutt
+	au!
+	au FileType mail setlocal fo+=aw
+	au FileType mail setlocal tw=78
+augroup END
+
+" vim: set shiftwidth=4 tabstop=4:
