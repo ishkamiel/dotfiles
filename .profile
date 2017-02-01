@@ -27,16 +27,20 @@ InitTempDir() {
 		[ -L ${tempdir} ] && rm -f ${tempdir}
 
 		if command -v mktemp > /dev/null; then
+
+			unset TMPDIR # Need to unset for mktmp
 			ln -s $(mktemp -d) ${tempdir}
+			export TMPDIR=${tempdir}
+
 			if command -v setfacl > /dev/null; then
 				setfacl -d -m o::- "${tempdir}/."
 			else
 				ErrorLog "Cannot execute setfacl"
-				mkdir -p ${1}
+				mkdir -p ${tempdir}
 			fi
 		else
 			ErrorLog "Cannot execute mktemp"
-			mkdir -p ${1}
+			mkdir -p ${tempdir}
 		fi
 	fi
 }
