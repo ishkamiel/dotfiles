@@ -32,7 +32,7 @@ DEVID=$(xinput --list | grep TouchPad | sed -r 's/.*id=([[:digit:]]+).*/\1/')
 
 PROPS=$(xinput --list-props ${DEVID})
 
-setProp 'Tapping\t        ' 'Tapping Enabled\s+\(\d+\)' 1
+# setProp 'Tapping\t        ' 'Tapping Enabled\s+\(\d+\)' 1
 setProp 'Middle Emulation' 'Middle Emulation Enabled\s+\(\d+\)' 1
 setProp 'Naturl Scrolling' 'Natural Scrolling Enabled\s+\(\d+\)' 1
 setProp 'Acceleration' 'Accel Speed\s+\(\d+\)' 1
