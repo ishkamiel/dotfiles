@@ -95,7 +95,7 @@ if [ -n "${CCACHE_DIR}" ]; then
 	export PATH="/usr/lib/ccache:$PATH"
 	export CCACHE_PATH="/usr/bin"
 	# Need to make make+ccache use color output
-	export MAKEFLAGS="CFLAGS=-fdiagnostics-color=always"
+	# export MAKEFLAGS="CFLAGS=-fdiagnostics-color=always"
 	[ -e "${CCACHE_DIR}" ] || mkdir -p "${CCACHE_DIR}"
 fi
 
