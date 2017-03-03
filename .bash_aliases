@@ -18,3 +18,5 @@ alias makej="make -j `getconf _NPROCESSORS_ONLN`"
 
 # Map e to some vim
 command -v nvim >/dev/null 2>&1 && alias vim="nvim"
+
+command -v cscope >/dev/null 2>&1 && alias kscope="cscope -R -k -p6"
