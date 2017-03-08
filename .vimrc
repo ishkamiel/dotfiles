@@ -55,6 +55,7 @@ set foldmethod=syntax           " Syntax based folding
 set foldlevel=999               " Display everything by default
 set foldnestmax=1
 set wildmode=longest,list	" Set tab command completion behaivor
+set clipboard=unnamedplus	" Yanks stuff directly  to clipboard
 
 set backupdir=~/tmp/vimbackup,.,~
 set directory=~/tmp/vimbackup,.,~
