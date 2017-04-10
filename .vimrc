@@ -10,6 +10,10 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'majutsushi/tagbar'
 Plug 'lervag/vimtex', { 'for': 'tex' }
 
+" Git stuff
+Plug 'airblade/vim-gitgutter'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
 " Syntastic
 Plug 'vim-syntastic/syntastic'
 
@@ -24,38 +28,39 @@ call plug#end() " }}}
 let s:pd_textwidth=100
 let s:pd_sidewidth = max([10, min([40, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
 
-set nocompatible                " Load non-Vi-compaitlbe settings
-syntax on                       " Syntax highlighting
-filetype plugin indent on       " Use indening
-" set autoread        	    	" read open files again when changed outside Vim
-set autowrite             	" write a modified buffer on each :next , ...
-set backspace=indent,eol,start 	" allow backspacing over everything in insert mode
-set backup			" keep a backup file
-" set browsedir=current   	" which directory to use for the file browser
-set history=50			" command line history
-set incsearch             	" use incremental search
-set nowrap                	" do not wrap lines
-" set ruler			" show the cursor position all the time
-set laststatus=2		" always show the statusbar
-set shiftwidth=8        	" number of spaces to use for each step of indent
-set tabstop=8            	" number of spaces that a <Tab> in the file counts for
-set showcmd			" display incomplete commands
-" set expandtab                 " insert spaces instead of tabs
-set visualbell 		        " visual bell instead of beeping
+set nocompatible				" Load non-Vi-compaitlbe settings
+syntax on						" Syntax highlighting
+filetype plugin indent on		" Use indening
+" set autoread					" read open files again when changed outside Vim
+set autowrite					" write a modified buffer on each :next , ...
+set backspace=indent,eol,start	" allow backspacing over everything in insert mode
+set backup						" keep a backup file
+" set browsedir=current			" which directory to use for the file browser
+set history=50					" command line history
+set incsearch					" use incremental search
+set nowrap						" do not wrap lines
+" set ruler						" show the cursor position all the time
+set laststatus=2				" always show the statusbar
+set shiftwidth=8				" number of spaces to use for each step of indent
+set tabstop=8					" number of spaces that a <Tab> in the file counts for
+set showcmd						" display incomplete commands
+" set expandtab					" insert spaces instead of tabs
+set visualbell					" visual bell instead of beeping
 set t_vb=
 let &textwidth=s:pd_textwidth
-set noautochdir            	" change the current working directory
+set noautochdir 				" change the current working directory
 set secure                      " secure loading of non-default vimrc
 set pastetoggle=<F9>            " Toggle pasting mode (disables indenting)
 set scrolloff=10                " Keep this many lines visible below cursor
 set completeopt-=preview        " remove extended preview from autoinserts (scratch window)
 set hlsearch                    " highlight searches
-" set updatetime=500       	" Milliseconds between writes (affects git-gutter update speed)
+" set updatetime=500 			" Milliseconds between writes (affects git-gutter update speed)
 set foldmethod=syntax           " Syntax based folding
 set foldlevel=999               " Display everything by default
 set foldnestmax=1
-set wildmode=longest,list	" Set tab command completion behaivor
-set clipboard=unnamedplus	" Yanks stuff directly  to clipboard
+set wildmode=list,full			" Set tab command completion behaivor
+set clipboard=unnamedplus		" Yanks stuff directly  to clipboard
+set cinoptions=:0				" Make switch & case have same indention
 
 set backupdir=~/tmp/vimbackup,.,~
 set directory=~/tmp/vimbackup,.,~
@@ -84,14 +89,13 @@ if has("autocmd")
 endif
 
 " }}}
-" Plugin config                                                 {{{
-
-" NERDTree
+" Plugin: NERDTree {{{
 " -----------------------------------------------------------------
 nmap <F7> :NERDTreeToggle<CR>
 let g:NERDTreeWinSize=s:pd_sidewidth
 
-" airline stuff
+" }}}
+" Plugin: airline {{{
 " -----------------------------------------------------------------
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
@@ -99,25 +103,29 @@ let g:airline_powerline_fonts = 1
 " buffers names with similar filename, suppressing common parts of paths.
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 
-" better-whitesapce
+" }}}
+" Plugin: better-whitesapce {{{
 " -----------------------------------------------------------------
 highlight ExtraWhitespace ctermbg=black
 " autocmd BufWritePre * StripWhitespace
 
-" tagbar
+" }}}
+" Plugin: tagbar {{{
 " -----------------------------------------------------------------
 nmap <F8> :TagbarToggle<CR>
 
 highlight ExtraWhitespace ctermbg=black
 
-" vimtex
+" }}}
+" Plugin: vimtex {{{
 " -----------------------------------------------------------------
 let g:vimtex_fold_enabled = 1
 let g:vimtex_latexmk_enabled = 1
 let g:vimtex_latexmk_callback = 0 " requires clientserver
 let g:vimtex_text_obj_enabled = 0
 
-" Syntastic
+" }}}
+" Plugin: Syntastic {{{
 " -----------------------------------------------------------------
 let g:syntastic_enable_signs = 1
 let g:syntastic_auto_loc_list = 1
@@ -140,7 +148,8 @@ let g:syntastic_cpp_auto_refresh_includes = 1
 
 let g:syntastic_tex_checkers = [ 'lacheck' ]
 
-" YouCompleteMe
+" }}}
+" Plugin: YouCompleteMe {{{
 " -----------------------------------------------------------------
 let g:ycm_register_as_syntastic_checker = 1 "default 1
 let g:Show_diagnostics_ui = 1 "default 1
