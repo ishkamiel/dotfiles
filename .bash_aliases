@@ -20,3 +20,7 @@ alias makej="make -j `getconf _NPROCESSORS_ONLN`"
 command -v nvim >/dev/null 2>&1 && alias vim="nvim"
 
 command -v cscope >/dev/null 2>&1 && alias kscope="cscope -R -k -p6"
+
+command -v ag >/dev/null 2>&1 && alias ag="ag --ignore cscope.out"
+command -v ag >/dev/null 2>&1 && alias kag="ag --ignore-dir Documentation --ignore-dir tools --ignore-dir scripts"
+command -v ag >/dev/null 2>&1 && alias gag="ag --ignore-dir testsuite --ignore-dir doc --ignore 'ChangeLog*'"
