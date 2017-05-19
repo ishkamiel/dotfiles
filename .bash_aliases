@@ -19,7 +19,7 @@ alias makej="make -j `getconf _NPROCESSORS_ONLN`"
 # Map e to some vim
 command -v nvim >/dev/null 2>&1 && alias vim="nvim"
 
-command -v cscope >/dev/null 2>&1 && alias kscope="cscope -R -k -p6"
+command -v cscope >/dev/null 2>&1 && alias kscope="cscope -R -k -Iarch/x86/include -Iinclude -sarch/x86 -sblock -scerts -scrypto -sdrivers -sfs -sinclude -sinit -sipc -skernel -slib -smm -snet -ssound -svirt"
 
 command -v ag >/dev/null 2>&1 && alias ag="ag --ignore cscope.out"
 command -v ag >/dev/null 2>&1 && alias kag="ag --ignore-dir Documentation --ignore-dir tools --ignore-dir scripts"

@@ -92,7 +92,10 @@ endif
 " Plugin: NERDTree {{{
 " -----------------------------------------------------------------
 nmap <F7> :NERDTreeToggle<CR>
+map <leader>r :NERDTreeFind<cr>
+
 let g:NERDTreeWinSize=s:pd_sidewidth
+let g:NERDTreeIgnore = [ '\.o$' ]
 
 " }}}
 " Plugin: airline {{{
@@ -128,7 +131,7 @@ let g:vimtex_text_obj_enabled = 0
 " Plugin: Syntastic {{{
 " -----------------------------------------------------------------
 let g:syntastic_enable_signs = 1
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_always_populate_loc_list = 1
 
@@ -147,6 +150,8 @@ let g:syntastic_cpp_auto_refresh_includes = 1
 " let g:syntastic_cpp_include_dirs = []
 
 let g:syntastic_tex_checkers = [ 'lacheck' ]
+
+" nnoremap <F2> :<C-u>exe 'call <SID>LocationNext()'<CR>
 
 " }}}
 " Plugin: YouCompleteMe {{{
@@ -169,28 +174,14 @@ let g:ycm_path_to_python_interpreter = '' "default ''
 let g:ycm_server_use_vim_stdout = 0 "default 0 (logging to console)
 let g:ycm_server_log_level = 'info' "default info
 
-function SetGlobalYcmConf()
-	let path = getcwd() . "/" . bufname("") " Ugly, but close enough...
-	if path =~ "linux_kernel"
-		let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf_linux.py'
-	else
-		let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
-	endif
-endfunction
-
-" augroup YcmConf
-" 	au!
-" 	au BufReadPre * call SetGlobalYcmConf()
-" 	au BufNewFile * call SetGlobalYcmConf()
-" augroup END
-call SetGlobalYcmConf() " Just assume we always start in correct dir
-
 " let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'  "where to search for .ycm_extra_conf.py if not found
 let g:ycm_confirm_extra_conf = 1
 
 let g:ycm_goto_buffer_command = 'same-buffer' "[ 'same-buffer', 'horizontal-split', 'vertical-split', 'new-tab' ]
 let g:ycm_filetype_whitelist = { '*': 1 }
 let g:ycm_key_invoke_completion = '<C-Space>'
+
+let g:ycm_extra_conf_globlist = [ '~/devel/linux_kernel/*' ]
 
 nnoremap <F10> :YcmForceCompileAndDiagnostics <CR>
 
