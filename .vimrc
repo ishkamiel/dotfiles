@@ -204,6 +204,12 @@ augroup ft_mutt
 	au FileType mail setlocal tw=78
 augroup END
 
+augroup tex_files
+	au!
+	au FileType tex setlocal shiftwidth=4
+	au FileType tex setlocal tabstop=4
+augroup END
+
 " }}}
 
 " vim: shiftwidth=4 tabstop=4 fdm=marker foldlevel=0
