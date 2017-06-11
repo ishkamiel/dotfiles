@@ -6,6 +6,8 @@ else
 	let onWin = 2
 endif
 
+set encoding=utf-8
+
 call plug#begin() " {{{
 
 Plug 'scrooloose/NERDTree'
