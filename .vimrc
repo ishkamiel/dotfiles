@@ -16,6 +16,8 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'majutsushi/tagbar'
 Plug 'lervag/vimtex', { 'for': 'tex' }
 
+Plug 'aklt/plantuml-syntax'
+
 " Git stuff
 Plug 'airblade/vim-gitgutter'
 Plug 'Xuyuanp/nerdtree-git-plugin'
