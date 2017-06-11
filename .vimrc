@@ -57,7 +57,7 @@ set shiftwidth=8				" number of spaces to use for each step of indent
 set tabstop=8					" number of spaces that a <Tab> in the file counts for
 set showcmd						" display incomplete commands
 " set expandtab					" insert spaces instead of tabs
-set visualbell					" visual bell instead of beeping
+set novisualbell				" visual bell instead of beeping
 set t_vb=
 let &textwidth=s:pd_textwidth
 set noautochdir 				" change the current working directory
@@ -207,6 +207,9 @@ set guioptions-=r  "remove right-hand scroll bar
 set guioptions-=L  "remove left-hand scroll bar
 set guifont=Hack
 
+if has("gui_running")
+	set lines=50 columns=160
+endif
 
 " }}}
 " FileType config												{{{
