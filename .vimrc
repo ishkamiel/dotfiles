@@ -1,4 +1,10 @@
 " NOTE: Use space to fold/unfold the categories!
+"
+if has("win32") || has("win64")
+	let onWin = 1
+else
+	let onWin = 2
+endif
 
 call plug#begin() " {{{
 
@@ -18,8 +24,10 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'vim-syntastic/syntastic'
 
 " YouCompleteMe
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+if !onWin
+	Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+	Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+endif
 
 call plug#end() " }}}
 " Basic config 													{{{
