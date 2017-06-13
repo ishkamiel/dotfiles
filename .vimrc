@@ -3,7 +3,7 @@
 if has("win32") || has("win64")
 	let onWin = 1
 else
-	let onWin = 2
+	let onWin = 0
 endif
 
 set encoding=utf-8
