@@ -35,7 +35,3 @@
     command: bin/installVimStuff.sh
     stdin: true
     stdout: true
-  -
-    command: bin/keybindings.pl -i keybindings
-    stdin: false
-    stdout: false
