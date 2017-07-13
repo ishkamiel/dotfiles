@@ -11,7 +11,8 @@ elif [ -f /etc/bash_completion ]; then
 fi
 
 # ISHDOT_TMUX_DISABLE=1	# Disable all tmux stuff
-ISHDOT_TMUX_ALWAYS=1 	# Always try to enter a tmux session
+# ISHDOT_TMUX_ALWAYS=1 	# Always try to enter a tmux session
+DISABLE_TMUX_ON_SSH=1
 
 # Switch xterm to xterm-256color (needs to be set before launching tmux!)
 [[ "${TERM}" = "xterm" ]] && export TERM="xterm-256color"
@@ -37,7 +38,9 @@ if [ -z "${ISHDOT_TMUX_DISABLE}" ]; then
 		fi
 
 		if [ -n "${TMUX_SESSION}" ]; then
-			exec /usr/bin/tmux new-session -s $TMUX_SESSION -A
+			if [ -z "${DISABLE_TMUX_ON_SSH}" ] || [ "${TMUX_SESSION}" != 'ssh' ]; then
+				exec /usr/bin/tmux new-session -s $TMUX_SESSION -A
+			fi
 		elif [ -n "${ISHDOT_TMUX_ALWAYS}" ]; then
 			exec /usr/bin/tmux new-session
 		fi
