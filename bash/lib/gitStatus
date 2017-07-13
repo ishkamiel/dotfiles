@@ -13,6 +13,10 @@ gitStatus() { #{{{
 
     [ -n "${path}" ] && cd "${path}"
 
+    if [ ! -e ${git_ps1_file} ]; then
+	    return 0
+    fi
+
     if [ "$(declare -f __git_ps1 > /dev/null; echo $?)" = 1 ]; then
         source "${git_ps1_file}"
         if [ "$(declare -f __git_ps1 > /dev/null; echo $?)" = 1 ]; then
