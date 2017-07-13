@@ -19,6 +19,7 @@ Plug 'majutsushi/tagbar'
 Plug 'lervag/vimtex', { 'for': 'tex' }
 
 Plug 'aklt/plantuml-syntax'
+Plug 'rodjek/vim-puppet'
 
 " Git stuff
 Plug 'airblade/vim-gitgutter'
