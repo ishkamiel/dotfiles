@@ -21,6 +21,13 @@ Plug 'lervag/vimtex', { 'for': 'tex' }
 Plug 'aklt/plantuml-syntax'
 Plug 'rodjek/vim-puppet'
 
+" writing stuff
+Plug 'reedes/vim-pencil'
+Plug 'reedes/vim-wordy'
+Plug 'reedes/vim-litecorrect'
+Plug 'junegunn/limelight.vim'
+Plug 'junegunn/goyo.vim'
+
 " Git stuff
 Plug 'airblade/vim-gitgutter'
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -100,6 +107,22 @@ vnoremap <Space> zf
 if has("autocmd")
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
+
+" }}}
+" Writing config 													{{{
+
+let g:limelight_conceal_ctermfg = 'grey'
+let g:goyo_width = 100
+let g:goyo_height = 95
+
+augroup writing
+	autocmd!
+	autocmd Filetype tex call litecorrect#init()
+				\ | call pencil#init({'wrap': 'soft'})
+	autocmd Filetype tex Limelight
+	" autocmd User GoyoEnter call litecorrect#init()
+	" 			\ | call pencil#init({'wrap': 'soft'})
+augroup END
 
 " }}}
 " Plugin: NERDTree {{{
