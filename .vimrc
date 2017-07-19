@@ -37,8 +37,8 @@ Plug 'vim-syntastic/syntastic'
 
 " YouCompleteMe
 if !onWin
-	Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
-	Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+	" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+	" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 endif
 
 call plug#end() " }}}
@@ -130,8 +130,10 @@ augroup END
 nmap <F7> :NERDTreeToggle<CR>
 map <leader>r :NERDTreeFind<cr>
 
-let g:NERDTreeWinSize=s:pd_sidewidth
+" let g:NERDTreeWinSize=s:pd_sidewidth
 let g:NERDTreeIgnore = [ '\.o$' ]
+" Quit when NERDTree is last remining
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " }}}
 " Plugin: airline {{{
