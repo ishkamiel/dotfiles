@@ -10,39 +10,61 @@ elif [ -f /etc/bash_completion ]; then
 	. /etc/bash_completion
 fi
 
-# ISHDOT_TMUX_DISABLE=1	# Disable all tmux stuff
-# ISHDOT_TMUX_ALWAYS=1 	# Always try to enter a tmux session
-DISABLE_TMUX_ON_SSH=1
+
+ISHDOT_TMUX_ENABLE=		# Disable all tmux stuff
+ISHDOT_TMUX_ALWAYS=		# Always try to enter a tmux session
+ISHDOT_TMUX_ON_SSH=		# Enable tmux on ssh ogins
+# DEBUG=1
+# Override any of these on ~/.bashrc_local
+[ -s "${HOME}/.bashrc_local" ] && source ${HOME}/.bashrc_local
+
+pr_debug() {
+	if [[ -n $DEBUG ]]; then
+		echo "${1}"
+	fi
+}
 
 # Switch xterm to xterm-256color (needs to be set before launching tmux!)
 [[ "${TERM}" = "xterm" ]] && export TERM="xterm-256color"
 
-# Do tmux stuff if enabled
-if [ -z "${ISHDOT_TMUX_DISABLE}" ]; then
+if [[ ! -n $ISHDOT_TMUX_ENABLE ]]; then
+	pr_debug "ISHDOT_TMUX_ENABLE unset"
+else
 	if [[ ! -x /usr/bin/tmux ]]; then
-		echo "Cannot find tmux executable!"
+		pr_debug "Cannot find tmux executable!"
 	elif [ -z "${TMUX}" ]; then # Don't nest tmux!
 		TMUX_SESSION=;
 
 		if [ -n "${DROPDOWNTERMINAL}" ]; then
 			# Set manually when launching guake/tilda to always use same session
+			pr_debug "using drop down terminal tmux session"
 			TMUX_SESSION='dd'
-		elif [ -n "${SSH_TTY}" ]; then
-			# SSH_TTY is automatically set for ssh sessions
-			TMUX_SESSION='ssh'
+		elif [ -n "${SSH_TTY}" ]; then 
+			if [ -n ${ISHDOT_TMUX_ON_SSH} ]; then
+				# SSH_TTY is automatically set for ssh sessions
+				pr_debug "using ssh tmux session"
+				TMUX_SESSION='ssh'
+			else
+				pr_debug "skipping tmux, ISHDOT_TMUX_ON_SSH unset"
+			fi
 		elif [ -n "${ISHDOT_TMUX_ALWAYS}" ]; then
 			# Try to find a detached session
+			pr_debug "trying to find unattached tmux session"
 			TMUX_SESSION=$(tmux list-sessions \
 				-F '#{session_attached},#{session_name}' |\
 				grep ^0 | head -n1 | sed 's/.*,//')
 		fi
 
 		if [ -n "${TMUX_SESSION}" ]; then
-			if [ -z "${DISABLE_TMUX_ON_SSH}" ] || [ "${TMUX_SESSION}" != 'ssh' ]; then
-				exec /usr/bin/tmux new-session -s $TMUX_SESSION -A
-			fi
+			pr_debug "attaching to ${TMUX_SESSION} session"
+			[[ -n "${DEBUG}" ]] && sleep 3
+			exec /usr/bin/tmux new-session -s $TMUX_SESSION -A
 		elif [ -n "${ISHDOT_TMUX_ALWAYS}" ]; then
+			pr_debug "creating new tmux session"
+			[[ -n "${DEBUG}" ]] && sleep 3
 			exec /usr/bin/tmux new-session
+		else
+			pr_debug "cannot find applicable tmux session"
 		fi
 	fi
 fi
@@ -86,9 +108,6 @@ source ${HOME}/.bash_aliases
 
 # Load bash functions
 source "${DOTFILES}/bash/functions/gitignore.sh"
-
-# Load local bashrc
-source ${HOME}/.bashrc_local
 
 export NVM_DIR="/home/ishkamiel/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
