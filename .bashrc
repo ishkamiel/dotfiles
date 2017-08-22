@@ -10,7 +10,6 @@ elif [ -f /etc/bash_completion ]; then
 	. /etc/bash_completion
 fi
 
-
 ISHDOT_TMUX_ENABLE=		# Disable all tmux stuff
 ISHDOT_TMUX_ALWAYS=		# Always try to enter a tmux session
 ISHDOT_TMUX_ON_SSH=		# Enable tmux on ssh ogins
@@ -39,7 +38,7 @@ else
 			# Set manually when launching guake/tilda to always use same session
 			pr_debug "using drop down terminal tmux session"
 			TMUX_SESSION='dd'
-		elif [ -n "${SSH_TTY}" ]; then 
+		elif [ -n "${SSH_TTY}" ]; then
 			if [ -n ${ISHDOT_TMUX_ON_SSH} ]; then
 				# SSH_TTY is automatically set for ssh sessions
 				pr_debug "using ssh tmux session"
@@ -58,16 +57,18 @@ else
 		if [ -n "${TMUX_SESSION}" ]; then
 			pr_debug "attaching to ${TMUX_SESSION} session"
 			[[ -n "${DEBUG}" ]] && sleep 3
-			exec /usr/bin/tmux new-session -s $TMUX_SESSION -A
+			exec /usr/bin/tmux -u new-session -s $TMUX_SESSION -A
 		elif [ -n "${ISHDOT_TMUX_ALWAYS}" ]; then
 			pr_debug "creating new tmux session"
 			[[ -n "${DEBUG}" ]] && sleep 3
-			exec /usr/bin/tmux new-session
+			exec /usr/bin/tmux -u new-session
 		else
 			pr_debug "cannot find applicable tmux session"
 		fi
 	fi
 fi
+
+[[ -s "${ISHLIB}" ]] && . "${ISHLIB}"
 
 # Load the agnoster/powerline prompt theme
 source "${DOTFILES_BASH}/agnomod.theme"
@@ -101,24 +102,27 @@ set -o ignoreeof        # ignore ctrl-D
 export EDITOR="/usr/bin/vim"
 command -v nvim >/dev/null 2>&1 && export EDITOR="$(which nvim)"
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-
-# Load bash aliases
-source ${HOME}/.bash_aliases
+# Setup RVM
+AddToPath "$PATH:$HOME/.rvm/bin" 1
 
 # Load bash functions
 source "${DOTFILES}/bash/functions/gitignore.sh"
 
+# Load NVM
 export NVM_DIR="/home/ishkamiel/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 # Setup ccache, provided CCACHE_DIR is set
 if [ -n "${CCACHE_DIR}" ]; then
-	export PATH="/usr/lib/ccache:$PATH"
+	AddToPath "/usr/lib/ccache:$PATH" 1 1
 	export CCACHE_PATH="/usr/bin"
 	# Need to make make+ccache use color output
 	# export MAKEFLAGS="CFLAGS=-fdiagnostics-color=always"
 	[ -e "${CCACHE_DIR}" ] || mkdir -p "${CCACHE_DIR}"
 fi
 
+# Load bash aliases
+source ${HOME}/.bash_aliases
+
+[[ -s "${ISHLIB}" ]] && CleanIshlib
 # vim: fdm=marker foldlevel=0 shiftwidth=4 tabstop=4
