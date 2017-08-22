@@ -13,6 +13,7 @@ call plug#begin() " {{{
 Plug 'scrooloose/NERDTree'
 Plug 'bling/vim-airline'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
 Plug 'morhetz/gruvbox'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'majutsushi/tagbar'
@@ -20,6 +21,8 @@ Plug 'lervag/vimtex', { 'for': 'tex' }
 
 Plug 'aklt/plantuml-syntax'
 Plug 'rodjek/vim-puppet'
+
+Plug 'chazy/cscope_maps'
 
 " writing stuff
 Plug 'reedes/vim-pencil'
@@ -112,16 +115,23 @@ endif
 " Writing config 													{{{
 
 let g:limelight_conceal_ctermfg = 'grey'
-let g:goyo_width = 100
+let g:goyo_width = s:pd_textwidth + 5
 let g:goyo_height = 95
 
 augroup writing
 	autocmd!
 	autocmd Filetype tex call litecorrect#init()
-				\ | call pencil#init({'wrap': 'soft'})
-	autocmd Filetype tex Limelight
+	                 \ | call pencil#init({'wrap': 'hard', 'autoformat': 1})
+	                 " \ | call pencil#init({'wrap': 'hard', 'autoformat': 0})
+	" autocmd Filetype tex Limelight
 	" autocmd User GoyoEnter call litecorrect#init()
 	" 			\ | call pencil#init({'wrap': 'soft'})
+augroup END
+
+augroup goyogroup
+	au!
+	autocmd! User GoyoEnter Limelight
+	autocmd! User GoyoLeave Limelight!
 augroup END
 
 " }}}
@@ -240,10 +250,19 @@ endif
 " }}}
 " FileType config												{{{
 
+autocmd BufEnter Kconfig* set spell
+
+augroup git
+	au!
+	au BufEnter COMMIT_EDITMSG setlocal spell
+	au BufEnter COMMIT_EDITMSG setlocal tw=75
+augroup END
+
 augroup ft_mutt
 	au!
 	au FileType mail setlocal fo+=aw
-	au FileType mail setlocal tw=78
+	au FileType mail setlocal tw=75
+	au FileType mail setlocal spell
 augroup END
 
 augroup tex_files
