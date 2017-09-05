@@ -122,10 +122,7 @@ augroup writing
 	autocmd!
 	autocmd Filetype tex call litecorrect#init()
 	                 \ | call pencil#init({'wrap': 'hard', 'autoformat': 1})
-	                 " \ | call pencil#init({'wrap': 'hard', 'autoformat': 0})
-	" autocmd Filetype tex Limelight
-	" autocmd User GoyoEnter call litecorrect#init()
-	" 			\ | call pencil#init({'wrap': 'soft'})
+	autocmd Filetype tex set spell
 augroup END
 
 augroup goyogroup
