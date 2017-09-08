@@ -36,7 +36,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 Plug 'w0rp/ale'
-Plug 'neomake/neomake'
 
 " Syntastic
 " Plug 'vim-syntastic/syntastic'
@@ -135,6 +134,12 @@ augroup goyogroup
 augroup END
 
 " }}}
+" Plugin: ALE {{{
+" -----------------------------------------------------------------
+
+
+
+" }}}
 " Plugin: NERDTree {{{
 " -----------------------------------------------------------------
 nmap <F7> :NERDTreeToggle<CR>
@@ -144,12 +149,6 @@ map <leader>r :NERDTreeFind<cr>
 let g:NERDTreeIgnore = [ '\.o$' ]
 " Quit when NERDTree is last remining
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-" }}}
-" Plugin: neomake {{{
-" -----------------------------------------------------------------
-
-
 
 " }}}
 " Plugin: airline {{{
