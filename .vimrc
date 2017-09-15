@@ -137,7 +137,9 @@ augroup END
 " Plugin: ALE {{{
 " -----------------------------------------------------------------
 
-
+let g:ale_linters = {
+			\ 'tex': ['proselint', 'chktex']
+			\ }
 
 " }}}
 " Plugin: NERDTree {{{

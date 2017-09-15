@@ -9,9 +9,10 @@
     ~/.bashrc: .bashrc
     ~/.bash_aliases: .bash_aliases
     ~/.bash_profile: .bash_profile
+    ~/.chktexrc: .chktexrc
     ~/.config/autostart/guake.desktop: .config/autostart/guake.desktop
     ~/.config/gtk-3.0/gtk.css: .config/gtk-3.0/gtk.css
-    ~/.config/nvim/init.vim: .config/nvim/init.vim
+    ~/.config/nvim/init.vim: .vimrc
     ~/.config/terminator/config: .config/terminator/config
     ~/.conky: .conky
     ~/.fonts/ge-inspira.ttf: .fonts/ge-inspira.ttf
