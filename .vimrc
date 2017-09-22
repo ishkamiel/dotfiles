@@ -17,7 +17,8 @@ Plug 'tpope/vim-surround'
 Plug 'morhetz/gruvbox'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'majutsushi/tagbar'
-Plug 'lervag/vimtex', { 'for': 'tex' }
+" Plug 'lervag/vimtex', { 'for': 'tex' }
+Plug 'lervag/vimtex'
 
 Plug 'aklt/plantuml-syntax'
 Plug 'rodjek/vim-puppet'
@@ -37,6 +38,9 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 
 Plug 'w0rp/ale'
 
+" Conflicts with ALE
+" Plug 'neomake/neomake'
+
 " Syntastic
 " Plug 'vim-syntastic/syntastic'
 
@@ -51,7 +55,7 @@ call plug#end() " }}}
 "
 " Text and side panel widths
 let s:pd_textwidth=100
-let s:pd_sidewidth = max([10, min([40, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
+let s:pd_sidewidth = max([10, min([400, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
 
 set nocompatible				" Load non-Vi-compaitlbe settings
 syntax on						" Syntax highlighting
@@ -116,22 +120,47 @@ endif
 " }}}
 " Writing config 													{{{
 
+let g:tex_flavor = "latex"
+
+let g:pencil#textwidth = s:pd_textwidth
+
 let g:limelight_conceal_ctermfg = 'grey'
+
 let g:goyo_width = s:pd_textwidth + 5
 let g:goyo_height = 95
-
-augroup writing
-	autocmd!
-	autocmd Filetype tex call litecorrect#init()
-				\ | call pencil#init({'wrap': 'soft'})
-	autocmd Filetype tex set spell
-augroup END
 
 augroup goyogroup
 	au!
 	autocmd! User GoyoEnter Limelight
 	autocmd! User GoyoLeave Limelight!
 augroup END
+
+function! Prose()
+	call litecorrect#init()
+	" call pencil#init({'wrap': 'soft'})
+	call pencil#init({'wrap': 'hard', 'autoformat': 'false'})
+	" call lexical#init()
+	" call textobj#quote#init()
+	" call textobj#sentence#init()
+
+	" replace common punctuation
+	iabbrev <buffer> -- –
+	iabbrev <buffer> --- —
+	iabbrev <buffer> << «
+	iabbrev <buffer> >> »
+	"
+	set spell
+	let &textwidth = s:pd_textwidth
+
+endfunction
+
+" automatically initialize buffer by file type
+autocmd FileType tex,markdown,mkd,text call Prose()
+
+" autocmd BufWritePost *.tex,*.bib make
+
+" invoke manually by command for other file types
+command! -nargs=0 Prose call Prose()
 
 " }}}
 " Plugin: ALE {{{
@@ -144,10 +173,21 @@ let g:ale_linters = {
 " }}}
 " Plugin: NERDTree {{{
 " -----------------------------------------------------------------
-nmap <F7> :NERDTreeToggle<CR>
-map <leader>r :NERDTreeFind<cr>
+"
+function! IshNERDTreeFind()
+	let g:NERDTreeWinSize =  max([10, min([400, ((&columns - s:pd_textwidth - 20 ) / 2) ])])
+	NERDTreeFind
+endfunction
 
-" let g:NERDTreeWinSize=s:pd_sidewidth
+function! IshNERDTreeToggle()
+	let g:NERDTreeWinSize =  max([10, min([400, ((&columns - s:pd_textwidth - 20 ) / 2) ])])
+	NERDTreeToggle
+endfunction
+
+nmap <F7> :call IshNERDTreeToggle()<CR>
+map <leader>r :call IshNERDTreeFind()<CR>
+
+let g:NERDTreeWinSize=s:pd_sidewidth
 let g:NERDTreeIgnore = [ '\.o$' ]
 " Quit when NERDTree is last remining
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -170,7 +210,12 @@ highlight ExtraWhitespace ctermbg=black
 " }}}
 " Plugin: tagbar {{{
 " -----------------------------------------------------------------
-nmap <F8> :TagbarToggle<CR>
+function! IshTagbarToggle()
+	let g:tagbar_width =  max([10, min([400, ((&columns - s:pd_textwidth - 20 ) / 2) ])])
+	TagbarToggle
+endfunction
+
+nmap <F8> :call IshTagbarToggle()<CR>
 
 highlight ExtraWhitespace ctermbg=black
 
@@ -262,13 +307,13 @@ autocmd BufEnter Kconfig* set spell
 augroup git
 	au!
 	au BufEnter COMMIT_EDITMSG setlocal spell
-	au BufEnter COMMIT_EDITMSG setlocal tw=75
+	au BufEnter COMMIT_EDITMSG setlocal textwidth=75
 augroup END
 
 augroup ft_mutt
 	au!
 	au FileType mail setlocal fo+=aw
-	au FileType mail setlocal tw=75
+	au FileType mail setlocal textwidth=75
 	au FileType mail setlocal spell
 augroup END
 
