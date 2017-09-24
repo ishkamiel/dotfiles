@@ -1,12 +1,12 @@
 " NOTE: Use space to fold/unfold the categories!
-"
-if has("win32") || has("win64")
-	let onWin = 1
-else
-	let onWin = 0
-endif
-
 set encoding=utf-8
+scriptencoding utf-8
+
+if has('win32') || has('win64')
+	let g:onWin = 1
+else
+	let g:onWin = 0
+endif
 
 call plug#begin() " {{{
 
@@ -45,7 +45,7 @@ Plug 'w0rp/ale'
 " Plug 'vim-syntastic/syntastic'
 
 " YouCompleteMe
-if !onWin
+if !g:onWin
 	" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
 	" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 endif
@@ -57,7 +57,7 @@ call plug#end() " }}}
 let s:pd_textwidth=100
 let s:pd_sidewidth = max([10, min([400, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
 
-set nocompatible				" Load non-Vi-compaitlbe settings
+" set nocompatible				" Load non-Vi-compaitlbe settings
 syntax on						" Syntax highlighting
 filetype plugin indent on		" Use indening
 " set autoread					" read open files again when changed outside Vim
@@ -93,7 +93,7 @@ set cinoptions=:0				" Make switch & case have same indention
 
 set backupdir=~/tmp/vimbackup,.,~
 set directory=~/tmp/vimbackup,.,~
-if has("win32") || has("win16")
+if g:onWin
     set backupdir=~/vimbackup
     set directory=~/vimbackup
 endif
@@ -113,14 +113,14 @@ set list listchars=tab:┆\ ,trail:·,extends:»,precedes:«,nbsp:×
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
 
-if has("autocmd")
-    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-endif
+" if has('autocmd')
+"     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+" endif
 
 " }}}
 " Writing config 													{{{
 
-let g:tex_flavor = "latex"
+let g:tex_flavor = 'latex'
 
 let g:pencil#textwidth = s:pd_textwidth
 
@@ -129,33 +129,33 @@ let g:limelight_conceal_ctermfg = 'grey'
 let g:goyo_width = s:pd_textwidth + 5
 let g:goyo_height = 95
 
-augroup goyogroup
+augroup plugin_goyo
 	au!
-	autocmd! User GoyoEnter Limelight
-	autocmd! User GoyoLeave Limelight!
+	au! User GoyoEnter Limelight
+	au! User GoyoLeave Limelight!
 augroup END
 
 function! Prose()
 	call litecorrect#init()
 	" call pencil#init({'wrap': 'soft'})
 	call pencil#init({'wrap': 'hard', 'autoformat': 'false'})
-	" call lexical#init()
-	" call textobj#quote#init()
-	" call textobj#sentence#init()
 
 	" replace common punctuation
 	iabbrev <buffer> -- –
 	iabbrev <buffer> --- —
 	iabbrev <buffer> << «
 	iabbrev <buffer> >> »
-	"
+
 	set spell
 	let &textwidth = s:pd_textwidth
 
 endfunction
 
 " automatically initialize buffer by file type
-autocmd FileType tex,markdown,mkd,text call Prose()
+augroup filetype_prose
+	au!
+	au FileType tex,markdown,mkd,text call Prose()
+augroup END
 
 " autocmd BufWritePost *.tex,*.bib make
 
@@ -169,6 +169,11 @@ command! -nargs=0 Prose call Prose()
 let g:ale_linters = {
 			\ 'tex': ['proselint', 'chktex']
 			\ }
+
+let g:ale_completion_enabled = 1
+
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 " }}}
 " Plugin: NERDTree {{{
@@ -190,7 +195,10 @@ map <leader>r :call IshNERDTreeFind()<CR>
 let g:NERDTreeWinSize=s:pd_sidewidth
 let g:NERDTreeIgnore = [ '\.o$' ]
 " Quit when NERDTree is last remining
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+augroup plugin_nerdtree
+	au!
+	au bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+augroup END
 
 " }}}
 " Plugin: airline {{{
@@ -295,14 +303,12 @@ set guioptions-=r  "remove right-hand scroll bar
 set guioptions-=L  "remove left-hand scroll bar
 set guifont=Hack
 
-if has("gui_running")
+if has('gui_running')
 	set lines=50 columns=160
 endif
 
 " }}}
 " FileType config												{{{
-
-autocmd BufEnter Kconfig* set spell
 
 augroup git
 	au!
@@ -310,17 +316,16 @@ augroup git
 	au BufEnter COMMIT_EDITMSG setlocal textwidth=75
 augroup END
 
-augroup ft_mutt
+augroup filetype_mail
 	au!
 	au FileType mail setlocal fo+=aw
 	au FileType mail setlocal textwidth=75
 	au FileType mail setlocal spell
 augroup END
 
-augroup tex_files
+augroup filetype_kconfig
 	au!
-	au FileType tex setlocal shiftwidth=4
-	au FileType tex setlocal tabstop=4
+	au BufEnter Kconfig* set spell
 augroup END
 
 " }}}
