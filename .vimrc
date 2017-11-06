@@ -29,7 +29,7 @@ Plug 'chazy/cscope_maps'
 Plug 'reedes/vim-pencil'
 Plug 'reedes/vim-wordy'
 Plug 'reedes/vim-litecorrect'
-Plug 'junegunn/limelight.vim'
+" Plug 'junegunn/limelight.vim'
 Plug 'junegunn/goyo.vim'
 
 " Git stuff
@@ -124,7 +124,7 @@ let g:tex_flavor = 'latex'
 
 let g:pencil#textwidth = s:pd_textwidth
 
-let g:limelight_conceal_ctermfg = 'grey'
+" let g:limelight_conceal_ctermfg = 'grey'
 
 let g:goyo_width = s:pd_textwidth + 5
 let g:goyo_height = 95
