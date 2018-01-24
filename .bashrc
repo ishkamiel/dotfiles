@@ -134,7 +134,7 @@ if [[ -n "${CCACHE_DIR}" ]]; then
 fi
 
 # Use hostname as windowname when in ssh session
-[[ -n $SSH_CLIENT ]] && printf printf "\033k`hostname -s`\033\\"
+# [[ -n $SSH_CLIENT ]] && printf "\033k`hostname -s`\033\\"
 
 # Load bash aliases
 source ${HOME}/.bash_aliases
