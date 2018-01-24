@@ -29,8 +29,11 @@ Plug 'chazy/cscope_maps'
 Plug 'reedes/vim-pencil'
 Plug 'reedes/vim-wordy'
 Plug 'reedes/vim-litecorrect'
-" Plug 'junegunn/limelight.vim'
+Plug 'junegunn/limelight.vim'
 Plug 'junegunn/goyo.vim'
+
+" PDF suppoert
+Plug 'rhysd/open-pdf.vim'
 
 " Git stuff
 Plug 'airblade/vim-gitgutter'
@@ -88,8 +91,9 @@ set foldmethod=syntax           " Syntax based folding
 set foldlevel=999               " Display everything by default
 set foldnestmax=1
 set wildmode=longest,list		" Set tab command completion behaivor
-set clipboard=unnamedplus		" Yanks stuff directly  to clipboard
+" set clipboard=unnamedplus		" Yanks stuff directly  to clipboard
 set cinoptions=:0				" Make switch & case have same indention
+set number
 
 set backupdir=~/tmp/vimbackup,.,~
 set directory=~/tmp/vimbackup,.,~
@@ -109,16 +113,19 @@ colorscheme gruvbox
 " Show indention on screen
 set list listchars=tab:┆\ ,trail:·,extends:»,precedes:«,nbsp:×
 
+highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=237 gui=NONE guifg=DarkGrey guibg=NONE
+
 " <cpace> - Toggle folds
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
 
-" if has('autocmd')
-"     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-" endif
+" Make vim remember position in file
+if has('autocmd')
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
 
 " }}}
-" Writing config 													{{{
+" writing config 													{{{
 
 let g:tex_flavor = 'latex'
 
@@ -138,7 +145,8 @@ augroup END
 function! Prose()
 	call litecorrect#init()
 	" call pencil#init({'wrap': 'soft'})
-	call pencil#init({'wrap': 'hard', 'autoformat': 'false'})
+	call pencil#init({'wrap': 'soft', 'autoformat': 'false'})
+	let g:pencil#conceallevel = 0
 
 	" replace common punctuation
 	iabbrev <buffer> -- –
@@ -148,7 +156,6 @@ function! Prose()
 
 	set spell
 	let &textwidth = s:pd_textwidth
-
 endfunction
 
 " automatically initialize buffer by file type
@@ -309,6 +316,9 @@ endif
 
 " }}}
 " FileType config												{{{
+
+" automatically convert PDF files to text
+let g:pdf_convert_on_edit=1
 
 augroup git
 	au!
