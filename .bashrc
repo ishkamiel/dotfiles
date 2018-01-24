@@ -10,65 +10,68 @@ elif [ -f /etc/bash_completion ]; then
 	. /etc/bash_completion
 fi
 
+DEBUG=				# Enable debug output
 ISHDOT_TMUX_ENABLE=		# Disable all tmux stuff
 ISHDOT_TMUX_ALWAYS=		# Always try to enter a tmux session
 ISHDOT_TMUX_ON_SSH=		# Enable tmux on ssh ogins
-# DEBUG=1
-# Override any of these on ~/.bashrc_local
-[ -s "${HOME}/.bashrc_local" ] && source ${HOME}/.bashrc_local
 
-pr_debug() {
-	if [[ -n $DEBUG ]]; then
-		echo "${1}"
-	fi
-}
+# Override any of these on ~/.bashrc_local
+[[ -s "${HOME}/.bashrc_local" ]] && . ${HOME}/.bashrc_local
+[[ -s "${ISHLIB}" ]] && . "${ISHLIB}"
 
 # Switch xterm to xterm-256color (needs to be set before launching tmux!)
 [[ "${TERM}" = "xterm" ]] && export TERM="xterm-256color"
 
+# Do some horrible (probably no longer working checking before tmux
 if [[ ! -n $ISHDOT_TMUX_ENABLE ]]; then
-	pr_debug "ISHDOT_TMUX_ENABLE unset"
+	IshDebugPrint "ISHDOT_TMUX_ENABLE unset"
 else
 	if [[ ! -x /usr/bin/tmux ]]; then
-		pr_debug "Cannot find tmux executable!"
+		IshDebugPrint "Cannot find tmux executable!"
 	elif [ -z "${TMUX}" ]; then # Don't nest tmux!
 		TMUX_SESSION=;
 
 		if [ -n "${DROPDOWNTERMINAL}" ]; then
 			# Set manually when launching guake/tilda to always use same session
-			pr_debug "using drop down terminal tmux session"
+			IshDebugPrint "using drop down terminal tmux session"
 			TMUX_SESSION='dd'
 		elif [ -n "${SSH_TTY}" ]; then
 			if [ -n ${ISHDOT_TMUX_ON_SSH} ]; then
 				# SSH_TTY is automatically set for ssh sessions
-				pr_debug "using ssh tmux session"
+				IshDebugPrint "using ssh tmux session"
 				TMUX_SESSION='ssh'
 			else
-				pr_debug "skipping tmux, ISHDOT_TMUX_ON_SSH unset"
+				IshDebugPrint "skipping tmux, ISHDOT_TMUX_ON_SSH unset"
 			fi
 		elif [ -n "${ISHDOT_TMUX_ALWAYS}" ]; then
 			# Try to find a detached session
-			pr_debug "trying to find unattached tmux session"
+			IshDebugPrint "trying to find unattached tmux session"
 			TMUX_SESSION=$(tmux list-sessions \
 				-F '#{session_attached},#{session_name}' |\
 				grep ^0 | head -n1 | sed 's/.*,//')
 		fi
 
 		if [ -n "${TMUX_SESSION}" ]; then
-			pr_debug "attaching to ${TMUX_SESSION} session"
+			IshDebugPrint "attaching to ${TMUX_SESSION} session"
 			[[ -n "${DEBUG}" ]] && sleep 3
 			exec /usr/bin/tmux -u new-session -s $TMUX_SESSION -A
 		elif [ -n "${ISHDOT_TMUX_ALWAYS}" ]; then
-			pr_debug "creating new tmux session"
+			IshDebugPrint "creating new tmux session"
 			[[ -n "${DEBUG}" ]] && sleep 3
 			exec /usr/bin/tmux -u new-session
 		else
-			pr_debug "cannot find applicable tmux session"
+			IshDebugPrint "cannot find applicable tmux session"
 		fi
 	fi
 fi
 
-[[ -s "${ISHLIB}" ]] && . "${ISHLIB}"
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+	VTE_PROFILE=$(ls /etc/profile.d/vte*)
+	if [ $VTE_PROFILE ]; then
+		source ${VTE_PROFILE}
+		command -v __vte_osc7 >/dev/null 2>&1 && VTE_PWD_THING="$(__vte_osc7)"
+	fi
+fi
 
 # Load the agnoster/powerline prompt theme
 source "${DOTFILES_BASH}/agnomod.theme"
@@ -102,8 +105,9 @@ set -o ignoreeof        # ignore ctrl-D
 export EDITOR="/usr/bin/vim"
 command -v nvim >/dev/null 2>&1 && export EDITOR="$(which nvim)"
 
-# Setup RVM
-AddToPath "$PATH:$HOME/.rvm/bin" 1
+IshDebugPrint "Setting up RVM if available"
+IshInsertPath "${HOME}/.rvm/bin" \
+	&& export rvm_silence_path_mismatch_check_flag=1
 
 # Load bash functions
 source "${DOTFILES}/bash/functions/gitignore.sh"
@@ -113,13 +117,24 @@ export NVM_DIR="/home/ishkamiel/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 # Setup ccache, provided CCACHE_DIR is set
-if [ -n "${CCACHE_DIR}" ]; then
-	AddToPath "/usr/lib/ccache:$PATH" 1 1
-	export CCACHE_PATH="/usr/bin"
-	# Need to make make+ccache use color output
-	# export MAKEFLAGS="CFLAGS=-fdiagnostics-color=always"
-	[ -e "${CCACHE_DIR}" ] || mkdir -p "${CCACHE_DIR}"
+IshDebugPrint "Trying to load cache"
+if [[ -n "${CCACHE_DIR}" ]]; then
+	ccache_path="/usr/lib/ccache"
+
+	if [[ ! -e "${ccache_path}" ]]; then
+		$DEBUG && ErrorLog "cannot find ccache binaries"
+	else
+		# Make sure the ccache dir actually exists
+		[[ -e "${CCACHE_DIR}" ]] || mkdir -p "${CCACHE_DIR}"
+		# Insert cache into path
+		IshInsertPath "/usr/lib/ccache"
+		# Sets the path where the "real" non-cache compiler are
+		export CCACHE_PATH="/usr/bin"
+	fi
 fi
+
+# Use hostname as windowname when in ssh session
+[[ -n $SSH_CLIENT ]] && printf printf "\033k`hostname -s`\033\\"
 
 # Load bash aliases
 source ${HOME}/.bash_aliases

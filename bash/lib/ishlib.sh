@@ -1,13 +1,5 @@
-_ISHLIB_ERRORFILE="${HOME}/.ishlib_errors"
 
-InitErrorLog() {
-	_ISHLIB_ERRORFILE="${1}"
-	filename="${_ISHLIB_ERRORFILE}"
-
-	if [ -e ${filename} ]; then
-		mv -f "${filename}" "${filename}.bak"
-	fi
-}
+export _ISHLIB_ERRORFILE="${HOME}/.ishlib_errors"
 
 # Tries to create temporary directory at $1, unless it already exists. If
 # directory is created in system tmp, also tries to set permissions with
@@ -40,26 +32,57 @@ InitTempDir() {
 }
 
 ErrorLog() {
-	echo "$(date --rfc-3339=seconds) ${1}" >> "${_ISHLIB_ERRORFILE}"
+	local msg="$(date --rfc-3339=seconds) [!!]: ${1}"
+
+	if [ -n "${DEBUG}" ] && [ "${DEBUG}" -ne 0 ]; then
+		echo "${msg}" | tee -a "${_ISHLIB_ERRORFILE}"
+	else
+		echo "${msg}" >> "${_ISHLIB_ERRORFILE}"
+	fi
+}
+
+IshDebugPrint() {
+	local msg="$(date --rfc-3339=seconds) [DD]: ${1} "
+
+	if [ -n "${DEBUG}" ] && [ "${DEBUG}" -ne 0 ]; then
+		echo "${msg}" | tee -a "${_ISHLIB_ERRORFILE}"
+	else
+		echo "${msg}" >> "${_ISHLIB_ERRORFILE}"
+	fi
 }
 
 AddToPath() {
-	newpath="${1}"
-	no_error="${2}"
-	do_prepend="${3}"
+	local newpath="${1}"
+	local no_error="${2}"
+	local do_prepend="${3}"
 
 	# Catch typos and bad additions
 	if [ ! -e "${newpath}" ] || [ ! -d "${newpath}" ]; then
-		[ ! -n "${no_error}" ] && ErrorLog "Trying to add non-existing path ${newpath}"
-	elif [[ "$PATH" =~ (^|:)"${newpath}"(:|$) ]]; then
-		[ $DEBUG ] && ErrorLog "Already in path ${newpath}, skipping"
+		[ "${no_error}" -eq 1 ] || ErrorLog "Trying to add non-existing path '${newpath}'"
+		return 1
+        elif echo "$PATH" | /bin/grep -Eq "(^|:)${newpath}($|:)" ; then
+		[ "${no_error}" -eq 1 ] && ErrorLog "Already in path '${newpath}', skipping"
+		return 1
 	else
-		if [ -n "${do_prepend}" ]; then
+		if [ "${do_prepend}" -eq 1 ]; then
+			IshDebugPrint "prepending ${newpath} to \$PATH"
 			export PATH="${newpath}:${PATH}"
 		else
+			IshDebugPrint "appending ${newpath} to \$PATH"
 			export PATH="${PATH}:${newpath}"
 		fi
+		return 0
 	fi
+}
+
+IshInsertPath() {
+	AddToPath "${1}" 1 1
+	return $?
+}
+
+IshAppendPath() {
+	AddToPath "${1}" 1 0
+	return $?
 }
 
 SourceFile() {
@@ -74,10 +97,18 @@ SourceFile() {
 }
 
 CleanIshlib() {
+	IshDebugPrint "ishlib cleaning up"
+	/bin/mv -f "${_ISHLIB_ERRORFILE}" "${_ISHLIB_ERRORFILE}.bak"
 	unset -f AddToPath
 	unset -f ErrorLog
 	unset -f InitErrorLog
 	unset -f InitTempDir
 	unset -f SourceFile
 	unset -f CleanIshlib
+	unset -f IshDebugPrint
+	unset -f IshInsertPath
+	unset -f IshAppendPath
 }
+
+
+IshDebugPrint "ishlib loaded by $0, logging to ${_ISHLIB_ERRORFILE}"

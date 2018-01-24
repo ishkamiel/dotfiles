@@ -5,7 +5,6 @@ export EDITOR=/usr/bin/vim
 export DOTFILES="${HOME}/.dotfiles"
 export DOTFILES_BASH="${DOTFILES}/bash"
 export TMPDIR="${HOME}/tmp"
-export LOGDIR="${TMPDIR}/log"
 export VIMBACKUP="${TMPDIR}/vimbackup"
 export ISHLIB="${DOTFILES}/bash/lib/ishlib.sh"
 
@@ -14,10 +13,6 @@ export ISHLIB="${DOTFILES}/bash/lib/ishlib.sh"
 # Make sure these directories exist
 InitTempDir ${TMPDIR}
 mkdir -p "${VIMBACKUP}"
-mkdir -p "${LOGDIR}"
-
-# Initialize separate error log for .profile
-InitErrorLog "${LOGDIR}/profile_errors"
 
 # NVM (Node version manager)
 [[ -s "${NVM_DIR}/nvm.sh" ]] && . "${NVM_DIR}/nvm.sh"
@@ -27,16 +22,9 @@ export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 # Add some paths
-AddToPath "${HOME}/.dotfiles/bin" 1
-AddToPath "${HOME}/personal/bin" 1
-AddToPath "${HOME}/Android/Sdk/platform-tools" 1
-AddToPath "${HOME}/Android/Sdk/tools" 1
-AddToPath "${HOME}/bin" 1 1
-AddToPath "${HOME}/.local/bin" 1
-AddToPath "${HOME}/.linuxbrew/bin" 1
-AddToPath "${HOME}/opt/local/bin" 1
-AddToPath "/usr/local/heroku/bin" 1
-AddToPath "$HOME/.cargo/bin" 1
+AddToPath "${HOME}/.dotfiles/bin" 0
+AddToPath "${HOME}/personal/bin" 0
+AddToPath "${HOME}/bin" 0 1
 
 # Mail env
 export MAIL=/var/spool/mail/${USER}
