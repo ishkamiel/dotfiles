@@ -56,6 +56,9 @@ AddToPath() {
 	local no_error="${2}"
 	local do_prepend="${3}"
 
+	[ -z "${no_error}" ] && local no_error=0
+	[ -z "${do_prepend}" ] && local no_error=0
+
 	# Catch typos and bad additions
 	if [ ! -e "${newpath}" ] || [ ! -d "${newpath}" ]; then
 		[ "${no_error}" -eq 1 ] || ErrorLog "Trying to add non-existing path '${newpath}'"

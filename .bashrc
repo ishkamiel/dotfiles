@@ -3,6 +3,11 @@ case $- in # Stop unless interactive
 	*) return;;
 esac
 
+# Try to make sure these are available (mainly affects first run)...
+[[ -z "${DOTFILES}" ]] && export DOTFILES="${HOME}/.dotfiles"
+[[ -z "${DOTFILES_BASH}" ]] && export DOTFILES_BASH="${DOTFILES}/bash"
+[[ -z "${ISHLIB}" ]] && export ISHLIB="${DOTFILES_BASH}/lib/ishlib.sh"
+
 # Load system bash_completion stuff
 if [ -f /usr/share/bash-completion/bash_completion ]; then
 	. /usr/share/bash-completion/bash_completion
@@ -15,7 +20,7 @@ ISHDOT_TMUX_ENABLE=		# Disable all tmux stuff
 ISHDOT_TMUX_ALWAYS=		# Always try to enter a tmux session
 ISHDOT_TMUX_ON_SSH=		# Enable tmux on ssh ogins
 
-# Override any of these on ~/.bashrc_local
+# Override any of these in ~/.bashrc_local
 [[ -s "${HOME}/.bashrc_local" ]] && . ${HOME}/.bashrc_local
 [[ -s "${ISHLIB}" ]] && . "${ISHLIB}"
 
