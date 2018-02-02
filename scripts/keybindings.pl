@@ -67,15 +67,15 @@ sub export(){
                     if ($value =~ /^\[|\'/){
                         if ($value =~ /^\[\'(?:disabled)?\'\]$/){
                             $value = '[]';
-                        } 
+                        }
                         print $fh "$path\t$name\t$value\n";
                     }
-                }        
+                }
             } else {
                 die "Could note parse $line";
             }
         }
-    }   
+    }
 
     for my $folder (@$customBindings){
         my $gs = `gsettings list-recursively org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$folder`;
@@ -86,7 +86,8 @@ sub export(){
         $command =~ s/^'(.*)'$/$1/g;
         $command =~ s/\'/\'\\\'\'/g;
         $command = "\'$command\'";
-        print $fh "custom\t$name\t$command\t$binding\n"    
+	$binding or $binding = q|''|;
+        print $fh "custom\t$name\t$command\t$binding\n";
     }
 
     close($fh);
@@ -103,7 +104,7 @@ sub import(){
         chomp $line;
         if ($line){
             my @v = split(/\t/, $line);
-            if (@v[0] eq 'custom'){
+            if ($v[0] eq 'custom'){
                 my ($custom, $name, $command, $binding) = @v;
                 print "Installing custom keybinding: $name\n";
                 print `gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom$customcount/ name \"$name\"`;
@@ -115,13 +116,13 @@ sub import(){
                 print "Importing $path $name\n";
                 print `gsettings set \"$path\" \"$name\" \"$value\"`;
             }
-        }       
+        }
     }
     if ($customcount > 0){
         my $customlist = "";
         for (my $i=0; $i<$customcount; $i++){
             $customlist .= "," if ($customlist);
-            $customlist .= "'/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom$i/'";            
+            $customlist .= "'/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom$i/'";
         }
         $customlist = "[$customlist]";
         print "Importing list of custom keybindings.\n";

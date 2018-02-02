@@ -1,7 +1,28 @@
 #!/bin/bash
+#
+# This is a pretty siple scripts, just tries to rsync over ssh the
+# dotfiles folder to a remote host. Could potentially be used to
+# push folder to hosts without git, or something, I guess.
+#
+# Usage: dotfiles-push2host HOST1 [HOST2 HOST3 ...]
+#
+# dotfilesKeysSave.sh
+# Copyright (C) 2018 Hans Liljestrand <liljestrandh@gmail.com>
+#
+# Distributed under terms of the MIT license.
 
-# Just uncomment ths for a dry-run
 # DRY_RUN='-n'
+
+if [[ -z "${DOTFILES}" ]]; then
+	DOTFILES=~/.dotfiles
+	if [[ -e "${DOTFILES}" ]]; then
+		echo "\${DOTFILES} not set, assuming default location (~/.dotfiles)"
+		echo "\press Enter to continue, or ctrl-C to quit."
+	else
+		echo "\${DOTFILES} not set, cannot find dotfiles folder"
+		exit
+	fi
+fi
 
 RSYNC_OPTS="-a"                             # archive mode; equals -rlptgoD (no -H,-A,-X)
 RSYNC_OPTS="$RSYNC_OPTS -d"                 # transfer directories without recursing
@@ -11,17 +32,10 @@ RSYNC_OPTS="$RSYNC_OPTS -R"                 # use relatvie path names
 RSYNC_OPTS="$RSYNC_OPTS --delete-excluded"  # also deleet excluded files from dest dirs
 # RSYNC_OPTS="$RSYNC_OPTS --cvs-exclude"      # auto-ignore files in the same way CVS does
 RSYNC_OPTS="$RSYNC_OPTS --chmod=og-rwx"     # Apply chmod to dest files
-
 RSYNC_OPTS="$RSYNC_OPTS -y"                 # increase verbosity
 RSYNC_OPTS="$RSYNC_OPTS -h"                 # human readable
 RSYNC_OPTS="$RSYNC_OPTS --progress"         # show progress during transfer
 
-files=".dotfiles"
-#files="$files .vim/bundle/Vundle.vim"
-
-# Change to home directory, since we are using relative path names
-cd $HOME
-
 for host in "$@"; do
-    rsync $DRY_RUN $RSYNC_OPTS -e ssh $files $host:
+    rsync $DRY_RUN $RSYNC_OPTS -e ssh ${DOTFILES} $host:
 done

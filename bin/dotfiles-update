@@ -63,4 +63,5 @@ dotbotUpdate() {
     return 0
 }
 
+echo "Powered by github.com/anishathalye/dotbot"
 dotbotUpdate

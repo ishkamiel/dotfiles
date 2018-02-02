@@ -8,12 +8,15 @@ else
 	let g:onWin = 0
 endif
 
+source ~/.vimrc_local
+
 call plug#begin() " {{{
 
 Plug 'scrooloose/NERDTree'
 Plug 'bling/vim-airline'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
+Plug 'aperezdc/vim-template'
 Plug 'morhetz/gruvbox'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'majutsushi/tagbar'
