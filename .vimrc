@@ -8,7 +8,9 @@ else
 	let g:onWin = 0
 endif
 
-source ~/.vimrc_local
+if !empty(glob("~/.vimrc_local"))
+	source ~/.vimrc_local
+endif
 
 call plug#begin() " {{{
 
@@ -67,6 +69,7 @@ let s:pd_sidewidth = max([10, min([400, ((&columns - s:pd_textwidth - 5 ) / 2) ]
 syntax on						" Syntax highlighting
 filetype plugin indent on		" Use indening
 " set autoread					" read open files again when changed outside Vim
+set modeline
 set autowrite					" write a modified buffer on each :next , ...
 set backspace=indent,eol,start	" allow backspacing over everything in insert mode
 set backup						" keep a backup file
@@ -302,6 +305,12 @@ let g:ycm_key_invoke_completion = '<C-Space>'
 let g:ycm_extra_conf_globlist = [ '~/devel/linux_kernel/*' ]
 
 nnoremap <F10> :YcmForceCompileAndDiagnostics <CR>
+
+" }}}
+" Plugin: vim-template {{{
+
+" Location for custom templates
+let g:templates_directory = [ '~/.vim/vim-templates' ]
 
 " }}}
 " GVim config                                                   {{{
