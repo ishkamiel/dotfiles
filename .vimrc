@@ -79,10 +79,10 @@ set incsearch					" use incremental search
 set nowrap						" do not wrap lines
 " set ruler						" show the cursor position all the time
 set laststatus=2				" always show the statusbar
-set shiftwidth=8				" number of spaces to use for each step of indent
-set tabstop=8					" number of spaces that a <Tab> in the file counts for
+set shiftwidth=4				" number of spaces to use for each step of indent
+set tabstop=4					" number of spaces that a <Tab> in the file counts for
 set showcmd						" display incomplete commands
-" set expandtab					" insert spaces instead of tabs
+set expandtab					" insert spaces instead of tabs
 set novisualbell				" visual bell instead of beeping
 set t_vb=
 let &textwidth=s:pd_textwidth
