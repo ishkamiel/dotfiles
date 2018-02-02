@@ -2,6 +2,8 @@
 
 if command -v gsettings >/dev/null 2>&1
 then
+    # Disable user event sounds
+    gsettings set org.gnome.desktop.sound event_sounds false
 
     # Fix desktop background and right-click
     gsettings set org.gnome.settings-daemon.plugins.background active true

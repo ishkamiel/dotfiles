@@ -1,0 +1,13 @@
+vim-nox
+tmux
+[x]
+terminator
+fonts-hack-otf
+fonts-hack-ttf
+fonts-hack-web
+[gnome]
+vim-gnome
+gnome-tweak-tool
+gnome-shell-extension-pixelsaver
+gnome-shell-extension-impatience
+gnome-shell-extensions

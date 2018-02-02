@@ -22,6 +22,7 @@
     ~/.vimrc: .vimrc
     ~/.vim/ftplugin/gitcommit.vim: .vim/ftplugin/gitcommit.vim
     ~/.vim/plugin/cscope_maps.vim: .vim/plugin/cscope_maps.vim
+    ~/.vim/vim-templates: .vim/vim-templates
     ~/.vimperatorrc: .vimperatorrc
     ~/.vimperator/colors: .vimperator/colors
     ~/.vimperator/plugin: .vimperator/plugin
@@ -38,3 +39,15 @@
     command: scripts/keybindings.pl -i keybindings
     stdin: false
     stdout: false
+  -
+    command: scripts/checkLocalDotfiles.sh
+    stdin: false
+    stdout: true
+  -
+    command: scripts/gnome-shell-extensions.sh
+    stdin: false
+    stdout: true
+  -
+    command: scripts/apt_packages.sh
+    stdin: false
+    stdout: true
