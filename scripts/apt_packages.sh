@@ -55,6 +55,7 @@ find_NEED_INSTALL() {
     done < "${PKG_LIST_FILE}"
 }
 
+do_sanity_checks
 find_NEED_INSTALL
 
 if [ -n "${NEED_INSTALL}" ]; then

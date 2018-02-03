@@ -46,7 +46,7 @@ is_package_installed() {
     [[ -n "${pkg}" ]] || (>&2 echo "checks.sh:${FUNCNAME[0]}: missing argument" && return -1)
 
     if has_command dpkg; then
-        if  dpkg -s ${pkg} &> /dev/null; then
+        if  dpkg -s ${pkg} > /dev/null 2>&1; then
             return 0;
         fi
         return -1

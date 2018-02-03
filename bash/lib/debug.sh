@@ -14,6 +14,14 @@ d_print() {
     return 0
 }
 
+say() {
+    # local red='\033[0;31m'
+    local blue='\033[0;34m'
+    local nc='\033[0m'
+    echo "${blue}$@${nc}"
+    return 0
+}
+
 debug_enable() {
     DEBUG=true
 }
