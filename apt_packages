@@ -1,6 +1,7 @@
 vim-nox
 tmux
 curl
+exuberant-ctags
 [x]
 terminator
 fonts-hack-otf

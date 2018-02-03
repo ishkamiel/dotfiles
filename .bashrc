@@ -111,7 +111,7 @@ export EDITOR="/usr/bin/vim"
 command -v nvim >/dev/null 2>&1 && export EDITOR="$(which nvim)"
 
 IshDebugPrint "Setting up RVM if available"
-IshInsertPath "${HOME}/.rvm/bin" \
+ish_insertPath "${HOME}/.rvm/bin" \
 	&& export rvm_silence_path_mismatch_check_flag=1
 
 # Load bash functions
@@ -132,11 +132,14 @@ if [[ -n "${CCACHE_DIR}" ]]; then
 		# Make sure the ccache dir actually exists
 		[[ -e "${CCACHE_DIR}" ]] || mkdir -p "${CCACHE_DIR}"
 		# Insert cache into path
-		IshInsertPath "/usr/lib/ccache"
+		ish_insertPath "/usr/lib/ccache"
 		# Sets the path where the "real" non-cache compiler are
 		export CCACHE_PATH="/usr/bin"
 	fi
 fi
+
+export LESS="-R"
+command -v lesspipe >/dev/null 2>&1 && eval "$(lesspipe)"
 
 # Use hostname as windowname when in ssh session
 # [[ -n $SSH_CLIENT ]] && printf "\033k`hostname -s`\033\\"

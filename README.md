@@ -7,6 +7,10 @@ includes things like trying to learn the basics of vimscript by messing with my
 .vimrc. What this means that some of the configs are a bit convoluted, and
 might at times rapdily change from bad to worse to not working at all.
 
+## Testing
+
+Run `prove`...
+
 ## Sources & References
 
 I've tried to include attribution where something is clearly inspired (or taken)

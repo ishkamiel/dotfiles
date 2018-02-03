@@ -8,7 +8,7 @@ export TMPDIR="${HOME}/tmp"
 export VIMBACKUP="${TMPDIR}/vimbackup"
 export ISHLIB="${DOTFILES}/bash/lib/ishlib.sh"
 
-[[ -s "${ISHLIB}" ]] && . "${ISHLIB}"
+[ -z "${LIB_ISHLIB_SH}" ] && [[ -s "${ISHLIB}" ]] && . "${ISHLIB}"
 
 # Make sure these directories exist
 InitTempDir ${TMPDIR}
@@ -22,15 +22,15 @@ export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 # Add some paths
-AddToPath "${HOME}/.dotfiles/bin" 0
-AddToPath "${HOME}/personal/bin" 0
-AddToPath "${HOME}/bin" 0 1
+ish_insertPath "${HOME}/.dotfiles/bin"
+ish_insertPath "${HOME}/personal/bin"
+ish_insertPath "${HOME}/bin"
 
 # Mail env
 export MAIL=/var/spool/mail/${USER}
 
 # source ~/.profile_local (See example .profile_local for some variables that stuff in these scripts)
-SourceFile "${HOME}/.profile_local" 1 # (1 suppresses logging on not found)
+ish_sourceFile "${HOME}/.profile_local"
 
 export PERL5LIB="${HOME}/perl5/lib/perl5"
 
