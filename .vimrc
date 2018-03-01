@@ -19,11 +19,12 @@ Plug 'bling/vim-airline'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'aperezdc/vim-template'
-Plug 'morhetz/gruvbox'
+Plug 'flazz/vim-colorschemes'
+" Plug 'morhetz/gruvbox'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'majutsushi/tagbar'
-" Plug 'lervag/vimtex', { 'for': 'tex' }
-Plug 'lervag/vimtex'
+Plug 'lervag/vimtex', { 'for': 'tex' }
+" Plug 'lervag/vimtex'
 
 Plug 'aklt/plantuml-syntax'
 Plug 'rodjek/vim-puppet'
@@ -62,7 +63,7 @@ call plug#end() " }}}
 " Basic config 													{{{
 "
 " Text and side panel widths
-let s:pd_textwidth=100
+let s:pd_textwidth=80
 let s:pd_sidewidth = max([10, min([400, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
 
 " set nocompatible				" Load non-Vi-compaitlbe settings
@@ -114,12 +115,12 @@ let g:tex_comment_nospell=1
 " colorshceme stuff
 set t_ut=
 set background=dark
-colorscheme gruvbox
+colorscheme elflord
 
 " Show indention on screen
 set list listchars=tab:┆\ ,trail:·,extends:»,precedes:«,nbsp:×
 
-highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=237 gui=NONE guifg=DarkGrey guibg=NONE
+" highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=237 gui=NONE guifg=DarkGrey guibg=NONE
 
 " <cpace> - Toggle folds
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
@@ -151,17 +152,17 @@ augroup END
 function! Prose()
 	call litecorrect#init()
 	" call pencil#init({'wrap': 'soft'})
-	call pencil#init({'wrap': 'soft', 'autoformat': 'false'})
+	call pencil#init({'wrap': 'soft', 'conceallevel': 0})
 	let g:pencil#conceallevel = 0
 
 	" replace common punctuation
-	iabbrev <buffer> -- –
-	iabbrev <buffer> --- —
+	" iabbrev <buffer> -- –
+	" iabbrev <buffer> --- —
 	iabbrev <buffer> << «
 	iabbrev <buffer> >> »
 
 	set spell
-	let &textwidth = s:pd_textwidth
+	let &textwidth = 0
 endfunction
 
 " automatically initialize buffer by file type

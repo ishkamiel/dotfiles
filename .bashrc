@@ -138,7 +138,7 @@ if [[ -n "${CCACHE_DIR}" ]]; then
 	fi
 fi
 
-export LESS="-R"
+export LESS='-R -X -F'
 command -v lesspipe >/dev/null 2>&1 && eval "$(lesspipe)"
 
 # Use hostname as windowname when in ssh session

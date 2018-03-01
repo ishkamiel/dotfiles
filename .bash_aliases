@@ -29,3 +29,15 @@ fi
 if command -v git >/dev/null 2>&1; then
 	alias gdiff="git diff --color-words"
 fi
+
+ish_func_vbox_stop() {
+	vboxmanage controlvm $1 acpipowerbutton
+}
+
+if command -v vboxmanage >/dev/null 2>&1; then
+	alias vbox-headless_start="vboxmanage startvm --type headless"
+	alias vbox-stop="ish_func_vbox_stop"
+else 
+    unset -f ish_func_vbox_stop
+fi
+
