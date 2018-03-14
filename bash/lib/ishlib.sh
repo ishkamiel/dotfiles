@@ -97,7 +97,6 @@ ish_testPathOk() {
         ErrorLog "Already in path '${newpath}', skipping"
         return 1
     fi
-    echo "exit ok testPath"
     return 0
 }
 

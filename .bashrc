@@ -121,6 +121,9 @@ source "${DOTFILES}/bash/functions/gitignore.sh"
 export NVM_DIR="/home/ishkamiel/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
+# Insert path for cargo
+ish_insertPath "${HOME}/.cargo/bin"
+
 # Setup ccache, provided CCACHE_DIR is set
 IshDebugPrint "Trying to load cache"
 if [[ -n "${CCACHE_DIR}" ]]; then
