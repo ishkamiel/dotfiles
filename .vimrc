@@ -73,7 +73,7 @@ filetype plugin indent on		" Use indening
 set modeline
 set autowrite					" write a modified buffer on each :next , ...
 set backspace=indent,eol,start	" allow backspacing over everything in insert mode
-set backup						" keep a backup file
+" set backup						" keep a backup file
 " set browsedir=current			" which directory to use for the file browser
 set history=50					" command line history
 set incsearch					" use incremental search
