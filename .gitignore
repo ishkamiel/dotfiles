@@ -1,2 +1,4 @@
 perldots.json
 *.bak
+.dotfiles.bash_it_installed
+*.swp

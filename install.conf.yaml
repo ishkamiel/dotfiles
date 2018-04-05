@@ -6,9 +6,12 @@
 - clean: [ '~', '~/.config', '~/.ssh', '~/.config/upstart', '~/.config/autostart', '~' ]
 
 - link:
-    ~/.bashrc: .bashrc
     ~/.bash_aliases: .bash_aliases
     ~/.bash_profile: .bash_profile
+    ~/.bashrc: .bashrc
+    ~/bin/dotfiles-keybindings_save: bin/dotfiles-keybindings_save
+    ~/bin/dotfiles-push2host: bin/dotfiles-push2host
+    ~/bin/dotfiles-update: bin/dotfiles-update
     ~/.chktexrc: .chktexrc
     ~/.config/nvim/init.vim: .vimrc
     ~/.config/terminator/config: .config/terminator/config
