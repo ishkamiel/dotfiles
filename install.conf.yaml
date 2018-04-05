@@ -26,9 +26,6 @@
     ~/.vim/ftplugin/gitcommit.vim: .vim/ftplugin/gitcommit.vim
     ~/.vim/plugin/cscope_maps.vim: .vim/plugin/cscope_maps.vim
     ~/.vim/vim-templates: .vim/vim-templates
-    ~/.vimperatorrc: .vimperatorrc
-    ~/.vimperator/colors: .vimperator/colors
-    ~/.vimperator/plugin: .vimperator/plugin
 - shell:
   -
     command: scripts/desktopSettings.sh
