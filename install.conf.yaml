@@ -37,7 +37,7 @@
     stdin: true
     stdout: true
   -
-    command: scripts/keybindings.pl -i keybindings
+    command: scripts/keybindings_apply.sh
     stdin: false
     stdout: false
   -

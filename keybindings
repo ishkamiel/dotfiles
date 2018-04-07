@@ -1,5 +1,6 @@
 org.gnome.desktop.wm.keybindings	cycle-windows-backward	[]
 org.gnome.desktop.wm.keybindings	minimize	[]
+
 org.gnome.desktop.wm.keybindings	move-to-workspace-7	[]
 org.gnome.desktop.wm.keybindings	move-to-workspace-8	[]
 org.gnome.desktop.wm.keybindings	move-to-workspace-9	[]
