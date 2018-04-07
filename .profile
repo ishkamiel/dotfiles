@@ -2,7 +2,7 @@
 
 export DOTFILES=${HOME}/.dotfiles
 
-. ${DOTFILES}/lib/_pathmunge.sh
+. ${DOTFILES}/lib/functions.bash/pathmunge.sh
 
 _pathmunge "${HOME}/bin"
 

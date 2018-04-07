@@ -1,41 +1,94 @@
 # vim: ft=sh fdm=marker foldlevel=0
-####################################################################################################
+###############################################################################
 #
-# This is originally based on agnoster's Theme for ZSH [1], upon which Kenny Root [2] did some
-# modifications to adapt it to bash. Although this is a somewhat heavily modified version...
+# This is originally based on agnoster's Theme for ZSH [1], upon which Kenny
+# Root [2] did some modifications to adapt it to bash. Although this is a
+# somewhat heavily modified version...
 #
 # [1] https://gist.github.com/3712874
 # [2] https://gist.github.com/kruton/8345450
 #
+#------------------------------------------------------------------------------
+# TODO: Allow disabling git stuff (through bash-it options?)
+#
 #---------------------------------------------------------------------------------------------------
-# SETTINGS
+# Bencmarking
 
-# AGN_PROMPT_GIT=false|FILENAME (default=/usr/lib/git-core/git-sh-prompt)
-#----------------------------------------------------
+# Not pretty, but maybe useful for benchmarking solutions
+# create benchmark:
+# for i in `seq 1 100`; do start=$(date +%s%N); __agnomod_prompt_command > /dev/null; end=$(date +%s%N); echo ; echo $((end-start)) >> bench1; done
+# calculate average:
+# cat bench1 | perl -n -e '$count++; $sum+=$_; $avg=$sum/$count; print qq/$avg\n/;' | tail -n 1
 #
-# The git shell prompt script uses some environmental variables to customize the proivded
-# information. This script takes into acount, but doesn't require the following settings:
-#   GIT_PS1_SHOWDIRTYSTATE=true
-#   GIT_PS1_SHOWUNTRACKEDFILES=true
-#   GIT_PS1_SHOWUPSTREAM="auto"
-#   GIT_PS1_SHOWCOLORHINTS=true
-# (Please see the the git-shell$GIT_SH_PROMPT file itself for more details)
-#---------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# Git functionality uses /usr/lib/git-core/git-sh-prompt
 
+GIT_PS1_FILE_LOADED=false
+GIT_PS1_SHOWDIRTYSTATE=true
+GIT_PS1_SHOWUNTRACKEDFILES=true
+GIT_PS1_SHOWUPSTREAM="auto"
+GIT_PS1_SHOWCOLORHINTS=true
 
+__agnomod_load_git_prompt() {
+    local git_ps1_file="/usr/lib/git-core/git-sh-prompt"
+    if [ "$(declare -f __git_ps1 > /dev/null; echo $?)" = 1 ]; then
+        source "${git_ps1_file}"
+        if [ "$(declare -f __git_ps1 > /dev/null; echo $?)" = 1 ]; then
+            echo "Failed to load __git_ps1 from ${git_ps1_file}"
+            return 0
+        else
+            GIT_PS1_FILE_LOADED=true
+        fi
+    else
+        GIT_PS1_FILE_LOADED=true
+    fi
+}
 
+__agnomod_git_prompt() {
+    local path="${1}"
+    local s_repo='\ue0a0' # 
+    local unsta='\u25cb' # ○
+    local uncom='\u25cf' # ●
+    local untra='\u25cc' # ◌
+    local s_ahead='\u25b8' # ▸
+    local s_behind='\u25c2' # ◂
+    local s_even='' # '\u25b4' # ▴
 
-####################################################################################################
-# __build_prompt
-#
-# This is the main function that rebuilds the dynamic parts of the prompt. I've elected to use
-# inner functions in order to minimize the amount of functions "leaking out". Much of the basic
-# parts, like hte __prompt_segment function and call the color functions are from Kenny Root's
-# bash converison.
-#
-# The style is obviously more or less the same as agnoster's theme, but I've change some colors
-# to accomodate my color-blindness.
-prompt_command() {
+    [ -n "${path}" ] && cd "${path}"
+
+    if ! $GIT_PS1_FILE_LOADED; then
+	    return 0
+    fi
+
+    local status=$(__git_ps1)
+
+    status=${status:2:$((${#status} - 3))}
+
+    # Add space before status symbols
+    if [[ ${status} =~ ^(.*[[:alnum:]])(<|>|<>)$ ]]; then
+        status="${BASH_REMATCH[1]} ${BASH_REMATCH[2]}"
+    fi
+
+    if [ -n "${status}" ]; then
+        if $use_symbols; then
+            status=${status/\*/${unsta}}
+            status=${status/\+/${uncom}}
+            status=${status/\%/${untra}}
+
+            status=${status/\>/${s_ahead}}
+            status=${status/\</${s_behind}}
+            status=${status/\=/${s_even}}
+        else
+            s_repo=' '
+        fi
+
+        echo -ne "${status}"
+    fi
+
+    [ -n "${path}" ] && cd - > /dev/null
+}
+
+__agnomod_prompt_command() {
     RETVAL=$?
     local use_symbols=false
     local __agn_CURRENT_BG='NONE' # default to no background
@@ -154,7 +207,16 @@ prompt_command() {
     } # }}}
     __prompt_context() { #{{{
         local user=`whoami`
-        [[ $user != $DEFAULT_USER || -n $SSH_CLIENT ]] && __prompt_segment cyan black "$user@$(hostname)"
+        local context=""
+        local context_bg="cyan"
+
+        [[ -n $SSH_CLIENT ]] && context="$user@$(hostname)"
+        if [[ $(sudo -n uptime 2>&1) = *load* ]]; then
+            context="!${context}!"
+            context_bg="red"
+        fi
+
+        [[ -n "$context" ]] && __prompt_segment $context_bg black "$context"
     } #}}}
     __prompt_status() { #{{{
         local symbols=()
@@ -164,7 +226,7 @@ prompt_command() {
         [[ -n "$symbols" ]] && __prompt_segment black default " $symbols "
     } #}}}
     __prompt_git() { #{{{
-        local status=$(gitStatus)
+        local status=$(__agnomod_git_prompt)
 
         if [ -n "${status}" ]; then
             if [[ "${status}" =~ [[:space:]] ]]; then
@@ -197,9 +259,13 @@ prompt_command() {
     echo -ne "\[\033[0m\]"
 }
 
-####################################################################################################
-# Startup
+__agnomod_load_git_prompt
 
-source "${DOTFILES}/bash/lib/gitStatus"
-
-PROMPT_COMMAND='PS1=$(prompt_command)'
+if [[ -n "${BASH_IT}" ]]; then
+    # This doesn't work
+    # safe_append_prompt_command __agnomod_prompt_command
+    # Is there a reason to do anything more fancy, maybe not?
+    PROMPT_COMMAND='PS1=$(__agnomod_prompt_command)'
+else
+    PROMPT_COMMAND='PS1=$(__agnomod_prompt_command)'
+fi
