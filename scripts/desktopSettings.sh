@@ -5,6 +5,12 @@ then
     # Disable desktop icons
     dconf write /org/gnome/desktop/background/show-desktop-icons false
 
+    # Move titlebar buttons to the left
+    dconf write /org/gnome/desktop/wm/preferences/button-layout "'close,minimize,maximize:'"
+
+    # Make ALT be the window action key (instead of SUPER)
+    dconf write /org/gnome/desktop/wm/preferences/mouse-button-modifier "'<Alt>'"
+
     # Auto-hide Ubuntu dock (under gnome-shell)
     dconf write /org/gnome/shell/extensions/dash-to-dock/dock-fixed false
 
