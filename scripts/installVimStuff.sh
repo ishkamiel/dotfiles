@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-[[ -z "${DOTFILES_BASH}" ]] && export DOTFILES_BASH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../bash"
-if [[ -e "${DOTFILES_BASH}/lib/downloadFile.sh" ]]; then
-	source "${DOTFILES_BASH}/lib/downloadFile.sh"
+if [[ -e "${DOTFILES}/lib/downloadFile.sh" ]]; then
+	source "${DOTFILES}/lib/downloadFile.sh"
 else
 	exit 1;
 fi
+[[ -z "${LIB_DEBUG_SH}" ]] && source "${DOTFILES}/lib/debug.sh"
 
 FN_VIM="${HOME}/.vim/autoload/plug.vim"
 FN_NEOVIM="${HOME}/.config/nvim/autoload/plug.vim"
@@ -23,7 +23,7 @@ else
 	mkdir -p "$(dirname ${FN_VIM})"
 	downloadFile "${URL_PLUG}" "${FN_VIM}"
 fi
-echo "Trying to launch vim for plugin install"
+d_print "Trying to launch vim for plugin install"
 [[ -e ${FN_VIM} ]] && vim +PlugInstall +qall
 
 # Install vim-plug for neovim IF it's installed
@@ -36,6 +36,6 @@ then
 		mkdir -p $(dirname ${FN_NEOVIM})
 		cp ${FN_VIM} ${FN_NEOVIM}
 	fi
-	echo "Trying to launch nvim for plugin install"
+	d_print "Trying to launch nvim for plugin install"
 	[[ -e ${FN_NEOVIM} ]] && nvim +PlugInstall +qall
 fi

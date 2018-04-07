@@ -30,7 +30,6 @@ debug_disable() {
     DEBUG=true
 }
 
-
 Clean_debug() {
     unset -f d_print
     unset -f debug_enable

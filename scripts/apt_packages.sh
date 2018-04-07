@@ -8,8 +8,8 @@
 
 PKG_LIST_FILE=${DOTFILES}/apt_packages
 
-[[ -z "${LIB_CHECKS_SH}" ]] && source "${DOTFILES_BASH}/lib/checks.sh"
-[[ -z "${LIB_DEBUG_SH}" ]] && source "${DOTFILES_BASH}/lib/debug.sh"
+[[ -z "${LIB_CHECKS_SH}" ]] && source "${DOTFILES}/lib/checks.sh"
+[[ -z "${LIB_DEBUG_SH}" ]] && source "${DOTFILES}/lib/debug.sh"
 
 # debug_enable
 

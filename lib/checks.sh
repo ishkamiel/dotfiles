@@ -7,7 +7,7 @@
 
 LIB_CHECKS_SH=1
 
-[[ -z "${LIB_DEBUG_SH}" ]] && source "${DOTFILES_BASH}/lib/debug.sh"
+[[ -z "${LIB_DEBUG_SH}" ]] && source "${DOTFILES}/lib/debug.sh"
 
 running_gnome() {
     local old_val=$(shopt -p nocasematch)

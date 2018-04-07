@@ -8,7 +8,7 @@ use File::Temp qw/tempfile :seekable/;
 
 use Test::More tests => 3;
 
-my $script = $ENV{'DOTFILES_BASH'} . '/lib/downloadFile.sh';
+my $script = $ENV{'DOTFILES'} . '/lib/downloadFile.sh';
 
 sub runScript {
 	my ($fh, $fn) = tempfile();
