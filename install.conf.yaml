@@ -10,6 +10,7 @@
     ~/.bash_aliases: .bash_aliases
     ~/.bash_profile: .bash_profile
     ~/.bashrc: .bashrc
+    ~/.byobu/.tmux.conf: .byobu/.tmux.conf
     ~/bin/dotfiles-keybindings_save: bin/dotfiles-keybindings_save
     ~/bin/dotfiles-push2host: bin/dotfiles-push2host
     ~/bin/dotfiles-update: bin/dotfiles-update
