@@ -24,6 +24,9 @@ then
     # Make workspaces span all displays
     dconf write /org/gnome/mutter/workspaces-only-on-primary false
 
+    # Hide gnome-terminal menu bar
+    dconf write /org/gnome/terminal/legacy/default-show-menubar false
+
     # Fix desktop background and right-click
     gsettings set org.gnome.settings-daemon.plugins.background active true
     # Disable annoying search on type thing (FIXME: no longer working?)

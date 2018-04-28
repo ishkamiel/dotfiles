@@ -42,7 +42,7 @@ do_sanity_checks() {
 ext_is_installed() {
     local ext=$1
     local retval=-1
-    [[ -n "${ext}" ]] || (>&2 echo "gnome-shell-extensions.sh:${FUNCNAME[0]}: missing argument"; return -1)
+    [[ -n "${ext}" ]] || (>&2 echo "gnome-shell-extensions.sh:${FUNCNAME[0]}: missing argument"; return 1)
 
     if [[ -e "${SYSTEM_EXT_DIR}/${ext}" ]]; then
         d_print "gnome-shell-extensions.sh:${FUNCNAME[0]}: ${ext} installed system-wide"
@@ -60,8 +60,7 @@ ext_is_installed() {
 get_dl_link () {
     local ext=$1
 
-    [[ -n "${ext}" ]] || (>&2 echo "gnome-shell-extensions.sh:${FUNCNAME[0]}: missing argument"; return -1)
-
+    [[ -n "${ext}" ]] || (>&2 echo "gnome-shell-extensions.sh:${FUNCNAME[0]}: missing argument"; return 1)
 }
 
 download_and_install() {
@@ -70,11 +69,11 @@ download_and_install() {
     local info_url="${EXT_BASE_URL}/extension-info/?uuid=${ext}&shell_version=${GNOME_SHELL_VERSION}"
     local install_dir="${USER_EXT_DIR}/${ext}"
 
-    [[ -n "${ext}" ]] || (>&2 echo "gnome-shell-extensions.sh:${FUNCNAME[0]}: missing argument"; return -1)
+    [[ -n "${ext}" ]] || (>&2 echo "gnome-shell-extensions.sh:${FUNCNAME[0]}: missing argument"; return 1)
 
     if ! has_command curl; then
         >&2 echo "cannot find curl, unable to install ${ext}"
-        return -1
+        return 1
     fi
 
     local tmpdir=$(mktemp -d)
@@ -91,15 +90,18 @@ download_and_install() {
     curl -s -L "${dl_url}" > "${zip_fn}"
 
     d_print "gnome-shell-extensions.sh:${FUNCNAME[0]}: unzipping to ${install_dir}"
+    mkdir -p "${install_dir}"
     unzip "${zip_fn}" -d "${install_dir}"
     retval=$?
 
-    rm -rf ${tmpdir}
+    # rm -rf "${tmpdir}"
     trap '' EXIT
     return ${retval}
 }
 
 check_extensions() {
+    local did_install=false
+
     while IFS= read -r ext
     do
         d_print "gnome-shell-extensions.sh:${FUNCNAME[0]}: checking ${ext}"
@@ -109,10 +111,15 @@ check_extensions() {
         elif download_and_install ${ext}; then
             >&2 echo "${ext} installed"
             ${EXT_TOOL} -e ${ext}
+            did_install=true
         else
             >&2 echo "failed to setup ${ext}"
         fi
     done < "${EXT_LIST_FILE}"
+
+    if ${did_install}; then
+        gnome-shell --replace &
+    fi
 }
 
 do_sanity_checks
