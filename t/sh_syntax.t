@@ -3,7 +3,7 @@
 # Author Hans Liljestrand <liljestrandh@gmail.com>
 # Copyright (C) 2018 Hans Liljestrand <liljestrandh@gmail.com>
 #
-package test_syntax;
+package sh_syntax;
 
 use warnings;
 use strict;
@@ -12,22 +12,29 @@ use File::Temp qw/tempfile :seekable/;
 use File::Find;
 use Test::More tests => 3;
 
-our $bash_bin = "/bin/bash";
+our $test_bin = "/bin/sh";
+our $test_cmd = qq|$test_bin -n %s 2>&1|;
 
-our $bash_lib_dir = $ENV{'DOTFILES_BASH'};
-our $script_dir = "$ENV{'DOTFILES'}/scripts";
+our $test_file_dirs_match = qr/\.sh$/;
+our @test_file_dirs = (
+    "$ENV{'DOTFILES'}/lib/functions.sh"
+);
 
-sub echo { print scalar((caller(1))[3]), ": ", @_, "\n"; }
+our @test_files = (
+    "$ENV{'DOTFILES'}/.profile"
+);
+
+sub echo { printf(qq|%s: %s\n|, scalar((caller(1))[3]),  @_); }
 
 sub test_bash_syntax {
     my $fn = shift;
     my $silent = shift;
 
-    my $cmd = qq|$bash_bin -n $fn 2>&1|;
+    my $cmd = sprintf($test_cmd, $fn);
 
-    echo "executing: `$cmd`";
+    echo "executing: '$cmd'";
     my $result = `$cmd`;
-    die("could not execute blastall: $cmd\n") if !defined($result);
+    die("could not execute '$cmd'\n") if !defined($result);
     die("$cmd died from signal ", ($? & 127), "\n") if $? & 127;
     if ($? >> 8) {
         echo "syntax check failed";
@@ -53,6 +60,12 @@ sub sanity_check {
     return $retval;
 }
 
+sub check_one {
+    my $file = shift;
+    echo "testing $file";
+    return test_bash_syntax($file);
+}
+
 sub check_all {
     my $path = shift;
     my $match = shift;
@@ -71,8 +84,10 @@ sub check_all {
 }
 
 ok(sanity_check());
-ok(check_all($bash_lib_dir, qr/\.sh$/));
-ok(check_all($script_dir, qr/\.sh$/));
+for (@test_file_dirs) {
+    ok(check_all($_, $test_file_dirs_match));
+}
 
-#ok(runScript(okScript("downloadFile url")) =~ m/fail$/);
-#ok(runScript(okScript("downloadFile url filename")) =~ m/curl.*wget.*fail$/s);
+for (@test_files) {
+    ok(check_one($_))
+}

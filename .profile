@@ -2,14 +2,21 @@
 
 export DOTFILES=${HOME}/.dotfiles
 
-. ${DOTFILES}/lib/functions.bash/pathmunge.sh
+# This is ugly, but wil perhaps prevent clashes with bash-it...
+if !  command -v exa >/dev/null 2>&1; then
+    . ${DOTFILES}/lib/functions.sh/pathmunge.sh
+    INCLUDE_pathmunge=true
+fi
 
-_pathmunge "${HOME}/bin"
+pathmunge "${HOME}/bin"
 
 # Fix for intellj IDEs: https://youtrack.jetbrains.com/issue/IDEA-78860
 export IBUS_ENABLE_SYNC_MODE=1
 
 # Load Ingel SGX SDK environment
-[[ -e /opt/intel/sgxsdk/environment ]] && . /opt/intel/sgxsdk/environment
+[ -e /opt/intel/sgxsdk/environment ] && . /opt/intel/sgxsdk/environment
 
-unset -f _pathmunge
+if $INCLUDE_pathmunge; then
+    unset -f pathmunge
+    unset INCLUDE_pathmunge
+fi

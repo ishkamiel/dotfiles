@@ -13,3 +13,5 @@ gnome-tweak-tool
 gnome-shell-extension-pixelsaver
 gnome-shell-extension-impatience
 gnome-shell-extensions
+shellcheck
+libcriticism-perl

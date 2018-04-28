@@ -21,7 +21,7 @@ __init_exa_plugin() {
 
     if ! has_exa; then
         echo "Cannot find exa, is it installed?"
-        echo "\tLooked in \$PATH and nda ${cargo_bin_path}"
+        echo "    Looked in \$PATH and nda ${cargo_bin_path}"
     else
         alias ls="exa ${exa_args}"
         alias la="exa ${exa_args} -a"
