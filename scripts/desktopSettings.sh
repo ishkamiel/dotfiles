@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
 
+[[ -z "${LIB_CHECKS_SH}" ]] && source "${DOTFILES}/lib/checks.sh"
+
 if command -v gsettings >/dev/null 2>&1 && command -v dconf >/dev/null 2>&1
 then
+    # Set the defaul monospace font
+    if is_package_installed "fonts-hack-otf"; then
+        dconf write /org/gnome/desktop/interface/monospace-font-name "'Hack 12'"
+    fi
+
     # Disable desktop icons
     dconf write /org/gnome/desktop/background/show-desktop-icons false
 
@@ -13,6 +20,9 @@ then
 
     # Auto-hide Ubuntu dock (under gnome-shell)
     dconf write /org/gnome/shell/extensions/dash-to-dock/dock-fixed false
+
+    # Make workspaces span all displays
+    dconf write /org/gnome/mutter/workspaces-only-on-primary false
 
     # Fix desktop background and right-click
     gsettings set org.gnome.settings-daemon.plugins.background active true
