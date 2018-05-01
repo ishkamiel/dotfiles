@@ -5,6 +5,8 @@
 # Path to the bash it configuration
 export BASH_IT="${DOTFILES}/bash-it"
 
+export EDITOR=vim
+
 # Lock and Load a custom theme file
 # location /.bash_it/themes/
 export BASH_IT_THEME='agnomod'
