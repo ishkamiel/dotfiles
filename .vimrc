@@ -39,7 +39,7 @@ Plug 'junegunn/limelight.vim'
 Plug 'junegunn/goyo.vim'
 
 " PDF suppoert
-Plug 'rhysd/open-pdf.vim'
+" Plug 'rhysd/open-pdf.vim'
 
 " Git stuff
 Plug 'airblade/vim-gitgutter'
