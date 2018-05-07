@@ -6,6 +6,7 @@
 export BASH_IT="${DOTFILES}/bash-it"
 
 export EDITOR=vim
+export VIEWER=zathura
 
 # Lock and Load a custom theme file
 # location /.bash_it/themes/
@@ -53,6 +54,8 @@ export SCM_CHECK=true
 # export BASH_IT_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE=1
 
 export BASH_IT_CUSTOM="${DOTFILES}/bash_it_custom"
+
+[[ -e ~/.bashrc_local ]] && source ~/.bashrc_local
 
 # Load Bash It
 source "$BASH_IT"/bash_it.sh
