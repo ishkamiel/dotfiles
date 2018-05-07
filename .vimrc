@@ -31,6 +31,25 @@ Plug 'rodjek/vim-puppet'
 
 Plug 'chazy/cscope_maps'
 
+
+" deoplete.nvim
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+Plug 'zchee/deoplete-clang'
+
+" deoplete-minisnip
+" Plug 'joereynolds/vim-minisnip'
+" Plug 'joereynolds/deoplete-minisnip'
+
+" UltiSnips
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
+
 " writing stuff
 Plug 'reedes/vim-pencil'
 Plug 'reedes/vim-wordy'
@@ -171,10 +190,26 @@ augroup filetype_prose
 	au FileType tex,markdown,mkd,text call Prose()
 augroup END
 
+augroup filetype_bib
+    au!
+    au FileType bib set nospell
+augroup END
+
 " autocmd BufWritePost *.tex,*.bib make
 
 " invoke manually by command for other file types
 command! -nargs=0 Prose call Prose()
+
+" }}}
+" Plugin: deoplete.nvim {{{
+
+let g:deoplete#enable_at_startup = 1
+
+let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-6.0/lib/libclang.so'
+let g:deoplete#sources#clang#clang_header = '/usr/lib/clang'
+
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " }}}
 " Plugin: ALE {{{
@@ -274,6 +309,17 @@ let g:syntastic_cpp_auto_refresh_includes = 1
 let g:syntastic_tex_checkers = [ 'lacheck' ]
 
 " nnoremap <F2> :<C-u>exe 'call <SID>LocationNext()'<CR>
+
+" }}}
+" Plugin: UltiSnips {{{
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
 
 " }}}
 " Plugin: YouCompleteMe {{{
