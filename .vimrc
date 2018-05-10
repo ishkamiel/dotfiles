@@ -31,6 +31,10 @@ Plug 'rodjek/vim-puppet'
 
 Plug 'chazy/cscope_maps'
 
+" local_vimrc
+Plug 'LucHermitte/lh-vim-lib'
+Plug 'LucHermitte/local_vimrc'
+
 " writing stuff
 Plug 'reedes/vim-pencil'
 Plug 'reedes/vim-wordy'
@@ -314,6 +318,14 @@ nnoremap <F10> :YcmForceCompileAndDiagnostics <CR>
 let g:templates_directory = [ '~/.vim/vim-templates' ]
 
 " }}}
+" Plugin: local_vimrc {{{
+
+let g:local_vimrc = ['.vimrc_local.vim', '_vimrc_local.vim']
+
+" Location for custom templates
+let g:templates_directory = [ '~/.vim/vim-templates' ]
+
+" }}}
 " GVim config                                                   {{{
 
 " Some gvim options
@@ -352,5 +364,7 @@ augroup filetype_kconfig
 augroup END
 
 " }}}
+
+source ~/.vimrc_local
 
 " vim: shiftwidth=4 tabstop=4 fdm=marker foldlevel=0
