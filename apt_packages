@@ -4,6 +4,7 @@ curl
 exuberant-ctags
 shellcheck
 libcriticism-perl
+silversearcher-ag
 [x]
 fonts-hack-otf
 fonts-hack-ttf
