@@ -28,6 +28,7 @@
     ~/.vim/ftplugin/gitcommit.vim: .vim/ftplugin/gitcommit.vim
     ~/.vim/plugin/cscope_maps.vim: .vim/plugin/cscope_maps.vim
     ~/.vim/vim-templates: .vim/vim-templates
+    ~/.zshrc: .zshrc
 - shell:
   -
     command: scripts/desktopSettings.sh
