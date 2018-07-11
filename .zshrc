@@ -102,6 +102,8 @@ fi
 #alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias glog="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
+unsetopt share_history
+
 command -v nvim >/dev/null 2>&1 && alias vim="nvim"
 
 pathmunge () {
@@ -142,3 +144,5 @@ __init_exa_plugin() {
 }
 
 __init_exa_plugin
+
+[[ -e "$HOME/.zshrc_local" ]] && source "$HOME/.zshrc_local"
