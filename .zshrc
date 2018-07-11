@@ -106,6 +106,8 @@ unsetopt share_history
 
 command -v nvim >/dev/null 2>&1 && alias vim="nvim"
 
+export PATH="${HOME}/bin:${PATH}"
+
 pathmunge () {
     if [ -e "$1" ]; then
         if printf "%s" "$PATH" | grep -vqE "(^|:)$1($|:)"; then
