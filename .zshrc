@@ -145,6 +145,8 @@ __init_exa_plugin() {
     fi
 }
 
+pathmunge "${HOME}/.local/bin"
+
 __init_exa_plugin
 
 [[ -e "$HOME/.zshrc_local" ]] && source "$HOME/.zshrc_local"
