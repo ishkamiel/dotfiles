@@ -25,5 +25,5 @@ if [ -e "/dev/shm" ]; then
     [ -e "/dev/shm/${USER}-tmp" ] || mkdir "/dev/shm/${USER}-tmp"
     [ -e "${HOME}/tmp" ] || ln -s "/dev/shm/${USER}-tmp" ~/tmp
     [ -e "${HOME}/tmp/Downloads" ] || mkdir "${HOME}/tmp/Downloads"
-    [ -e "${HOME}/tmp/Downloads" ] || mkdir "${HOME}/tmp/vimbackup"
+    [ -e "${HOME}/tmp/vimbackup" ] || mkdir "${HOME}/tmp/vimbackup"
 fi
