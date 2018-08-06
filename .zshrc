@@ -107,6 +107,7 @@ unsetopt share_history
 command -v nvim >/dev/null 2>&1 && alias vim="nvim"
 
 export PATH="${HOME}/bin:${PATH}"
+export PAGER='less -X -F'
 
 pathmunge () {
     if [ -e "$1" ]; then

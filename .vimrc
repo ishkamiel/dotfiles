@@ -8,10 +8,6 @@ else
 	let g:onWin = 0
 endif
 
-if !empty(glob("~/.vimrc_local"))
-	source ~/.vimrc_local
-endif
-
 call plug#begin() " {{{
 
 Plug 'scrooloose/NERDTree'
@@ -19,15 +15,18 @@ Plug 'bling/vim-airline'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'aperezdc/vim-template'
-Plug 'flazz/vim-colorschemes'
-" Plug 'morhetz/gruvbox'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'majutsushi/tagbar'
-Plug 'lervag/vimtex', { 'for': 'tex' }
-" Plug 'lervag/vimtex'
 
-Plug 'aklt/plantuml-syntax'
-Plug 'rodjek/vim-puppet'
+Plug 'flazz/vim-colorschemes'
+" Plug 'morhetz/gruvbox'
+
+Plug 'sheerun/vim-polyglot'
+let g:polyglot_disabled = ['latex']
+
+Plug 'lervag/vimtex', { 'for': 'tex' }
+" Plug 'aklt/plantuml-syntax'
+" Plug 'rodjek/vim-puppet'
 
 Plug 'chazy/cscope_maps'
 
@@ -67,6 +66,7 @@ Plug 'junegunn/goyo.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
+" Syntax checking
 Plug 'w0rp/ale'
 
 " Conflicts with ALE
@@ -80,6 +80,7 @@ if !g:onWin
 	" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
 	" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 endif
+
 
 call plug#end() " }}}
 " Basic config 													{{{
@@ -191,7 +192,7 @@ endfunction
 augroup filetype_prose
 	au!
 	au FileType tex,markdown,mkd,text call Prose()
-    au Filetype tex autocmd BufWritePost <buffer> silent make
+    " au Filetype tex autocmd BufWritePost <buffer> silent make
 augroup END
 
 augroup filetype_bib
@@ -283,13 +284,15 @@ highlight ExtraWhitespace ctermbg=black
 " }}}
 " Plugin: vimtex {{{
 " -----------------------------------------------------------------
+let g:vimtex_compiler_progname = 'nvr' " for neovim
+
 let g:vimtex_fold_enabled = 1
-let g:vimtex_latexmk_enabled = 1
-let g:vimtex_latexmk_callback = 0 " requires clientserver
+" let g:vimtex_latexmk_enabled = 1
+" let g:vimtex_latexmk_callback = 0 " requires clientserver
 let g:vimtex_text_obj_enabled = 0
 
 " }}}
-" Plugin: Syntastic {{{
+" Plugin: Syntastic (NOT USED) {{{
 " -----------------------------------------------------------------
 let g:syntastic_enable_signs = 1
 let g:syntastic_auto_loc_list = 0
@@ -315,7 +318,7 @@ let g:syntastic_tex_checkers = [ 'lacheck' ]
 " nnoremap <F2> :<C-u>exe 'call <SID>LocationNext()'<CR>
 
 " }}}
-" Plugin: UltiSnips {{{
+" Plugin: UltiSnips (NOT USED) {{{
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -411,6 +414,8 @@ augroup END
 
 " }}}
 
-source ~/.vimrc_local
+if !empty(glob("~/.vimrc_local"))
+	source ~/.vimrc_local
+endif
 
 " vim: shiftwidth=4 tabstop=4 fdm=marker foldlevel=0
