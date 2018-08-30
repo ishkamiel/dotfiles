@@ -21,9 +21,16 @@ if $INCLUDE_pathmunge; then
     unset INCLUDE_pathmunge
 fi
 
+setup_temp() {
+    dir=$1
+    hdir=$2
+
+    [ -e "$dir" ] || mkdir "$dir"
+    [ -e "$hdir" ] || ln -s "$dir" "$hdir"
+    [ -e "$dir/Downloads" ] || mkdir "$dir/Downloads"
+    [ -e "$dir/vimbackup" ] || mkdir "$dir/vimbackup"
+}
+
 if [ -e "/dev/shm" ]; then
-    [ -e "/dev/shm/${USER}-tmp" ] || mkdir "/dev/shm/${USER}-tmp"
-    [ -e "${HOME}/tmp" ] || ln -s "/dev/shm/${USER}-tmp" ~/tmp
-    [ -e "${HOME}/tmp/Downloads" ] || mkdir "${HOME}/tmp/Downloads"
-    [ -e "${HOME}/tmp/vimbackup" ] || mkdir "${HOME}/tmp/vimbackup"
+    setup_temp "/dev/shm/${USER}-tmp" "${HOME}/tmp"
 fi
