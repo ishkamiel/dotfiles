@@ -5,9 +5,13 @@ exuberant-ctags
 shellcheck
 libcriticism-perl
 silversearcher-ag
+zsh
+git
+python
 [x]
 fonts-hack-otf
 fonts-hack-ttf
 fonts-hack-web
+terminator
 [gnome]
 gnome-tweak-tool
