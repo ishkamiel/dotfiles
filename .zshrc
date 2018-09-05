@@ -146,8 +146,18 @@ __init_exa_plugin() {
     fi
 }
 
-pathmunge "${HOME}/.local/bin"
+__init_bat_plugin() {
+    command -v bat >/dev/null 2>&1 || return 0
+    alias cat="bat"
+    export PAGER=bat
+}
 
 __init_exa_plugin
+__init_bat_plugin
+
+pathmunge "${HOME}/.local/bin"
+
+
+
 
 [[ -e "$HOME/.zshrc_local" ]] && source "$HOME/.zshrc_local"
