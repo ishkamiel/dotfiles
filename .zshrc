@@ -63,6 +63,7 @@ HYPHEN_INSENSITIVE="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   command-not-found
+  nvm
   vi-mode
   zsh-autosuggestions
   zsh-syntax-highlightning
