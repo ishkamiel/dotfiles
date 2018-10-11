@@ -13,5 +13,6 @@ fonts-hack-otf
 fonts-hack-ttf
 fonts-hack-web
 terminator
+zathura
 [gnome]
 gnome-tweak-tool
