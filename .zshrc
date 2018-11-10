@@ -64,7 +64,7 @@ HYPHEN_INSENSITIVE="true"
 plugins=(
   command-not-found
   vi-mode
-  zsh-autosuggestions
+  nvm
   zsh-syntax-highlightning
 )
 
