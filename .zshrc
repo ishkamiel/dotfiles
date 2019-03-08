@@ -151,3 +151,7 @@ __init_exa_plugin
 pathmunge "${HOME}/.local/bin"
 
 [[ -e "$HOME/.zshrc_local" ]] && source "$HOME/.zshrc_local"
+
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+    source /etc/profile.d/vte.sh
+fi
