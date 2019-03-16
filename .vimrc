@@ -124,6 +124,7 @@ set wildmode=longest,list		" Set tab command completion behaivor
 set clipboard=unnamedplus       " Yanks stuff directly  to clipboard
 set cinoptions=:0				" Make switch & case have same indention
 set number
+set nocscopeverbose             " prevent addedd cscope database message
 
 set backupdir=~/tmp/vimbackup,.,~
 set directory=~/tmp/vimbackup,.,~
