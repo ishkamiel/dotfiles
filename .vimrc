@@ -83,46 +83,46 @@ endif
 
 
 call plug#end() " }}}
-" Basic config 													{{{
+" Basic config {{{
 "
 " Text and side panel widths
 let s:pd_textwidth=80
 let s:pd_sidewidth = max([10, min([400, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
 
-" set nocompatible				" Load non-Vi-compaitlbe settings
-syntax on						" Syntax highlighting
-filetype plugin indent on		" Use indening
-" set autoread					" read open files again when changed outside Vim
+" set nocompatible		" Load non-Vi-compaitlbe settings
+syntax on			" Syntax highlighting
+filetype plugin indent on	" Use indening
+" set autoread			" read open files again when changed outside Vim
 set modeline
-set autowrite					" write a modified buffer on each :next , ...
+set autowrite			" write a modified buffer on each :next , ...
 set backspace=indent,eol,start	" allow backspacing over everything in insert mode
-" set backup						" keep a backup file
-" set browsedir=current			" which directory to use for the file browser
-set history=50					" command line history
-set incsearch					" use incremental search
-set nowrap						" do not wrap lines
-" set ruler						" show the cursor position all the time
-set laststatus=2				" always show the statusbar
-set shiftwidth=4				" number of spaces to use for each step of indent
-set tabstop=4					" number of spaces that a <Tab> in the file counts for
-set showcmd						" display incomplete commands
-set expandtab					" insert spaces instead of tabs
-set novisualbell				" visual bell instead of beeping
+" set backup			" keep a backup file
+" set browsedir=current		" which directory to use for the file browser
+set history=50			" command line history
+set incsearch			" use incremental search
+set nowrap			" do not wrap lines
+" set ruler			" show the cursor position all the time
+set laststatus=2		" always show the statusbar
+set shiftwidth=4		" number of spaces to use for each step of indent
+set tabstop=4			" number of spaces that a <Tab> in the file counts for
+set showcmd			" display incomplete commands
+set expandtab			" insert spaces instead of tabs
+set novisualbell		" visual bell instead of beeping
 set t_vb=
 let &textwidth=s:pd_textwidth
-set noautochdir 				" change the current working directory
+set noautochdir 		" change the current working directory
 set secure                      " secure loading of non-default vimrc
 set pastetoggle=<F9>            " Toggle pasting mode (disables indenting)
 set scrolloff=10                " Keep this many lines visible below cursor
 set completeopt-=preview        " remove extended preview from autoinserts (scratch window)
 set hlsearch                    " highlight searches
-" set updatetime=500 			" Milliseconds between writes (affects git-gutter update speed)
+" set updatetime=500 		" Milliseconds between writes (affects git-gutter update speed)
 set foldmethod=syntax           " Syntax based folding
 set foldlevel=999               " Display everything by default
 set foldnestmax=1
-set wildmode=longest,list		" Set tab command completion behaivor
+set wildmode=longest,list	" Set tab command completion behaivor
 set clipboard=unnamedplus       " Yanks stuff directly  to clipboard
-set cinoptions=:0				" Make switch & case have same indention
+set cinoptions=:0		" Make switch & case have same indention
 set number
 set nocscopeverbose             " prevent addedd cscope database message
 
@@ -156,7 +156,7 @@ if has('autocmd')
 endif
 
 " }}}
-" writing config 													{{{
+" writing config {{{
 
 let g:tex_flavor = 'latex'
 
@@ -376,7 +376,7 @@ let g:local_vimrc = ['.vimrc_local.vim', '_vimrc_local.vim']
 let g:templates_directory = [ '~/.vim/vim-templates' ]
 
 " }}}
-" GVim config                                                   {{{
+" GVim config {{{
 
 " Some gvim options
 set guioptions-=m  "remove menu bar
@@ -390,7 +390,7 @@ if has('gui_running')
 endif
 
 " }}}
-" FileType config												{{{
+" FileType config {{{
 
 " automatically convert PDF files to text
 let g:pdf_convert_on_edit=1
@@ -419,4 +419,4 @@ if !empty(glob("~/.vimrc_local"))
 	source ~/.vimrc_local
 endif
 
-" vim: shiftwidth=4 tabstop=4 fdm=marker foldlevel=0
+" vim: noexpandtab shiftwidth=8 tabstop=8 fdm=marker foldlevel=0
