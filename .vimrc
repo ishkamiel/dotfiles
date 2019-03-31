@@ -19,20 +19,16 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'majutsushi/tagbar'
 
 Plug 'flazz/vim-colorschemes'
-" Plug 'morhetz/gruvbox'
 
 Plug 'sheerun/vim-polyglot'
 let g:polyglot_disabled = ['latex']
 
-Plug 'lervag/vimtex', { 'for': 'tex' }
-" Plug 'aklt/plantuml-syntax'
-" Plug 'rodjek/vim-puppet'
+" file type specific stuff
+Plug 'lervag/vimtex', { 'for': 'tex' }		" vim
+" Plug 'aklt/plantuml-syntax'			" plantuml
+" Plug 'rodjek/vim-puppet'			" puppet
 
 Plug 'chazy/cscope_maps'
-
-" local_vimrc
-Plug 'LucHermitte/lh-vim-lib'
-Plug 'LucHermitte/local_vimrc'
 
 " deoplete.nvim
 if has('nvim')
@@ -44,23 +40,12 @@ else
 endif
 Plug 'zchee/deoplete-clang'
 
-" deoplete-minisnip
-" Plug 'joereynolds/vim-minisnip'
-" Plug 'joereynolds/deoplete-minisnip'
-
-" UltiSnips
-" Plug 'SirVer/ultisnips'
-" Plug 'honza/vim-snippets'
-
 " writing stuff
 Plug 'reedes/vim-pencil'
 Plug 'reedes/vim-wordy'
 Plug 'reedes/vim-litecorrect'
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/goyo.vim'
-
-" PDF suppoert
-" Plug 'rhysd/open-pdf.vim'
 
 " Git stuff
 Plug 'airblade/vim-gitgutter'
