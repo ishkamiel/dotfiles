@@ -72,7 +72,10 @@ call plug#end() " }}}
 "
 " Text and side panel widths
 let s:pd_textwidth=80
-let s:pd_sidewidth = max([10, min([400, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
+
+function GetSideWidth()
+	return  max([30, min([400, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
+endfunction
 
 " set nocompatible		" Load non-Vi-compaitlbe settings
 syntax on			" Syntax highlighting
@@ -220,19 +223,19 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 " -----------------------------------------------------------------
 "
 function! IshNERDTreeFind()
-	let g:NERDTreeWinSize =  max([10, min([400, ((&columns - s:pd_textwidth - 20 ) / 2) ])])
+	let g:NERDTreeWinSize = GetSideWidth()
 	NERDTreeFind
 endfunction
 
 function! IshNERDTreeToggle()
-	let g:NERDTreeWinSize =  max([10, min([400, ((&columns - s:pd_textwidth - 20 ) / 2) ])])
+	let g:NERDTreeWinSize = GetSideWidth()
 	NERDTreeToggle
 endfunction
 
 nmap <F7> :call IshNERDTreeToggle()<CR>
 map <leader>r :call IshNERDTreeFind()<CR>
 
-let g:NERDTreeWinSize=s:pd_sidewidth
+let g:NERDTreeWinSize = GetSideWidth()
 let g:NERDTreeIgnore = [ '\.o$' ]
 " Quit when NERDTree is last remining
 augroup plugin_nerdtree
