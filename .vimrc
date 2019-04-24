@@ -18,6 +18,8 @@ Plug 'aperezdc/vim-template'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'majutsushi/tagbar'
 
+Plug 'ARM9/arm-syntax-vim'
+
 Plug 'flazz/vim-colorschemes'
 
 Plug 'sheerun/vim-polyglot'
@@ -144,6 +146,29 @@ vnoremap <Space> zf
 if has('autocmd')
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
+
+" }}}
+" LLVM file type configuration {{{
+" source: https://github.com/llvm/llvm-project
+
+" Enable syntax highlighting for LLVM files. To use, copy
+" utils/vim/syntax/llvm.vim to ~/.vim/syntax .
+augroup filetype
+  au! BufRead,BufNewFile *.ll     set filetype=llvm
+augroup END
+
+" Enable syntax highlighting for tablegen files. To use, copy
+" utils/vim/syntax/tablegen.vim to ~/.vim/syntax .
+augroup filetype
+  au! BufRead,BufNewFile *.td     set filetype=tablegen
+augroup END
+
+" Enable syntax highlighting for reStructuredText files. To use, copy
+" rest.vim (http://www.vim.org/scripts/script.php?script_id=973)
+" to ~/.vim/syntax .
+augroup filetype
+ au! BufRead,BufNewFile *.rst     set filetype=rest
+augroup END
 
 " }}}
 " writing config {{{
