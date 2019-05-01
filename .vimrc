@@ -28,6 +28,8 @@ Plug 'lervag/vimtex', { 'for': 'tex' }		" vim
 " Plug 'aklt/plantuml-syntax'			" plantuml
 " Plug 'rodjek/vim-puppet'			" puppet
 
+Plug 'ARM9/arm-syntax-vim'
+
 Plug 'chazy/cscope_maps'
 
 " deoplete.nvim
