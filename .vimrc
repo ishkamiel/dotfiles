@@ -44,6 +44,9 @@ else
 endif
 Plug 'zchee/deoplete-clang'
 
+Plug 'honza/vim-snippets'
+Plug 'joereynolds/deoplete-minisnip'
+
 " writing stuff
 Plug 'reedes/vim-pencil'
 Plug 'reedes/vim-wordy'
@@ -238,15 +241,27 @@ augroup END
 command! -nargs=0 Prose call Prose()
 
 " }}}
-" Plugin: deoplete.nvim {{{
+" Plugin: deoplete.nvim (plus clang, minisnip){{{
 
 let g:deoplete#enable_at_startup = 1
 
-let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-6.0/lib/libclang.so'
+function SetLibClangPath(libClangPath)
+	if filereadable(a:libClangPath)
+		let g:deoplete#sources#clang#libclang_path = a:libClangPath
+	endif
+endfunction
+
 let g:deoplete#sources#clang#clang_header = '/usr/lib/clang'
+call SetLibClangPath('/usr/lib/llvm-6.0/lib/libclang.so')
+call SetLibClangPath('/usr/lib/llvm-7/lib/libclang.so.1')
+call SetLibClangPath('/usr/lib/llvm-8/lib/libclang.so.1')
 
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+
+" minisnip
+let g:minisnip_trigger = '<C-j>'
+let g:minisnip_dir = '~/.vim/minisnip'
 
 " }}}
 " Plugin: ALE {{{
@@ -396,7 +411,7 @@ nnoremap <F10> :YcmForceCompileAndDiagnostics <CR>
 " Plugin: vim-template {{{
 
 " Location for custom templates
-let g:templates_directory = [ '~/.vim/vim-templates' ]
+let g:templates_directory = [ '~/.vim/local-templates', '~/.vim/vim-templates' ]
 
 " }}}
 " Plugin: local_vimrc {{{
