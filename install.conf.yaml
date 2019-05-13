@@ -21,6 +21,7 @@
     ~/.config/zathura/zathurarc: .config/zathura/zathurarc
     ~/.conky: .conky
     ~/.fonts/ge-inspira.ttf: .fonts/ge-inspira.ttf
+    ~/.gitignore_global: .gitignore_global
     ~/.inputrc: .inputrc
     ~/.ipython/profile_default/ipython_config.py: .ipython/profile_default/ipython_config.py
     ~/.latexmkrc: .latexmkrc
