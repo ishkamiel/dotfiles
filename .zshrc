@@ -100,6 +100,9 @@ fi
 #alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias git-lp="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias git-dc="git diff --color-words"
+alias cp="cp -i"
+alias rm="rm -i"
+alias mv="mv -i"
 
 unsetopt share_history
 
