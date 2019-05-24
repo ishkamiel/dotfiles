@@ -81,7 +81,7 @@ call plug#end() " }}}
 let s:pd_textwidth=80
 
 function GetSideWidth()
-	return  max([30, min([400, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
+	return  max([30, min([50, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
 endfunction
 
 " set nocompatible		" Load non-Vi-compaitlbe settings
@@ -320,7 +320,7 @@ highlight ExtraWhitespace ctermbg=black
 " Plugin: tagbar {{{
 " -----------------------------------------------------------------
 function! IshTagbarToggle()
-	let g:tagbar_width =  max([10, min([400, ((&columns - s:pd_textwidth - 20 ) / 2) ])])
+	let g:tagbar_width = GetSideWidth()
 	TagbarToggle
 endfunction
 
