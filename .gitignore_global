@@ -2,3 +2,5 @@
 **/.~*#
 **/Thumbs.db
 **/Thumbs.db:encryptable
+build
+llvm/cmake-build-debug
