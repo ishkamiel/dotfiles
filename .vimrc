@@ -25,6 +25,8 @@ Plug 'drewtempelmeyer/palenight.vim'
 Plug 'sheerun/vim-polyglot'
 let g:polyglot_disabled = ['latex']
 
+Plug 'tpope/vim-liquid'
+
 " file type specific stuff
 Plug 'lervag/vimtex', { 'for': 'tex' }		" vim
 " Plug 'aklt/plantuml-syntax'			" plantuml
