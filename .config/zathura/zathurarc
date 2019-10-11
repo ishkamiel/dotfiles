@@ -1,2 +1,5 @@
+set scroll-page-aware true
 set vertical-center true
+set window-height 5000
+set window-width 5000
 set show-recent false
