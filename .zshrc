@@ -149,7 +149,7 @@ __init_exa_plugin() {
     fi
 }
 
-__init_exa_plugin
+# __init_exa_plugin
 
 pathmunge "${HOME}/.local/bin"
 

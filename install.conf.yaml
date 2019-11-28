@@ -32,6 +32,10 @@
     stdin: true
     stdout: true
   -
+    command: scripts/install-OhMyZsh.sh
+    stdin: true
+    stdout: true
+  -
     command: scripts/keybindings_apply.sh
     stdin: false
     stdout: false
