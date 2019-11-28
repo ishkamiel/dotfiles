@@ -14,7 +14,9 @@ fonts-hack-otf
 fonts-hack-ttf
 fonts-hack-web
 fonts-firacode
-zathura
+gawk
 kitty
+xdotool
+zathura
 [gnome]
 gnome-tweak-tool
