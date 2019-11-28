@@ -6,28 +6,19 @@
 - clean: [ '~', '~/.config', '~/.ssh', '~/.config/upstart', '~/.config/autostart', '~' ]
 
 - link:
-    bash-it/themes/agnomod: lib/themes/agnomod
-    ~/.bash_aliases: .bash_aliases
-    ~/.bash_profile: .bash_profile
-    ~/.bashrc: .bashrc
-    ~/.byobu/.tmux.conf: .byobu/.tmux.conf
     ~/bin/dotfiles-keybindings_save: bin/dotfiles-keybindings_save
     ~/bin/dotfiles-push2host: bin/dotfiles-push2host
     ~/bin/dotfiles-update: bin/dotfiles-update
     ~/.chktexrc: .chktexrc
     ~/.config/kitty/kitty.conf: .config/kitty/kitty.conf
     ~/.config/nvim/init.vim: .vimrc
-    ~/.config/terminator/config: .config/terminator/config
     ~/.config/zathura/zathurarc: .config/zathura/zathurarc
-    ~/.conky: .conky
-    ~/.fonts/ge-inspira.ttf: .fonts/ge-inspira.ttf
     ~/.gitignore_global: .gitignore_global
     ~/.inputrc: .inputrc
     ~/.ipython/profile_default/ipython_config.py: .ipython/profile_default/ipython_config.py
     ~/.latexmkrc: .latexmkrc
     ~/.pam_environment: .pam_environment
     ~/.profile: .profile
-    ~/.tmux.conf: .tmux.conf
     ~/.vimrc: .vimrc
     ~/.vim/ftplugin/gitcommit.vim: .vim/ftplugin/gitcommit.vim
     ~/.vim/plugin/cscope_maps.vim: .vim/plugin/cscope_maps.vim
