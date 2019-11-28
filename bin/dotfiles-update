@@ -9,10 +9,7 @@
 # DOTBOT_CONFIG=/path/to/dotbot_config.yaml (default: $DOTFILES/.install.conf.yaml)
 
 echo "Powered by:"
-echo
 echo "            github.com/anishathalye/dotbot"
-echo "            github.com/Bash-it/bash-it"
-echo
 
 # Options for tinkering with script
 CREATE_CONFIG=true
@@ -21,27 +18,6 @@ UPDATE_DOTBOT=true
 # Set default values for running without custom paths
 [ -z "${DOTFILES}" ] && export DOTFILES="${HOME}/.dotfiles"
 [ -z "${DOTBOT_CONFIG}" ] && export DOTBOT_CONFIG="${DOTFILES}/install.conf.yaml"
-
-update_bash_it() {
-    local dotfiles="${DOTFILES}"
-    local bash_it_dir="${dotfiles}/bash-it"
-    local bash_it_install_file="${dotfiles}/.dotfiles.bash_it_installed"
-
-    if [ ! -e "${dotfiles}" ]; then
-        echo "Cannot find dotfiles at ${dotfiles}."
-        echo "\tSet \$DOTFILES to customize location."
-        return 1
-    fi
-
-    git submodule update --init "${bash_it_dir}"
-
-    if [ ! -e "${bash_it_install_file}" ]; then
-        cd ${bash_it_dir}
-        ./install.sh --no-modify-config
-        touch "$bash_it_install_file"
-    fi;
-    return 0
-}
 
 dotbotUpdate() {
     local dotfiles="${DOTFILES}"
@@ -89,5 +65,4 @@ dotbotUpdate() {
     return 0
 }
 
-update_bash_it
 dotbotUpdate
