@@ -1,5 +1,4 @@
 vim-nox
-tmux
 curl
 exuberant-ctags
 shellcheck
@@ -7,12 +6,12 @@ libcriticism-perl
 silversearcher-ag
 zsh
 git
-python
+ipython
 [x]
 fonts-hack-otf
 fonts-hack-ttf
 fonts-hack-web
-terminator
 zathura
+kitty
 [gnome]
 gnome-tweak-tool
