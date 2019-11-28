@@ -11,7 +11,9 @@
     ~/bin/dotfiles-update: bin/dotfiles-update
     ~/.chktexrc: .chktexrc
     ~/.config/kitty/kitty.conf: .config/kitty/kitty.conf
-    ~/.config/nvim/init.vim: .vimrc
+    ~/.config/nvim/ftplugin/gitcommit.vim: .config/nvim/ftplugin/gitcommit.vim
+    ~/.config/nvim/init.vim: .config/nvim/init.vim
+    ~/.config/nvim/vim-templates: .config/nvim/vim-templates
     ~/.config/zathura/zathurarc: .config/zathura/zathurarc
     ~/.gitignore_global: .gitignore_global
     ~/.inputrc: .inputrc
@@ -19,10 +21,6 @@
     ~/.latexmkrc: .latexmkrc
     ~/.pam_environment: .pam_environment
     ~/.profile: .profile
-    ~/.vimrc: .vimrc
-    ~/.vim/ftplugin/gitcommit.vim: .vim/ftplugin/gitcommit.vim
-    ~/.vim/plugin/cscope_maps.vim: .vim/plugin/cscope_maps.vim
-    ~/.vim/vim-templates: .vim/vim-templates
     ~/.zshrc: .zshrc
 - shell:
   -

@@ -1,308 +1,470 @@
-call plug#begin()
-Plug 'morhetz/gruvbox'
-Plug 'scrooloose/NERDTree'
-Plug 'jistr/vim-nerdtree-tabs'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'majutsushi/tagbar'
-Plug 'bling/vim-airline'
-Plug 'Valloric/YouCompleteMe' " , { 'do': './install.py --tern-completer --clang-completer' }
-Plug 'honza/vim-snippets' | Plug 'SirVer/ultisnips'
-Plug 'scrooloose/syntastic'
-Plug 'tpope/vim-fugitive'
-" Plug 'jeaye/color_coded'
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-commentary'
-Plug 'vimchant'
-Plug 'ntpeters/vim-better-whitespace'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'Matt-Deacalion/vim-systemd-syntax', { 'for': 'systemd' }
-Plug 'lervag/vimtex', { 'for': 'tex' }
-call plug#end()
+" NOTE: Use space to fold/unfold the categories!
+set encoding=utf-8
+scriptencoding utf-8
 
-" -----------------------------------------------------------------
-" Basic config
-" -----------------------------------------------------------------
-
-" Text and side panel widths
-set scrolloff=1000
-" set autochdir " Change directory to current file
-set secure
-set noexpandtab
-set shiftwidth=8
-set tabstop=8
-set softtabstop=8
-set nowrap
-set textwidth=100
-set colorcolumn=81
-let g:pd_sidewidth_min=20
-let g:pd_sidewidth_max=40
-set pastetoggle=<F9>
-
-" clipboard
-set clipboard=unnamedplus
-
-" vim file location
-set backupdir=~/tmp/vimbackup,.,~
-set directory=~/tmp/vimbackup,.,~
-
-" Colorscheme stuff
-set background=dark
-colorscheme gruvbox
-
-" Remember file locations
-if has("autocmd")
-	au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+if has('win32') || has('win64')
+	let g:onWin = 1
+else
+	let g:onWin = 0
 endif
 
-" Keyboard mappings
-nmap <F8> :TagbarToggle<CR>
+call plug#begin() " {{{
 
-" Side-panel resizing
-function ResizePanels()
-	let l:pd_sidewidth = max([g:pd_sidewidth_min, min([g:pd_sidewidth_max, ((&columns - &textwidth - 5 ) / 2) ])])
-	let g:tagbar_width=l:pd_sidewidth
-	let g:NERDTreeWinSize=l:pd_sidewidth
-endfunction
+Plug 'scrooloose/NERDTree'
+Plug 'bling/vim-airline'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+Plug 'aperezdc/vim-template'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'majutsushi/tagbar'
 
-augroup PanelSize
-	autocmd!
-	" Need to use VimEnter to set the sizes, neovim executes rc before setting up ui (and
-	" initializing columns, lines and such).
-	autocmd VimEnter * call ResizePanels()
-	" This doesn't seem to work for resize though :(
-	autocmd VimResized * call ResizePanels()
-augroup END
+" Colorschemes
+Plug 'flazz/vim-colorschemes'
+Plug 'drewtempelmeyer/palenight.vim'
 
-"-------------------------------------------------------------------------------
-" Plugin config
-"-------------------------------------------------------------------------------
+Plug 'sheerun/vim-polyglot'
+let g:polyglot_disabled = ['latex']
 
-" YouCompleteMe
-"-------------------------------------------------------------------------------
-" let g:ycm_use_ultisnips_completer = 1
-let g:ycm_extra_conf_globlist = ['~/devel/hardening/.ycm_extra_conf.py', '/l/home/devel/hardening/.ycm_extra_conf.py']
+Plug 'tpope/vim-liquid'
 
-" UltiSnips
-"-------------------------------------------------------------------------------
-" let g:UltiSnipsExpandTrigger='<c-l>'
-" let g:UltiSnipsJumpForwardTrigger='<c-n>'
-" let g:UltiSnipsJumpBackwardTrigger='<c-p>'
+" file type specific stuff
+Plug 'lervag/vimtex', { 'for': 'tex' }		" vim
+" Plug 'aklt/plantuml-syntax'			" plantuml
+" Plug 'rodjek/vim-puppet'			" puppet
 
-" Tagbar
-"-------------------------------------------------------------------------------
+Plug 'ARM9/arm-syntax-vim'
 
-augroup tagbar
-	autocmd!
-	autocmd VimEnter * nested :call tagbar#autoopen(1)
-augroup END
+Plug 'chazy/cscope_maps'
 
+" deoplete.nvim
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+Plug 'zchee/deoplete-clang'
 
-" NERDTree
-"-------------------------------------------------------------------------------
-let g:nerdtree_tabs_open_on_console_startup=1
-let g:nerdtree_tabs_smart_startup_focus=2
-let g:nerdtree_tabs_focus_on_files=1
+Plug 'honza/vim-snippets'
+Plug 'joereynolds/deoplete-minisnip'
 
-" airline stuff
-"-------------------------------------------------------------------------------
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
+" writing stuff
+Plug 'reedes/vim-pencil'
+Plug 'reedes/vim-wordy'
+Plug 'reedes/vim-litecorrect'
+Plug 'junegunn/limelight.vim'
+Plug 'junegunn/goyo.vim'
+
+" Git stuff
+Plug 'airblade/vim-gitgutter'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" Syntax checking
+Plug 'w0rp/ale'
+
+" Conflicts with ALE
+" Plug 'neomake/neomake'
 
 " Syntastic
-"-------------------------------------------------------------------------------
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-"let g:syntastic_aggregate_errors=0 " run all checkers and aggregate results
-"let g:syntastic_always_populate_loc_list=1
-"let g:syntastic_auto_loc_list=2
-"let g:syntastic_loc_list_height=5
-let g:syntastic_check_on_open=1
-"let g:syntastic_check_on_wq=0
-let g:syntastic_enable_balloons=1
-let g:syntastic_enable_signs=1
+" Plug 'vim-syntastic/syntastic'
 
-"-------------------------------------------------------------------------------
-highlight ExtraWhitespace ctermbg=black
-"autocmd BufWritePre * StripWhitespace
-
-"-------------------------------------------------------------------------------
-" Filetype specfic
-"-------------------------------------------------------------------------------
-
-" LaTeX
-"-------------------------------------------------------------------------------
-let g:tex_comment_nospell=1
-let g:vimtex_latexmk_progname='nvr'
-" let g:vimtex_latexmk_callback=0
-au BufRead,BufNewFile *.tex        set cc=
-
-
-" cscope
-"-------------------------------------------------------------------------------
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" CSCOPE settings for vim
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"
-" This file contains some boilerplate settings for vim's cscope interface,
-" plus some keyboard mappings that I've found useful.
-"
-" USAGE:
-" -- vim 6:     Stick this file in your ~/.vim/plugin directory (or in a
-"               'plugin' directory in some other directory that is in your
-"               'runtimepath'.
-"
-" -- vim 5:     Stick this file somewhere and 'source cscope.vim' it from
-"               your ~/.vimrc file (or cut and paste it into your .vimrc).
-"
-" NOTE:
-" These key maps use multiple keystrokes (2 or 3 keys).  If you find that vim
-" keeps timing you out before you can complete them, try changing your timeout
-" settings, as explained below.
-"
-" Happy cscoping,
-"
-" Jason Duell       jduell@alumni.princeton.edu     2002/3/7
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
-" This tests to see if vim was configured with the '--enable-cscope' option
-" when it was compiled.  If it wasn't, time to recompile vim...
-if has("cscope")
-
-    """"""""""""" Standard cscope/vim boilerplate
-
-    " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
-    set cscopetag
-
-    " check cscope for definition of a symbol before checking ctags: set to 1
-    " if you want the reverse search order.
-    set csto=0
-
-    " add any cscope database in current directory
-    if filereadable("cscope.out")
-        cs add cscope.out
-    " else add the database pointed to by environment variable
-    elseif $CSCOPE_DB != ""
-        cs add $CSCOPE_DB
-    endif
-
-    " show msg when any other cscope db added
-    set cscopeverbose
-
-
-    """"""""""""" My cscope/vim key mappings
-    "
-    " The following maps all invoke one of the following cscope search types:
-    "
-    "   's'   symbol: find all references to the token under cursor
-    "   'g'   global: find global definition(s) of the token under cursor
-    "   'c'   calls:  find all calls to the function name under cursor
-    "   't'   text:   find all instances of the text under cursor
-    "   'e'   egrep:  egrep search for the word under cursor
-    "   'f'   file:   open the filename under cursor
-    "   'i'   includes: find files that include the filename under cursor
-    "   'd'   called: find functions that function under cursor calls
-    "
-    " Below are three sets of the maps: one set that just jumps to your
-    " search result, one that splits the existing vim window horizontally and
-    " diplays your search result in the new window, and one that does the same
-    " thing, but does a vertical split instead (vim 6 only).
-    "
-    " I've used CTRL-\ and CTRL-@ as the starting keys for these maps, as it's
-    " unlikely that you need their default mappings (CTRL-\'s default use is
-    " as part of CTRL-\ CTRL-N typemap, which basically just does the same
-    " thing as hitting 'escape': CTRL-@ doesn't seem to have any default use).
-    " If you don't like using 'CTRL-@' or CTRL-\, , you can change some or all
-    " of these maps to use other keys.  One likely candidate is 'CTRL-_'
-    " (which also maps to CTRL-/, which is easier to type).  By default it is
-    " used to switch between Hebrew and English keyboard mode.
-    "
-    " All of the maps involving the <cfile> macro use '^<cfile>$': this is so
-    " that searches over '#include <time.h>" return only references to
-    " 'time.h', and not 'sys/time.h', etc. (by default cscope will return all
-    " files that contain 'time.h' as part of their name).
-
-
-    " To do the first type of search, hit 'CTRL-\', followed by one of the
-    " cscope search types above (s,g,c,t,e,f,i,d).  The result of your cscope
-    " search will be displayed in the current window.  You can use CTRL-T to
-    " go back to where you were before the search.
-    "
-
-    nmap <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
-    nmap <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
-
-
-    " Using 'CTRL-spacebar' (intepreted as CTRL-@ by vim) then a search type
-    " makes the vim window split horizontally, with search result displayed in
-    " the new window.
-    "
-    " (Note: earlier versions of vim may not have the :scs command, but it
-    " can be simulated roughly via:
-    "    nmap <C-@>s <C-W><C-S> :cs find s <C-R>=expand("<cword>")<CR><CR>
-
-    nmap <C-@>s :scs find s <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@>g :scs find g <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@>c :scs find c <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@>t :scs find t <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@>e :scs find e <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@>f :scs find f <C-R>=expand("<cfile>")<CR><CR>
-    nmap <C-@>i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    nmap <C-@>d :scs find d <C-R>=expand("<cword>")<CR><CR>
-
-
-    " Hitting CTRL-space *twice* before the search type does a vertical
-    " split instead of a horizontal one (vim 6 and up only)
-    "
-    " (Note: you may wish to put a 'set splitright' in your .vimrc
-    " if you prefer the new window on the right instead of the left
-
-    nmap <C-@><C-@>s :vert scs find s <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>g :vert scs find g <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>c :vert scs find c <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>t :vert scs find t <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>e :vert scs find e <C-R>=expand("<cword>")<CR><CR>
-    nmap <C-@><C-@>f :vert scs find f <C-R>=expand("<cfile>")<CR><CR>
-    nmap <C-@><C-@>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    nmap <C-@><C-@>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
-
-
-    """"""""""""" key map timeouts
-    "
-    " By default Vim will only wait 1 second for each keystroke in a mapping.
-    " You may find that too short with the above typemaps.  If so, you should
-    " either turn off mapping timeouts via 'notimeout'.
-    "
-    "set notimeout
-    "
-    " Or, you can keep timeouts, by uncommenting the timeoutlen line below,
-    " with your own personal favorite value (in milliseconds):
-    "
-    "set timeoutlen=4000
-    "
-    " Either way, since mapping timeout settings by default also set the
-    " timeouts for multicharacter 'keys codes' (like <F1>), you should also
-    " set ttimeout and ttimeoutlen: otherwise, you will experience strange
-    " delays as vim waits for a keystroke after you hit ESC (it will be
-    " waiting to see if the ESC is actually part of a key code like <F1>).
-    "
-    "set ttimeout
-    "
-    " personally, I find a tenth of a second to work well for key code
-    " timeouts. If you experience problems and have a slow terminal or network
-    " connection, set it higher.  If you don't set ttimeoutlen, the value for
-    " timeoutlent (default: 1000 = 1 second, which is sluggish) is used.
-    "
-    "set ttimeoutlen=100
-
+" YouCompleteMe
+if !g:onWin
+	" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+	" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 endif
 
 
+call plug#end() " }}}
+" Basic config {{{
+"
+" Text and side panel widths
+let s:pd_textwidth=80
+
+function GetSideWidth()
+	return  max([30, min([50, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
+endfunction
+
+" set nocompatible		" Load non-Vi-compaitlbe settings
+syntax on			" Syntax highlighting
+filetype plugin indent on	" Use indening
+" set autoread			" read open files again when changed outside Vim
+set modeline
+set autowrite			" write a modified buffer on each :next , ...
+set backspace=indent,eol,start	" allow backspacing over everything in insert mode
+" set backup			" keep a backup file
+" set browsedir=current		" which directory to use for the file browser
+set history=50			" command line history
+set incsearch			" use incremental search
+set nowrap			" do not wrap lines
+" set ruler			" show the cursor position all the time
+set laststatus=2		" always show the statusbar
+set shiftwidth=4		" number of spaces to use for each step of indent
+set tabstop=4			" number of spaces that a <Tab> in the file counts for
+set showcmd			" display incomplete commands
+set expandtab			" insert spaces instead of tabs
+set novisualbell		" visual bell instead of beeping
+set t_vb=
+let &textwidth=s:pd_textwidth
+set noautochdir 		" change the current working directory
+set secure                      " secure loading of non-default vimrc
+set pastetoggle=<F9>            " Toggle pasting mode (disables indenting)
+set scrolloff=10                " Keep this many lines visible below cursor
+set completeopt-=preview        " remove extended preview from autoinserts (scratch window)
+set hlsearch                    " highlight searches
+" set updatetime=500 		" Milliseconds between writes (affects git-gutter update speed)
+set foldmethod=syntax           " Syntax based folding
+set foldlevel=999               " Display everything by default
+set foldnestmax=1
+set wildmode=longest,list	" Set tab command completion behaivor
+set clipboard=unnamed		" Yanks stuff directly  to clipboard
+set cinoptions=:0		" Make switch & case have same indention
+set number
+set nocscopeverbose             " prevent addedd cscope database message
+
+set backupdir=~/tmp/vimbackup,.,~
+set directory=~/tmp/vimbackup,.,~
+if g:onWin
+    set backupdir=~/vimbackup
+    set directory=~/vimbackup
+endif
+
+" Disable spellchecks in comments
+let g:tex_comment_nospell=1
+
+" colorshceme stuff
+set t_ut=
+
+set background=dark
+colorscheme palenight
+
+if (has("nvim"))
+  "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
+
+" Italics for my favorite color scheme
+let g:palenight_terminal_italics=1
+
+"For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+"Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+" < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+if (has("termguicolors"))
+  set termguicolors
+endif
+
+" Show indention on screen
+set list listchars=tab:┆\ ,trail:·,extends:»,precedes:«,nbsp:×
+
+" highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=237 gui=NONE guifg=DarkGrey guibg=NONE
+
+" <cpace> - Toggle folds
+nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+vnoremap <Space> zf
+
+" Make vim remember position in file
+if has('autocmd')
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+
+" }}}
+" LLVM file type configuration {{{
+" source: https://github.com/llvm/llvm-project
+
+" Enable syntax highlighting for LLVM files. To use, copy
+" utils/vim/syntax/llvm.vim to ~/.vim/syntax .
+augroup filetype
+  au! BufRead,BufNewFile *.ll     set filetype=llvm
+augroup END
+
+" Enable syntax highlighting for tablegen files. To use, copy
+" utils/vim/syntax/tablegen.vim to ~/.vim/syntax .
+augroup filetype
+  au! BufRead,BufNewFile *.td     set filetype=tablegen
+augroup END
+
+" Enable syntax highlighting for reStructuredText files. To use, copy
+" rest.vim (http://www.vim.org/scripts/script.php?script_id=973)
+" to ~/.vim/syntax .
+augroup filetype
+ au! BufRead,BufNewFile *.rst     set filetype=rest
+augroup END
+
+" }}}
+" writing config {{{
+
+let g:tex_flavor = 'latex'
+
+let g:pencil#textwidth = s:pd_textwidth
+
+" let g:limelight_conceal_ctermfg = 'grey'
+
+let g:goyo_width = s:pd_textwidth + 5
+let g:goyo_height = 95
+
+augroup plugin_goyo
+	au!
+	au! User GoyoEnter Limelight
+	au! User GoyoLeave Limelight!
+augroup END
+
+function! Prose()
+	call litecorrect#init()
+	" call pencil#init({'wrap': 'soft'})
+	call pencil#init({'wrap': 'soft', 'conceallevel': 0})
+	let g:pencil#conceallevel = 0
+
+	" replace common punctuation
+	" iabbrev <buffer> -- –
+	" iabbrev <buffer> --- —
+	iabbrev <buffer> << «
+	iabbrev <buffer> >> »
+
+	set spell
+	let &textwidth = 0
+endfunction
+
+" automatically initialize buffer by file type
+augroup filetype_prose
+	au!
+	au FileType tex,markdown,mkd,text call Prose()
+    " au Filetype tex autocmd BufWritePost <buffer> silent make
+augroup END
+
+augroup filetype_bib
+    au!
+    au FileType bib set nospell
+augroup END
+
+" autocmd BufWritePost *.tex,*.bib make
+
+" invoke manually by command for other file types
+command! -nargs=0 Prose call Prose()
+
+" }}}
+" Plugin: deoplete.nvim (plus clang, minisnip){{{
+
+let g:deoplete#enable_at_startup = 1
+
+function SetLibClangPath(libClangPath)
+	if filereadable(a:libClangPath)
+		let g:deoplete#sources#clang#libclang_path = a:libClangPath
+	endif
+endfunction
+
+let g:deoplete#sources#clang#clang_header = '/usr/lib/clang'
+call SetLibClangPath('/usr/lib/llvm-6.0/lib/libclang.so')
+call SetLibClangPath('/usr/lib/llvm-7/lib/libclang.so.1')
+call SetLibClangPath('/usr/lib/llvm-8/lib/libclang.so.1')
+
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+
+" minisnip
+let g:minisnip_trigger = '<C-j>'
+let g:minisnip_dir = '~/.vim/minisnip'
+
+" }}}
+" Plugin: ALE {{{
+" -----------------------------------------------------------------
+
+let g:ale_linters = {
+			\ 'tex': ['proselint', 'chktex']
+			\ }
+
+let g:ale_completion_enabled = 1
+
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+
+" }}}
+" Plugin: NERDTree {{{
+" -----------------------------------------------------------------
+"
+function! IshNERDTreeFind()
+	let g:NERDTreeWinSize = GetSideWidth()
+	NERDTreeFind
+endfunction
+
+function! IshNERDTreeToggle()
+	let g:NERDTreeWinSize = GetSideWidth()
+	NERDTreeToggle
+endfunction
+
+nmap <F7> :call IshNERDTreeToggle()<CR>
+map <leader>r :call IshNERDTreeFind()<CR>
+
+let g:NERDTreeWinSize = GetSideWidth()
+let g:NERDTreeIgnore = [ '\.o$' ]
+" Quit when NERDTree is last remining
+augroup plugin_nerdtree
+	au!
+	au bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+augroup END
+
+" }}}
+" Plugin: airline {{{
+" -----------------------------------------------------------------
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+" The `unique_tail_improved` - another algorithm, that will smartly uniquify
+" buffers names with similar filename, suppressing common parts of paths.
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+
+" }}}
+" Plugin: better-whitesapce {{{
+" -----------------------------------------------------------------
+highlight ExtraWhitespace ctermbg=black
+" autocmd BufWritePre * StripWhitespace
+
+" }}}
+" Plugin: tagbar {{{
+" -----------------------------------------------------------------
+function! IshTagbarToggle()
+	let g:tagbar_width = GetSideWidth()
+	TagbarToggle
+endfunction
+
+nmap <F8> :call IshTagbarToggle()<CR>
+
+highlight ExtraWhitespace ctermbg=black
+
+" }}}
+" Plugin: vimtex {{{
+" -----------------------------------------------------------------
+let g:vimtex_compiler_progname = 'nvr' " for neovim
+
+let g:vimtex_fold_enabled = 1
+" let g:vimtex_latexmk_enabled = 1
+" let g:vimtex_latexmk_callback = 0 " requires clientserver
+let g:vimtex_text_obj_enabled = 0
+
+" }}}
+" Plugin: Syntastic (NOT USED) {{{
+" -----------------------------------------------------------------
+let g:syntastic_enable_signs = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_always_populate_loc_list = 1
+
+" let g:syntastic_cpp_checkers = ['gcc']
+
+let g:syntastic_auto_jump = 0
+let g:syntastic_enable_balloons = 1
+
+" let g:syntastic_cpp_compiler = 'g++'
+" let g:syntastic_cpp_compiler_options = '-std=c++11 -Wall -Wextra'
+
+let g:syntastic_cpp_check_header = 1
+let g:syntastic_cpp_auto_refresh_includes = 1
+
+"let b:syntastic_cpp_cflags = '-I/home/user/dev/cpp/boost_1_55_0'
+" let g:syntastic_cpp_include_dirs = []
+
+let g:syntastic_tex_checkers = [ 'lacheck' ]
+
+" nnoremap <F2> :<C-u>exe 'call <SID>LocationNext()'<CR>
+
+" }}}
+" Plugin: UltiSnips (NOT USED) {{{
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+" }}}
+" Plugin: YouCompleteMe {{{
+" -----------------------------------------------------------------
+let g:ycm_register_as_syntastic_checker = 1 "default 1
+let g:Show_diagnostics_ui = 1 "default 1
+
+"will put icons in Vim's gutter on lines that have a diagnostic set.
+"Turning this off will also turn off the YcmErrorLine and YcmWarningLine
+"highlighting
+let g:ycm_enable_diagnostic_signs = 1
+let g:ycm_enable_diagnostic_highlighting = 0
+let g:ycm_always_populate_location_list = 1 "default 0
+let g:ycm_open_loclist_on_ycm_diags = 1 "default 1
+
+let g:ycm_complete_in_strings = 1 "default 1
+let g:ycm_collect_identifiers_from_tags_files = 0 "default 0
+let g:ycm_path_to_python_interpreter = '' "default ''
+
+let g:ycm_server_use_vim_stdout = 0 "default 0 (logging to console)
+let g:ycm_server_log_level = 'info' "default info
+
+" let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'  "where to search for .ycm_extra_conf.py if not found
+let g:ycm_confirm_extra_conf = 1
+
+let g:ycm_goto_buffer_command = 'same-buffer' "[ 'same-buffer', 'horizontal-split', 'vertical-split', 'new-tab' ]
+let g:ycm_filetype_whitelist = { '*': 1 }
+let g:ycm_key_invoke_completion = '<C-Space>'
+
+let g:ycm_extra_conf_globlist = [ '~/devel/linux_kernel/*' ]
+
+nnoremap <F10> :YcmForceCompileAndDiagnostics <CR>
+
+" }}}
+" Plugin: vim-template {{{
+
+" Location for custom templates
+let g:templates_directory = [ '~/.config/nvim/vim-templates' ]
+
+" }}}
+" Plugin: local_vimrc {{{
+
+let g:local_vimrc = ['.vimrc_local.vim', '_vimrc_local.vim']
+
+" Location for custom templates
+let g:templates_directory = [ '~/.vim/vim-templates' ]
+
+" }}}
+" GVim config {{{
+
+" Some gvim options
+set guioptions-=m  "remove menu bar
+set guioptions-=T  "remove toolbar
+set guioptions-=r  "remove right-hand scroll bar
+set guioptions-=L  "remove left-hand scroll bar
+set guifont=Hack
+
+if has('gui_running')
+	set lines=50 columns=160
+endif
+
+" }}}
+" FileType config {{{
+
+" automatically convert PDF files to text
+let g:pdf_convert_on_edit=1
+
+augroup git
+	au!
+	au BufEnter COMMIT_EDITMSG setlocal spell
+	au BufEnter COMMIT_EDITMSG setlocal textwidth=75
+augroup END
+
+augroup filetype_mail
+	au!
+	au FileType mail setlocal fo+=aw
+	au FileType mail setlocal textwidth=75
+	au FileType mail setlocal spell
+augroup END
+
+augroup filetype_kconfig
+	au!
+	au BufEnter Kconfig* set spell
+augroup END
+
+" }}}
+
+if !empty(glob("~/.vimrc_local"))
+	source ~/.vimrc_local
+endif
+
+" vim: noexpandtab shiftwidth=8 tabstop=8 fdm=marker foldlevel=0
