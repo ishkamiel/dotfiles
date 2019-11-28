@@ -14,17 +14,17 @@ URL_PLUG="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 # Install vim-plug for vim
 ##########################
 
-if [[ -e "${FN_VIM}" ]]; then
-	if [[ ! -f "${FN_VIM}" ]]; then
-		echo "Found ${FN_VIM}, but it's not a file!"
-		exit 1;
-	fi
-else
-	mkdir -p "$(dirname ${FN_VIM})"
-	downloadFile "${URL_PLUG}" "${FN_VIM}"
-fi
-d_print "Trying to launch vim for plugin install"
-[[ -e ${FN_VIM} ]] && vim +PlugInstall +qall
+# if [[ -e "${FN_VIM}" ]]; then
+# 	if [[ ! -f "${FN_VIM}" ]]; then
+# 		echo "Found ${FN_VIM}, but it's not a file!"
+# 		exit 1;
+# 	fi
+# else
+# 	mkdir -p "$(dirname ${FN_VIM})"
+# 	downloadFile "${URL_PLUG}" "${FN_VIM}"
+# fi
+# d_print "Trying to launch vim for plugin install"
+# [[ -e ${FN_VIM} ]] && vim +PlugInstall +qall
 
 # Install vim-plug for neovim IF it's installed
 ###############################################
