@@ -263,7 +263,7 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " minisnip
 let g:minisnip_trigger = '<C-j>'
-let g:minisnip_dir = '~/.vim/minisnip'
+let g:minisnip_dir = '~/.config/nvim/minisnip'
 
 " }}}
 " Plugin: ALE {{{
