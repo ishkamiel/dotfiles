@@ -11,7 +11,7 @@
 [[ -z "${LIB_CHECKS_SH}" ]] && source "${DOTFILES}/lib/checks.sh"
 [[ -z "${LIB_DEBUG_SH}" ]] && source "${DOTFILES}/lib/debug.sh"
 
-debug_enable
+# debug_enable
 
 EXT_TOOL=gnome-shell-extension-tool
 
@@ -30,12 +30,12 @@ do_sanity_checks() {
 
     if ! has_command ${EXT_TOOL}; then
         >&2 echo "Cannot find ${EXT_TOOL}!"
-        exit -1;
+        exit 1;
     fi
 
     if [[ ! -e ${EXT_LIST_FILE} ]]; then
         >&2 echo "Cannot find ${EXT_LIST_FILE}"
-        exit -1;
+        exit 1;
     fi
 }
 
@@ -117,9 +117,9 @@ check_extensions() {
         fi
     done < "${EXT_LIST_FILE}"
 
-    if ${did_install}; then
-        gnome-shell --replace &
-    fi
+    # if ${did_install}; then
+    #     gnome-shell --replace &
+    # fi
 }
 
 do_sanity_checks
