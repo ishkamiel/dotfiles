@@ -29,7 +29,7 @@
     stdin: true
     stdout: true
   -
-    command: scripts/installVimStuff.sh
+    command: scripts/install-vim_stuff.sh
     stdin: true
     stdout: true
   -

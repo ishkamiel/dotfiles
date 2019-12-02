@@ -31,10 +31,10 @@ URL_PLUG="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 
 if command -v nvim >/dev/null 2>&1
 then
-	if [[ ! -e ${FN_NEOVIM} ]] && [[ -e ${FN_VIM} ]]; then
+	if [[ ! -e ${FN_NEOVIM} ]]; then
 		# If needed, just copy vim-plug into neovim from vim
 		mkdir -p $(dirname ${FN_NEOVIM})
-		cp ${FN_VIM} ${FN_NEOVIM}
+		downloadFile "${URL_PLUG}" "${FN_NEOVIM}"
 	fi
 	d_print "Trying to launch nvim for plugin install"
 	[[ -e ${FN_NEOVIM} ]] && nvim +PlugInstall +qall
