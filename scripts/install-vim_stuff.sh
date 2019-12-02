@@ -35,6 +35,7 @@ then
 		# If needed, just copy vim-plug into neovim from vim
 		mkdir -p $(dirname ${FN_NEOVIM})
 		downloadFile "${URL_PLUG}" "${FN_NEOVIM}"
+		mkdir -p ~/.config/nvim/minisnip
 	fi
 	d_print "Trying to launch nvim for plugin install"
 	[[ -e ${FN_NEOVIM} ]] && nvim +PlugInstall +qall
