@@ -39,6 +39,10 @@ then
     # Caps lock to escape
     gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
 
+    # Enable fractional scaling values
+    gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
+    gsettings set org.gnome.mutter experimental-features "['x11-randr-fractional-scaling']"
+
 else
     >&2 echo "Skipping desktop setup, cannot find gsettings and dconf"
 fi
