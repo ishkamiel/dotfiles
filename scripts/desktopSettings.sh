@@ -43,6 +43,10 @@ then
     gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
     gsettings set org.gnome.mutter experimental-features "['x11-randr-fractional-scaling']"
 
+    # Disable desktop icons via the Ubuntu Gnome extension
+    gsettings set org.gnome.shell.extensions.desktop-icons  show-home false
+    gsettings set org.gnome.shell.extensions.desktop-icons  show-trash false
+
 else
     >&2 echo "Skipping desktop setup, cannot find gsettings and dconf"
 fi
