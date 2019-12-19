@@ -27,6 +27,18 @@ then
     # Hide gnome-terminal menu bar
     dconf write /org/gnome/terminal/legacy/default-show-menubar false
 
+    # Disable animations in Gnome
+    gsettings set org.gnome.desktop.interface enable-animations false
+
+    # Enable hot-corner for activities overview
+    gsettings set org.gnome.desktop.interface enable-hot-corners true
+
+    # Show date in top bar
+    gsettings set org.gnome.desktop.interface clock-show-date true
+
+    # Show weekdays in calendar
+    gsettings set org.gnome.desktop.calendar show-weekdate true
+
     # Fix desktop background and right-click
     gsettings set org.gnome.settings-daemon.plugins.background active true
     # Disable annoying search on type thing (FIXME: no longer working?)
@@ -46,6 +58,9 @@ then
     # Disable desktop icons via the Ubuntu Gnome extension
     gsettings set org.gnome.shell.extensions.desktop-icons  show-home false
     gsettings set org.gnome.shell.extensions.desktop-icons  show-trash false
+
+    # Disable app name in no-title-bar extension
+    dconf write /org/gnome/shell/extensions/no-title-bar/change-appmenu false
 
 else
     >&2 echo "Skipping desktop setup, cannot find gsettings and dconf"
