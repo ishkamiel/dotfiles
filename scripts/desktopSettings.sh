@@ -61,6 +61,8 @@ then
 
     # Disable app name in no-title-bar extension
     dconf write /org/gnome/shell/extensions/no-title-bar/change-appmenu false
+    # Don't put buttons in the titlebar
+    dconf write /org/gnome/shell/extensions/no-title-bar/button-position "'hidden'"
 
 else
     >&2 echo "Skipping desktop setup, cannot find gsettings and dconf"
