@@ -20,3 +20,5 @@ xdotool
 zathura
 [gnome]
 gnome-tweak-tool
+gnome-calendar
+geary
