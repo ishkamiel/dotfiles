@@ -106,7 +106,7 @@ set showcmd			" display incomplete commands
 set expandtab			" insert spaces instead of tabs
 set novisualbell		" visual bell instead of beeping
 set t_vb=
-let &textwidth=s:pd_textwidth
+" let &textwidth=s:pd_textwidth
 set noautochdir 		" change the current working directory
 set secure                      " secure loading of non-default vimrc
 set pastetoggle=<F9>            " Toggle pasting mode (disables indenting)
