@@ -156,7 +156,7 @@ pathmunge "${HOME}/.local/bin"
 [[ -e "$HOME/.zshrc_local" ]] && source "$HOME/.zshrc_local"
 
 if [[ -n $TILIX_ID ]] || [[ -n $VTE_VERSION ]]; then
-    source /etc/profile.d/vte.sh
+    [[ -e /etc/profile.d/vte.sh ]] && source /etc/profile.d/vte.sh
 fi
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" 
