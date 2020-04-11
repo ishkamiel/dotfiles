@@ -422,9 +422,6 @@ let g:templates_directory = [ '~/.config/nvim/vim-templates' ]
 
 let g:local_vimrc = ['.vimrc_local.vim', '_vimrc_local.vim']
 
-" Location for custom templates
-let g:templates_directory = [ '~/.vim/vim-templates' ]
-
 " }}}
 " GVim config {{{
 

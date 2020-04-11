@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#! /usr/bin/env zsh
 #
 # Author: %USER% <%MAIL%>
 # Copyright (C) %YEAR% %USER% <%MAIL%>
