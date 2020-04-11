@@ -65,6 +65,7 @@ plugins=(
   nvm
   rvm
   vi-mode
+  command-not-found
 )
 
 source $ZSH/oh-my-zsh.sh
