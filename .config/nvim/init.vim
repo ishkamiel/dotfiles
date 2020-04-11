@@ -33,6 +33,7 @@ Plug 'lervag/vimtex', { 'for': 'tex' }		" vim
 " Plug 'rodjek/vim-puppet'			" puppet
 
 Plug 'ARM9/arm-syntax-vim'
+Plug 'singularityware/singularity.lang', {'rtp': 'vim/'}
 
 Plug 'chazy/cscope_maps'
 
