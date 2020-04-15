@@ -22,6 +22,8 @@
     ~/.inputrc: .inputrc
     ~/.ipython/profile_default/ipython_config.py: .ipython/profile_default/ipython_config.py
     ~/.latexmkrc: .latexmkrc
+    ~/.local/share/icons/conky.png: .local/share/icons/conky.png
+    ~/.local/share/icons/standard-notes.png: .local/share/icons/standard-notes.png
     ~/.pam_environment: .pam_environment
     ~/.profile: .profile
     ~/.zshrc: .zshrc
