@@ -10,6 +10,7 @@
     ~/bin/dotfiles-push2host: bin/dotfiles-push2host
     ~/bin/dotfiles-update: bin/dotfiles-update
     ~/.chktexrc: .chktexrc
+    ~/.config/conky/conky.conf: .config/conky/conky.conf
     ~/.config/nvim/ftdetect: .config/nvim/ftdetect
     ~/.config/nvim/ftplugin: .config/nvim/ftplugin
     ~/.config/nvim/indent: .config/nvim/indent
