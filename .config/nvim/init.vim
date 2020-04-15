@@ -47,8 +47,8 @@ endif
 Plug 'zchee/deoplete-clang'
 
 " Snippets
+Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'joereynolds/deoplete-minisnip'
 
 " writing stuff
 Plug 'reedes/vim-pencil'
@@ -278,7 +278,7 @@ highlight ExtraWhitespace ctermbg=black
 " autocmd BufWritePre * StripWhitespace
 
 " }}}
-" Plugin: deoplete.nvim (plus clang, minisnip) {{{
+" Plugin: deoplete.nvim (plus clang) {{{
 
 let g:deoplete#enable_at_startup = 1
 
@@ -296,10 +296,6 @@ call SetLibClangPath('/usr/lib/llvm-9/lib/libclang.so.1')
 
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-
-" minisnip
-let g:minisnip_trigger = '<C-j>'
-let g:minisnip_dir = '~/.config/nvim/minisnip'
 
 " }}}
 " Plugin: NERDTree {{{
