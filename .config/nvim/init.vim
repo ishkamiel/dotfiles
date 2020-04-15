@@ -359,11 +359,6 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 " }}}
-" Plugin: vim-gitgutter {{{
-
-nmap <F6> :GitGutterLineHighlightsToggle<CR>
-
-" }}}
 " Plugin: vim-template {{{
 
 " Location for custom templates
