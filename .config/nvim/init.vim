@@ -24,6 +24,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'aperezdc/vim-template'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'junegunn/vim-easy-align'
 
 " Colorschemes
 Plug 'flazz/vim-colorschemes'
@@ -378,6 +379,15 @@ let g:vimtex_fold_enabled = 1
 " let g:vimtex_latexmk_enabled = 1
 " let g:vimtex_latexmk_callback = 0 " requires clientserver
 let g:vimtex_text_obj_enabled = 0
+
+" }}}
+" Plugin: vim-easy-align {{{
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 " }}}
 " Plugin: vim-template {{{
