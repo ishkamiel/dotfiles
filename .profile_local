@@ -1,9 +1,0 @@
-# DEFAULT_USER="HOSTNAME"
-# The prompt_command uses this to determine whether to display the username. If the
-# username matches DEFAULT_USER no username is shown.
-# export DEFAULT_USER=$(whoami)
-
-# MY_REPOSITORIES="PATH1;PATH2"
-# This is just a comma separated list of paths to git repositories, this is used byt the
-# repo_status script to determine where to look for repositories.
-# export MY_REPOSITORIES=
