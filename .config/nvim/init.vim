@@ -335,6 +335,11 @@ nmap <F8> :call IshTagbarToggle()<CR>
 highlight ExtraWhitespace ctermbg=black
 
 " }}}
+" Plugin: UltiSnips {{{
+
+let g:UltiSnipsExpandTrigger="<c-l>"
+
+" }}}
 " Plugin: vimtex {{{
 " -----------------------------------------------------------------
 let g:vimtex_compiler_progname = 'nvr' " for neovim
