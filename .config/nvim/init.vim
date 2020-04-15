@@ -32,7 +32,6 @@ Plug 'tpope/vim-liquid'                                   " Liquid / Jekyll
 Plug 'lervag/vimtex', { 'for': 'tex' }                    " LaTeX
 Plug 'aklt/plantuml-syntax'                               " plantuml
 Plug 'rodjek/vim-puppet'                                  " puppet
-Plug 'ARM8/arm-syntax-vim'                                " ARM assembly syntax
 Plug 'singularityware/singularity.lang', {'rtp': 'vim/'}  " Singularity
 
 Plug 'chazy/cscope_maps'
