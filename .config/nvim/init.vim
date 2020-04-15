@@ -10,34 +10,38 @@ endif
 
 call plug#begin() " {{{
 
-Plug 'scrooloose/NERDTree'
+" Status / tool line
 Plug 'bling/vim-airline'
+
+" File explorer (NERDTree)
+Plug 'scrooloose/NERDTree'
+
+" Tagbar
+Plug 'majutsushi/tagbar'
+
+" Utilities
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'aperezdc/vim-template'
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'majutsushi/tagbar'
 
 " Colorschemes
 Plug 'flazz/vim-colorschemes'
 Plug 'drewtempelmeyer/palenight.vim'
 
+" file type specific stuff
 Plug 'sheerun/vim-polyglot'
 let g:polyglot_disabled = ['latex']
-
-Plug 'tpope/vim-liquid'
-
-" file type specific stuff
-Plug 'lervag/vimtex', { 'for': 'tex' }		" vim
-" Plug 'aklt/plantuml-syntax'			" plantuml
-" Plug 'rodjek/vim-puppet'			" puppet
-
-Plug 'ARM9/arm-syntax-vim'
-Plug 'singularityware/singularity.lang', {'rtp': 'vim/'}
+Plug 'tpope/vim-liquid'						" Liquid / Jekyll
+Plug 'lervag/vimtex', { 'for': 'tex' }				" LaTeX
+Plug 'aklt/plantuml-syntax'					" plantuml
+Plug 'rodjek/vim-puppet'					" puppet
+Plug 'ARM9/arm-syntax-vim'					" ARM assembly syntax
+Plug 'singularityware/singularity.lang', {'rtp': 'vim/'} 	" Singularity
 
 Plug 'chazy/cscope_maps'
 
-" deoplete.nvim
+" Autocompletion - deoplete.nvim
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -47,6 +51,7 @@ else
 endif
 Plug 'zchee/deoplete-clang'
 
+" Snippets
 Plug 'honza/vim-snippets'
 Plug 'joereynolds/deoplete-minisnip'
 
@@ -58,24 +63,16 @@ Plug 'junegunn/limelight.vim'
 Plug 'junegunn/goyo.vim'
 
 " Git stuff
-Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-
-" Syntax checking
-Plug 'w0rp/ale'
-
-" Conflicts with ALE
-" Plug 'neomake/neomake'
-
-" Syntastic
-" Plug 'vim-syntastic/syntastic'
-
-" YouCompleteMe
-if !g:onWin
-	" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
-	" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+if has('nvim') || has('patch-8.0.902')
+  Plug 'mhinz/vim-signify'
+else
+  Plug 'mhinz/vim-signify', { 'branch': 'legacy' }
 endif
 
+" Syntax checking
+Plug 'dense-analysis/ale'
 
 call plug#end() " }}}
 " Basic config {{{
@@ -119,7 +116,7 @@ set foldmethod=syntax           " Syntax based folding
 set foldlevel=999               " Display everything by default
 set foldnestmax=1
 set wildmode=longest,list	" Set tab command completion behaivor
-set clipboard=unnamed		" Yanks stuff directly  to clipboard
+set clipboard=unnamed		" Yanks stuff directly to clipboard
 set cinoptions=:0		" Make switch & case have same indention
 set number
 set nocscopeverbose             " prevent addedd cscope database message
@@ -244,6 +241,7 @@ augroup END
 command! -nargs=0 Prose call Prose()
 
 " }}}
+" PLUGIN CONFIGURATIONS
 " Plugin: deoplete.nvim (plus clang, minisnip){{{
 
 let g:deoplete#enable_at_startup = 1
@@ -281,6 +279,11 @@ nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 " }}}
+" Plugin: vim-gitgutter {{{
+
+nmap <F6> :GitGutterLineHighlightsToggle<CR>
+
+" }}}
 " Plugin: NERDTree {{{
 " -----------------------------------------------------------------
 "
@@ -308,11 +311,45 @@ augroup END
 " }}}
 " Plugin: airline {{{
 " -----------------------------------------------------------------
-let g:airline#extensions#tabline#enabled = 1
+
 let g:airline_powerline_fonts = 1
+
+" tabline
+"
+let g:airline#extensions#tabline#enabled = 1
 " The `unique_tail_improved` - another algorithm, that will smartly uniquify
 " buffers names with similar filename, suppressing common parts of paths.
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+
+" ale
+"
+let g:airline#extensions#ale#enabled = 1
+" ale error_symbol >
+let airline#extensions#ale#error_symbol = 'E:'
+" ale warning >
+let airline#extensions#ale#warning_symbol = 'W:'
+" ale show_line_numbers >
+let airline#extensions#ale#show_line_numbers = 1
+" ale open_lnum_symbol >
+let airline#extensions#ale#open_lnum_symbol = '(L'
+" ale close_lnum_symbol >
+let airline#extensions#ale#close_lnum_symbol = ')'
+
+" branch
+"
+let g:airline#extensions#branch#enabled = 1
+
+" hunks
+"
+" enable/disable showing a summary of changed hunks under source control.
+let g:airline#extensions#hunks#enabled = 0
+" enable/disable showing only non-zero hunks.
+" let g:airline#extensions#hunks#non_zero_only = 1
+" set hunk count symbols.
+" let g:airline#extensions#hunks#hunk_symbols = ['+', '~', '-']
+
+" vimtex
+let g:airline#extensions#vimtex#enabled = 1
 
 " }}}
 " Plugin: better-whitesapce {{{
@@ -343,86 +380,13 @@ let g:vimtex_fold_enabled = 1
 let g:vimtex_text_obj_enabled = 0
 
 " }}}
-" Plugin: Syntastic (NOT USED) {{{
-" -----------------------------------------------------------------
-let g:syntastic_enable_signs = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_always_populate_loc_list = 1
-
-" let g:syntastic_cpp_checkers = ['gcc']
-
-let g:syntastic_auto_jump = 0
-let g:syntastic_enable_balloons = 1
-
-" let g:syntastic_cpp_compiler = 'g++'
-" let g:syntastic_cpp_compiler_options = '-std=c++11 -Wall -Wextra'
-
-let g:syntastic_cpp_check_header = 1
-let g:syntastic_cpp_auto_refresh_includes = 1
-
-"let b:syntastic_cpp_cflags = '-I/home/user/dev/cpp/boost_1_55_0'
-" let g:syntastic_cpp_include_dirs = []
-
-let g:syntastic_tex_checkers = [ 'lacheck' ]
-
-" nnoremap <F2> :<C-u>exe 'call <SID>LocationNext()'<CR>
-
-" }}}
-" Plugin: UltiSnips (NOT USED) {{{
-
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
-
-" }}}
-" Plugin: YouCompleteMe {{{
-" -----------------------------------------------------------------
-let g:ycm_register_as_syntastic_checker = 1 "default 1
-let g:Show_diagnostics_ui = 1 "default 1
-
-"will put icons in Vim's gutter on lines that have a diagnostic set.
-"Turning this off will also turn off the YcmErrorLine and YcmWarningLine
-"highlighting
-let g:ycm_enable_diagnostic_signs = 1
-let g:ycm_enable_diagnostic_highlighting = 0
-let g:ycm_always_populate_location_list = 1 "default 0
-let g:ycm_open_loclist_on_ycm_diags = 1 "default 1
-
-let g:ycm_complete_in_strings = 1 "default 1
-let g:ycm_collect_identifiers_from_tags_files = 0 "default 0
-let g:ycm_path_to_python_interpreter = '' "default ''
-
-let g:ycm_server_use_vim_stdout = 0 "default 0 (logging to console)
-let g:ycm_server_log_level = 'info' "default info
-
-" let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'  "where to search for .ycm_extra_conf.py if not found
-let g:ycm_confirm_extra_conf = 1
-
-let g:ycm_goto_buffer_command = 'same-buffer' "[ 'same-buffer', 'horizontal-split', 'vertical-split', 'new-tab' ]
-let g:ycm_filetype_whitelist = { '*': 1 }
-let g:ycm_key_invoke_completion = '<C-Space>'
-
-let g:ycm_extra_conf_globlist = [ '~/devel/linux_kernel/*' ]
-
-nnoremap <F10> :YcmForceCompileAndDiagnostics <CR>
-
-" }}}
 " Plugin: vim-template {{{
 
 " Location for custom templates
 let g:templates_directory = [ '~/.config/nvim/vim-templates' ]
 
 " }}}
-" Plugin: local_vimrc {{{
-
-let g:local_vimrc = ['.vimrc_local.vim', '_vimrc_local.vim']
-
-" }}}
+" GVim
 " GVim config {{{
 
 " Some gvim options
@@ -437,6 +401,7 @@ if has('gui_running')
 endif
 
 " }}}
+" Extra file-type configuration
 " FileType config {{{
 
 " automatically convert PDF files to text
