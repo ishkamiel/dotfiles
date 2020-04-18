@@ -20,3 +20,5 @@ if [ -e "/dev/shm" ]; then
     [ -e "$dir/vimbackup" ] || mkdir "$dir/vimbackup"
 fi
 
+# shellcheck disable=SC1090
+[ -e "${HOME}/.profile_local" ] && . "${HOME}/.profile_local"
