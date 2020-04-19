@@ -32,6 +32,9 @@ git diff-index --cached --quiet --ignore-submodules=dirty 4b825dc642cb6eb9a060e5
   local cmd_has_untracked_files = [[
 [ -n "$(git ls-files --other --exclude-standard | sed q)" ] ]]
 
+  local cmd_is_ahead = [[
+git status -sb | grep '\[ahead' > /dev/null]]
+
   local update_counter = 0
   local DEFAULT_update_interval = 3
   local cache_hit_counter = 0
@@ -76,10 +79,13 @@ git diff-index --cached --quiet --ignore-submodules=dirty 4b825dc642cb6eb9a060e5
   end
 
   function git.is_dirty(path)
-    assert(path)
     return git.has_unstaged_changes(path) or
       git.has_staged_changes(path) or
       git.has_untracked_files(path)
+  end
+
+  function git.is_ahead(path)
+    return 0 == run_cmd(cmd_is_ahead, path)
   end
 
   function git.reset_cache(update_interval)
@@ -105,6 +111,7 @@ ${goto 20} ${color9}##excalamation_triangle## not a Git repo! ${alignr} ##NAME##
 ]], { NAME = name, PATH = path })
     else
 
+      -- FIXME: This is not used currently!
       local MODE = utils.replace([[
 ${execi ##EXECI_INTERVAL##
 cd "##PATH##";
@@ -118,11 +125,14 @@ fi
 }]], { NAME = name, PATH = path })
 
       res = res .. utils.replace([[
-${if_match "1"=="${lua_parse git_is_dirty ##PATH##}"}${color 00FF00}${endif}\
+${if_match "1"=="${lua_parse git_is_dirty ##PATH##}"}${color 00CC66}\
+${else}${if_match "1"=="${lua_parse git_is_ahead ##PATH##}"}${color 33CC33}${endif}\
+${endif}\
 ${goto 20} ##code_fork## \
 ${if_match "1"=="${lua_parse git_has_staged_changes ##PATH##}"}C${else} ${endif}\
 ${if_match "1"=="${lua_parse git_has_unstaged_changes ##PATH##}"}S${else} ${endif}\
 ${if_match "1"=="${lua_parse git_has_untracked_files ##PATH##}"}U${else} ${endif}\
+${if_match "1"=="${lua_parse git_is_ahead ##PATH##}"}^${else} ${endif}\
 ${alignr}##NAME##${color}
 ]], {
           NAME = name,

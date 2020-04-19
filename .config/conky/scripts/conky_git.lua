@@ -32,6 +32,11 @@ function conky_git_is_dirty(path)
   return 0
 end
 
+function conky_git_is_ahead(path)
+  if git.is_ahead(path) then return 1 end
+  return 0
+end
+
 function conky_git_reset_cache()
   git.reset_cache()
   return ""
