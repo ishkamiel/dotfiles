@@ -9,6 +9,7 @@
     ~/bin/dotfiles-keybindings_save: bin/dotfiles-keybindings_save
     ~/bin/dotfiles-push2host: bin/dotfiles-push2host
     ~/bin/dotfiles-update: bin/dotfiles-update
+    ~/bin/vbox-windows: bin/vbox-windows
     ~/.chktexrc: .chktexrc
     ~/.config/conky/conky.conf: .config/conky/conky.conf
     ~/.config/conky/scripts: .config/conky/scripts
@@ -24,8 +25,10 @@
     ~/.ipython/profile_default/ipython_config.py: .ipython/profile_default/ipython_config.py
     ~/.latexmkrc: .latexmkrc
     ~/.local/share/applications/standard-notes.desktop: .local/share/applications/standard-notes.desktop
+    ~/.local/share/applications/vbox-windows.desktop: .local/share/applications/vbox-windows.desktop
     ~/.local/share/icons/conky.png: .local/share/icons/conky.png
     ~/.local/share/icons/standard-notes.png: .local/share/icons/standard-notes.png
+    ~/.local/share/icons/vbox-windows.png: .local/share/icons/vbox-windows.png
     ~/.pam_environment: .pam_environment
     ~/.profile: .profile
     ~/.zshrc: .zshrc

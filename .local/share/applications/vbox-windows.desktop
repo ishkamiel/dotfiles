@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Exec=vbox-windows
+Name=Windows
+GenericName=Windows
+Icon=vbox-windows
+Terminal=false
