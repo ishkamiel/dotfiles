@@ -8,39 +8,98 @@
 --
 --
 package.path = package.path .. string.format(";%s/.config/conky/scripts/?.lua", os.getenv('HOME'))
+
 local git = require "git"
 local utils = require "utils"
 
--- Cache results here so we don't need to repeat commands on every refresh
-function conky_git_has_unstaged_changes(path)
-  if git.has_unstaged_changes(path) then return 1 end
-  return 0
+do
+  local cache = {}
+  local cache_limit = 5
+
+  local get_cache = function(path, entry)
+    if not cache[path] then cache[path] = {} end
+    p = cache[path]
+
+    if not p[entry] then p[entry] = { counter = 0 } end
+    e = p[entry]
+
+    if e.counter > cache_limit then
+      e = { counter = 0 }
+      p = {}
+      cache[path] = p
+      cache[path][entry] = e
+    else
+      e.counter = e.counter + 1
+    end
+
+    return e
+  end
+
+  local cache_and_return = function(d, v)
+    if v then
+      d.value = 1
+      return 1
+    end
+    d.value = 0
+    return 0
+  end
+
+  function conky_git_path_exists(path)
+    local d = get_cache(path, 'path_exists')
+    if d.value then return d.value end
+
+    return cache_and_return(d, utils.dir_exists(path))
+  end
+
+  function conky_git_is_repo(path)
+    local d = get_cache(path, 'is_repo')
+    if d.value then return d.value end
+
+    return cache_and_return(d, utils.dir_exists(path) and git.is_repo(path))
+  end
+
+  function conky_git_is_clean(path)
+    local d = get_cache(path, 'is_clean')
+    if d.value then return d.value end
+
+    return cache_and_return(d, not (git.is_dirty(path) or git.is_ahead(path)))
+  end
+
+  function conky_git_has_unstaged_changes(path)
+    local d = get_cache(path, 'has_unstaged_changes')
+    if d.value then return d.value end
+
+    return cache_and_return(d, git.has_unstaged_changes(path))
+  end
+
+  function conky_git_has_staged_changes(path)
+    local d = get_cache(path, 'has_staged_changes')
+    if d.value then return d.value end
+
+    return cache_and_return(d, git.has_staged_changes(path))
+  end
+
+  function conky_git_has_untracked_files(path)
+    local d = get_cache(path, 'has_untracked_files')
+    if d.value then return d.value end
+
+    return cache_and_return(d, git.has_untracked_files(path))
+  end
+
+  function conky_git_is_dirty(path)
+    local d = get_cache(path, 'is_dirty')
+    if d.value then return d.value end
+
+    return cache_and_return(d, git.is_dirty(path))
+  end
+
+  function conky_git_is_ahead(path)
+    local d = get_cache(path, 'is_ahead')
+    if d.value then return d.value end
+
+    return cache_and_return(d, git.is_ahead(path))
+  end
 end
 
-function conky_git_has_staged_changes(path)
-  if git.has_staged_changes(path) then return 1 end
-  return 0
-end
-
-function conky_git_has_untracked_files(path)
-  if git.has_untracked_files(path) then return 1 end
-  return 0
-end
-
-function conky_git_is_dirty(path)
-  if git.is_dirty(path) then return 1 end
-  return 0
-end
-
-function conky_git_is_ahead(path)
-  if git.is_ahead(path) then return 1 end
-  return 0
-end
-
-function conky_git_reset_cache()
-  git.reset_cache()
-  return ""
-end
-
-dprint("lua: %s loaded\n", string.match(debug.getinfo(1, 'S').source, "^@(.+)$"))
+-- dprint("lua: %s loaded\n", string.match(debug.getinfo(1, 'S').source, "^@(.+)$"))
 

@@ -40,7 +40,7 @@ git status -sb | grep '\[ahead' > /dev/null]]
   local cache_hit_counter = 0
 
   function run_cmd(cmd, path)
-    assert(path)
+    utils.assert(path and cmd, "Missing arguments cmd=%s, path=%s", cmd, path, "more here")
     if repo_cache then
       if not repo_cache[cmd] then repo_cache[cmd] = {} end
       if not repo_cache[cmd][path] then
@@ -55,15 +55,22 @@ git status -sb | grep '\[ahead' > /dev/null]]
     return os.execute(string.format([[cd "%s"; %s]], path, cmd))
   end
 
+  function git.path_exists(path)
+    assert(path)
+  end
+
   function git.is_repo(path)
+    assert(path)
     return 0 == run_cmd(cmd_is_repo, path)
   end
 
   function git.has_unstaged_changes(path)
+    assert(path)
     return 0 ~= run_cmd(cmd_unsaged_chagnes, path)
   end
 
   function git.has_staged_changes(path)
+    assert(path)
     local r
     if 0 == run_cmd(cmd_verify_head, path) then
       r = run_cmd(cmd_has_staged_changes_HEAD, path)
@@ -75,16 +82,19 @@ git status -sb | grep '\[ahead' > /dev/null]]
   end
 
   function git.has_untracked_files(path)
+    assert(path)
     return 0 == run_cmd(cmd_has_untracked_files, path)
   end
 
   function git.is_dirty(path)
+    assert(path)
     return git.has_unstaged_changes(path) or
-      git.has_staged_changes(path) or
-      git.has_untracked_files(path)
+    git.has_staged_changes(path) or
+    git.has_untracked_files(path)
   end
 
   function git.is_ahead(path)
+    assert(path)
     return 0 == run_cmd(cmd_is_ahead, path)
   end
 
@@ -92,27 +102,42 @@ git status -sb | grep '\[ahead' > /dev/null]]
     if not update_interval then update_interval = DEFAULT_update_interval end
     update_counter = update_counter + 1
     if (update_counter < update_interval) then return end
-    -- print(string.format("reset! (%d < %d, hits: %d) -----------------",
-    --   update_counter, update_interval, cache_hit_counter))
     update_counter = 0
     cache_hit_counter = 0
     repo_cache = {}
   end
 
-  function git.generate_repository_string(name, path)
-    local res = ""
-    if not utils.dir_exists(path) then
-      res = res .. utils.replace([[
-${goto 20} ${color9}##excalamation_triangle## not found! ${alignr} ##NAME##${color}
-]], { NAME = name, PATH = path })
-    elseif not git.is_repo(path) then
-      res = res .. utils.replace([[
-${goto 20} ${color9}##excalamation_triangle## not a Git repo! ${alignr} ##NAME##${color}
-]], { NAME = name, PATH = path })
-    else
+  function git.gen_strings(args)
+    utils.assert(args.repos, "Must supply at least { repos = ... }")
+    return utils.foldr(function(a,b,c)
+      return a..git.gen_string(c,b, args)
+    end, "", args.repos)
+  end
 
-      -- FIXME: This is not used currently!
-      local MODE = utils.replace([[
+  function git.gen_string(name, path, args)
+    hide_non_repos = args.hide_non_repos or false
+    hide_clean = args.hide_clean or false
+    not_found = args.not_found or [[
+${goto 20} ${color9}##excalamation_triangle## not found! ${alignr} ##NAME##${color}
+]]
+    not_a_repo = args.not_a_repo or [[
+${goto 20} ${color9}##excalamation_triangle## not a Git repo! ${alignr} ##NAME##${color}
+]]
+
+    is_repo = args.is_repo or [[
+${if_match "1"=="${lua_parse git_is_dirty ##PATH##}"}${color 00CC66}\
+${else}${if_match "1"=="${lua_parse git_is_ahead ##PATH##}"}${color 33CC33}${endif}\
+${endif}\
+${goto 20} ##code_fork## \
+${if_match "1"=="${lua_parse git_has_staged_changes ##PATH##}"}C${else} ${endif}\
+${if_match "1"=="${lua_parse git_has_unstaged_changes ##PATH##}"}S${else} ${endif}\
+${if_match "1"=="${lua_parse git_has_untracked_files ##PATH##}"}U${else} ${endif}\
+${if_match "1"=="${lua_parse git_is_ahead ##PATH##}"}^${else} ${endif}\
+${alignr}##NAME##${color}
+]]
+
+    -- FIXME: This is not used currently!
+    local MODE = utils.replace([[
 ${execi ##EXECI_INTERVAL##
 cd "##PATH##";
 if [ -e "##PATH##/.git/BISECT_LOG" ]; then echo -n " <B>"
@@ -124,23 +149,46 @@ elif [ -e "##PATH##/.git/rebase" ] ||
 fi
 }]], { NAME = name, PATH = path })
 
-      res = res .. utils.replace([[
-${if_match "1"=="${lua_parse git_is_dirty ##PATH##}"}${color 00CC66}\
-${else}${if_match "1"=="${lua_parse git_is_ahead ##PATH##}"}${color 33CC33}${endif}\
-${endif}\
-${goto 20} ##code_fork## \
-${if_match "1"=="${lua_parse git_has_staged_changes ##PATH##}"}C${else} ${endif}\
-${if_match "1"=="${lua_parse git_has_unstaged_changes ##PATH##}"}S${else} ${endif}\
-${if_match "1"=="${lua_parse git_has_untracked_files ##PATH##}"}U${else} ${endif}\
-${if_match "1"=="${lua_parse git_is_ahead ##PATH##}"}^${else} ${endif}\
-${alignr}##NAME##${color}
-]], {
-          NAME = name,
-          PATH = path,
-          })
+
+    local res = utils.replace(is_repo, { NAME = name, PATH = path })
+
+    if hide_clean then
+      res = utils.replace(
+        [[${if_match "0"=="${lua_parse git_is_clean ##PATH##}"}%s${endif}]],
+        { NAME = name, PATH = path }, res)
     end
+
+    if hide_non_repos then
+      res =  utils.replace(
+        [[${if_match "1"=="${lua_parse git_is_repo ##PATH##}"}%s${endif}]],
+        { NAME = name, PATH = path }, res)
+    else
+      res = utils.replace(
+        [[${if_match "0"=="${lua_parse git_path_exists ##PATH##}"}%s${else}]] ..
+        [[${if_match "0"=="${lua_parse git_is_repo ##PATH##}"}%s${else}%s${endif}${endif}]],
+        { NAME = name, PATH = path }, not_found, not_a_repo, res)
+    end
+
     return res
   end
+
+  function git.get_repos(env_var)
+    local repos_string = os.getenv(env_var)
+    if not repos_string then return {} end
+
+    local res = {}
+
+    res['~/d/test_repo'] = '/home/ishkamiel/d/test_repo'
+    res['~/Downloads'] = '/home/ishkamiel/Downloads'
+    res['~/asdf'] = '/home/ishkamiel/asdf'
+
+    for path in string.gmatch(repos_string, "([^;)]+)") do
+      res[utils.get_shortpath(path)] = path
+    end
+
+    return res
+end
+
 end
 
 return git

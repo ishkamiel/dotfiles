@@ -122,8 +122,11 @@ do
     extra_replace = new_extra_replace
   end
 
-  function utils.replace(text, other_subs)
+  function utils.replace(text, other_subs, ...)
     if not a_sym then generate_symbols() end
+
+    local v = unpack(arg)
+    if v then text = string.format(text, unpack(arg)) end
 
     for name, value in pairs(a_sym) do
       text = string.gsub(text, string.format('##%s##', name), value)
@@ -156,6 +159,39 @@ do
   function utils.get_symbol(var)
     return a_sym[var]
   end
+
+  function utils.foldr (func, val, tbl)
+    for i,v in pairs(tbl) do
+      val = func(val, v, i)
+    end
+    return val
+  end
+
+  function utils.get_shortpath(fullpath)
+    return string.gsub(fullpath, string.format('^%s', os.getenv('HOME')), '~')
+  end
+
+  utils.printf = function(f, ...)
+    print(string.format(f, unpack(arg)))
+  end
+
+  utils.assert = function(a, f, ...)
+    if not a then
+      local values = {}
+      for i = 1, select('#', ...) do
+        local v = select(i, ...)
+        if v == nil then
+          values[i] = 'nil'
+        else
+          values[i] = string.format("'%s'", v)
+        end
+      end
+      print(debug.traceback())
+      error(string.format(f, unpack(values)))
+    end
+    return a
+  end
+
 end
 
 return utils
