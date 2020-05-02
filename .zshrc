@@ -68,6 +68,7 @@ alias cp="cp -i"
 alias rm="rm -i"
 alias mv="mv -i"
 
+setopt HIST_IGNORE_SPACE
 unsetopt share_history
 
 command -v nvim >/dev/null 2>&1 && alias vim="nvim"
