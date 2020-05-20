@@ -55,6 +55,7 @@ plugins=(
   vi-mode
   command-not-found
   nvim
+  fzf
 )
 
 source $ZSH/oh-my-zsh.sh
