@@ -26,9 +26,11 @@
     ~/.latexmkrc: .latexmkrc
     ~/.local/share/applications/standard-notes.desktop: .local/share/applications/standard-notes.desktop
     ~/.local/share/applications/vbox-windows.desktop: .local/share/applications/vbox-windows.desktop
+    ~/.local/share/applications/whatsapp.desktop: .local/share/applications/whatsapp.desktop
     ~/.local/share/icons/conky.png: .local/share/icons/conky.png
     ~/.local/share/icons/standard-notes.png: .local/share/icons/standard-notes.png
     ~/.local/share/icons/vbox-windows.png: .local/share/icons/vbox-windows.png
+    ~/.local/share/icons/whatsapp.png: .local/share/icons/whatsapp.png
     ~/.pam_environment: .pam_environment
     ~/.profile: .profile
     ~/.zshrc: .zshrc
