@@ -33,6 +33,7 @@
     ~/.local/share/icons/whatsapp.png: .local/share/icons/whatsapp.png
     ~/.pam_environment: .pam_environment
     ~/.profile: .profile
+    ~/.spacemacs: .spacemacs
     ~/.zshrc: .zshrc
 - shell:
   -
