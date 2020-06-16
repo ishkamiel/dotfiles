@@ -50,6 +50,7 @@ ZSH_CUSTOM="${HOME}/.dotfiles/oh-my-zsh"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to "${ZSH_CUSTOM}/plugins"
 plugins=(
+  golang
   nvm
   rvm
   vi-mode
@@ -77,6 +78,8 @@ command -v nvim >/dev/null 2>&1 && alias vim="nvim"
 [[ ":$PATH:" != *":$HOME/bin:"* && -e "${HOME}/bin" ]] && \
     export PATH="${HOME}/bin:${PATH}"
 export PAGER='less -X -F'
+
+export GOPATH="${HOME}/go"
 
 # Make sure we load system vendor-completionns
 fpath=($fpath /usr/share/zsh/vendor-completions)
