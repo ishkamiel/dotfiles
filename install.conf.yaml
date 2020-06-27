@@ -20,6 +20,7 @@
     ~/.config/nvim/syntax: .config/nvim/syntax
     ~/.config/nvim/vim-templates: .config/nvim/vim-templates
     ~/.config/zathura/zathurarc: .config/zathura/zathurarc
+    ~/.doom.d : .doom.d
     ~/.gitignore_global: .gitignore_global
     ~/.inputrc: .inputrc
     ~/.ipython/profile_default/ipython_config.py: .ipython/profile_default/ipython_config.py

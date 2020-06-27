@@ -39,13 +39,23 @@ values."
      ivy
      auto-completion
      better-defaults
+     c-c++
      emacs-lisp
      git
+     imenu-list
      ;; markdown
-     org
+     (org :variables
+          org-agenda-files
+          (quote (
+                  "~/org"
+                  ))
+          org-log-into-drawer t
+          org-agenda-log-mode-items '(closed clock state)
+          org-hide-emphasis-markers t)
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
+     shell-scripts
      spell-checking
      syntax-checking
      version-control
@@ -227,7 +237,7 @@ values."
    ;; If non nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default nil) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup nil
+   dotspacemacs-maximized-at-startup t
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
@@ -303,6 +313,10 @@ before packages are loaded. If you are unsure, you should try in setting them in
   )
 
 (defun dotspacemacs/user-config ()
+  (with-eval-after-load 'org
+
+    
+    )
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
 layers configuration.
@@ -320,7 +334,7 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (smeargle orgit org-category-capture alert log4e gntp magit-gitflow magit-popup gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fringe-helper git-gutter+ git-gutter flyspell-correct pos-tip flycheck evil-magit magit git-commit with-editor transient company yasnippet auto-complete ws-butler winum volatile-highlights vi-tilde-fringe uuidgen toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode paradox spinner org-bullets open-junk-file neotree move-text lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visual-mark-mode evil-unimpaired f evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-ediff evil-args evil-anzu anzu eval-sexp-fu dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol aggressive-indent adaptive-wrap ace-link xterm-color which-key wgrep use-package unfill smex shell-pop pcre2el org-projectile org-present org-pomodoro org-mime org-download mwim multi-term macrostep ivy-hydra htmlize helm-make gnuplot git-gutter-fringe git-gutter-fringe+ fuzzy flyspell-correct-ivy flycheck-pos-tip flx exec-path-from-shell evil-visualstar evil-escape eshell-z eshell-prompt-extras esh-help elisp-slime-nav diminish diff-hl counsel-projectile company-statistics bind-map auto-yasnippet auto-dictionary auto-compile ace-window ac-ispell))))
+    (insert-shebang fish-mode company-shell disaster company-c-headers cmake-mode clang-format imenu-list smeargle orgit org-category-capture alert log4e gntp magit-gitflow magit-popup gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fringe-helper git-gutter+ git-gutter flyspell-correct pos-tip flycheck evil-magit magit git-commit with-editor transient company yasnippet auto-complete ws-butler winum volatile-highlights vi-tilde-fringe uuidgen toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode paradox spinner org-bullets open-junk-file neotree move-text lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visual-mark-mode evil-unimpaired f evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-ediff evil-args evil-anzu anzu eval-sexp-fu dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol aggressive-indent adaptive-wrap ace-link xterm-color which-key wgrep use-package unfill smex shell-pop pcre2el org-projectile org-present org-pomodoro org-mime org-download mwim multi-term macrostep ivy-hydra htmlize helm-make gnuplot git-gutter-fringe git-gutter-fringe+ fuzzy flyspell-correct-ivy flycheck-pos-tip flx exec-path-from-shell evil-visualstar evil-escape eshell-z eshell-prompt-extras esh-help elisp-slime-nav diminish diff-hl counsel-projectile company-statistics bind-map auto-yasnippet auto-dictionary auto-compile ace-window ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
