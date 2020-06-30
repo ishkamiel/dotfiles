@@ -3,7 +3,6 @@
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
-
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
 (setq user-full-name "Hans Liljestrand"
@@ -31,7 +30,6 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
-
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
@@ -49,39 +47,36 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+(use-package! org-fancy-priorities
+  :hook (org-mode . org-fancy-priorities-mode))
+
+(use-package! imenu-list)
+
 ;; Maximize on startup
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
-
 ;; Disable exit prompts
 (setq confirm-kill-emacs nil)
 
 ;; Make projectile search all files in a project.
 (setq projectile-git-command "git-ls-all-files")
 
+(add-to-list 'org-modules 'org-id)
 (after! org
   (setq
    org-directory "~/org/"
    org-log-into-drawer t
    org-agenda-log-mode-items '(closed clock state)
    org-hide-emphasis-markers t
-   org-log-done 'time ;; set CLOSED tags when finishing items
-   org-todo-keywords '((sequence "TODO(t)" "INPROGRESS(i)" "WAITING(w)" "|" "DONE(d)" "READ(r)" "CANCELLED(c)"))
+   org-id-link-to-org-use-id t
+   org-log-done 'time
    ))
 
 (after! evil-org
   (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
 
-;; (use-package! org-super-agenda
-;;   :after org-agenda
-;;   :init
-;;   (setq org-super-agenda-groups '((:name "Today"
-;;                                    :time-grid t
-;;                                    :scheduled today)
-;;                                   (:name "Due today"
-;;                                    :deadline today)
-;;                                   (:name "Important"
-;;                                    :priority "A")
-;;                                   (:name "Due soon"
-;;                                    :deadline future)))
-;;   :config
-;;   (org-super-agenda-mode))
+
+
+(defun ish-remove-invisiasble-unicode()
+  "Query replace some invisible Unicode chars. source:`http://ergoemacs.org/emacs/elisp_unicode_replace_invisible_chars.html' (Version 2018-09-07)"
+  (interactive)
+  (query-replace-regexp "\ufeff\\|\u200b\\|\u200f\\|\u202e\\|\u200e\\|\ufffc" ""))
