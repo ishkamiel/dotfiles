@@ -60,6 +60,18 @@
 ;; Make projectile search all files in a project.
 (setq projectile-git-command "git-ls-all-files")
 
+(setq +mu4e-backend 'offlineimap)
+(setq mu4e-maildir "~/.Mail")
+(set-email-account! "pm"
+  '((mu4e-sent-folder       . "/pm/Sent")
+    (mu4e-drafts-folder     . "/pm//Drafts")
+    (mu4e-trash-folder      . "/pm/Trash")
+    (mu4e-refile-folder     . "/pm/All Mail")
+    (smtpmail-smtp-user     . "hans.liljestrand@pm.me")
+    (user-mail-address      . "hans.liljestrand@pm.me")    ;; only needed for mu < 1.4
+    (mu4e-compose-signature . "---\nHans Liljestrand"))
+  t)
+
 (add-to-list 'org-modules 'org-id)
 (after! org
   (setq
@@ -69,12 +81,15 @@
    org-hide-emphasis-markers t
    org-id-link-to-org-use-id t
    org-log-done 'time
+   org-archive-location "::* Archived"
+   org-todo-keywords '((sequence "TODO(t)" "STRT(s)" "WAIT(w)" "HOLD(h)" "|" "KILL(k)" "DONE(d)")
+                       (sequence "READ(r)" "|" "----")
+                       (sequence "[ ](T)" "|" "[X](D)")
+                       (sequence "[_](p)" "[x](P)" "|"))
    ))
 
 (after! evil-org
   (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
-
-
 
 (defun ish-remove-invisiasble-unicode()
   "Query replace some invisible Unicode chars. source:`http://ergoemacs.org/emacs/elisp_unicode_replace_invisible_chars.html' (Version 2018-09-07)"
