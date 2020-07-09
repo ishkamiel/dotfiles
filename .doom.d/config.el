@@ -104,11 +104,17 @@
       ))
    org-capture-templates
    '(("t" "Personal todo" entry
-      (file+headline +org-capture-todo-file "Todo")
-      "* TODO %?\n%i\n%a" :prepend t :clock-in t :clock-resume t)
+      (file +org-capture-todo-file)
+      "* TODO %?\nSCHEDULED %t\n:PROPERTIES:\nCreated: %U\n:END:\n%i\n%a" :prepend t :clock-in t :clock-resume t)
+     ("m" "Meeting notes" entry
+       (file +org-capture-todo-file)
+       "* TODO %a notes %u\nSCHEDULED %t\n:PROPERTIES:\nCreated: %U\n:END:\n\nParticipants: %?" :prepend t :clock-in t :clock-resume t)
+     ("c" "Chat notes" entry
+       (file +org-capture-todo-file)
+       "* TODO Notes on %?\nSCHEDULED: %t\n:PROPERTIES:\nCreated: %U\n:END:" :prepend t :clock-in t :clock-resume t)
      ("n" "Personal notes" entry
-      (file+headline +org-capture-notes-file "Note")
-      "* %u %?\n%i\n%a" :prepend t)
+      (file +org-capture-notes-file)
+      "* %u %?\n:PROPERTIES:\nCreated: %U\n:END:\n%i\n%a" :prepend t)
      ("j" "Journal" entry
       (file+olp+datetree +org-capture-journal-file)
       "* %U %?\n%i\n%a" :prepend t)
