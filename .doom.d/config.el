@@ -47,6 +47,11 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+(defun add-property-with-date-captured()
+  "Add DATE_CAPTURED property to the current item."
+  (interactive)
+  (org-set-property "Created" (format-time-string "%F")))
+
 (use-package! org-fancy-priorities
   :hook (org-mode . org-fancy-priorities-mode))
 
@@ -105,13 +110,13 @@
    org-capture-templates
    '(("t" "Personal todo" entry
       (file +org-capture-todo-file)
-      "* TODO %?\nSCHEDULED %t\n:PROPERTIES:\nCreated: %U\n:END:\n%i\n%a" :prepend t :clock-in t :clock-resume t)
+      "* TODO %?\nSCHEDULED: %t\n%i\n%a" :prepend t :clock-in t :clock-resume t)
      ("m" "Meeting notes" entry
        (file +org-capture-todo-file)
-       "* TODO %a notes %u\nSCHEDULED %t\n:PROPERTIES:\nCreated: %U\n:END:\n\nParticipants: %?" :prepend t :clock-in t :clock-resume t)
+       "* TODO %a notes %u\nSCHEDULED: %t\nParticipants: %?" :prepend t :clock-in t :clock-resume t)
      ("c" "Chat notes" entry
        (file +org-capture-todo-file)
-       "* TODO Notes on %?\nSCHEDULED: %t\n:PROPERTIES:\nCreated: %U\n:END:" :prepend t :clock-in t :clock-resume t)
+       "* TODO Notes on %?\nSCHEDULED: %t\n" :prepend t :clock-in t :clock-resume t)
      ("n" "Personal notes" entry
       (file +org-capture-notes-file)
       "* %u %?\n:PROPERTIES:\nCreated: %U\n:END:\n%i\n%a" :prepend t)
@@ -134,6 +139,10 @@
      ;; ("oc" "Project changelog" entry #'+org-capture-central-project-changelog-file "* %U %?\n %i\n %a" :heading "Changelog" :prepend t)
      )
    ))
+
+(after! org
+  (add-hook 'org-capture-before-finalize-hook 'add-property-with-date-captured)
+  )
 
 ;; Causes junk files all over the place!
 ;; (add-hook 'org-agenda-mode-hook

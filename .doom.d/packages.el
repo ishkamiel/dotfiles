@@ -53,3 +53,4 @@
 
 (package! org-fancy-priorities)
 (package! imenu-list)
+(package! xcscope)
