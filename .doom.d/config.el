@@ -72,21 +72,68 @@
     (mu4e-compose-signature . "---\nHans Liljestrand"))
   t)
 
+(setq ;; org-mode Doom-specific configuration
+ +org-capture-todo-file "inbox.org"
+ +org-capture-journal-file "journal.org"
+ +org-capture-notes-file "inbox.org"
+ )
+
 (add-to-list 'org-modules 'org-id)
 (after! org
   (setq
    org-directory "~/org/"
+   org-default-notes-file "~/org/inbox.org"
+   org-startup-folded 'overview
    org-log-into-drawer t
    org-agenda-log-mode-items '(closed clock state)
    org-hide-emphasis-markers t
    org-id-link-to-org-use-id t
    org-log-done 'time
    org-archive-location "::* Archived"
-   org-todo-keywords '((sequence "TODO(t)" "STRT(s)" "WAIT(w)" "HOLD(h)" "|" "KILL(k)" "DONE(d)")
-                       (sequence "READ(r)" "|" "----")
-                       (sequence "[ ](T)" "|" "[X](D)")
-                       (sequence "[_](p)" "[x](P)" "|"))
+   org-todo-keywords
+   '((sequence "TODO(t)" "STRT(s)" "WAIT(w)" "HOLD(h)" "DELEGATED(o)" "|" "DONE(d)" "KILL(k)")
+     (sequence "READ(r)" "|" "----")
+     (sequence "[ ](T)" "|" "[X](D)")
+     (sequence "[_](p)" "[x](P)" "|"))
+   org-agenda-custom-commands
+   '(("c" . "My Custom Agendas")
+     ("cu" "Unscheduled TODO"
+      ((todo "TODO|[ ]"
+             ((org-agenda-overriding-header "\nUnscheduled TODO")
+              (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp)))))
+      ))
+   org-capture-templates
+   '(("t" "Personal todo" entry
+      (file+headline +org-capture-todo-file "Todo")
+      "* TODO %?\n%i\n%a" :prepend t :clock-in t :clock-resume t)
+     ("n" "Personal notes" entry
+      (file+headline +org-capture-notes-file "Note")
+      "* %u %?\n%i\n%a" :prepend t)
+     ("j" "Journal" entry
+      (file+olp+datetree +org-capture-journal-file)
+      "* %U %?\n%i\n%a" :prepend t)
+     ("p" "Templates for projects")
+     ("pt" "Project-local todo" entry
+      (file+headline +org-capture-project-todo-file "Inbox")
+      "* TODO %?\n%i\n%a" :prepend t)
+     ("pn" "Project-local notes" entry
+      (file+headline +org-capture-project-notes-file "Inbox")
+      "* %U %?\n%i\n%a" :prepend t)
+     ("pc" "Project-local changelog" entry
+      (file+headline +org-capture-project-changelog-file "Unreleased")
+      "* %U %?\n%i\n%a" :prepend t)
+     ;; ("o" "Centralized templates for projects")
+     ;; ("ot" "Project todo" entry #'+org-capture-central-project-todo-file "* TODO %?\n %i\n %a" :heading "Tasks" :prepend nil)
+     ;; ("on" "Project notes" entry #'+org-capture-central-project-notes-file "* %U %?\n %i\n %a" :heading "Notes" :prepend t)
+     ;; ("oc" "Project changelog" entry #'+org-capture-central-project-changelog-file "* %U %?\n %i\n %a" :heading "Changelog" :prepend t)
+     )
    ))
+
+;; Causes junk files all over the place!
+;; (add-hook 'org-agenda-mode-hook
+;;           (lambda ()
+;;             (add-hook 'auto-save-hook 'org-save-all-org-buffers nil t)
+;;             (auto-save-mode)))
 
 (after! evil-org
   (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
