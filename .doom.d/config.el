@@ -57,6 +57,10 @@
 
 (use-package! imenu-list)
 
+(use-package! xcscope
+  :init (setq cscope-display-cscope-buffer nil)
+  :config (cscope-setup))
+
 ;; Maximize on startup
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 ;; Disable exit prompts
@@ -94,6 +98,7 @@
    org-hide-emphasis-markers t
    org-id-link-to-org-use-id t
    org-log-done 'time
+   org-duration-format (quote h:mm)
    org-archive-location "::* Archived"
    org-todo-keywords
    '((sequence "TODO(t)" "STRT(s)" "WAIT(w)" "HOLD(h)" "DELEGATED(o)" "|" "DONE(d)" "KILL(k)")
