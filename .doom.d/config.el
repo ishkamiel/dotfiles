@@ -149,12 +149,6 @@
   (add-hook 'org-capture-before-finalize-hook 'add-property-with-date-captured)
   )
 
-;; Causes junk files all over the place!
-;; (add-hook 'org-agenda-mode-hook
-;;           (lambda ()
-;;             (add-hook 'auto-save-hook 'org-save-all-org-buffers nil t)
-;;             (auto-save-mode)))
-
 (after! evil-org
   (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
 
@@ -162,3 +156,27 @@
   "Query replace some invisible Unicode chars. source:`http://ergoemacs.org/emacs/elisp_unicode_replace_invisible_chars.html' (Version 2018-09-07)"
   (interactive)
   (query-replace-regexp "\ufeff\\|\u200b\\|\u200f\\|\u202e\\|\u200e\\|\ufffc" ""))
+
+(setq-default TeX-master nil)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(safe-local-variable-values
+   (quote
+    ((eval let
+           ((root
+             (projectile-project-root)))
+           (setq-local company-clang-arguments
+                       (list
+                        (concat "-I" root "kernel/libsel4/include")))
+           (setq-local flycheck-clang-include-path
+                       (list
+                        (concat root "kernel/libsel4/include"))))))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
