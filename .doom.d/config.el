@@ -89,6 +89,7 @@
 
 (add-to-list 'org-modules 'org-id)
 (after! org
+  (add-hook 'org-capture-before-finalize-hook 'add-property-with-date-captured)
   (setq
    org-directory "~/org/"
    org-default-notes-file "~/org/inbox.org"
@@ -145,12 +146,23 @@
      )
    ))
 
-(after! org
-  (add-hook 'org-capture-before-finalize-hook 'add-property-with-date-captured)
-  )
-
 (after! evil-org
   (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
+
+(defun ish-add-c-include (path)
+  (let ((root (ignore-errors (projectile-project-root))))
+    (when root
+      (let ((default-directory root))
+        (add-to-list (make-variable-buffer-local
+                      'flycheck-clang-include-path)
+                     (expand-file-name path))
+        (add-to-list (make-variable-buffer-local
+                      'flycheck-gcc-include-path)
+                     (expand-file-name path))
+        (add-to-list (make-variable-buffer-local
+                      'company-clang-arguments)
+                     (concat "-I" (expand-file-name path)))
+        ))))
 
 (defun ish-remove-invisiasble-unicode()
   "Query replace some invisible Unicode chars. source:`http://ergoemacs.org/emacs/elisp_unicode_replace_invisible_chars.html' (Version 2018-09-07)"
@@ -158,25 +170,3 @@
   (query-replace-regexp "\ufeff\\|\u200b\\|\u200f\\|\u202e\\|\u200e\\|\ufffc" ""))
 
 (setq-default TeX-master nil)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(safe-local-variable-values
-   (quote
-    ((eval let
-           ((root
-             (projectile-project-root)))
-           (setq-local company-clang-arguments
-                       (list
-                        (concat "-I" root "kernel/libsel4/include")))
-           (setq-local flycheck-clang-include-path
-                       (list
-                        (concat root "kernel/libsel4/include"))))))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
