@@ -1,7 +1,20 @@
 # vim: fdm=marker foldlevel=0 shiftwidth=4 tabstop=4
 
+__prepend_to_PATH() {
+    case ":$PATH:" in
+        *:$1:*)
+            # echo "$1 already in path, skipping"
+            ;; # already in PATH, doing nothing
+        *)
+            # [ -e "$1" ] || echo "$1 not found, skipping"
+            [ -e "$1" ] && export PATH="$1:${PATH}"
+            ;;
+    esac
+}
+
 export DOTFILES=${HOME}/.dotfiles
-[ -e "${HOME}/bin" ] && export PATH="${HOME}/bin:${PATH}"
+__prepend_to_PATH "${HOME}/bin"
+__prepend_to_PATH "${HOME}/.local/bin"
 
 # Fix for intellj IDEs: https://youtrack.jetbrains.com/issue/IDEA-78860
 export IBUS_ENABLE_SYNC_MODE=1
