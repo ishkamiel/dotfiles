@@ -104,8 +104,7 @@
    org-todo-keywords
    '((sequence "TODO(t)" "STRT(s)" "WAIT(w)" "HOLD(h)" "DELEGATED(o)" "|" "DONE(d)" "KILL(k)")
      (sequence "READ(r)" "|" "----")
-     (sequence "[ ](T)" "|" "[X](D)")
-     (sequence "[_](p)" "[x](P)" "|"))
+     (sequence "[ ](T)" "[X](D)"))
    org-agenda-custom-commands
    '(("c" . "My Custom Agendas")
      ("cu" "Unscheduled TODO"
