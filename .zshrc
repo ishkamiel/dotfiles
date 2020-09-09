@@ -87,3 +87,11 @@ compinit
 
 [[ -e "$HOME/.zshrc_local" ]] && source "$HOME/.zshrc_local"
 
+[[ ":$PATH:" != *":$HOME/.cargo/bin:"* && -e "${HOME}/.cargo/bin" ]] && \
+    export PATH="$HOME/.cargo/bin:$PATH"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+[[ ":$PATH:" != *":$HOME/.rvm/bin:"* && -e "${HOME}/.rvm/bin" ]] && \
+    export PATH="${HOME}/.rvm/bin:${PATH}"
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 
+
