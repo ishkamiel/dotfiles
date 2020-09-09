@@ -90,6 +90,10 @@
 (add-to-list 'org-modules 'org-id)
 (after! org
   (add-hook 'org-capture-before-finalize-hook 'add-property-with-date-captured)
+  (add-hook 'org-agenda-mode-hook
+          (lambda ()
+            (add-hook 'auto-save-hook 'org-save-all-org-buffers nil t)
+            (auto-save-mode)))
   (setq
    org-directory "~/org/"
    org-default-notes-file "~/org/inbox.org"
