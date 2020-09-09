@@ -4,10 +4,9 @@ ccache
 clang
 cmake
 curl
+emacs
 exuberant-ctags
 fzf
-gcc-multilib
-gcc-multiarch
 git
 git-crypt
 graphviz
@@ -26,7 +25,8 @@ silversearcher-ag
 vim-nox
 zsh
 [x]
-fonts-fork-awesoem
+conky-all
+fonts-fork-awesome
 fonts-firacode
 fonts-hack-otf
 fonts-hack-ttf
@@ -40,4 +40,4 @@ zathura
 [gnome]
 gnome-tweak-tool
 thunderbird
-thunderbird-gnome
+thunderbird-gnome-support
