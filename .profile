@@ -35,3 +35,5 @@ fi
 
 # shellcheck disable=SC1090
 [ -e "${HOME}/.profile_local" ] && . "${HOME}/.profile_local"
+
+[ -e "${HOME}/.Xresources" ] && xrdb -merge "${HOME}/.Xresources"

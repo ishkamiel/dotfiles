@@ -35,6 +35,8 @@
     ~/.pam_environment: .pam_environment
     ~/.profile: .profile
     ~/.spacemacs: .spacemacs
+    ~/.xinitrc: .xinitrc
+    ~/.Xresources: .Xresources
     ~/.zshrc: .zshrc
 - shell:
   -
