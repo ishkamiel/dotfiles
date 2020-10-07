@@ -81,6 +81,11 @@
     (mu4e-compose-signature . "---\nHans Liljestrand"))
   t)
 
+;; Auto-save buffers
+(setq
+ backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
+ auto-save-visited-mode t)
+
 (setq ;; org-mode Doom-specific configuration
  +org-capture-todo-file "inbox.org"
  +org-capture-journal-file "journal.org"
