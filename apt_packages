@@ -23,7 +23,6 @@ libpng-dev
 libpoppler-dev
 libpoppler-glib-dev
 libpoppler-private-dev
-libz-dev
 llvm
 locate
 make
@@ -33,7 +32,6 @@ ninja-build
 pkg-config
 python3-pip
 python3-scipy
-rustc
 shellcheck
 silversearcher-ag
 vim-nox
