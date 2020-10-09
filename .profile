@@ -15,6 +15,8 @@ __prepend_to_PATH() {
 export DOTFILES=${HOME}/.dotfiles
 __prepend_to_PATH "${HOME}/bin"
 __prepend_to_PATH "${HOME}/.local/bin"
+__prepend_to_PATH "$HOME/.cargo/bin"
+__prepend_to_PATH "$HOME/.emacs.d/bin"
 
 # Fix for intellj IDEs: https://youtrack.jetbrains.com/issue/IDEA-78860
 export IBUS_ENABLE_SYNC_MODE=1
