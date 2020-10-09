@@ -81,10 +81,25 @@
     (mu4e-compose-signature . "---\nHans Liljestrand"))
   t)
 
-;; Auto-save buffers
+;; Auto-save buffers (i.e., do backups)
 (setq
  backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
  auto-save-visited-mode t)
+
+;; automatically save buffers associated with files on buffer switch
+;; and on windows switch
+(defadvice switch-to-buffer (before save-buffer-now activate)
+  (when buffer-file-name (save-buffer)))
+(defadvice other-window (before other-window-now activate)
+  (when buffer-file-name (save-buffer)))
+(defadvice windmove-up (before other-window-now activate)
+  (when buffer-file-name (save-buffer)))
+(defadvice windmove-down (before other-window-now activate)
+  (when buffer-file-name (save-buffer)))
+(defadvice windmove-left (before other-window-now activate)
+  (when buffer-file-name (save-buffer)))
+(defadvice windmove-right (before other-window-now activate)
+  (when buffer-file-name (save-buffer)))
 
 (setq ;; org-mode Doom-specific configuration
  +org-capture-todo-file "inbox.org"
@@ -99,6 +114,7 @@
           (lambda ()
             (add-hook 'auto-save-hook 'org-save-all-org-buffers nil t)
             (auto-save-mode)))
+  (advice-add 'org-agenda-quit :before 'org-save-all-org-buffers)
   (setq
    org-directory "~/org/"
    org-default-notes-file "~/org/inbox.org"
