@@ -51,8 +51,8 @@
 
 ;; (package! org-super-agenda)
 
-(package! org-fancy-priorities)
-(package! imenu-list)
-(package! xcscope)
+;; (package! org-fancy-priorities)
+;; (package! imenu-list)
+;; (package! xcscope)
 (package! ligature
  :recipe (:host github :repo "mickeynp/ligature.el"))

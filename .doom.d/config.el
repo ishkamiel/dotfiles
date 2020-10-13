@@ -1,36 +1,5 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
-
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets.
-(setq user-full-name "Hans Liljestrand"
-      user-mail-address "hans@liljestrand.dev")
-
-;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
-;; are the three important ones:
-;;
-;; + `doom-font'
-;; + `doom-variable-pitch-font'
-;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
-;;   presentations or streaming.
-;;
-;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
-;; font string. You generally only need these two:
-;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
-;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
-(setq doom-font (font-spec :family "Fira Code Retina" :size 16))
-
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
-
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
-
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
@@ -48,84 +17,57 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(defun add-property-with-date-captured()
-  "Add DATE_CAPTURED property to the current item."
-  (interactive)
-  (org-set-property "Created" (format-time-string "%F")))
+(setq user-full-name "Hans Liljestrand"
+      user-mail-address "hans@liljestrand.dev")
 
-(use-package! org-fancy-priorities
-  :hook (org-mode . org-fancy-priorities-mode))
+;; Select Doom theme
+(setq doom-theme 'doom-one)
 
-(use-package! imenu-list)
+;; Set the font to use
+(setq doom-font (font-spec :family "Fira Code Retina" :size 16))
 
-(use-package! xcscope
-  :init (setq cscope-display-cscope-buffer nil)
-  :config (cscope-setup))
-
-;; Font ligatures with Fira Code
+;; Also enable liagture support (based on Fira Code support)
 (use-package! ligature
   :config
   (ligature-set-ligatures 't '("www"))
-  (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
-                                       ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
-                                       "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
-                                       "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
-                                       "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
-                                       "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
-                                       "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
-                                       "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
-                                       "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
-                                       "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+  (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::" ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>" "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_" "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**" "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>" "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<=" "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*" "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+" "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<" "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
   (global-ligature-mode 't))
 
+;; Display line numbers
+(setq display-line-numbers-type t)
 ;; Maximize on startup
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 ;; Disable exit prompts
 (setq confirm-kill-emacs nil)
+
 ;; Make projectile search all files in a project.
 (setq projectile-git-command "git-ls-all-files")
 
-(setq +mu4e-backend 'offlineimap)
-(setq mu4e-maildir "~/.Mail")
-(set-email-account! "pm"
-  '((mu4e-sent-folder       . "/pm/Sent")
-    (mu4e-drafts-folder     . "/pm//Drafts")
-    (mu4e-trash-folder      . "/pm/Trash")
-    (mu4e-refile-folder     . "/pm/All Mail")
-    (smtpmail-smtp-user     . "hans.liljestrand@pm.me")
-    (user-mail-address      . "hans.liljestrand@pm.me")    ;; only needed for mu < 1.4
-    (mu4e-compose-signature . "---\nHans Liljestrand"))
-  t)
-
 ;; Auto-save buffers (i.e., do backups)
-(setq
- backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
- auto-save-visited-mode t)
+(setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
+      auto-save-visited-mode t)
 
-;; automatically save buffers associated with files on buffer switch
-;; and on windows switch
-(defadvice switch-to-buffer (before save-buffer-now activate)
-  (when buffer-file-name (save-buffer)))
-(defadvice other-window (before other-window-now activate)
-  (when buffer-file-name (save-buffer)))
-(defadvice windmove-up (before other-window-now activate)
-  (when buffer-file-name (save-buffer)))
-(defadvice windmove-down (before other-window-now activate)
-  (when buffer-file-name (save-buffer)))
-(defadvice windmove-left (before other-window-now activate)
-  (when buffer-file-name (save-buffer)))
-(defadvice windmove-right (before other-window-now activate)
-  (when buffer-file-name (save-buffer)))
+;; automatically save on buffer/window switch
+(defadvice switch-to-buffer (before save-buffer-now activate) (when buffer-file-name (save-buffer)))
+(defadvice other-window (before other-window-now activate) (when buffer-file-name (save-buffer)))
+(defadvice windmove-up (before other-window-now activate) (when buffer-file-name (save-buffer)))
+(defadvice windmove-down (before other-window-now activate) (when buffer-file-name (save-buffer)))
+(defadvice windmove-left (before other-window-now activate) (when buffer-file-name (save-buffer)))
+(defadvice windmove-right (before other-window-now activate) (when buffer-file-name (save-buffer)))
 
-(setq ;; org-mode Doom-specific configuration
- +org-capture-todo-file "inbox.org"
- +org-capture-journal-file "journal.org"
- +org-capture-notes-file "inbox.org"
- )
+;; org-mode Doom-specific configuration
+(setq +org-capture-todo-file "inbox.org"
+      +org-capture-journal-file "journal.org"
+      +org-capture-notes-file "inbox.org")
 
+;; ???
 (add-to-list 'org-modules 'org-id)
+
+;; Configure org-mode
 (after! org
-  (add-hook 'org-capture-before-finalize-hook 'add-property-with-date-captured)
+  (add-hook 'org-capture-before-finalize-hook
+            (lambda ()
+              (org-set-property "Created" (format-time-string "%F"))))
   (add-hook 'org-agenda-mode-hook
           (lambda ()
             (add-hook 'auto-save-hook 'org-save-all-org-buffers nil t)
@@ -146,6 +88,15 @@
    '((sequence "TODO(t)" "STRT(s)" "WAIT(w)" "HOLD(h)" "DELEGATED(o)" "|" "DONE(d)" "KILL(k)")
      (sequence "READ(r)" "|" "----")
      (sequence "[ ](T)" "[X](D)"))
+   org-todo-keyword-faces
+   '(("[-]" . +org-todo-active)
+     ("STRT" . +org-todo-active)
+     ("[?]" . +org-todo-onhold)
+     ("WAIT" . +org-todo-onhold)
+     ("HOLD" . +org-todo-onhold)
+     ("PROJ" . +org-todo-project)
+     ("READ" . (:foreground "darkgray" :weight "bold"))
+     )
    org-agenda-custom-commands
    '(("c" . "My Custom Agendas")
      ("cu" "Unscheduled TODO"
@@ -159,33 +110,11 @@
       "* TODO %?\nSCHEDULED: %t\n%i\n%a" :prepend t :clock-in t :clock-resume t)
      ("m" "Meeting notes" entry
        (file +org-capture-todo-file)
-       "* TODO %a notes %u\nSCHEDULED: %t\nParticipants: %?" :prepend t :clock-in t :clock-resume t)
-     ("c" "Chat notes" entry
-       (file +org-capture-todo-file)
-       "* TODO Notes on %?\nSCHEDULED: %t\n" :prepend t :clock-in t :clock-resume t)
-     ("n" "Personal notes" entry
-      (file +org-capture-notes-file)
-      "* %u %?\n:PROPERTIES:\nCreated: %U\n:END:\n%i\n%a" :prepend t)
-     ("j" "Journal" entry
-      (file+olp+datetree +org-capture-journal-file)
-      "* %U %?\n%i\n%a" :prepend t)
-     ("p" "Templates for projects")
-     ("pt" "Project-local todo" entry
-      (file+headline +org-capture-project-todo-file "Inbox")
-      "* TODO %?\n%i\n%a" :prepend t)
-     ("pn" "Project-local notes" entry
-      (file+headline +org-capture-project-notes-file "Inbox")
-      "* %U %?\n%i\n%a" :prepend t)
-     ("pc" "Project-local changelog" entry
-      (file+headline +org-capture-project-changelog-file "Unreleased")
-      "* %U %?\n%i\n%a" :prepend t)
-     ;; ("o" "Centralized templates for projects")
-     ;; ("ot" "Project todo" entry #'+org-capture-central-project-todo-file "* TODO %?\n %i\n %a" :heading "Tasks" :prepend nil)
-     ;; ("on" "Project notes" entry #'+org-capture-central-project-notes-file "* %U %?\n %i\n %a" :heading "Notes" :prepend t)
-     ;; ("oc" "Project changelog" entry #'+org-capture-central-project-changelog-file "* %U %?\n %i\n %a" :heading "Changelog" :prepend t)
+       "* TODO %? notes %u\nSCHEDULED: %t\nParticipants:\n\n" :prepend t :clock-in t :clock-resume t)
      )
    ))
 
+;; Configure evil-org
 (after! evil-org
   (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
 
@@ -209,4 +138,17 @@
   (interactive)
   (query-replace-regexp "\ufeff\\|\u200b\\|\u200f\\|\u202e\\|\u200e\\|\ufffc" ""))
 
-(setq-default TeX-master nil)
+;; What was this for?
+;; (setq-default TeX-master nil)
+
+;; (setq +mu4e-backend 'offlineimap)
+;; (setq mu4e-maildir "~/.Mail")
+;; (set-email-account! "pm"
+;;   '((mu4e-sent-folder       . "/pm/Sent")
+;;     (mu4e-drafts-folder     . "/pm//Drafts")
+;;     (mu4e-trash-folder      . "/pm/Trash")
+;;     (mu4e-refile-folder     . "/pm/All Mail")
+;;     (smtpmail-smtp-user     . "hans.liljestrand@pm.me")
+;;     (user-mail-address      . "hans.liljestrand@pm.me")    ;; only needed for mu < 1.4
+;;     (mu4e-compose-signature . "---\nHans Liljestrand"))
+;;   t)
