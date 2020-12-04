@@ -12,6 +12,18 @@ __prepend_to_PATH() {
     esac
 }
 
+__append_to_PATH() {
+    case ":$PATH:" in
+        *:$1:*)
+            # echo "$1 already in path, skipping"
+            ;; # already in PATH, doing nothing
+        *)
+            # [ -e "$1" ] || echo "$1 not found, skipping"
+            [ -e "$1" ] && export PATH="${PATH}:$1"
+            ;;
+    esac
+}
+
 export DOTFILES=${HOME}/.dotfiles
 __prepend_to_PATH "${HOME}/bin"
 __prepend_to_PATH "${HOME}/.local/bin"

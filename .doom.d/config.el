@@ -27,11 +27,12 @@
 (setq doom-font (font-spec :family "Fira Code Retina" :size 16))
 
 ;; Also enable liagture support (based on Fira Code support)
-(use-package! ligature
-  :config
-  (ligature-set-ligatures 't '("www"))
-  (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::" ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>" "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_" "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**" "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>" "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<=" "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*" "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+" "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<" "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
-  (global-ligature-mode 't))
+; Causes hangup when loading C files
+; (use-package! ligature
+;   :config
+;   (ligature-set-ligatures 't '("www"))
+;   (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::" ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>" "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_" "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**" "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>" "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<=" "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*" "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+" "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<" "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+;   (global-ligature-mode 't))
 
 ;; Display line numbers
 (setq display-line-numbers-type t)
@@ -42,6 +43,10 @@
 
 ;; Make projectile search all files in a project.
 (setq projectile-git-command "git-ls-all-files")
+
+(use-package! lsp
+              :config
+              (setq lsp-enable-file-watchers nil))
 
 ;; Auto-save buffers (i.e., do backups)
 (setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups")))
@@ -63,16 +68,17 @@
 ;; ???
 (add-to-list 'org-modules 'org-id)
 
+(defmacro ignore-args-and-call (fnc) "Return function that ignores its arguments and invokes fnc."
+  `(lambda (&rest _rest) (funcall ,fnc)))
+
 ;; Configure org-mode
 (after! org
   (add-hook 'org-capture-before-finalize-hook
-            (lambda ()
-              (org-set-property "Created" (format-time-string "%F"))))
-  (add-hook 'org-agenda-mode-hook
-          (lambda ()
-            (add-hook 'auto-save-hook 'org-save-all-org-buffers nil t)
-            (auto-save-mode)))
-  (advice-add 'org-agenda-quit :before 'org-save-all-org-buffers)
+            (lambda () (org-set-property "Created" (format-time-string "%F"))))
+  (advice-add 'org-agenda-quit :before (ignore-args-and-call #'org-save-all-org-buffers))
+  (advice-add 'org-agenda-schedule :after (ignore-args-and-call #'org-save-all-org-buffers))
+  (advice-add 'org-agenda-priority :after (ignore-args-and-call #'org-save-all-org-buffers))
+  (advice-add 'org-agenda-todo :after (ignore-args-and-call #'org-save-all-org-buffers))
   (setq
    org-directory "~/org/"
    org-default-notes-file "~/org/inbox.org"

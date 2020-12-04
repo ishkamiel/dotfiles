@@ -54,5 +54,7 @@
 ;; (package! org-fancy-priorities)
 ;; (package! imenu-list)
 ;; (package! xcscope)
-(package! ligature
- :recipe (:host github :repo "mickeynp/ligature.el"))
+; Causes hangup when loading C files
+; (package! ligature
+;           :recipe (:host github :repo "mickeynp/ligature.el"))
+
