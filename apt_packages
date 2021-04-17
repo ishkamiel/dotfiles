@@ -7,7 +7,6 @@ clang
 cmake
 curl
 editorconfig
-emacs
 exuberant-ctags
 fd-find
 fzf
@@ -51,6 +50,4 @@ xdotool
 zathura
 [gnome]
 gnome-tweak-tool
-thunderbird
-thunderbird-gnome-support
 
