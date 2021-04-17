@@ -32,6 +32,7 @@
     ~/.local/share/icons/standard-notes.png: .local/share/icons/standard-notes.png
     ~/.local/share/icons/vbox-windows.png: .local/share/icons/vbox-windows.png
     ~/.local/share/icons/whatsapp.png: .local/share/icons/whatsapp.png
+    ~/.p10k.zsh: .p10k.zsh
     ~/.pam_environment: .pam_environment
     ~/.perltidyrc: .perltidyrc
     ~/.profile: .profile
