@@ -7,7 +7,7 @@ export DEFAULT_USER=ishkamiel
 export ZSH="${HOME}/.oh-my-zsh"
 
 # Set name of the theme to load.
-ZSH_THEME="agnoster"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Uncomment the following line to use case-sensitive completion.
 CASE_SENSITIVE="true"
@@ -95,3 +95,5 @@ compinit
     export PATH="${HOME}/.rvm/bin:${PATH}"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 
 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
