@@ -3,3 +3,4 @@
 **/Thumbs.db
 **/Thumbs.db:encryptable
 cmake-build-debug
+/.ccls-cache
