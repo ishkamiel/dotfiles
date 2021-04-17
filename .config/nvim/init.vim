@@ -47,19 +47,19 @@ endif
 Plug 'zchee/deoplete-clang'
 
 " Snippets
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
 
 " writing stuff
-Plug 'reedes/vim-pencil'
-Plug 'reedes/vim-wordy'
-Plug 'reedes/vim-litecorrect'
-Plug 'junegunn/limelight.vim'
-Plug 'junegunn/goyo.vim'
+" Plug 'reedes/vim-pencil'
+" Plug 'reedes/vim-wordy'
+" Plug 'reedes/vim-litecorrect'
+" Plug 'junegunn/limelight.vim'
+" Plug 'junegunn/goyo.vim'
 
 " Git stuff
-Plug 'tpope/vim-fugitive'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'tpope/vim-fugitive'
+" Plug 'Xuyuanp/nerdtree-git-plugin'
 if has('nvim') || has('patch-8.0.902')
     Plug 'mhinz/vim-signify'
 else
