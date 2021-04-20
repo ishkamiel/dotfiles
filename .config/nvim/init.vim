@@ -9,10 +9,10 @@ call plug#begin()
 Plug 'bling/vim-airline'
 
 " File explorer (NERDTree)
-Plug 'scrooloose/NERDTree'
+" Plug 'scrooloose/NERDTree'
 
 " Tagbar
-Plug 'majutsushi/tagbar'
+" Plug 'majutsushi/tagbar'
 
 " Utilities
 Plug 'tpope/vim-commentary'
@@ -61,9 +61,9 @@ Plug 'zchee/deoplete-clang'
 " Plug 'tpope/vim-fugitive'
 " Plug 'Xuyuanp/nerdtree-git-plugin'
 if has('nvim') || has('patch-8.0.902')
-    Plug 'mhinz/vim-signify'
+    " Plug 'mhinz/vim-signify'
 else
-    Plug 'mhinz/vim-signify', { 'branch': 'legacy' }
+    " Plug 'mhinz/vim-signify', { 'branch': 'legacy' }
 endif
 
 " Syntax checking
@@ -116,14 +116,6 @@ set clipboard=unnamed           " Yanks stuff directly to clipboard
 set cinoptions=:0               " Make switch & case have same indention
 set number
 set nocscopeverbose             " prevent addedd cscope database message
-
-if has('win32') || has('win64')
-    set backupdir=~/vimbackup
-    set directory=~/vimbackup
-else
-    set backupdir=~/tmp/vimbackup,.,~
-    set directory=~/tmp/vimbackup,.,~
-endif
 
 " Disable spellchecks in comments
 let g:tex_comment_nospell=1
