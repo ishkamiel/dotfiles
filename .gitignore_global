@@ -1,7 +1,12 @@
 # LibreOffice temp files
 **/.~*#
+# Windows crap
 **/Thumbs.db
 **/Thumbs.db:encryptable
+# IDE stuff
 cmake-build-debug
 /.ccls-cache
 /vscode-build
+# Windows stuff
+**/~$*
+
