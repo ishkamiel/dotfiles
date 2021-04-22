@@ -40,11 +40,8 @@ export IBUS_ENABLE_SYNC_MODE=1
 if [ -e "/dev/shm" ]; then
     dir="/dev/shm/${USER}-tmp"
     hdir="${HOME}/tmp"
-
-    [ -e "$dir" ] || mkdir "$dir"
+    [ -e "$dir" ]  || mkdir "$dir"
     [ -e "$hdir" ] || ln -s "$dir" "$hdir"
-    [ -e "$dir/Downloads" ] || mkdir "$dir/Downloads"
-    [ -e "$dir/vimbackup" ] || mkdir "$dir/vimbackup"
 fi
 
 # shellcheck disable=SC1090
@@ -53,3 +50,4 @@ fi
 # Load .Xresources if we have xrdb and it exists
 command -v xrdb &> /dev/null && \
     [ -e "${HOME}/.Xresources" ] && xrdb -merge "${HOME}/.Xresources"
+
