@@ -11,10 +11,11 @@ local utils = {}
 
 do
   local do_debug = true
-  -- local a_test_widths = true
+  local a_test_widths = false
   local a_wid = ''
   local a_sym
   local extra_replace = {}
+  local font_name = 'Fira Code'
 
   -- from: https://stackoverflow.com/a/26071044
   --
@@ -36,7 +37,7 @@ do
     return table.concat(charbytes)
   end
 
-  local add_sym = function(name, unicode, offset)
+  local function add_sym(name, unicode, offset)
     -- toerr(name)
     a_sym[name] = string.format(
       '${voffset 3}${font forkawesome:style=Regular:size=10}%s${font}${offset %d}${voffset -3}',
@@ -46,7 +47,7 @@ do
     end
   end
 
-  local generate_symbols = function()
+  local function generate_symbols()
     a_sym = {}
     a_wid = ""
 
@@ -91,8 +92,8 @@ do
     end
   end
 
-  function dprint(s, ...)
-    if do_debug then io.stderr:write(string.format(s, unpack(arg))) end
+  function utils.dprint(s, ...)
+    if do_debug then io.stderr:write(string.format(s, ...)) end
   end
 
   -- from: http://lua-users.org/wiki/RangeIterator
@@ -125,8 +126,7 @@ do
   function utils.replace(text, other_subs, ...)
     if not a_sym then generate_symbols() end
 
-    local v = unpack(arg)
-    if v then text = string.format(text, unpack(arg)) end
+    if ... then text = string.format(text, ...) end
 
     for name, value in pairs(a_sym) do
       text = string.gsub(text, string.format('##%s##', name), value)
@@ -172,7 +172,7 @@ do
   end
 
   utils.printf = function(f, ...)
-    print(string.format(f, unpack(arg)))
+    print(string.format(f, ...))
   end
 
   utils.assert = function(a, f, ...)
@@ -187,7 +187,7 @@ do
         end
       end
       print(debug.traceback())
-      error(string.format(f, unpack(values)))
+      error(string.format(f, table.unpack(values)))
     end
     return a
   end

@@ -1,4 +1,4 @@
-#! /usr/bin/env lua
+#! /usr/bin/env lua -m
 -- vim: ft=lua sw=2 ts=2
 --
 -- conky_git.lua
@@ -18,10 +18,10 @@ do
 
   local get_cache = function(path, entry)
     if not cache[path] then cache[path] = {} end
-    p = cache[path]
+    local p = cache[path]
 
     if not p[entry] then p[entry] = { counter = 0 } end
-    e = p[entry]
+    local e = p[entry]
 
     if e.counter > cache_limit then
       e = { counter = 0 }
