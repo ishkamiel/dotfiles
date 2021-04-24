@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        // Lua
+        "satoren.lualint", 
+        "sumneko.lua", 
+        // Shell 
+        "foxundermoon.shell-format", 
+        "timonwong.shellcheck"
+    ]
+  }
+  
