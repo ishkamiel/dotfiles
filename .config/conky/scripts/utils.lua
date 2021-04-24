@@ -15,7 +15,6 @@ do
   local a_wid = ''
   local a_sym
   local extra_replace = {}
-  local font_name = 'Fira Code'
 
   -- from: https://stackoverflow.com/a/26071044
   --

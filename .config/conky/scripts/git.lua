@@ -78,7 +78,6 @@ git status -sb | grep '\[ahead' > /dev/null]]
 
   function git.has_untracked_files(path)
     assert(path)
-    -- return 0 == run_cmd(cmd_has_untracked_files, path)
     return run_cmd(cmd_has_untracked_files, path)
   end
 
@@ -91,7 +90,6 @@ git status -sb | grep '\[ahead' > /dev/null]]
 
   function git.is_ahead(path)
     assert(path)
-    -- return 0 == run_cmd(cmd_is_ahead, path)
     return run_cmd(cmd_is_ahead, path)
   end
 
