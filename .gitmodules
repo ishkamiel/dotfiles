@@ -4,3 +4,6 @@
 [submodule "oh-my-zsh/themes/powerlevel10k"]
 	path = oh-my-zsh/themes/powerlevel10k
 	url = https://github.com/romkatv/powerlevel10k.git
+[submodule "ishlib"]
+	path = ishlib
+	url = git@github.com:ishkamiel/ishlib.git
