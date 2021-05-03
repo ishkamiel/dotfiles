@@ -190,11 +190,11 @@ function! Prose()
 endfunction
 
 " automatically initialize buffer by file type
-augroup filetype_prose
-    au!
-    au FileType tex,markdown,mkd,text call Prose()
-    " au Filetype tex autocmd BufWritePost <buffer> silent make
-augroup END
+" augroup filetype_prose
+"     au!
+"     au FileType tex,markdown,mkd,text call Prose()
+"     " au Filetype tex autocmd BufWritePost <buffer> silent make
+" augroup END
 
 augroup filetype_bib
     au!
