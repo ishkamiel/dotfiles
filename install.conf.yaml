@@ -41,6 +41,7 @@
     ~/.xinitrc: .xinitrc
     ~/.Xresources: .Xresources
     ~/.zshrc: .zshrc
+    ~/vscode-workspaces: vscode-workspaces
 - shell:
   -
     command: scripts/desktopSettings.sh
