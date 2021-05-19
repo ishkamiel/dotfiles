@@ -1,0 +1,9 @@
+{
+	"folders": [
+		{
+			"uri": "vscode-remote://ssh-remote+dangreal/home/ishkamiel/papers/mte"
+		}
+	],
+	"remoteAuthority": "ssh-remote+dangreal",
+	"settings": {}
+}
