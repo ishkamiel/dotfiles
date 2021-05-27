@@ -45,10 +45,6 @@
     ~/vscode-workspaces: vscode-workspaces
 - shell:
   -
-    command: scripts/desktopSettings.sh
-    stdin: true
-    stdout: true
-  -
     command: scripts/install-vim_stuff.sh
     stdin: true
     stdout: true
@@ -56,19 +52,20 @@
     command: scripts/install-OhMyZsh.sh
     stdin: true
     stdout: true
-  # -
-  #   command: scripts/keybindings_apply.sh
-  #   stdin: false
-  #   stdout: false
   -
-    command: scripts/checkLocalDotfiles.sh
+    command: scripts/linux-settings.sh
+    stdin: true
+    stdout: true
+  -
+    command: scripts/linux-keybindings.sh
+    stdin: false
+    stdout: false
+  -
+    command: scripts/linux-apt_packages.sh
     stdin: false
     stdout: true
   # -
   #   command: scripts/gnome-shell-extensions.sh
   #   stdin: false
   #   stdout: true
-  -
-    command: scripts/apt_packages.sh
-    stdin: false
-    stdout: true
+

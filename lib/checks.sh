@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /usr/bin/env bash
 #
 # Author: Hans Liljestrand <liljestrandh@gmail.com>
 # Copyright (C) 2018 Hans Liljestrand <liljestrandh@gmail.com>

@@ -1,6 +1,19 @@
-#!/usr/bin/env bash
+#! /usr/bin/env bash
+#
+# Author: Hans Liljestrand <liljestrandh@gmail.com>
+# Copyright (C) 2018 Hans Liljestrand <liljestrandh@gmail.com>
+#
+# Distributed under terms of the MIT license.
+#
+################################################################
+#
+# Apply some settings for Linux desktop stuff (on Gnome).
+#
 
-[[ -z "${LIB_CHECKS_SH}" ]] && source "${DOTFILES}/lib/checks.sh"
+set -e
+
+# shellcheck source=../lib/checks.sh
+. "${DOTFILES}/lib/checks.sh"
 
 if command -v gsettings >/dev/null 2>&1 && command -v dconf >/dev/null 2>&1
 then
