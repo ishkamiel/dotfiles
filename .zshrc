@@ -47,6 +47,9 @@ HIST_STAMPS="yyyy-mm-dd"
 # Would you like to use another custom folder than $ZSH/custom?
 ZSH_CUSTOM="${HOME}/.dotfiles/oh-my-zsh"
 
+# Workaround for fzf installed on macOS using MacPorts
+[[ -e /opt/local/share/fzf ]] && export FZF_BASE=/opt/local/share/fzf
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to "${ZSH_CUSTOM}/plugins"
 plugins=(
