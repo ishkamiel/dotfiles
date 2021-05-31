@@ -38,6 +38,7 @@
     ~/.perltidyrc: .perltidyrc
     ~/.profile: .profile
     ~/.spacemacs: .spacemacs
+    ~/.tmux.conf: .tmux.conf
     ~/.xinitrc: .xinitrc
     ~/.Xresources: .Xresources
     ~/.zshrc: .zshrc
