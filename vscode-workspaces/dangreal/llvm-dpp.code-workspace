@@ -35,7 +35,8 @@
 			"-DLLVM_OPTIMIZED_TABLEGEN:BOOL=On",
 			"-DCMAKE_CXX_STANDARD:STRING=17",
 			"-DBUILD_SHARED_LIBS:BOOL=Off",
-			"-DLLVM_BUILD_TOOLS:BOOL=Off"
+			"-DLLVM_BUILD_TOOLS:BOOL=Off",
+			"-DLLVM_PARALLEL_LINK_JOBS:STRING=4"
 		],
 		"cmake.buildDirectory": "${env:HOME}/d/llvm/build/dpp",
 		"C_Cpp.default.cppStandard": "c++17",
