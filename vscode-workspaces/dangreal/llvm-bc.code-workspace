@@ -1,0 +1,40 @@
+{
+	"folders": [
+		{
+			"path": "../d/llvm/llvm"
+		}
+	],
+	"settings": {
+		"workbench.colorCustomizations": {
+			"activityBar.activeBackground": "#acecfd",
+			"activityBar.activeBorder": "#fb63db",
+			"activityBar.background": "#acecfd",
+			"activityBar.foreground": "#15202b",
+			"activityBar.inactiveForeground": "#15202b99",
+			"activityBarBadge.background": "#fb63db",
+			"activityBarBadge.foreground": "#15202b",
+			"statusBar.background": "#7ae0fc",
+			"statusBar.foreground": "#15202b",
+			"statusBarItem.hoverBackground": "#48d4fb",
+			"titleBar.activeBackground": "#7ae0fc",
+			"titleBar.activeForeground": "#15202b",
+			"titleBar.inactiveBackground": "#7ae0fc99",
+			"titleBar.inactiveForeground": "#15202b99"
+		},
+		"cmake.configureArgs": [
+			"-DCMAKE_INSTALL_PREFIX:FILEPATH=${env:HOME}/opt/llvm/bc",
+			"-DLLVM_TARGETS_TO_BUILD:STRING=X86",
+			"-DLLVM_ENABLE_PROJECTS:STRING=clang",
+			"-DLLVM_CCACHE_BUILD:BOOL=On",
+			"-DLLVM_OPTIMIZED_TABLEGEN:BOOL=On",
+			"-DCMAKE_CXX_STANDARD:STRING=14",
+			"-DBUILD_SHARED_LIBS:BOOL=Off",
+			"-DLLVM_BUILD_TOOLS:BOOL=Off",
+			"-DLLVM_PARALLEL_LINK_JOBS:STRING=4"
+		],
+		"C_Cpp.default.cppStandard": "c++14",
+		"C_Cpp.default.cStandard": "c11",
+		"cmake.buildDirectory": "${env:HOME}/d/llvm/build/bc",
+		"peacock.color": "#7ae0fc"
+	}
+}
