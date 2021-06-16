@@ -1,7 +1,7 @@
 {
 	"folders": [
 		{
-			"path": "../d/llvm/llvm"
+			"path": "/home/ishkamiel/d/llvm/llvm"
 		}
 	],
 	"settings": {
@@ -36,6 +36,9 @@
 		"C_Cpp.default.cppStandard": "c++14",
 		"C_Cpp.default.cStandard": "c11",
 		"cmake.buildDirectory": "${env:HOME}/d/llvm/build/mte",
-		"peacock.color": "#7ae0fc"
+		"peacock.color": "#7ae0fc",
+		"cSpell.words": [
+			"MTSSA"
+		]
 	}
 }
