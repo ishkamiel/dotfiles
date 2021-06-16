@@ -1,0 +1,31 @@
+{
+	"folders": [
+		{
+			"uri": "vscode-remote://ssh-remote+dangreal/home/ishkamiel/d/llvm/llvm"
+		}
+	],
+	"remoteAuthority": "ssh-remote+dangreal",
+	"settings": {
+		"peacock.color": "#007fff",
+		"cmake.configureArgs": [
+			"-DCMAKE_INSTALL_PREFIX:FILEPATH=${env:HOME}/opt/llvm/mte",
+			"-DLLVM_TARGETS_TO_BUILD:STRING=AArch64",
+			"-DLLVM_ENABLE_PROJECTS:STRING=clang",
+			"-DLLVM_CCACHE_BUILD:BOOL=On",
+			"-DLLVM_OPTIMIZED_TABLEGEN:BOOL=On",
+			"-DCMAKE_CXX_STANDARD:STRING=14",
+			"-DBUILD_SHARED_LIBS:BOOL=Off",
+			"-DLLVM_BUILD_TOOLS:BOOL=Off",
+			"-DLLVM_PARALLEL_LINK_JOBS:STRING=6",
+			"-DLLVM_DEFAULT_TARGET_TRIPLE:STRING=aarch64-unknown-linux-gnu"
+		],
+		"C_Cpp.default.cppStandard": "c++14",
+		"C_Cpp.default.cStandard": "c11",
+		"cmake.buildDirectory": "${env:HOME}/d/llvm/build/mte",
+		"peacock.color": "#7ae0fc",
+		"cmake.statusbar.visibility": "compact",
+		"cSpell.words": [
+			"MTSSA"
+		]
+	}
+}
