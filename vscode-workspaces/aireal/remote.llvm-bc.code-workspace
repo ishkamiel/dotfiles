@@ -1,0 +1,26 @@
+{
+	"folders": [
+		{
+			"uri": "vscode-remote://ssh-remote+dangreal/home/ishkamiel/d/llvm/llvm"
+		}
+	],
+	"remoteAuthority": "ssh-remote+dangreal",
+	"settings": {
+		"peacock.color": "#007fff",
+		"cmake.configureArgs": [
+			"-DCMAKE_INSTALL_PREFIX:FILEPATH=${env:HOME}/opt/llvm/bc",
+			"-DLLVM_TARGETS_TO_BUILD:STRING=X86",
+			"-DLLVM_ENABLE_PROJECTS:STRING=clang",
+			"-DLLVM_CCACHE_BUILD:BOOL=On",
+			"-DLLVM_OPTIMIZED_TABLEGEN:BOOL=On",
+			"-DCMAKE_CXX_STANDARD:STRING=14",
+			"-DBUILD_SHARED_LIBS:BOOL=Off",
+			"-DLLVM_BUILD_TOOLS:BOOL=Off",
+			"-DLLVM_PARALLEL_LINK_JOBS:STRING=6"
+		],
+		"cmake.buildDirectory": "${env:HOME}/d/llvm/build/bc",
+		"C_Cpp.default.cppStandard": "c++13",
+		"C_Cpp.default.cStandard": "c11",
+		"cmake.statusbar.visibility": "compact",
+	}
+}

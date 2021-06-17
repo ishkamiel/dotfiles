@@ -3,3 +3,4 @@ perldots.json
 .dotfiles.bash_it_installed
 *.swp
 .keybindings.md5
+**/.DS_Store
