@@ -285,6 +285,10 @@ call SetLibClangPath('/usr/lib/llvm-6.0/lib/libclang.so')
 call SetLibClangPath('/usr/lib/llvm-7/lib/libclang.so.1')
 call SetLibClangPath('/usr/lib/llvm-8/lib/libclang.so.1')
 call SetLibClangPath('/usr/lib/llvm-9/lib/libclang.so.1')
+call SetLibClangPath('/usr/lib/llvm-10/lib/libclang.so.1')
+call SetLibClangPath('/usr/lib/llvm-11/lib/libclang.so.1')
+call SetLibClangPath('/usr/lib/llvm-12/lib/libclang.so.1')
+call SetLibClangPath('/usr/lib/llvm-13/lib/libclang.so.1')
 
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
