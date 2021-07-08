@@ -48,6 +48,5 @@ fi
 [ -e "${HOME}/.profile_local" ] && . "${HOME}/.profile_local"
 
 # Load .Xresources if we have xrdb and it exists
-command -v xrdb &> /dev/null && \
+command -v xrdb >/dev/null 2>&1 && \
     [ -e "${HOME}/.Xresources" ] && xrdb -merge "${HOME}/.Xresources"
-
