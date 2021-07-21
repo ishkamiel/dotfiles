@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"uri": "vscode-remote://ssh-remote+dangreal/home/ishkamiel/d/mte-misc/llvm-test"
+		}
+	],
+	"remoteAuthority": "ssh-remote+dangreal",
+	"settings": {
+		"makefile.extensionOutputFolder": "./.vscode",
+		"shellcheck.customArgs": [
+			"-x"
+		]
+	}
+}

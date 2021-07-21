@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"uri": "vscode-remote://ssh-remote+dangreal/home/ishkamiel/d/pa-datastructures-standalone"
+		}
+	],
+	"remoteAuthority": "ssh-remote+dangreal",
+	"settings": {
+		"C_Cpp.default.cppStandard": "c++14",
+		"C_Cpp.default.cStandard": "c11",
+		"cmake.buildDirectory": "${env:HOME}/d/pa-datastructures-standalone/build",
+		"cmake.statusbar.visibility": "compact",
+	}
+}
