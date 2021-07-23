@@ -43,6 +43,9 @@
     ~/.Xresources: .Xresources
     ~/.zshrc: .zshrc
     ~/opt/cmake_toolchains: cmake_toolchains
+    ~/d/llvm/build/configure_mte-release.sh: llvm_build_configs/configure_mte-release.sh
+    ~/d/llvm/build/configure_mte-san-memory.sh: llvm_build_configs/configure_mte-san-memory.sh
+    ~/d/llvm/build/configure_mte-san-address+undefined.sh: llvm_build_configs/configure_mte-san-address+undefined.sh
 - shell:
   -
     command: scripts/install-vim_stuff.sh
