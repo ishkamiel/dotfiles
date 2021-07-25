@@ -8,12 +8,6 @@ call plug#begin()
 " Status / tool line
 Plug 'bling/vim-airline'
 
-" File explorer (NERDTree)
-" Plug 'scrooloose/NERDTree'
-
-" Tagbar
-" Plug 'majutsushi/tagbar'
-
 " Utilities
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
@@ -31,43 +25,21 @@ let g:polyglot_disabled = ['latex']
 Plug 'tpope/vim-liquid'                                   " Liquid / Jekyll
 Plug 'lervag/vimtex', { 'for': 'tex' }                    " LaTeX
 Plug 'aklt/plantuml-syntax'                               " plantuml
-Plug 'rodjek/vim-puppet'                                  " puppet
-Plug 'singularityware/singularity.lang', {'rtp': 'vim/'}  " Singularity
 
-Plug 'chazy/cscope_maps'
-
+" FIXME: Crashes on MacOS using ports
 " Autocompletion - deoplete.nvim
-if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-    Plug 'Shougo/deoplete.nvim'
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-endif
-Plug 'zchee/deoplete-clang'
+" if has('nvim')
+"     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" else
+"     Plug 'Shougo/deoplete.nvim'
+"     Plug 'roxma/nvim-yarp'
+"     Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+" Plug 'zchee/deoplete-clang'
 
-" Snippets
-" Plug 'SirVer/ultisnips'
-" Plug 'honza/vim-snippets'
-
-" writing stuff
-" Plug 'reedes/vim-pencil'
-" Plug 'reedes/vim-wordy'
-" Plug 'reedes/vim-litecorrect'
-" Plug 'junegunn/limelight.vim'
-" Plug 'junegunn/goyo.vim'
-
-" Git stuff
-" Plug 'tpope/vim-fugitive'
-" Plug 'Xuyuanp/nerdtree-git-plugin'
-if has('nvim') || has('patch-8.0.902')
-    " Plug 'mhinz/vim-signify'
-else
-    " Plug 'mhinz/vim-signify', { 'branch': 'legacy' }
-endif
-
+" FIXME: Crashes on MacOS using ports
 " Syntax checking
-Plug 'dense-analysis/ale'
+" Plug 'dense-analysis/ale'
 
 call plug#end() " }}}
 " Basic config {{{
