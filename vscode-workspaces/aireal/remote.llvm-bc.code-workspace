@@ -2,6 +2,12 @@
 	"folders": [
 		{
 			"uri": "vscode-remote://ssh-remote+dangreal/home/ishkamiel/d/llvm/llvm"
+		},
+		{
+			"uri": "vscode-remote://ssh-remote+dangreal/home/ishkamiel/d/llvm/bc"
+		},
+		{
+			"uri": "vscode-remote://ssh-remote+dangreal/home/ishkamiel/d/llvm/clang"
 		}
 	],
 	"remoteAuthority": "ssh-remote+dangreal",
@@ -17,7 +23,8 @@
 			"-DCMAKE_CXX_STANDARD:STRING=14",
 			"-DBUILD_SHARED_LIBS:BOOL=On",
 			"-DLLVM_BUILD_TOOLS:BOOL=Off",
-			"-DLLVM_PARALLEL_LINK_JOBS:STRING="
+			"-DLLVM_PARALLEL_LINK_JOBS:STRING=",
+			"-Wno-dev"
 		],
 		"cmake.buildDirectory": "${env:HOME}/d/llvm/build/bc",
 		"C_Cpp.default.cppStandard": "c++14",

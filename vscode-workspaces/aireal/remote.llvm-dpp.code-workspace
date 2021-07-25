@@ -20,11 +20,15 @@
 			"-DLLVM_OPTIMIZED_TABLEGEN:BOOL=On",
 			"-DCMAKE_CXX_STANDARD:STRING=17",
 			"-DBUILD_SHARED_LIBS:BOOL=Off",
-			"-DLLVM_BUILD_TOOLS:BOOL=Off"
+			"-DLLVM_BUILD_TOOLS:BOOL=Off",
+			"-Wno-dev"
 		],
 		"cmake.buildDirectory": "${env:HOME}/d/llvm/build/dpp",
 		"C_Cpp.default.cppStandard": "c++17",
 		"C_Cpp.default.cStandard": "c17",
 		"cmake.statusbar.visibility": "compact",
+		"cSpell.words": [
+			"SSGI"
+		],
 	}
 }

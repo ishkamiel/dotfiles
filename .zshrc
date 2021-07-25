@@ -103,3 +103,5 @@ compinit
 
 # RISC-V toolchain and stuff here
 export RISCV="${HOME}/opt/riscv"
+
+alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
