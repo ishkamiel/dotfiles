@@ -7,7 +7,10 @@
 
 set -e
 
-test -e ~/.oh-my-zsh
+if [[ -e ~/.oh-my-zsh ]]; then
+	echo "~/.oh-my-zsh exsits, skipping clone"
+	exit 0;
+fi
 
 git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
 
