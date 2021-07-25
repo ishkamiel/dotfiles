@@ -8,7 +8,6 @@
 set -e
 
 if [[ -e ~/.oh-my-zsh ]]; then
-	echo "~/.oh-my-zsh exsits, skipping clone"
 	exit 0;
 fi
 

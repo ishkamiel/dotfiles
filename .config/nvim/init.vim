@@ -6,25 +6,22 @@ scriptencoding utf-8
 call plug#begin()
 
 " Status / tool line
-Plug 'bling/vim-airline'
+" Plug 'bling/vim-airline'
 
 " Utilities
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-surround'
-Plug 'aperezdc/vim-template'
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'junegunn/vim-easy-align'
 
 " Colorschemes
-Plug 'flazz/vim-colorschemes'
+" Plug 'flazz/vim-colorschemes'
 Plug 'drewtempelmeyer/palenight.vim'
 
 " file type specific stuff
-Plug 'sheerun/vim-polyglot'
-let g:polyglot_disabled = ['latex']
-Plug 'tpope/vim-liquid'                                   " Liquid / Jekyll
-Plug 'lervag/vimtex', { 'for': 'tex' }                    " LaTeX
-Plug 'aklt/plantuml-syntax'                               " plantuml
+" Plug 'sheerun/vim-polyglot'
+" let g:polyglot_disabled = ['latex']
+" Plug 'tpope/vim-liquid'                                   " Liquid / Jekyll
+" Plug 'lervag/vimtex', { 'for': 'tex' }                    " LaTeX
+" Plug 'aklt/plantuml-syntax'                               " plantuml
 
 " FIXME: Crashes on MacOS using ports
 " Autocompletion - deoplete.nvim

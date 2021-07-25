@@ -7,6 +7,8 @@
 
 set -e
 
+DOTFILES=${DOTFILES:-"${HOME}/.dotfiles"}
+
 PKG_LIST_FILE=${DOTFILES}/apt_packages
 
 # shellcheck source=../lib/checks.sh
@@ -17,6 +19,7 @@ PKG_LIST_FILE=${DOTFILES}/apt_packages
 # debug_enable
 
 NEED_INSTALL=
+pkgs_dev=
 
 do_sanity_checks() {
     if [[ ! -e ${PKG_LIST_FILE} ]]; then
@@ -34,14 +37,19 @@ find_NEED_INSTALL() {
     local skip_rest=
     local x=$(running_x)
     local gnome=$(running_gnome)
+    local section=
 
     while IFS= read -r pkg
     do
         # Ignore empty lines
         if [ -n "${pkg}" ]; then
-            if [[ "${pkg}" == "[x]" ]]; then
+            if [[ "${pkg}" == "[dev]" ]]; then
+                section=dev
+            elif [[ "${pkg}" == "[x]" ]]; then
+                section=x
                 ! running_x && skip_rest=1
             elif [[ "${pkg}" == "[gnome]" ]]; then
+                section=gnome
                 ! running_gnome && skip_rest=1
             elif [ -z "${skip_rest}" ]; then
                 d_print "apt_packages.sh:${FUNCNAME[0]}: checking ${pkg}"
@@ -49,7 +57,11 @@ find_NEED_INSTALL() {
                     d_print "apt_packages.sh:${FUNCNAME[0]}: ${pkg} is installed"
                 else
                     d_print "apt_packages.sh:${FUNCNAME[0]}: ${pkg} is NOT installed"
-                    NEED_INSTALL="${NEED_INSTALL} ${pkg}"
+                    if [[ "$section" == "dev" ]]; then
+                        pkgs_dev="${pkgs_dev} ${pkg}"
+                    else
+                        NEED_INSTALL="${NEED_INSTALL} ${pkg}"
+                    fi
                 fi
             else
                 d_print "apt_packages.sh:${FUNCNAME[0]}: skipping ${pkg}"
@@ -61,8 +73,8 @@ find_NEED_INSTALL() {
 do_sanity_checks
 find_NEED_INSTALL
 
-if [ -n "${NEED_INSTALL}" ]; then
-    echo -e "Needed packages:\n${NEED_INSTALL}"
-    exit 1
-fi
+[[ -n "${NEED_INSTALL}" ]] && echo -e "Needed packages:\n${NEED_INSTALL}"
+[[ -n "${pkgs_dev}" ]]     && echo -e "Optional dev packages:\n${pkgs_dev}"
+
+[[ -n "${NEED_INSTALL}" ]] && exit 1
 exit 0
