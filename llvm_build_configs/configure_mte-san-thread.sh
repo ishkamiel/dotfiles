@@ -7,7 +7,7 @@
 
 shared_libs=On
 build_type=Debug
-sanitizers=Address;Undefined
+sanitizers=Thread
 
 cmake -G Ninja \
     "-DCMAKE_BUILD_TYPE:STRING=${build_type}" \

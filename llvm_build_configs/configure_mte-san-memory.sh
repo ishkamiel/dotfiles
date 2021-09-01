@@ -5,7 +5,7 @@
 #
 # Distributed under terms of the MIT license.
 
-shared_libs=On
+shared_libs=Off
 build_type=Debug
 sanitizers=Memory
 
