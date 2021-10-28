@@ -5,6 +5,9 @@
 		},
 		{
 			"uri": "vscode-remote://ssh-remote+dangreal/home/ishkamiel/d/SVF"
+		},
+		{
+			"uri": "vscode-remote://ssh-remote+dangreal/home/ishkamiel/d/llvm/dpp"
 		}
 	],
 	"remoteAuthority": "ssh-remote+dangreal",

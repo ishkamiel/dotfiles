@@ -9,6 +9,9 @@
 		"makefile.extensionOutputFolder": "./.vscode",
 		"shellcheck.customArgs": [
 			"-x"
+		],
+		"cSpell.words": [
+			"allocas"
 		]
 	}
 }

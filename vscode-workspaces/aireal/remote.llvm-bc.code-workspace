@@ -30,5 +30,16 @@
 		"C_Cpp.default.cppStandard": "c++14",
 		"C_Cpp.default.cStandard": "c11",
 		"cmake.statusbar.visibility": "compact",
+		"files.associations": {
+			"array": "cpp",
+			"*.tcc": "cpp",
+			"memory": "cpp",
+			"future": "cpp",
+			"istream": "cpp",
+			"ranges": "cpp",
+			"functional": "cpp",
+			"tuple": "cpp",
+			"utility": "cpp"
+		},
 	}
 }
