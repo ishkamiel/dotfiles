@@ -7,11 +7,13 @@
 
 set -e
 
-if [[ -e ~/.oh-my-zsh ]]; then
+INSTALL_DIR="${DOTFILES}/.oh-my-zsh"
+
+if [[ -e "${INSTALL_DIR}" ]]; then
 	exit 0;
 fi
 
-git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
+git clone https://github.com/ohmyzsh/ohmyzsh.git "${INSTALL_DIR}"
 
 echo 'Change default shell to zsh with:'
 #shellcheck disable=SC2016

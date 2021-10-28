@@ -4,3 +4,4 @@ perldots.json
 *.swp
 .keybindings.md5
 **/.DS_Store
+.oh-my-zsh
