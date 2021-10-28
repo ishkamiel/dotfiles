@@ -3,6 +3,9 @@
 
 export DEFAULT_USER=ishkamiel
 
+# Load some local overrides, if they exist
+[[ -e "$HOME/.zshrc_local" ]] && source "$HOME/.zshrc_local"
+
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.dotfiles/.oh-my-zsh"
 
@@ -90,7 +93,6 @@ export GOPATH="${HOME}/go"
 fpath=($fpath /usr/share/zsh/vendor-completions)
 compinit
 
-[[ -e "$HOME/.zshrc_local" ]] && source "$HOME/.zshrc_local"
 
 [[ ":$PATH:" != *":$HOME/.cargo/bin:"* && -e "${HOME}/.cargo/bin" ]] && \
     export PATH="$HOME/.cargo/bin:$PATH"
