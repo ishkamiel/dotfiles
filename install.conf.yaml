@@ -53,7 +53,7 @@
     stdin: true
     stdout: true
   -
-    command: scripts/install-OhMyZsh.sh
+    command: scripts/oh-my-zsh.sh
     stdin: true
     stdout: true
   -
