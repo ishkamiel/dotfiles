@@ -39,6 +39,7 @@
     ~/.profile: .profile
     ~/.spacemacs: .spacemacs
     ~/.tmux.conf: .tmux.conf
+    ~/.vimrc: .vimrc
     ~/.xinitrc: .xinitrc
     ~/.Xresources: .Xresources
     ~/.zshrc: .zshrc

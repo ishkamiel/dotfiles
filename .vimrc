@@ -15,9 +15,6 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'drewtempelmeyer/palenight.vim' " Colroscheme
-Plug 'sheerun/vim-polyglot'          " filetype support
-Plug 'tpope/vim-liquid'              " Jekyll liquied filetype
-Plug 'chazy/cscope_maps'
 Plug 'w0rp/ale'                      " Syntax checking
 
 call plug#end() " }}}
@@ -86,17 +83,8 @@ colorscheme palenight
 " Italics for my favorite color scheme
 let g:palenight_terminal_italics=1
 
-"For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-"Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-" < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-if (has("termguicolors"))
-  set termguicolors
-endif
-
 " Show indention on screen
 set list listchars=tab:┆\ ,trail:·,extends:»,precedes:«,nbsp:×
-
-" highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=237 gui=NONE guifg=DarkGrey guibg=NONE
 
 " <cpace> - Toggle folds
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
@@ -162,20 +150,6 @@ highlight ExtraWhitespace ctermbg=black
 " Plugin: local_vimrc {{{
 
 let g:local_vimrc = ['.vimrc_local.vim', '_vimrc_local.vim']
-
-" }}}
-" GVim config {{{
-
-" Some gvim options
-set guioptions-=m  "remove menu bar
-set guioptions-=T  "remove toolbar
-set guioptions-=r  "remove right-hand scroll bar
-set guioptions-=L  "remove left-hand scroll bar
-set guifont=Hack
-
-if has('gui_running')
-	set lines=50 columns=160
-endif
 
 " }}}
 " FileType config {{{
