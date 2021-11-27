@@ -5,20 +5,21 @@
 #
 # Distributed under terms of the MIT license.
 
+[[ ${LIB_DEBUG_SH} == 1 ]] && return 0
 LIB_DEBUG_SH=1
 
 d_print() {
     if [[ -n "${DEBUG}" ]]; then
-        >&2 echo $@
+        >&2 echo "$@"
     fi
     return 0
 }
 
 say() {
     # local red='\033[0;31m'
-    local blue='\033[0;34m'
-    local nc='\033[0m'
-    echo "${blue}$@${nc}"
+    # local blue='\033[0;34m'
+    # local nc='\033[0m'
+    >&2 echo "$@"
     return 0
 }
 

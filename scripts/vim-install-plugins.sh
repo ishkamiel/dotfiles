@@ -17,11 +17,22 @@ set -e
 # shellcheck source=../lib/debug.sh
 . "${DOTFILES}/lib/debug.sh"
 
+FN_VIM="${HOME}/.vim/autoload/plug.vim"
 FN_NEOVIM="${HOME}/.config/nvim/autoload/plug.vim"
 URL_PLUG="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 
 # Install vim-plug for neovim if it's installed
 ###############################################
+
+if command -v vim >/dev/null 2>&1; then
+	if [[ ! -e ${FN_VIM} ]]; then
+		# If needed, just copy vim-plug into neovim from vim
+		mkdir -p "$(dirname "${FN_VIM}")"
+		downloadFile "${URL_PLUG}" "${FN_VIM}"
+	fi
+	d_print "Trying to launch vim to run PlugInstall"
+	[[ -e ${FN_VIM} ]] && vim +PlugInstall +qall
+fi
 
 if command -v nvim >/dev/null 2>&1
 then

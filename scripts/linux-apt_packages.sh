@@ -6,17 +6,18 @@
 # Distributed under terms of the MIT license.
 
 set -e
-
 DOTFILES=${DOTFILES:-"${HOME}/.dotfiles"}
-
-PKG_LIST_FILE=${DOTFILES}/apt_packages
-
 # shellcheck source=../lib/checks.sh
 . "${DOTFILES}/lib/checks.sh"
 # shellcheck source=../lib/debug.sh
 . "${DOTFILES}/lib/debug.sh"
 
-# debug_enable
+PKG_LIST_FILE=${DOTFILES}/apt_packages
+
+if ! running_ubuntu; then
+    say "skipped, not on ubuntu\n"
+    exit 0
+fi
 
 NEED_INSTALL=
 pkgs_dev=

@@ -5,9 +5,17 @@
 #
 # Distributed under terms of the MIT license.
 
+[[ ${LIB_CHECKS_SH} == 1 ]] && return 0
 LIB_CHECKS_SH=1
 
-[[ -z "${LIB_DEBUG_SH}" ]] && source "${DOTFILES}/lib/debug.sh"
+# shellcheck source=debug.sh
+. "${DOTFILES}/lib/debug.sh"
+
+running_ubuntu() {
+    [[ "$(uname -a)" =~ .*Ubuntu.* ]] &&
+        return 0
+    return 1
+}
 
 running_gnome() {
     local old_val=$(shopt -p nocasematch)
