@@ -43,6 +43,7 @@
     ~/.xinitrc: .xinitrc
     ~/.Xresources: .Xresources
     ~/.zshrc: .zshrc
+    ~/.zprofile: .zprofile
 - shell:
   -
     command: scripts/vim-install-plugins.sh
