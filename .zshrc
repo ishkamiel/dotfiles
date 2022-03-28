@@ -56,6 +56,7 @@ ZSH_CUSTOM="${HOME}/.dotfiles/oh-my-zsh"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to "${ZSH_CUSTOM}/plugins"
 plugins=(
+  docker
   golang
   nvm
   rvm
