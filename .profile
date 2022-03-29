@@ -52,3 +52,5 @@ command -v xrdb >/dev/null 2>&1 && \
     [ -n "$XDG_SESSION_TYPE" ] && [ "$XDG_SESSION_TYPE" != "tty" ] &&\
     [ -e "${HOME}/.Xresources" ] && xrdb -merge "${HOME}/.Xresources"
 
+# Load cargo environment
+. "$HOME/.cargo/env"
