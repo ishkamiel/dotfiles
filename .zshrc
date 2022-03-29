@@ -104,6 +104,17 @@ compinit
     export PATH="${HOME}/.rvm/bin:${PATH}"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 
 
+if [[ -e "/opt/local/share/nvm/nvm.sh" ]]; then
+    # Load nvm from MacPorts
+    [ -z "$NVM_DIR" ] && export NVM_DIR="$HOME/.nvm"
+    source /opt/local/share/nvm/nvm.sh
+
+    # "nvm exec" and certain 3rd party scripts expect "nvm.sh" and "nvm-exec" to exist under $NVM_DIR
+    [ -e "$NVM_DIR" ] || mkdir -p "$NVM_DIR"
+    [ -e "$NVM_DIR/nvm.sh" ] || ln -s /opt/local/share/nvm/nvm.sh "$NVM_DIR/nvm.sh"
+    [ -e "$NVM_DIR/nvm-exec" ] || ln -s /opt/local/share/nvm/nvm-exec "$NVM_DIR/nvm-exec"
+fi
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
