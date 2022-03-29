@@ -59,6 +59,7 @@ plugins=(
   docker
   golang
   nvm
+  rust
   rvm
   vi-mode
   command-not-found
