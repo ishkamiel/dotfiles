@@ -24,7 +24,7 @@ __append_to_PATH() {
     esac
 }
 
-export DOTFILES=${HOME}/.dotfiles
+export DOTFILES="${HOME}/.dotfiles"
 __prepend_to_PATH "${HOME}/bin"
 __prepend_to_PATH "${HOME}/.local/bin"
 __prepend_to_PATH "$HOME/.cargo/bin"
@@ -44,7 +44,7 @@ if [ -e "/dev/shm" ]; then
     [ -e "$hdir" ] || ln -s "$dir" "$hdir"
 fi
 
-# shellcheck disable=SC1090
+# shellcheck disable=SC1090 disable=SC1091
 [ -e "${HOME}/.profile_local" ] && . "${HOME}/.profile_local"
 
 # Load .Xresources if we have xrdb and it exists
@@ -53,4 +53,6 @@ command -v xrdb >/dev/null 2>&1 && \
     [ -e "${HOME}/.Xresources" ] && xrdb -merge "${HOME}/.Xresources"
 
 # Load cargo environment
+# shellcheck disable=SC1091
 . "$HOME/.cargo/env"
+
