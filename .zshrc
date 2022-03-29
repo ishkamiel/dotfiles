@@ -104,11 +104,11 @@ compinit
     export PATH="${HOME}/.rvm/bin:${PATH}"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 
 
-if [[ -e "/opt/local/share/nvm/nvm.sh" ]]; then
-    # Load nvm from MacPorts
-    [ -z "$NVM_DIR" ] && export NVM_DIR="$HOME/.nvm"
-    source /opt/local/share/nvm/nvm.sh
 
+# Set up NVM from MacPorts, if installed
+if [[ -e "/opt/local/share/nvm/nvm.sh" ]]; then
+    # Set up nvm from MacPorts
+    [ -z "$NVM_DIR" ] && export NVM_DIR="$HOME/.nvm"
     # "nvm exec" and certain 3rd party scripts expect "nvm.sh" and "nvm-exec" to exist under $NVM_DIR
     [ -e "$NVM_DIR" ] || mkdir -p "$NVM_DIR"
     [ -e "$NVM_DIR/nvm.sh" ] || ln -s /opt/local/share/nvm/nvm.sh "$NVM_DIR/nvm.sh"
@@ -123,6 +123,10 @@ export RISCV="${HOME}/opt/riscv"
 
 alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Load NVM if we got it
+if [[ -e "$HOME/.nvm" ]]; then
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+fi
+
