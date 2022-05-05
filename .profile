@@ -54,5 +54,5 @@ command -v xrdb >/dev/null 2>&1 && \
 
 # Load cargo environment
 # shellcheck disable=SC1091
-. "$HOME/.cargo/env"
+[ -e "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
