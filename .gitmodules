@@ -6,4 +6,4 @@
 	url = https://github.com/romkatv/powerlevel10k.git
 [submodule "ishlib"]
 	path = ishlib
-	url = git@github.com:ishkamiel/ishlib.git
+  url = https://github.com/ishkamiel/ishlib.git
