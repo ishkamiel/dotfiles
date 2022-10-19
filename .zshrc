@@ -11,6 +11,7 @@ export ZSH="${HOME}/.dotfiles/.oh-my-zsh"
 
 # Set name of the theme to load.
 ZSH_THEME="powerlevel10k/powerlevel10k"
+# ZSH_THEME="agnoster"
 
 # Uncomment the following line to use case-sensitive completion.
 CASE_SENSITIVE="true"
@@ -40,7 +41,7 @@ COMPLETION_WAITING_DOTS="true"
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
 # much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
@@ -56,14 +57,14 @@ ZSH_CUSTOM="${HOME}/.dotfiles/oh-my-zsh"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to "${ZSH_CUSTOM}/plugins"
 plugins=(
-  docker
-  golang
-  nvm
-  rust
-  rvm
+  # docker
+  # golang
+  # nvm
+  # rust
+  # rvm
   vi-mode
   command-not-found
-  nvim
+  # nvim
   fzf
 )
 
@@ -79,7 +80,8 @@ alias rm="rm -i"
 alias mv="mv -i"
 
 setopt HIST_IGNORE_SPACE
-unsetopt share_history
+setopt HIST_IGNORE_DUPS
+# setopt share_history
 
 command -v nvim >/dev/null 2>&1 && alias vim="nvim"
 
