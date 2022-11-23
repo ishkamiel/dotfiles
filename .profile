@@ -52,6 +52,12 @@ command -v xrdb >/dev/null 2>&1 && \
     [ -n "$XDG_SESSION_TYPE" ] && [ "$XDG_SESSION_TYPE" != "tty" ] &&\
     [ -e "${HOME}/.Xresources" ] && xrdb -merge "${HOME}/.Xresources"
 
+command -v vi >/dev/null 2>&1 && \
+    export EDITOR=vi
+
+command -v vim >/dev/null 2>&1 && \
+    export EDITOR=vim
+
 # Load cargo environment
 # shellcheck disable=SC1091
 [ -e "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
