@@ -4,6 +4,7 @@
 export DEFAULT_USER=ishkamiel
 
 # Load some local overrides, if they exist
+export ISH_ZSH_FULL=$(false)
 [[ -e "$HOME/.zshrc_local" ]] && source "$HOME/.zshrc_local"
 
 # Path to your oh-my-zsh installation.
@@ -41,7 +42,9 @@ COMPLETION_WAITING_DOTS="true"
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
 # much, much faster.
-DISABLE_UNTRACKED_FILES_DIRTY="true"
+if ! ${ISH_ZSH_FULL}; then
+    DISABLE_UNTRACKED_FILES_DIRTY="true"
+fi
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
