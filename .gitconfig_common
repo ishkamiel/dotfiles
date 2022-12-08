@@ -1,4 +1,4 @@
 [alias]
     lg = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(white)%s%C(reset) %C(bold green)(%ar)%C(reset) %C(cyan)<%an>%C(reset)%C(bold yellow)%d%C(reset)'
 [core]
-    excludesfile = .gitignore_global
+    excludesfile = ~/.gitignore_global
