@@ -10,7 +10,7 @@
 # Apply some settings for Linux desktop stuff (on Gnome).
 #
 
-set -e
+set -euo pipefail
 
 # shellcheck source=../lib/checks.sh
 . "${DOTFILES}/lib/checks.sh"
@@ -53,13 +53,13 @@ then
     gsettings set org.gnome.desktop.calendar show-weekdate true
 
     # Fix desktop background and right-click
-    gsettings set org.gnome.settings-daemon.plugins.background active true
+    # gsettings set org.gnome.settings-daemon.plugins.background active true
     # Disable annoying search on type thing (FIXME: no longer working?)
-    gsettings set org.gnome.nautilus.preferences enable-interactive-search false
+    # gsettings set org.gnome.nautilus.preferences enable-interactive-search false
     # Enable delete contect menu action (FIXME: no longer working?)
-    gsettings set org.gnome.nautilus.preferences enable-delete true
+    # gsettings set org.gnome.nautilus.preferences enable-delete true
     # Don't autopopup nautilus window on USB (or phone) plugins
-    gsettings set org.gnome.desktop.media-handling automount-open false
+    # gsettings set org.gnome.desktop.media-handling automount-open false
 
     # Caps lock to escape
     gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
@@ -69,8 +69,8 @@ then
     gsettings set org.gnome.mutter experimental-features "['x11-randr-fractional-scaling']"
 
     # Disable desktop icons via the Ubuntu Gnome extension
-    gsettings set org.gnome.shell.extensions.desktop-icons  show-home false
-    gsettings set org.gnome.shell.extensions.desktop-icons  show-trash false
+    # gsettings set org.gnome.shell.extensions.desktop-icons  show-home false
+    # gsettings set org.gnome.shell.extensions.desktop-icons  show-trash false
 
     # Disable app name in no-title-bar extension
     dconf write /org/gnome/shell/extensions/no-title-bar/change-appmenu false

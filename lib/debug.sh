@@ -5,11 +5,11 @@
 #
 # Distributed under terms of the MIT license.
 
-[[ ${LIB_DEBUG_SH} == 1 ]] && return 0
+[[ ${LIB_DEBUG_SH:=0} == 1 ]] && return 0
 LIB_DEBUG_SH=1
 
 d_print() {
-    if [[ -n "${DEBUG}" ]]; then
+    if [[ "${DEBUG:=0}" != 0 ]]; then
         >&2 echo "$@"
     fi
     return 0

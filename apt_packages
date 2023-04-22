@@ -41,15 +41,10 @@ shellcheck
 [x]
 fonts-fork-awesome
 fonts-firacode
-fonts-hack-otf
-fonts-hack-ttf
-fonts-hack-web
+fonts-hack
 gawk
 guake
-terminator
-thunderbird
 xdotool
-zathura
 [gnome]
-gnome-tweak-tool
+gnome-tweaks
 

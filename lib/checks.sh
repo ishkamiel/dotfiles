@@ -5,7 +5,7 @@
 #
 # Distributed under terms of the MIT license.
 
-[[ ${LIB_CHECKS_SH} == 1 ]] && return 0
+[[ ${LIB_CHECKS_SH:=0} == 1 ]] && return 0
 LIB_CHECKS_SH=1
 
 # shellcheck source=debug.sh
