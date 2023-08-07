@@ -13,7 +13,6 @@ silversearcher-ag
 zsh
 vim-nox
 wget
-[dev]
 autoconf
 automake
 build-essential
@@ -26,6 +25,7 @@ gcc
 graphviz
 ipython3
 libcriticism-perl
+libfont-ttf-perl
 libpng-dev
 libpoppler-dev
 libpoppler-glib-dev
@@ -38,13 +38,3 @@ pkg-config
 python3-pip
 python3-scipy
 shellcheck
-[x]
-fonts-fork-awesome
-fonts-firacode
-fonts-hack
-gawk
-guake
-xdotool
-[gnome]
-gnome-tweaks
-

@@ -4,6 +4,8 @@ downloadFile() {
 	local src="${1}"
 	local dst="${2}"
 
+    set -x
+
 	[[ -z $src ]] && >&2 echo "downloadFile(src, dst): missing src!"
 	[[ -z $dst ]] && >&2 echo "downloadFile(src, dst): missing dst!"
 	if [[ -z $src ]] || [[ -z $dst ]]; then return 1; fi
