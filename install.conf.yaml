@@ -46,10 +46,10 @@
     ~/.zshrc: .zshrc
     ~/.zprofile: .zprofile
 - shell:
-  -
-    command: scripts/vim-install-plugins.sh
-    stdin: true
-    stdout: true
+  # -
+  #   command: scripts/vim-install-plugins.sh
+  #   stdin: true
+  #   stdout: true
   -
     command: scripts/oh-my-zsh.sh
     stdin: true
