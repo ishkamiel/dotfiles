@@ -31,6 +31,7 @@ __prepend_to_PATH "$HOME/.cargo/bin"
 __prepend_to_PATH "$HOME/.emacs.d/bin"
 __prepend_to_PATH "${HOME}/opt/cmake/install/bin"
 __prepend_to_PATH "${HOME}/opt/nasm/install/bin"
+__prepend_to_PATH "/opt/coverity/analysis/bin"
 
 # Fix for intellj IDEs: https://youtrack.jetbrains.com/issue/IDEA-78860
 export IBUS_ENABLE_SYNC_MODE=1
