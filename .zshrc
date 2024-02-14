@@ -81,6 +81,9 @@ alias git-dc="git diff --color-words --color"
 alias cp="cp -i"
 alias rm="rm -i"
 alias mv="mv -i"
+alias makej="make -j$(nproc)"
+alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
+
 
 setopt HIST_IGNORE_SPACE
 setopt HIST_IGNORE_DUPS
@@ -125,8 +128,6 @@ fi
 
 # RISC-V toolchain and stuff here
 export RISCV="${HOME}/opt/riscv"
-
-alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
 
 # Load NVM if we got it
 if [[ -e "$HOME/.nvm" ]]; then
