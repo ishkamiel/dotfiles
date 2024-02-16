@@ -73,6 +73,13 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+_NRPROC=1
+if command -v nrproc >/dev/null 2>&1; then
+  _NRPROC=$(nrpoc)
+elif command -v sysctl >/dev/null 2>&1; then
+  _NRPROC=$(sysctl -n hw.ncpu)
+fi
+
 # User configuration
 
 #alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
@@ -81,7 +88,7 @@ alias git-dc="git diff --color-words --color"
 alias cp="cp -i"
 alias rm="rm -i"
 alias mv="mv -i"
-alias makej="make -j$(nproc)"
+alias makej="make -j${_NPROC}"
 alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
 
 
@@ -102,7 +109,6 @@ export GOPATH="${HOME}/go"
 # Make sure we load system vendor-completionns
 fpath=($fpath /usr/share/zsh/vendor-completions)
 compinit
-
 
 [[ ":$PATH:" != *":$HOME/.cargo/bin:"* && -e "${HOME}/.cargo/bin" ]] && \
     export PATH="$HOME/.cargo/bin:$PATH"

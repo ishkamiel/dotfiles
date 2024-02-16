@@ -29,6 +29,7 @@ _darcs
 ^/external
 ^/ishlib
 ^/lib
+^/oh-my-zsh
 ^/scripts
 ^/t
 ^/misc

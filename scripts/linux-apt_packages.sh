@@ -7,8 +7,6 @@
 
 readonly SCRIPT_NAME="$( basename -- "${BASH_SOURCE[0]}" )"
 
-DEBUG=1
-
 set -e
 DOTFILES=${DOTFILES:-"${HOME}/.dotfiles"}
 # shellcheck source=../lib/checks.sh
@@ -26,7 +24,7 @@ MISSING_COMMANDS=()
 
 find_NEED_INSTALL() {
     if ! running_ubuntu; then
-      say "skipped APT packages checks, not on Ubuntu\n"
+      say "=== skipped APT packages checks, not on Ubuntu\n"
       return 0
     fi
 
@@ -55,12 +53,16 @@ find_NEED_INSTALL
 check_COMMANDS
 
 if (( ${#NEED_INSTALL[@]} != 0 )); then
-  echo -e "Needed packages:\n\t${NEED_INSTALL[*]}"
+  echo -e "=== Needed packages:\n\t${NEED_INSTALL[*]}"
   (( err = err + 1 ))
 fi
 if (( ${#MISSING_COMMANDS[@]} != 0 )); then
-  echo -e "Cannot find commands:\n\t${MISSING_COMMANDS[*]}"
+  echo -e "=== Cannot find commands:\n\t${MISSING_COMMANDS[*]}"
  (( err = err + 1 ))
+fi
+
+if (( err == 0 )); then
+  echo "=== Found no missing pakcages or commands"
 fi
 
 exit $err

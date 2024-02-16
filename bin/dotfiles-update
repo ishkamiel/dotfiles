@@ -1,12 +1,15 @@
 #! /bin/sh
 
-# Set default values for running without custom paths
-[ -z "${DOTFILES}" ] && export DOTFILES="${HOME}/.dotfiles"
+set -euo pipefail
 
-dotbotUpdate() {
-    ./scripts/oh-my-zsh.sh
-    ./scripts/vim-install-plugins.sh
-    ./scripts/linux-apt_packages.sh
-}
+export DOTFILES="${DOTFILES:="${HOME}/.dotfiles"}"
 
-dotbotUpdate
+stow_args=( --target "${HOME}" . )
+
+pushd "${DOTFILES}"
+./scripts/oh-my-zsh.sh
+./scripts/vim-install-plugins.sh
+./scripts/linux-apt_packages.sh
+echo "=== Running stow ${stow_args[*]}"
+stow "${stow_args[@]}"
+popd

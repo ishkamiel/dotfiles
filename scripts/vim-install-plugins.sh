@@ -25,6 +25,7 @@ URL_PLUG="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 ###############################################
 
 if command -v vim >/dev/null 2>&1; then
+  echo "=== Found vim, checking and updating config..."
 	if [[ ! -e ${FN_VIM} ]]; then
 		# If needed, just copy vim-plug into neovim from vim
 		mkdir -p "$(dirname "${FN_VIM}")"
@@ -34,8 +35,8 @@ if command -v vim >/dev/null 2>&1; then
 	[[ -e ${FN_VIM} ]] && vim +PlugInstall +qall
 fi
 
-if command -v nvim >/dev/null 2>&1
-then
+if command -v nvim >/dev/null 2>&1; then
+  echo "=== Found nvim, checking and updating config..."
 	if [[ ! -e ${FN_NEOVIM} ]]; then
 		# If needed, just copy vim-plug into neovim from vim
 		mkdir -p "$(dirname "${FN_NEOVIM}")"

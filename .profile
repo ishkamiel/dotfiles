@@ -44,8 +44,8 @@ __prepend_to_PATH "$HOME/.emacs.d/bin"
 __prepend_to_PATH "${HOME}/opt/cmake/install/bin"
 __prepend_to_PATH "${HOME}/opt/nasm/install/bin"
 __prepend_to_PATH "/opt/coverity/analysis/bin"
-__prepend_to_path "/opt/local/bin"
-__prepend_to_path "/opt/local/sbin"
+__prepend_to_PATH "/opt/local/bin"
+__prepend_to_PATH "/opt/local/sbin"
 
 __prepend_to_MANPATH "/opt/local/share/man"
 
