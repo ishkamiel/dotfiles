@@ -73,11 +73,11 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-_NRPROC=1
-if command -v nrproc >/dev/null 2>&1; then
-  _NRPROC=$(nrpoc)
+_NPROC=1
+if command -v nproc >/dev/null 2>&1; then
+  _NPROC=$(nproc)
 elif command -v sysctl >/dev/null 2>&1; then
-  _NRPROC=$(sysctl -n hw.ncpu)
+  _NPROC=$(sysctl -n hw.ncpu)
 fi
 
 # User configuration

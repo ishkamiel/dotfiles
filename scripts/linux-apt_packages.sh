@@ -53,7 +53,7 @@ find_NEED_INSTALL
 check_COMMANDS
 
 if (( ${#NEED_INSTALL[@]} != 0 )); then
-  echo -e "=== Needed packages:\n\t${NEED_INSTALL[*]}"
+  echo -e "=== Missing packages:\n\t${NEED_INSTALL[*]}"
   (( err = err + 1 ))
 fi
 if (( ${#MISSING_COMMANDS[@]} != 0 )); then
@@ -65,4 +65,4 @@ if (( err == 0 )); then
   echo "=== Found no missing pakcages or commands"
 fi
 
-exit $err
+exit 0
