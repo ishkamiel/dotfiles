@@ -12,6 +12,18 @@ __prepend_to_PATH() {
     esac
 }
 
+__prepend_to_MANPATH() {
+    case ":$MANPATH:" in
+        *:$1:*)
+            # echo "$1 already in path, skipping"
+            ;; # already in PATH, doing nothing
+        *)
+            # [ -e "$1" ] || echo "$1 not found, skipping"
+            [ -e "$1" ] && export MANPATH="$1:${MANPATH}"
+            ;;
+    esac
+}
+
 __append_to_PATH() {
     case ":$PATH:" in
         *:$1:*)
@@ -32,6 +44,10 @@ __prepend_to_PATH "$HOME/.emacs.d/bin"
 __prepend_to_PATH "${HOME}/opt/cmake/install/bin"
 __prepend_to_PATH "${HOME}/opt/nasm/install/bin"
 __prepend_to_PATH "/opt/coverity/analysis/bin"
+__prepend_to_path "/opt/local/bin"
+__prepend_to_path "/opt/local/sbin"
+
+__prepend_to_MANPATH "/opt/local/share/man"
 
 # Fix for intellj IDEs: https://youtrack.jetbrains.com/issue/IDEA-78860
 export IBUS_ENABLE_SYNC_MODE=1

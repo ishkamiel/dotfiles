@@ -1,0 +1,53 @@
+#! /usr/bin/env bash
+
+APT_PACKAGES=(
+  apt-file
+  autoconf
+  automake
+  build-essential
+  ccache
+  clang
+  cmake
+  curl
+  editorconfig
+  exuberant-ctags
+  fd-find
+  fzf
+  g++
+  gcc
+  git
+  git-crypt
+  graphviz
+  htop
+  ipython3
+  libcriticism-perl
+  libfont-ttf-perl
+  libpng-dev
+  libpoppler-dev
+  libpoppler-glib-dev
+  libpoppler-private-dev
+  llvm
+  locate
+  make
+  markdown
+  neovim
+  ninja-build
+  pkg-config
+  python-is-python3
+  python3-pip
+  python3-scipy
+  shellcheck
+  silversearcher-ag
+  stow
+  vim-nox
+  wget
+  zoxide
+  zsh
+)
+
+SHELL_COMMANDS=(
+  ag
+  fzf
+  git
+  stow
+)

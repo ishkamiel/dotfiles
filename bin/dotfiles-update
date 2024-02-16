@@ -1,68 +1,12 @@
 #! /bin/sh
-# This is a simle wrapper around dotbot [1] by Anish Athalye.
-#
-#  [1] https://github.com/anishathalye/dotbot
-
-# Set to customize dotfile location
-# DOTFILES=/path/to/dotfile/dir (default: ~/.dotfiles)
-# Set to  cutomize dotbot config file to use
-# DOTBOT_CONFIG=/path/to/dotbot_config.yaml (default: $DOTFILES/.install.conf.yaml)
-
-echo "Powered by:"
-echo "            github.com/anishathalye/dotbot"
-
-# Options for tinkering with script
-CREATE_CONFIG=true
-UPDATE_DOTBOT=true
 
 # Set default values for running without custom paths
 [ -z "${DOTFILES}" ] && export DOTFILES="${HOME}/.dotfiles"
-[ -z "${DOTBOT_CONFIG}" ] && export DOTBOT_CONFIG="${DOTFILES}/install.conf.yaml"
 
 dotbotUpdate() {
-    local dotfiles="${DOTFILES}"
-    local config="${DOTBOT_CONFIG}"
-    local dotbot_dir="${dotfiles}/dotbot"
-    local dotbot_bin="${dotbot_dir}/bin/dotbot"
-
-    cd $dotfiles
-
-    if [ ! -e "${dotfiles}" ]; then
-        echo "Cannot find dotfiles at ${dotfiles}."
-        echo "\tSet \$DOTFILES to customize location."
-        return 1
-    fi
-
-
-    if [ ! -e "${config}" ]; then
-        if $CREATE_CONFIG; then
-            echo "Cannot find config at ${config}, creating empty config"
-            echo "See https://github.com/anishathalye/dotbot for file format n' stuff."
-            touch "${config}"
-        else
-            echo "Cannot find config at ${config}."
-            echo "Set \$DOTBOT_CONFIG to customize location."
-            echo "See https://github.com/anishathalye/dotbot for file format n' stuff."
-            return 1
-        fi
-    fi
-
-    # TODO Check dotbot install scripts for more automation
-    [ ! -e "${dotbot_dir}" ] && mkdir -p "${dotbot_dir}"
-
-    if $UPDATE_DOTBOT; then
-        #git submodule add https://github.com/anishathalye/dotbot
-        git submodule update --init --recursive "${dotbot_dir}"
-    fi
-
-    if [ ! -e "${dotbot_bin}" ]; then
-        echo "Cannot find ${dotbot_bin}."
-        echo "See https://github.com/anishathalye/dotbot to install."
-        return 1
-    fi
-
-    "${dotbot_bin}" -d "${dotfiles}" -c "${config}"
-    return 0
+    ./scripts/oh-my-zsh.sh
+    ./scripts/vim-install-plugins.sh
+    ./scripts/linux-apt_packages.sh
 }
 
 dotbotUpdate

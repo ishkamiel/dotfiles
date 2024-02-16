@@ -8,7 +8,7 @@ export ISH_ZSH_FULL=$(false)
 [[ -e "$HOME/.zshrc_local" ]] && source "$HOME/.zshrc_local"
 
 # Path to your oh-my-zsh installation.
-export ZSH="${HOME}/.dotfiles/.oh-my-zsh"
+export ZSH="${HOME}/.dotfiles/external/oh-my-zsh"
 
 # Set name of the theme to load.
 ZSH_THEME="powerlevel10k/powerlevel10k"

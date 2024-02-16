@@ -5,14 +5,15 @@
 # Distributed under terms of the MIT license.
 #
 
-set -e
+set -euo pipefail
 
-INSTALL_DIR="${DOTFILES}/.oh-my-zsh"
+INSTALL_DIR="${DOTFILES}/external/oh-my-zsh"
 
-if [[ -e "${INSTALL_DIR}" ]]; then
+if [[ -e "${INSTALL_DIR}/.git" ]]; then
 	exit 0;
 fi
 
+mkdir -p "${INSTALL_DIR}"
 git clone https://github.com/ohmyzsh/ohmyzsh.git "${INSTALL_DIR}"
 
 echo 'Change default shell to zsh with:'
