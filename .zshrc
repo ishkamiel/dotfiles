@@ -3,6 +3,10 @@
 
 export DEFAULT_USER=ishkamiel
 
+__prepend_to_PATH() {
+    case ":$PATH:" in; *:$1:*) ;; ; *) [ -e "$1" ] && export PATH="$1:${PATH}" ;; ; esac
+}
+
 # Load some local overrides, if they exist
 export ISH_ZSH_FULL=$(false)
 [[ -e "$HOME/.zshrc_local" ]] && source "$HOME/.zshrc_local"
@@ -89,6 +93,7 @@ alias cp="cp -i"
 alias rm="rm -i"
 alias mv="mv -i"
 alias makej="make -j${_NPROC}"
+alias umakej="unbuffer make -j${_NPROC}"
 alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
 
 
