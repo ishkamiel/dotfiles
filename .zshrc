@@ -150,3 +150,6 @@ fi
 export EDITOR=vim
 
 command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init --cmd cd zsh)"
+
+command -v opam >/dev/null 2>&1 && eval "$(opam env)"
+
