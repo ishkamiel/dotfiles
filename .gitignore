@@ -1,7 +1,8 @@
-perldots.json
-*.bak
-.dotfiles.bash_it_installed
-*.swp
-.keybindings.md5
 **/.DS_Store
+*.bak
+*.swp
+.dotfiles.bash_it_installed
+.fonts/.uuid
+.keybindings.md5
 .oh-my-zsh
+perldots.json
