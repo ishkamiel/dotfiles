@@ -84,7 +84,6 @@ set wildmode=longest,list       " Set tab command completion behaivor
 set clipboard=unnamed           " Yanks stuff directly to clipboard
 set cinoptions=:0               " Make switch & case have same indention
 set number
-set nocscopeverbose             " prevent addedd cscope database message
 
 " Disable spellchecks in comments
 let g:tex_comment_nospell=1

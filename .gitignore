@@ -6,3 +6,4 @@
 .keybindings.md5
 .oh-my-zsh
 perldots.json
+.config/nvim/autoload/plug.vim.old
