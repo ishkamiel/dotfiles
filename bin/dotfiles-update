@@ -4,7 +4,7 @@ set -euo pipefail
 
 export DOTFILES="${DOTFILES:="${HOME}/.dotfiles"}"
 
-stow_args=( --target "${HOME}" . )
+stow_args=( --restow --target "${HOME}" . )
 
 pushd "${DOTFILES}"
 ./scripts/oh-my-zsh.sh
