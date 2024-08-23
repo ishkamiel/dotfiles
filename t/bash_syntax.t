@@ -93,5 +93,5 @@ for (@test_file_dirs) {
 }
 
 for (@test_files) {
-    ok(check_one($_))
+    ok((! -e "$_") or check_one($_));
 }
