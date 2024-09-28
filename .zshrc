@@ -121,7 +121,7 @@ compinit
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 [[ ":$PATH:" != *":$HOME/.rvm/bin:"* && -e "${HOME}/.rvm/bin" ]] && \
     export PATH="${HOME}/.rvm/bin:${PATH}"
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 
 # Set up NVM from MacPorts, if installed
@@ -149,7 +149,9 @@ fi
 
 export EDITOR=vim
 
+[[ ":$PATH:" != *":$HOME/.dotfiles/bin:"* && -e "${HOME}/.dotfiles/bin" ]] && \
+    export PATH="$HOME/.dotfiles/bin:$PATH"
+
 command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init --cmd cd zsh)"
 
 command -v opam >/dev/null 2>&1 && eval "$(opam env)"
-
