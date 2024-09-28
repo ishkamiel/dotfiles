@@ -12,8 +12,11 @@ LIB_CHECKS_SH=1
 . "${DOTFILES}/lib/debug.sh"
 
 running_ubuntu() {
-    [[ "$(uname -a)" =~ .*Ubuntu.* ]] &&
-        return 0
+    if has_command lsb_release; then
+        if [[ "$(lsb_release -si | tail -n1)" == "Ubuntu" ]]; then
+            return 0
+        fi
+    fi
     return 1
 }
 

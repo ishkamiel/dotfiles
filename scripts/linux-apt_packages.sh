@@ -19,10 +19,10 @@ DOTFILES=${DOTFILES:-"${HOME}/.dotfiles"}
 . "${DOTFILES}/misc/apt_packages"
 
 err=0
-NEED_INSTALL=()
+need_to_install=()
 MISSING_COMMANDS=()
 
-find_NEED_INSTALL() {
+find_missing_packages() {
     if ! running_ubuntu; then
       say "=== skipped APT packages checks, not on Ubuntu\n"
       return 0
@@ -33,7 +33,7 @@ find_NEED_INSTALL() {
         d_print "${SCRIPT_NAME}:${FUNCNAME[0]}: ${pkg} is installed"
       else
         d_print "${SCRIPT_NAME}:${FUNCNAME[0]}: ${pkg} is NOT installed"
-        NEED_INSTALL+=( "${pkg}" )
+        need_to_install+=( "${pkg}" )
       fi
     done
 }
@@ -49,20 +49,29 @@ check_COMMANDS() {
   done
 }
 
-find_NEED_INSTALL
+find_missing_packages
+
+if [[ ${#need_to_install[@]} -ne 0 ]]; then
+	echo "sudo apt-get install -y ${need_to_install[*]}"
+	read -n 1 -s -r -p "Press any key to continue or Ctrl+C to abort..."
+	echo
+	sudo apt install -y "${need_to_install[@]}"
+fi
+
 check_COMMANDS
 
-if (( ${#NEED_INSTALL[@]} != 0 )); then
-  echo -e "=== Missing packages:\n\t${NEED_INSTALL[*]}"
-  (( err = err + 1 ))
-fi
+# if (( ${#need_to_install[@]} != 0 )); then
+#   echo -e "=== Missing packages:\n\t${NEED_INSTALL[*]}"
+#   (( err = err + 1 ))
+# fi
+
 if (( ${#MISSING_COMMANDS[@]} != 0 )); then
   echo -e "=== Cannot find commands:\n\t${MISSING_COMMANDS[*]}"
  (( err = err + 1 ))
 fi
 
 if (( err == 0 )); then
-  echo "=== Found no missing pakcages or commands"
+  echo "=== Found no missing packages or commands"
 fi
 
 exit 0
