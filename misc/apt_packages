@@ -4,6 +4,7 @@ APT_PACKAGES=(
   apt-file
   autoconf
   automake
+  bat
   build-essential
   ccache
   clang
@@ -11,6 +12,7 @@ APT_PACKAGES=(
   curl
   editorconfig
   exuberant-ctags
+  eza
   fd-find
   fzf
   g++

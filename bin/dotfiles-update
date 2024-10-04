@@ -48,5 +48,6 @@ stow "${stow_args[@]}"
 run_script "oh-my-zsh.sh"
 run_script "linux-apt_packages.sh"
 run_script "vim-install-plugins.sh"
+run_script "install_fzf.sh"
 
 popd

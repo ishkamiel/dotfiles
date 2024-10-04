@@ -4,3 +4,6 @@
 [submodule "oh-my-zsh/themes/powerlevel10k"]
 	path = oh-my-zsh/themes/powerlevel10k
 	url = https://github.com/romkatv/powerlevel10k.git
+[submodule "external/fzf"]
+	path = external/fzf
+	url = https://github.com/junegunn/fzf.git
