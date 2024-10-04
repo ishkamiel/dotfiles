@@ -206,10 +206,9 @@ command -v opam >/dev/null 2>&1 && eval "$(opam env)"
 
 # Use eza instead of ls, if available
 if command -v eza >/dev/null 2>&1; then
-  alias ls="eza --color=always"
+  alias ls="eza --color=always --git"
   alias tree="eza --tree --color=always"
 fi
 
 src_highlight_lesspipe="/usr/share/source-highlight/src-hilite-lesspipe.sh"
 command -v "${src_highlight_lesspipe}" >/dev/null 2>&1 && export LESSOPEN="| ${src_highlight_lesspipe} %s"
-
