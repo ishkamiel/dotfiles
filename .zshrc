@@ -210,5 +210,11 @@ if command -v eza >/dev/null 2>&1; then
   alias tree="eza --tree --color=always"
 fi
 
+# Ass source highlighting to LESSOPEN, if available
 src_highlight_lesspipe="/usr/share/source-highlight/src-hilite-lesspipe.sh"
 command -v "${src_highlight_lesspipe}" >/dev/null 2>&1 && export LESSOPEN="| ${src_highlight_lesspipe} %s"
+
+# Use dust instead of du, if available
+if command -v dust >/dev/null 2>&1; then
+  alias du="dust"
+fi
