@@ -10,7 +10,14 @@ echo "script_path: $script_path"
 echo "dotfiles_path: $dotfiles_path"
 echo "DOTFILES: $DOTFILES"
 
+# Collect missing commands here
 need_to_install=()
+
+# These are stow packages
+stow_pkgs=(
+  git
+  zellij
+)
 
 check_command() {
 	local command="$1"
@@ -40,6 +47,16 @@ fi
 pushd "${DOTFILES}"
 
 git -C "${DOTFILES}" submodule update --init --recursive
+
+# Restore separate stow pakckagers
+for pkg in "${stow_pkgs[@]}"; do
+  # Use grep to filter our verbose output
+  stow --adopt -d "${DOTFILES}/stow_pkgs" -t "${HOME}/" "$pkg"
+  git -C "${DOTFILES}" checkout "stow_pkgs/${pkg}"
+  stow -R -d "${DOTFILES}/stow_pkgs" -t "${HOME}/" "$pkg" 2>&1 | grep -v 'BUG in find_stowed_path'
+done
+
+exit
 
 stow_args=( --restow --target "${HOME}" . )
 echo "=== Running stow ${stow_args[*]}"
