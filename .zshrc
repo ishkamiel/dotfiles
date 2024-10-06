@@ -148,7 +148,6 @@ export PAGER='less -X -F'
 # Use bat, if available (even if installed as batcat)
 command -v batcat >/dev/null 2>&1 && alias bat="batcat"
 if command -v bat >/dev/null 2>&1; then
-  export PAGER='bat'
   alias cat='bat'
 fi
 
