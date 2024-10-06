@@ -49,11 +49,28 @@ pushd "${DOTFILES}"
 git -C "${DOTFILES}" submodule update --init --recursive
 
 # Restore separate stow pakckagers
+stow_pkgs=( $(ls "${DOTFILES}/stow_pkgs") )
 for pkg in "${stow_pkgs[@]}"; do
   # Use grep to filter our verbose output
-  stow --adopt -d "${DOTFILES}/stow_pkgs" -t "${HOME}/" "$pkg"
-  git -C "${DOTFILES}" checkout "stow_pkgs/${pkg}"
+  if ! stow -v --adopt -d "${DOTFILES}/stow_pkgs" -t "${HOME}/" "$pkg" > /dev/null 2>&1 ; then
+    set +euo pipefail
+    offending_files=$(stow --adopt -d "${DOTFILES}/stow_pkgs" -t "${HOME}/" "$pkg" 2>&1 | grep 'not owned by stow:' | awk '{print $NF}')
+    set -euo pipefail
+    for file in $offending_files; do
+      file="${HOME}/${file}"
+      echo "file: $file"
+      if [ -L "$file" ] && [ ! -e "$file" ]; then
+        echo "Removing dead link: $file"
+        rm "$file"
+      fi
+    done
+  fi
+
+  git -C "${DOTFILES}" checkout "stow_pkgs/${pkg}" > /dev/null 2>&1
+
+  set +euo pipefail # Allow the grep to fail
   stow -R -d "${DOTFILES}/stow_pkgs" -t "${HOME}/" "$pkg" 2>&1 | grep -v 'BUG in find_stowed_path'
+  set -euo pipefail
 done
 
 exit

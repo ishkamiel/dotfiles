@@ -81,4 +81,3 @@ command -v vim >/dev/null 2>&1 && \
 # Load cargo environment
 # shellcheck disable=SC1091
 [ -e "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
-

@@ -80,7 +80,7 @@ set hlsearch                    " highlight searches
 set foldmethod=syntax           " Syntax based folding
 set foldlevel=999               " Display everything by default
 set foldnestmax=1
-set wildmode=longest,list       " Set tab command completion behaivor
+set wildmode=longest,list       " Set tab command completion behavior
 set clipboard=unnamed           " Yanks stuff directly to clipboard
 set cinoptions=:0               " Make switch & case have same indention
 set number
@@ -280,7 +280,7 @@ map <leader>r :call IshNERDTreeFind()<CR>
 
 let g:NERDTreeWinSize = GetSideWidth()
 let g:NERDTreeIgnore = [ '\.o$' ]
-" Quit when NERDTree is last remining
+" Quit when NERDTree is last remaining
 augroup plugin_nerdtree
     au!
     au bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif

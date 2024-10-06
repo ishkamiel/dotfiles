@@ -28,6 +28,7 @@ repos:
     rev: v1.5.1
     hooks:
       - id: insert-license
+        exclude: vim-templates/.*
         name: insert-license-shell
         files: \.(sh|py)$
         args:

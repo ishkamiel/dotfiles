@@ -16,7 +16,7 @@ do
 
   local cmd_is_repo = [[git rev-parse --is-inside-work-tree > /dev/null 2>&1]]
 
-  local cmd_no_unsaged_chagnes = [[
+  local cmd_no_unsaged_changes = [[
 git diff --no-ext-diff --ignore-submodules=dirty --quiet --exit-code 2> /dev/null]]
 
   local cmd_verify_head = [[
@@ -64,7 +64,7 @@ git status -sb | grep '\[ahead' > /dev/null]]
 
   function git.has_unstaged_changes(path)
     assert(path)
-    return not run_cmd(cmd_no_unsaged_chagnes, path)
+    return not run_cmd(cmd_no_unsaged_changes, path)
   end
 
   function git.has_staged_changes(path)

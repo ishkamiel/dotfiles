@@ -1,0 +1,12 @@
+[files]
+extend-exclude = [
+  "**/nvim/autoload/**",
+  "**/nvim/syntax/**",
+  "**/nvim/vim-templates/**",
+]
+
+[default]
+extend-ignore-re = [
+  "print -Pn",
+  "au FileType.*"
+]

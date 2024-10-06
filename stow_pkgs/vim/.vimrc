@@ -11,7 +11,7 @@ endif
 call plug#begin() " {{{
 
 Plug 'bling/vim-airline'
-Plug 'tpope/vim-commentary'
+  Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'drewtempelmeyer/palenight.vim' " Colroscheme
@@ -28,42 +28,42 @@ function GetSideWidth()
 	return  max([30, min([50, ((&columns - s:pd_textwidth - 5 ) / 2) ])])
 endfunction
 
-" set nocompatible		" Load non-Vi-compaitlbe settings
-syntax on			" Syntax highlighting
-filetype plugin indent on	" Use indening
-" set autoread			" read open files again when changed outside Vim
-set modeline
-set autowrite			" write a modified buffer on each :next , ...
-set backspace=indent,eol,start	" allow backspacing over everything in insert mode
-" set backup			" keep a backup file
-" set browsedir=current		" which directory to use for the file browser
-set history=50			" command line history
-set incsearch			" use incremental search
-set nowrap			" do not wrap lines
-" set ruler			" show the cursor position all the time
-set laststatus=2		" always show the statusbar
-set shiftwidth=4		" number of spaces to use for each step of indent
-set tabstop=4			" number of spaces that a <Tab> in the file counts for
-set showcmd			" display incomplete commands
-set expandtab			" insert spaces instead of tabs
-set novisualbell		" visual bell instead of beeping
+" set nocompatible               " Load non-Vi-compatible settings
+syntax on                        " Syntax highlighting
+filetype plugin indent on        " Use indenting
+" set autoread                   " Read open files again when changed outside Vim
+  set modeline
+set autowrite                    " Write a modified buffer on each :next , ...
+set backspace=indent,eol,start   " Allow backspacing over everything in insert mode
+" set backup                     " Keep a backup file
+" set browsedir=current          " Which directory to use for the file browser
+set history=50                   " Command line history
+set incsearch                    " Use incremental search
+set nowrap                       " Do not wrap lines
+" set ruler                      " Show the cursor position all the time
+set laststatus=2                 " Always show the statusbar
+set shiftwidth=4                 " Number of spaces to use for each step of indent
+set tabstop=4                    " Number of spaces that a <Tab> in the file counts for
+set showcmd                      " Display incomplete commands
+set expandtab                    " Insert spaces instead of tabs
+set novisualbell                 " Visual bell instead of beeping
 set t_vb=
 let &textwidth=s:pd_textwidth
-set noautochdir 		" change the current working directory
-set secure                      " secure loading of non-default vimrc
-set pastetoggle=<F9>            " Toggle pasting mode (disables indenting)
-set scrolloff=10                " Keep this many lines visible below cursor
-set completeopt-=preview        " remove extended preview from autoinserts (scratch window)
-set hlsearch                    " highlight searches
-" set updatetime=500 		" Milliseconds between writes (affects git-gutter update speed)
-set foldmethod=syntax           " Syntax based folding
-set foldlevel=999               " Display everything by default
+set noautochdir                  " Change the current working directory
+set secure                       " Secure loading of non-default vimrc
+set pastetoggle=<F9>             " Toggle pasting mode (disables indenting)
+set scrolloff=10                 " Keep this many lines visible below cursor
+set completeopt-=preview         " Remove extended preview from autoinserts (scratch window)
+set hlsearch                     " Highlight searches
+" set updatetime=500             " Milliseconds between writes (affects git-gutter update speed)
+set foldmethod=syntax            " Syntax based folding
+set foldlevel=999                " Display everything by default
 set foldnestmax=1
-set wildmode=longest,list	" Set tab command completion behaivor
-set clipboard=unnamed		" Yanks stuff directly  to clipboard
-set cinoptions=:0		" Make switch & case have same indention
+set wildmode=longest,list        " Set tab command completion behavior
+set clipboard=unnamed            " Yanks stuff directly to clipboard
+set cinoptions=:0                " Make switch & case have same indention
 set number
-set nocscopeverbose             " prevent addedd cscope database message
+set nocscopeverbose              " Prevent added cscope database message
 
 set backupdir=~/tmp/vimbackup,.,~
 set directory=~/tmp/vimbackup,.,~
