@@ -132,6 +132,9 @@ alias makej="make -j$(__get_nproc)"
 alias umakej="unbuffer make -j$(__get_nproc)"
 alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
 
+command -v pytest >/dev/null 2>&1 && alias pytestj="pytest -d -n$(__get_nproc)"
+
+
 # setopt share_history
 setopt HIST_IGNORE_SPACE
 setopt HIST_IGNORE_DUPS
