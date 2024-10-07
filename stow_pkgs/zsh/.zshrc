@@ -200,8 +200,8 @@ export EDITOR=vim
 # Add dotfiles
 __prepend_to_PATH "${HOME}/.dotfiles/bin"
 
-# Configure Zoxide
-command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init --cmd cd zsh)"
+# # Configure Zoxide
+# command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init --cmd cd zsh)"
 
 # Configure OCaml stuff (OCamml Package Manager, opam)
 command -v opam >/dev/null 2>&1 && eval "$(opam env)"
