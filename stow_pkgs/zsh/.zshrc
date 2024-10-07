@@ -87,7 +87,7 @@ plugins=(
   # golang
   # nvm
   # rust
-  # rvm
+  rvm
   vi-mode
   command-not-found
   # nvim
@@ -169,7 +169,7 @@ __prepend_to_PATH "${HOME}/.cargo/bin"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 __prepend_to_PATH "${HOME}/.rvm/bin"
-__prepend_to_PATH "${HOME}/.rvm/scripts/rvm"
+[[ -e "${HOME}/.rvm/scripts/rvm" ]] && source "${HOME}/.rvm/scripts/rvm"
 
 # Configure Node.js stuff
 # Set up NVM from MacPorts, if installed
