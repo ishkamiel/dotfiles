@@ -82,16 +82,20 @@ fi
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to "${ZSH_CUSTOM}/plugins"
+#
+# NOTE: Load order matters! (e.g., fzf breaks list is sorted
+#
 plugins=(
-  # docker
-  # golang
-  # nvm
-  # rust
+  docker
+  direnv
   rvm
   vi-mode
   command-not-found
-  # nvim
+  nvim
   fzf
+  # golang
+  # nvm
+  # rust
 )
 
 source $ZSH/oh-my-zsh.sh
