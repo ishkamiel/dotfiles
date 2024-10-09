@@ -12,10 +12,14 @@ set -euo pipefail
 # shellcheck source=../lib/debug.sh
 . "${DOTFILES}/lib/debug.sh"
 
-if command -v go >/dev/null 2>&1; then
-  pushd "${DOTFILES}/external/fzf"
-  make install
-  popd
-else
-  echo "!!! Cannot find go, skipping fzf install"
+if ! command -v fzf >/dev/null 2>&1; then
+  if [[ $(which fzf) != "${DOTFILES}/external/fzf/bin/fzf" ]]; then
+    if command -v go >/dev/null 2>&1; then
+      pushd "${DOTFILES}/external/fzf"
+      make install
+      popd
+    else
+      echo "!!! Cannot find go, skipping fzf install"
+    fi
+  fi
 fi
