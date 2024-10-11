@@ -1,13 +1,14 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 #
-# Author: Hans Liljestrand <liljestrandh@gmail.com>
-# Copyright (C) 2018 Hans Liljestrand <liljestrandh@gmail.com>
+# Author: Hans Liljestrand <hans@liljestrand.dev>
+# Copyright (C) 2024 Hans Liljestrand <hans@liljestrand.dev>
 #
 # Distributed under terms of the MIT license.
+#
+set -euo pipefail
 
 readonly SCRIPT_NAME="$( basename -- "${BASH_SOURCE[0]}" )"
 
-set -e
 DOTFILES=${DOTFILES:-"${HOME}/.dotfiles"}
 # shellcheck source=../lib/checks.sh
 . "${DOTFILES}/lib/checks.sh"

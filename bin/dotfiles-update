@@ -131,10 +131,11 @@ class Main:
 
     def run_scripts(self):
         scripts = [
-            "oh-my-zsh.sh",
-            "linux-apt_packages.sh",
-            "vim-install-plugins.sh",
+            "install_apt_pkgs.sh",
+            "install_cargo_pkgs.sh",
             "install_fzf.sh",
+            "install_oh_my_zsh.sh",
+            "install_vim_plugins.sh",
         ]
         for script in scripts:
             self.run_script(script)

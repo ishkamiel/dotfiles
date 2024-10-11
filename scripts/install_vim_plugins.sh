@@ -1,16 +1,11 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 #
-# Author: Hans Liljestrand <liljestrandh@gmail.com>
-# Copyright (C) 2018 Hans Liljestrand <liljestrandh@gmail.com>
+# Author: Hans Liljestrand <hans@liljestrand.dev>
+# Copyright (C) 2024 Hans Liljestrand <hans@liljestrand.dev>
 #
 # Distributed under terms of the MIT license.
-#
-################################################################
-#
-# Installs vim-plug for neovim, if we have neovim installed.
-#
 
-set -e
+set -euo pipefail
 
 # shellcheck source=../lib/downloadFile.sh
 . "${DOTFILES}/lib/downloadFile.sh"
@@ -46,4 +41,3 @@ if command -v nvim >/dev/null 2>&1; then
 	d_print "Trying to launch nvim for plugin install"
 	[[ -e ${FN_NEOVIM} ]] && nvim +PlugInstall +qall
 fi
-
