@@ -1,6 +1,7 @@
 [submodule "ishlib"]
 	path = ishlib
-	url = https://github.com/ishkamiel/ishlib.git
+	url = git@github.com:ishkamiel/ishlib.git
+	branch = main
 [submodule "oh-my-zsh/themes/powerlevel10k"]
 	path = oh-my-zsh/themes/powerlevel10k
 	url = https://github.com/romkatv/powerlevel10k.git
