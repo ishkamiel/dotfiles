@@ -24,6 +24,16 @@ declare -A cargo_install_directives=(
   [eza]=eza
 )
 
+install_apt_pkg() {
+  local pkg="$1"
+  ish_run -s apt-get install -y "$pkg"
+}
+
+install_cargo_pkg() {
+  local pkg="$1"
+  ish_run cargo install --locked "$pkg"
+}
+
 install_apt_cmd_pkg() {
   local cmd="$1"           # Command we need
   local pkg="${2:-$cmd}"   # Package name that defaults to command name
@@ -33,12 +43,7 @@ install_apt_cmd_pkg() {
     return 0
   fi
 
-  if [[ -z "${apt_install_directives[$cmd]+x}" ]]; then
-    ish_debug "Cannot install $cmd with apt"
-    return 0
-  fi
-
-  ish_run -s apt-get install -y "$pkg"
+  install_apt_pkg "${pkg}"
 }
 
 install_cargo_cmd_pkg() {
@@ -72,7 +77,7 @@ install_cargo_cmd_pkg() {
     fi
   fi
 
-  ish_run cargo install --locked "$pkg"
+  install_cargo_pkg "$pkg"
 }
 
 install_cmd_somehow() {
@@ -100,4 +105,15 @@ install_cmd_somehow() {
 
   ish_warn "No install directive for $cmd"
   return 1
+}
+
+install_apt_pkg_unless_found() {
+  local pkg="$1"
+
+  if dpkg -l | grep -q "^ii\s\+$pkg\s"; then
+    ish_debug "Skipping install, found package $pkg"
+    return 0
+  fi
+
+  install_apt_pkg "$pkg"
 }

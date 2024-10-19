@@ -55,6 +55,9 @@ install_cmd_somehow "git"
 install_cmd_somehow "python3"
 install_cmd_somehow "stow"
 
+# Install the following apt packages unless found
+install_apt_pkg_unless_found "python3-cerberus"
+
 cmd=( "${DOTFILES}/bin/dotfiles-update.py" )
 [[ -n ${DRY_RUN:-} ]] && args+=("--dry-run")
 [[ -n ${VERBOSE:-} ]] && args+=("--verbose")
