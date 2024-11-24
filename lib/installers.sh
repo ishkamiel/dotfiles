@@ -11,11 +11,12 @@ DOTFILES_LIB_INSTALLERS_SH=1
 . "${ISHLIB}/ishlib.sh"
 
 declare -A apt_install_directives=(
-  [cargo]=cargo
-  [git]=git
-  [fd]=fd-find
   [bat]=bat
+  [cargo]=cargo
   [eza]=eza
+  [fd]=fd-find
+  [git]=git
+  [stow]=stow
 )
 
 declare -A cargo_install_directives=(
@@ -38,7 +39,7 @@ install_apt_cmd_pkg() {
   local cmd="$1"           # Command we need
   local pkg="${2:-$cmd}"   # Package name that defaults to command name
 
-  if command -v apt &> /dev/null; then
+  if command -v "$cmd" &> /dev/null; then
     ish_debug "Skipping, found command $cmd"
     return 0
   fi
@@ -91,6 +92,7 @@ install_cmd_somehow() {
 
   # Try to install with cargo
   if [[ -n "${cargo_install_directives[$cmd]+x}" ]]; then
+    ish_debug "Trying to install ${cmd} with cargo"
     if install_cargo_cmd_pkg "$cmd" "${cargo_install_directives[$cmd]}"; then
       return 0
     fi
@@ -98,6 +100,7 @@ install_cmd_somehow() {
 
   # Try to install with apt
   if [[ -n "${apt_install_directives[$cmd]+x}" ]]; then
+    ish_debug "Trying to install ${cmd} with apt"
     if install_apt_cmd_pkg "$cmd" "${apt_install_directives[$cmd]}"; then
       return 0
     fi
@@ -110,7 +113,7 @@ install_cmd_somehow() {
 install_apt_pkg_unless_found() {
   local pkg="$1"
 
-  if dpkg -l | grep -q "^ii\s\+$pkg\s"; then
+  if dpkg -l | grep -E '^ii\s+'"$pkg"'\s' > /dev/null; then
     ish_debug "Skipping install, found package $pkg"
     return 0
   fi

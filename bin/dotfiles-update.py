@@ -28,7 +28,7 @@ class CommandRunner:
 
     def run(self, command, **kwargs):
         command = [str(c) for c in command]
-        print(f"DRY-RUN: {' '.join(command)}")
+        print(f"{' '.join(command)}")
         if not self.dry_run:
             return subprocess.run(command, **kwargs)
         else:
@@ -40,7 +40,7 @@ class CommandRunner:
             os.chdir(path)
 
     def unlink(self, path):
-        print(f"DRY-RUN: unlink {path}")
+        print(f"unlink {path}")
         if not self.dry_run:
             path.unlink()
 

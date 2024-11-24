@@ -6,10 +6,13 @@ set -euo pipefail
 # Make sure DOTFILES is set, assume ~/.dotfiles if not
 export DOTFILES=${DOTFILES:-"${HOME}/.dotfiles"}
 
-# export ISHLIB="${DOTFILES}/ishlib"
-export ISHLIB=~/d/ishlib
+export ISHLIB="${DOTFILES}/ishlib"
 
 export ISHLIB_DEBUG=1
+
+if [[ ! -e ${ISHLIB}/ishlib.sh ]]; then
+  git submodule update --init --recursive "${ISHLIB}"
+fi
 
 # shellcheck source=lib/installers.sh
 . "${DOTFILES}/lib/installers.sh"
@@ -42,7 +45,7 @@ while [[ $# -gt 0 ]]; do
       ;;
     -*)
       ish_warn "Invalid option: $1" >&2
-      return 1
+      exit 1
       ;;
     *)
       break
