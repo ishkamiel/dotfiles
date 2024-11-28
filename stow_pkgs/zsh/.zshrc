@@ -2,6 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 export DEFAULT_USER=ishkamiel
+export DOTFILES="${HOME}/.dotfiles"
 
 __prepend_to_PATH() {
   local new_path="$1"

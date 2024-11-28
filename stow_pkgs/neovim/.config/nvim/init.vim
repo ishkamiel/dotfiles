@@ -8,6 +8,9 @@ call plug#begin()
 " Status / tool line
 " Plug 'bling/vim-airline'
 
+" GitHub CoPilot
+Plug 'github/copilot.vim'
+
 " Utilities
 Plug 'tpope/vim-commentary'
 Plug 'ntpeters/vim-better-whitespace'
