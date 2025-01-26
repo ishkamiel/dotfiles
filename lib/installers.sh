@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 #
 # Author: Hans Liljestrand <hans@liljestrand.dev>
-# Copyright (C) 2018-2024 Hans Liljestrand <hans@liljestrand.dev>
+# Copyright (C) 2018-2025 Hans Liljestrand <hans@liljestrand.dev>
 #
 # Distributed under terms of the MIT license.
 
@@ -9,6 +9,8 @@
 DOTFILES_LIB_INSTALLERS_SH=1
 
 . "${ISHLIB}/ishlib.sh"
+
+DOTFILES_APT_UPDATE_DONE=0
 
 declare -A apt_install_directives=(
   [bat]=bat
@@ -27,6 +29,11 @@ declare -A cargo_install_directives=(
 
 install_apt_pkg() {
   local pkg="$1"
+  if [[ ${DOTFILES_APT_UPDATE_DONE} == 0 ]]; then
+    ish_run -s apt-get update
+    DOTFILES_APT_UPDATE_DONE=1
+  fi
+  ish_run -s apt-get install -y "$pkg"
   ish_run -s apt-get install -y "$pkg"
 }
 
