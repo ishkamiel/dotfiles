@@ -27,6 +27,8 @@ declare -A cargo_install_directives=(
   [eza]=eza
 )
 
+is_os_macos() { [[ "$(uname -s)" == "Darwin" ]] }
+
 install_apt_pkg() {
   local pkg="$1"
   if [[ ${DOTFILES_APT_UPDATE_DONE} == 0 ]]; then
@@ -105,11 +107,24 @@ install_cmd_somehow() {
     fi
   fi
 
-  # Try to install with apt
-  if [[ -n "${apt_install_directives[$cmd]+x}" ]]; then
-    ish_debug "Trying to install ${cmd} with apt"
-    if install_apt_cmd_pkg "$cmd" "${apt_install_directives[$cmd]}"; then
-      return 0
+
+  if is_os_macos; then
+    # MacOS
+    if [[ -n "${port_install_directives[$cmd]+x}" ]]; then
+      # MacOS with port
+      ish_debug "Trying to install ${cmd} with port"
+      if install_port_cmd_pkg "$cmd" "${port_install_directives[$cmd]}"; then
+        return 0
+      fi
+    fi
+  else
+    # Linux
+    if [[ -n "${apt_install_directives[$cmd]+x}" ]]; then
+      # Linux with apt
+      ish_debug "Trying to install ${cmd} with apt"
+      if install_apt_cmd_pkg "$cmd" "${apt_install_directives[$cmd]}"; then
+        return 0
+      fi
     fi
   fi
 
