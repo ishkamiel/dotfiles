@@ -122,17 +122,17 @@ install_cmd_somehow() {
     fi
   done
 
-
   if is_os_macos; then
     # MacOS
     for p in $port_packages; do
       if [ "$cmd" = "$directive" ]; then
-      # MacOS with port
-      ish_debug "Trying to install ${cmd} with port"
-      if install_port_cmd_pkg "$cmd"; then
-        return 0
+        # MacOS with port
+        ish_debug "Trying to install ${cmd} with port"
+        if install_port_cmd_pkg "$cmd"; then
+          return 0
+        fi
       fi
-    fi
+    done
   else
     # Linux with apt
     for p in $apt_packages; do
@@ -142,7 +142,8 @@ install_cmd_somehow() {
           return 0
         fi
       fi
-  done
+    done
+  fi
 
   ish_warn "No install directive for $cmd"
   return 1
