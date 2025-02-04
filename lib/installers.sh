@@ -14,58 +14,60 @@ DOTFILES_APT_UPDATE_DONE=0
 
 apt_packages="bat cargo eza fd git stow"
 cargo_packages="cargo-update bat eza"
-port_packages=""
+brew_packages="stow"
 
 apt_pkg_fd="fd-find"
 
-is_os_macos() { [[ "$(uname -s)" == "Darwin" ]] }
+is_os_macos() { [ "$(uname -s)" = "Darwin" ]; }
 
 install_apt_pkg() {
-  pkg="$1"
-
-  eval "pkg_var=\${apt_pkg_${pkg}:-$pkg}"
-  pkg="$pkg_var"
-
-  if [ "$DOTFILES_APT_UPDATE_DONE" = 0 ]; then
+  if [ "${DOTFILES_APT_UPDATE_DONE:-0}" = 0 ]; then
     ish_run -s apt-get update
     DOTFILES_APT_UPDATE_DONE=1
   fi
-  ish_run -s apt-get install -y "$pkg"
+  ish_run -s apt-get install -y "$1"
 }
 
 install_cargo_pkg() {
-  pkg="$1"
+  ish_run cargo install --locked "$1"
+}
 
-  eval "pkg_var=\${cargo_pkg_${pkg}:-$pkg}"
-  pkg="$pkg_var"
+install_brew_pkg() {
+  if !command -v brew >/dev/null 2>&1; then
+    ish_info "Installing Homebrew"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    return 0
+  fi
 
-  ish_run cargo install --locked "$pkg"
+  if [ "${DOTFILES_HOMEBREW_UPDATE_DONE:-0}" = 0 ]; then
+    ish_run brew update
+    DOTFILES_HOMEBREW_UPDATE_DONE=1
+  fi
+  ish_run brew install "$1" || { ish_fail "Failed to install $1 with brew"; }
 }
 
 install_apt_cmd_pkg() {
   cmd="$1"           # Command we need
-  eval "pkg_var=\${apt_pkg_${pkg}:-$pkg}"
-  pkg="${pkg_var:-$cmd}"
 
   if command -v "$cmd" >/dev/null 2>&1; then
     ish_debug "Skipping, found command $cmd"
     return 0
   fi
 
-  install_apt_pkg "$pkg"
+  eval "pkg_var=\${apt_pkg_${cmd}:-$cmd}"
+  install_apt_pkg "${pkg_var:-$cmd}"
 }
 
-install_port_cmd_pkg() {
+install_brew_cmd_pkg() {
   cmd="$1"           # Command we need
-  eval "pkg_var=\${port_pkg_${pkg}:-$pkg}"
-  pkg="${pkg_var:-$cmd}"
 
   if command -v "$cmd" >/dev/null 2>&1; then
     ish_debug "Skipping, found command $cmd"
     return 0
   fi
 
-  install_port_pkg "pkg"
+  eval "pkg_var=\${brew_pkg_${cmd}:-$cmd}"
+  install_brew_pkg "${pkg_var:-$cmd}"
 }
 
 install_cargo_cmd_pkg() {
@@ -85,8 +87,6 @@ install_cargo_cmd_pkg() {
   shift $((OPTIND -1))
 
   cmd="$1"
-  eval "pkg_var=\${cargo_pkg_${pkg}:-$pkg}"
-  pkg="${pkg_var:-$cmd}"
 
   # Check if we have $cmd available, unless -f was used to force install
   if [ "$force_install" != true ]; then
@@ -100,7 +100,8 @@ install_cargo_cmd_pkg() {
     fi
   fi
 
-  install_cargo_pkg "$pkg"
+  eval "pkg_var=\${cargo_pkg_${cmd}:-$cmd}"
+  install_cargo_pkg "${pkg_var:-$cmd}"
 }
 
 install_cmd_somehow() {
@@ -124,11 +125,11 @@ install_cmd_somehow() {
 
   if is_os_macos; then
     # MacOS
-    for p in $port_packages; do
-      if [ "$cmd" = "$directive" ]; then
+    for p in $brew_packages; do
+      if [ "$cmd" = "$p" ]; then
         # MacOS with port
         ish_debug "Trying to install ${cmd} with port"
-        if install_port_cmd_pkg "$cmd"; then
+        if install_brew_cmd_pkg "$cmd"; then
           return 0
         fi
       fi
