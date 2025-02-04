@@ -1,0 +1,211 @@
+{
+  "apt-file": {
+    "apt": "apt-file",
+    "cmd": "apt-file"
+  },
+  "autoconf": {
+    "apt": "autoconf",
+    "cmd": "autoconf"
+  },
+  "automake": {
+    "apt": "automake",
+    "cmd": "automake"
+  },
+  "bat": {
+    "apt": "bat",
+    "cmd": "bat"
+  },
+  "btop": {
+    "apt": "btop",
+    "cmd": "btop"
+  },
+  "build-essential": {
+    "apt": "build-essential"
+  },
+  "cargo-update": {
+    "cargo": "cargo-update"
+  },
+  "ccache": {
+    "apt": "ccache",
+    "cmd": "ccache"
+  },
+  "clang": {
+    "apt": "clang",
+    "cmd": "clang"
+  },
+  "cmake": {
+    "apt": "cmake",
+    "cmd": "cmake"
+  },
+  "curl": {
+    "apt": "curl",
+    "cmd": "curl"
+  },
+  "direnv": {
+    "apt": "direnv",
+    "cmd": "direnv"
+  },
+  "du-dust": {
+    "cargo": "du-dust",
+    "cmd": "dust"
+  },
+  "editorconfig": {
+    "apt": "editorconfig",
+    "cmd": "editorconfig"
+  },
+  "exuberant-ctags": {
+    "apt": "exuberant-ctags",
+    "cmd": "ctags"
+  },
+  "eza": {
+    "apt": "eza",
+    "cmd": "eza"
+  },
+  "fd-find": {
+    "apt": "fd-find",
+    "cmd": "fd"
+  },
+  "fzf": {
+    "apt": "fzf",
+    "cmd": "fzf"
+  },
+  "g++": {
+    "apt": "g++",
+    "cmd": "g++"
+  },
+  "gcc": {
+    "apt": "gcc",
+    "cmd": "gcc"
+  },
+  "git": {
+    "apt": "git",
+    "cmd": "git"
+  },
+  "git-crypt": {
+    "apt": "git-crypt",
+    "cmd": "git-crypt"
+  },
+  "graphviz": {
+    "apt": "graphviz",
+    "cmd": "dot"
+  },
+  "htop": {
+    "apt": "htop",
+    "cmd": "htop"
+  },
+  "ipython3": {
+    "apt": "ipython3",
+    "cmd": "ipython3"
+  },
+  "libcriticism-perl": {
+    "apt": "libcriticism-perl"
+  },
+  "libfont-ttf-perl": {
+    "apt": "libfont-ttf-perl"
+  },
+  "libpng-dev": {
+    "apt": "libpng-dev"
+  },
+  "libpoppler-dev": {
+    "apt": "libpoppler-dev"
+  },
+  "libpoppler-glib-dev": {
+    "apt": "libpoppler-glib-dev"
+  },
+  "libpoppler-private-dev": {
+    "apt": "libpoppler-private-dev"
+  },
+  "llvm": {
+    "apt": "llvm",
+    "cmd": "llvm-config"
+  },
+  "locate": {
+    "apt": "locate",
+    "cmd": "locate"
+  },
+  "make": {
+    "apt": "make",
+    "cmd": "make"
+  },
+  "markdown": {
+    "apt": "markdown",
+    "cmd": "markdown"
+  },
+  "neovim": {
+    "apt": "neovim",
+    "cmd": "nvim"
+  },
+  "ninja-build": {
+    "apt": "ninja-build",
+    "cmd": "ninja"
+  },
+  "pkg-config": {
+    "apt": "pkg-config",
+    "cmd": "pkg-config"
+  },
+  "pre-commit": {
+    "apt": "pre-commit",
+    "cmd": "pre-commit"
+  },
+  "pylint": {
+    "apt": "pylint",
+    "cmd": "pylint"
+  },
+  "pytest": {
+    "apt": "python3-pytest",
+    "cmd": "pytest"
+  },
+  "pytest-xdist": {
+    "apt": "python3-pytest-xdist"
+  },
+  "python-is-python3": {
+    "apt": "python-is-python3",
+    "ubuntu": true
+  },
+  "python3-pip": {
+    "apt": "python3-pip",
+    "cmd": "pip3"
+  },
+  "python3-scipy": {
+    "apt": "python3-scipy",
+    "pip": "scipy",
+    "type": "python_pkg"
+  },
+  "python3-toml": {
+    "apt": "python3-toml",
+    "pip": "toml",
+    "type": "python_pkg"
+  },
+  "rustup": {
+    "apt": "rustup",
+    "cmd": "rustup"
+  },
+  "shellcheck": {
+    "apt": "shellcheck",
+    "cmd": "shellcheck"
+  },
+  "silversearcher-ag": {
+    "apt": "silversearcher-ag",
+    "cmd": "ag"
+  },
+  "stow": {
+    "apt": "stow",
+    "cmd": "stow"
+  },
+  "vim-nox": {
+    "apt": "vim-nox",
+    "cmd": "vim"
+  },
+  "wget": {
+    "apt": "wget",
+    "cmd": "wget"
+  },
+  "zoxide": {
+    "apt": "zoxide",
+    "cmd": "zoxide"
+  },
+  "zsh": {
+    "apt": "zsh",
+    "cmd": "zsh"
+  }
+}

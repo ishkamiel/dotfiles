@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # Author: Hans Liljestrand <hans@liljestrand.dev>
-# Copyright (C) 2024 Hans Liljestrand <hans@liljestrand.dev>
+# Copyright (C) 2024-2025 Hans Liljestrand <hans@liljestrand.dev>
 #
 # Distributed under terms of the MIT license.
 
@@ -67,10 +67,8 @@ class Main:
         need_to_install = [cmd for cmd in self.needed_cmds if is_missing(cmd)]
         if need_to_install:
             say_step(f"Need to install: {need_to_install}")
-            print(f"sudo apt-get install -y {' '.join(need_to_install)}")
-            input("Press any key to continue or Ctrl+C to abort...")
             self.runner.run(
-                ["sudo", "apt", "install", "-y"] + need_to_install, check=True
+                ["apt", "install", "-y"] + need_to_install, sudo=True, check=True
             )
 
     def update_submodules(self):
@@ -94,7 +92,6 @@ class Main:
         stow_pkg_dir = self.dotfiles / "stow_pkgs"
 
         for pkg in stow_pkg_dir.iterdir():
-
             # Just try to adopt all the files
             stow_args = [
                 "-v",
