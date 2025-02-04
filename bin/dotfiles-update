@@ -58,8 +58,9 @@ install_cmd_somehow "git"
 install_cmd_somehow "python3"
 install_cmd_somehow "stow"
 
+
 # Install the following apt packages unless found
-pip3 install --user cerberus
+install_python_package_somehow "cerberus"
 
 cmd=( "${DOTFILES}/bin/dotfiles-update.py" )
 [[ -n ${DRY_RUN:-} ]] && args+=("--dry-run")

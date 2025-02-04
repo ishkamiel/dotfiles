@@ -28,6 +28,17 @@ install_apt_pkg() {
   ish_run -s apt-get install -y "$1"
 }
 
+install_apt_pkg_unless_found() {
+  pkg="$1"
+
+  if dpkg -l | grep -E '^ii\s+'"$pkg"'\s' >/dev/null; then
+    ish_debug "Skipping install, found package $pkg"
+    return 0
+  fi
+
+  install_apt_pkg "$pkg"
+}
+
 install_cargo_pkg() {
   ish_run cargo install --locked "$1"
 }
@@ -150,13 +161,12 @@ install_cmd_somehow() {
   return 1
 }
 
-install_apt_pkg_unless_found() {
-  pkg="$1"
-
-  if dpkg -l | grep -E '^ii\s+'"$pkg"'\s' >/dev/null; then
-    ish_debug "Skipping install, found package $pkg"
-    return 0
+install_python_package_somehow() {
+  pkg=$1
+  # See if we've got apt first
+  if command -v apt >/dev/null 2>&1; then
+    install_apt_pkg_unless_found "python3-$1"
+  else
+    ish_run pip3 install --user "$1"
   fi
-
-  install_apt_pkg "$pkg"
 }
