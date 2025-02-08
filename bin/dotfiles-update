@@ -8,7 +8,7 @@ export DOTFILES=${DOTFILES:-"${HOME}/.dotfiles"}
 
 export ISHLIB="${DOTFILES}/ishlib"
 
-export ISHLIB_DEBUG=1
+# export ISHLIB_DEBUG=1
 
 if [[ ! -e ${ISHLIB}/ishlib.sh ]]; then
   git submodule update --init --recursive "${ISHLIB}"
@@ -24,6 +24,11 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     -d|--debug)
       export DEBUG=1
+      pyargs+=("--debug")
+      shift
+      ;;
+    --ishlib-debug)
+      export ISHLIB_DEBUG=1
       shift
       ;;
     -f|--force)
@@ -33,10 +38,12 @@ while [[ $# -gt 0 ]]; do
       ;;
     -n|--dry-run)
       export DRY_RUN=1
+      pyargs+=("--dry-run")
       shift
       ;;
     -v|--verbose)
       export VERBOSE=1
+      pyargs+=("--verbose")
       shift
       ;;
     --)
@@ -54,19 +61,14 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Make sure we have some basic commands
-install_cmd_somehow "git"
 install_cmd_somehow "python3"
-install_cmd_somehow "stow"
-
 
 # Install the following apt packages unless found
 install_python_package_somehow "cerberus"
 
-cmd=( "${DOTFILES}/bin/dotfiles-update.py" )
-[[ -n ${DRY_RUN:-} ]] && args+=("--dry-run")
-[[ -n ${VERBOSE:-} ]] && args+=("--verbose")
+cmd=( "${DOTFILES}/bin/dotfiles-update.py" "${pyargs[@]}" )
 
 ish_debug "Going to run: ish_run ${cmd[*]}"
-ish_run "${cmd[@]}"
+ish_run -f "${cmd[@]}"
 
 ish_debug "All done"

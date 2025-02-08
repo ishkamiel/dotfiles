@@ -12,73 +12,43 @@ import sys
 import shutil
 from pathlib import Path
 import argparse
+from unittest import runner
 
-
-def say_step(step):
-    print(f"=== {step}")
-
-
-def is_missing(command):
-    return not shutil.which(command)
-
-
-class CommandRunner:
-    def __init__(self, dry_run=False):
-        self.dry_run = dry_run
-
-    def run(self, command, **kwargs):
-        command = [str(c) for c in command]
-        print(f"{' '.join(command)}")
-        if not self.dry_run:
-            return subprocess.run(command, **kwargs)
-        else:
-            return subprocess.CompletedProcess(args=command, returncode=0)
-
-    def chdir(self, path):
-        print(f"chdir {path}")
-        if not self.dry_run:
-            os.chdir(path)
-
-    def unlink(self, path):
-        print(f"unlink {path}")
-        if not self.dry_run:
-            path.unlink()
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "ishlib" / "src"))
+from pyishlib.installer_config import InstallerConfigJSON
+from pyishlib.installer import Installer
+from pyishlib.command_runner import CommandRunner
 
 
 class Main:
-    def __init__(self):
-        self.needed_cmds = ["stow", "git"]
+    SCRIPTS: list[str] = [
+        "install_cargo_pkgs.sh",
+        "install_fzf.sh",
+        "install_oh_my_zsh.sh",
+        "install_vim_plugins.sh",
+    ]
 
-        self.dotfiles_path = Path(__file__).resolve().parent.parent
-        self.dotfiles = Path(os.getenv("DOTFILES", str(self.dotfiles_path)))
+    def __init__(self) -> None:
+        self.dotfiles_path: Path = Path(__file__).resolve().parent.parent
 
         parser = argparse.ArgumentParser(description="Managing dotfiles")
         parser.add_argument("-n", "--dry-run", action="store_true")
+        parser.add_argument("-v", "--verbose", action="store_true")
+        parser.add_argument("-d", "--debug", action="store_true")
         self.args = parser.parse_args()
 
-        self.runner = CommandRunner(dry_run=self.args.dry_run)
+        self.runner = CommandRunner(args=self.args)
 
-    def run_script(self, script):
-        script_path = self.dotfiles / "scripts" / script
-        say_step(f"Running {script_path}")
-        self.runner.run([str(script_path)], check=True)
-
-    def check_needed_cmds(self):
-        need_to_install = [cmd for cmd in self.needed_cmds if is_missing(cmd)]
-        if need_to_install:
-            say_step(f"Need to install: {need_to_install}")
-            self.runner.run(
-                ["apt", "install", "-y"] + need_to_install, sudo=True, check=True
-            )
+    def say_step(self, step) -> None:
+        print(f"=== {step}")
 
     def update_submodules(self):
-        say_step("Updating submodules")
-        self.runner.chdir(self.dotfiles)
+        self.say_step("Updating submodules")
         self.runner.run(
             [
                 "git",
                 "-C",
-                self.dotfiles,
+                self.dotfiles_path,
                 "submodule",
                 "update",
                 "--init",
@@ -88,8 +58,8 @@ class Main:
         )
 
     def stow_packages(self):
-        say_step("Stowing packages")
-        stow_pkg_dir = self.dotfiles / "stow_pkgs"
+        self.say_step("Stowing packages")
+        stow_pkg_dir = self.dotfiles_path / "stow_pkgs"
 
         for pkg in stow_pkg_dir.iterdir():
             # Just try to adopt all the files
@@ -118,7 +88,13 @@ class Main:
 
             # Need to restore the original files since adopt may have ovrwritten them
             self.runner.run(
-                ["git", "-C", str(self.dotfiles), "checkout", f"stow_pkgs/{pkg.name}"],
+                [
+                    "git",
+                    "-C",
+                    str(self.dotfiles_path),
+                    "checkout",
+                    f"stow_pkgs/{pkg.name}",
+                ],
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,
             )
@@ -132,26 +108,25 @@ class Main:
             # print(result.stderr.replace('BUG in find_stowed_path', ''))
 
     def run_scripts(self):
-        scripts = [
-            "install_apt_pkgs.sh",
-            "install_cargo_pkgs.sh",
-            "install_fzf.sh",
-            "install_oh_my_zsh.sh",
-            "install_vim_plugins.sh",
-        ]
-        for script in scripts:
-            self.run_script(script)
+        for s in self.SCRIPTS:
+            script: Path = self.dotfiles_path / "scripts" / s
+            self.say_step(f"Running {script}")
+            self.runner.run([str(script)], check=True)
 
-    def run(self):
-        print(f"DOTFILES: {self.dotfiles}")
-        assert self.dotfiles == self.dotfiles_path
-        self.check_needed_cmds()
+    def install_packages(self) -> None:
+        self.say_step(f"Installing missing packages")
+        installer_config: InstallerConfigJSON = InstallerConfigJSON(
+            self.dotfiles_path / "packages_to_install.json"
+        )
+        installer: Installer = Installer(runner=self.runner)
+        installer.install_all(installer_config.get_pkgs())
+
+    def run(self) -> None:
         self.update_submodules()
+        self.install_packages()
         self.stow_packages()
-        # self.restow()
         self.run_scripts()
 
 
 if __name__ == "__main__":
-    main = Main()
-    main.run()
+    Main().run()

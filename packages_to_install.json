@@ -13,7 +13,7 @@
   },
   "bat": {
     "apt": "bat",
-    "cmd": "bat"
+    "cmd": "batcat"
   },
   "btop": {
     "apt": "btop",
@@ -63,7 +63,7 @@
   },
   "fd-find": {
     "apt": "fd-find",
-    "cmd": "fd"
+    "cmd": "fdfind"
   },
   "fzf": {
     "apt": "fzf",
