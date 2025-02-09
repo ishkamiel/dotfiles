@@ -6,13 +6,11 @@
 #
 # Distributed under terms of the MIT license.
 
-import os
 import subprocess
 import sys
-import shutil
 from pathlib import Path
 import argparse
-from unittest import runner
+from typing import NoReturn
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "ishlib" / "src"))
 from pyishlib.installer_config import InstallerConfigJSON
@@ -22,7 +20,6 @@ from pyishlib.command_runner import CommandRunner
 
 class Main:
     SCRIPTS: list[str] = [
-        "install_cargo_pkgs.sh",
         "install_fzf.sh",
         "install_oh_my_zsh.sh",
         "install_vim_plugins.sh",
@@ -38,11 +35,20 @@ class Main:
         self.args = parser.parse_args()
 
         self.runner = CommandRunner(args=self.args)
+        self.installer: Installer = Installer(args=self.args, runner=self.runner)
+
+        self.installer_config: InstallerConfigJSON = InstallerConfigJSON(
+            self.dotfiles_path / "packages_to_install.json"
+        )
 
     def say_step(self, step) -> None:
         print(f"=== {step}")
 
-    def update_submodules(self):
+    def die(self, msg: str) -> NoReturn:
+        print(f"Error: {msg}", file=sys.stderr)
+        sys.exit(1)
+
+    def update_submodules(self) -> None:
         self.say_step("Updating submodules")
         self.runner.run(
             [
@@ -107,22 +113,25 @@ class Main:
             # Filter the output to avoid annoying stow BUG m message
             # print(result.stderr.replace('BUG in find_stowed_path', ''))
 
-    def run_scripts(self):
+    def run_scripts(self) -> None:
         for s in self.SCRIPTS:
             script: Path = self.dotfiles_path / "scripts" / s
             self.say_step(f"Running {script}")
+            if not script.exists():
+                self.die(f"Script {script} does not exist")
             self.runner.run([str(script)], check=True)
+
+    def install_rust(self) -> None:
+        self.say_step("Installing / updating rust")
+        self.installer.update_or_install_rust()
 
     def install_packages(self) -> None:
         self.say_step(f"Installing missing packages")
-        installer_config: InstallerConfigJSON = InstallerConfigJSON(
-            self.dotfiles_path / "packages_to_install.json"
-        )
-        installer: Installer = Installer(runner=self.runner)
-        installer.install_all(installer_config.get_pkgs())
+        self.installer.install_pkgs(self.installer_config.get_pkgs())
 
     def run(self) -> None:
         self.update_submodules()
+        self.install_rust()
         self.install_packages()
         self.stow_packages()
         self.run_scripts()

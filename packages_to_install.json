@@ -59,7 +59,12 @@
   },
   "eza": {
     "apt": "eza",
-    "cmd": "eza"
+    "cargo": "eza",
+    "cmd": "eza",
+    "pref": [
+      "cargo",
+      "apt"
+    ]
   },
   "fd-find": {
     "apt": "fd-find",
