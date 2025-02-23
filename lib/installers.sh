@@ -163,6 +163,12 @@ install_cmd_somehow() {
 
 install_python_package_somehow() {
   pkg=$1
+
+  if python3 -c "import $pkg" >/dev/null 2>&1; then
+    ish_debug "Skipping install, found Python package $pkg"
+    return 0
+  fi
+
   # See if we've got apt first
   if command -v apt >/dev/null 2>&1; then
     install_apt_pkg_unless_found "python3-$1"
