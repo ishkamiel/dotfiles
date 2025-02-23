@@ -65,6 +65,8 @@ if ! ${ISH_ZSH_FULL}; then
     DISABLE_UNTRACKED_FILES_DIRTY="true"
 fi
 
+__prepend_to_PATH "/opt/homebrew/bin"
+
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
