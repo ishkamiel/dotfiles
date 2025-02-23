@@ -169,10 +169,14 @@ install_python_package_somehow() {
     return 0
   fi
 
+  if command -v pip3 >/dev/null 2>&1; then
+    ish_run pip3 install --user "$1"
+    return 0
+  fi
+
   # See if we've got apt first
   if command -v apt >/dev/null 2>&1; then
     install_apt_pkg_unless_found "python3-$1"
-  else
-    ish_run pip3 install --user "$1"
+    return 0
   fi
 }

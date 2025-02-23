@@ -1,12 +1,15 @@
-#! /usr/bin/env bash
+#! /bin/sh
 # -*- coding: utf-8 -*-
 
 set -euo pipefail
 
 # Make sure DOTFILES is set, assume ~/.dotfiles if not
 export DOTFILES=${DOTFILES:-"${HOME}/.dotfiles"}
-
 export ISHLIB="${DOTFILES}/ishlib"
+
+dotfilespy="${DOTFILES}/bin/dotfiles-update.py"
+pyargs=""
+pyversion=`cat "${DOTFILES}/.python-version"`
 
 # export ISHLIB_DEBUG=1
 
@@ -24,7 +27,7 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     -d|--debug)
       export DEBUG=1
-      pyargs+=("--debug")
+      pyargs="${pyargs} --debug"
       shift
       ;;
     --ishlib-debug)
@@ -38,12 +41,12 @@ while [[ $# -gt 0 ]]; do
       ;;
     -n|--dry-run)
       export DRY_RUN=1
-      pyargs+=("--dry-run")
+      pyargs="${pyargs} --dry-run"
       shift
       ;;
     -v|--verbose)
       export VERBOSE=1
-      pyargs+=("--verbose")
+      pyargs="${pyargs} --verbose"
       shift
       ;;
     --init-only)
@@ -65,16 +68,19 @@ while [[ $# -gt 0 ]]; do
 done
 
 # If needed, install deps for dotfiles-update.py
-install_cmd_somehow "python3"
+install_cmd_somehow "pyenv"
+pyenv install -s "${pyversion}"
+pip3 install --upgrade pip
+
 install_python_package_somehow "cerberus"
 install_python_package_somehow "jsonschema"
+install_python_package_somehow "pyyaml"
 
 if [[ "${INIT_ONLY:=0}" == 1 ]]; then
   ish_debug "INIT_ONLY is set, exiting"
   exit 0
 fi
-cmd=( "${DOTFILES}/bin/dotfiles-update.py" "${pyargs[@]}" )
-ish_debug "Going to run: ish_run ${cmd[*]}"
-ish_run -f "${cmd[@]}"
+ish_debug "Going to run: ish_run ${dotfilespy} ${pyargs}"
+ish_run -f "${dotfilespy}" ${pyargs}
 
 ish_debug "All done"

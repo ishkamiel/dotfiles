@@ -1,7 +1,8 @@
 {
   "apt-file": {
     "apt": "apt-file",
-    "cmd": "apt-file"
+    "cmd": "apt-file",
+    "ubuntu": true
   },
   "autoconf": {
     "apt": "autoconf",
@@ -20,7 +21,8 @@
     "cmd": "btop"
   },
   "build-essential": {
-    "apt": "build-essential"
+    "apt": "build-essential",
+    "ubuntu": true
   },
   "cargo-update": {
     "cargo": "cargo-update"
@@ -142,6 +144,7 @@
   },
   "ninja-build": {
     "apt": "ninja-build",
+    "brew": "ninja",
     "cmd": "ninja"
   },
   "pkg-config": {
