@@ -18,6 +18,7 @@
   },
   "btop": {
     "apt": "btop",
+    "brew": "btop",
     "cmd": "btop"
   },
   "build-essential": {
@@ -138,6 +139,10 @@
     "apt": "markdown",
     "cmd": "markdown"
   },
+  "markdownlint": {
+    "brew": "markdown-cli",
+    "cmd": "markdownlint"
+  },
   "neovim": {
     "apt": "neovim",
     "cmd": "nvim"
@@ -183,6 +188,10 @@
     "apt": "python3-toml",
     "pip": "toml",
     "type": "python_pkg"
+  },
+  "rbenv": {
+    "brew": "rbenv",
+    "cmd": "rbenv"
   },
   "rustup": {
     "apt": "rustup",
