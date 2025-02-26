@@ -6,9 +6,11 @@ export DOTFILES="${HOME}/.dotfiles"
 
 __prepend_to_PATH() {
   local new_path="$1"
-  if [[ -e "$new_path" ]]; then
-    # Only add if if it's not already in the PATH
-    case ":$PATH:" in; *:$new_path:*) ;; ; *) [ -e "$new_path" ] && export PATH="$new_path:${PATH}" ;; ; esac
+  if [[ -d "$new_path" ]]; then
+    # Remove new_path from PATH if it already exists
+    PATH=$(echo "$PATH" | sed -e "s;:$new_path;;" -e "s;$new_path:;;" -e "s;$new_path;;")
+    # Prepend new_path to PATH
+    export PATH="$new_path:$PATH"
   fi
   return 0
 }
