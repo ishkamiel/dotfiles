@@ -67,7 +67,13 @@ if ! ${ISH_ZSH_FULL}; then
     DISABLE_UNTRACKED_FILES_DIRTY="true"
 fi
 
+# Homebrew for MacOS
 __prepend_to_PATH "/opt/homebrew/bin"
+
+# pyenv
+export PYENV_ROOT="${HOME}/.pyenv"
+__prepend_to_PATH "${PYENV_ROOT}/bin"
+command -v pyenv >/dev/null 2>&1 && eval "$(pyenv init -)"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
