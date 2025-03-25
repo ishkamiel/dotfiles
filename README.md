@@ -1,8 +1,7 @@
 # dotfiles
 
-## Disclaimer
-
-This is not stable and may frequently break, use at your own peril.
+> [!WARNING]
+> This is intended for personal use and may be freaquently broken!
 
 ## Testing
 
