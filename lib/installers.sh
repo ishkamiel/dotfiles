@@ -14,11 +14,35 @@ DOTFILES_APT_UPDATE_DONE=0
 
 apt_packages="bat cargo eza fd git stow"
 cargo_packages="cargo-update bat eza"
-brew_packages="stow"
+brew_packages="stow pyenv"
 
 apt_pkg_fd="fd-find"
 
 is_os_macos() { [ "$(uname -s)" = "Darwin" ]; }
+
+linux_install_pyenv() {
+  deps="build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev curl git libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev"
+  to_install=""
+  for pkg in $deps; do
+    if dpkg -l | grep -E '^ii\s+'"$pkg"'\s' >/dev/null; then
+      ish_debug "Skipping install, found package $pkg"
+    else
+      ish_debug "Adding $pkg to install list"
+      to_install="$to_install $pkg"
+    fi
+  done
+
+  if [ -n "$to_install" ]; then
+    ish_run -s apt-get install -y $to_install
+  fi
+
+  if is_dry; then
+    ish_debug "Skipping install, found package pyenv"
+    return 0
+  fi
+  curl -fsSL https://pyenv.run | bash
+  return 0
+}
 
 install_apt_pkg() {
   if [ "${DOTFILES_APT_UPDATE_DONE:-0}" = 0 ]; then
@@ -155,6 +179,13 @@ install_cmd_somehow() {
         fi
       fi
     done
+
+    if [ "$cmd" = "pyenv" ]; then
+      ish_debug "Trying to install ${cmd} with custom function"
+      if linux_install_pyenv; then
+        return 0
+      fi
+    fi
   fi
 
   ish_warn "No install directive for $cmd"
