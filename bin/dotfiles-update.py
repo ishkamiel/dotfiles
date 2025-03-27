@@ -123,6 +123,7 @@ class Main:
 
     def install_rust(self) -> None:
         self.say_step("Installing / updating rust")
+        self.installer.install_pkgs([self.installer_config.get_pkg("rustup")])
         self.installer.update_or_install_rust()
 
     def install_packages(self) -> None:
