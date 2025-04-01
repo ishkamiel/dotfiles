@@ -109,11 +109,23 @@
     "apt": "ipython3",
     "cmd": "ipython3"
   },
+  "libbz2-dev": {
+    "apt": "libbz2-dev"
+  },
   "libcriticism-perl": {
     "apt": "libcriticism-perl"
   },
+  "libffi-dev": {
+    "apt": "libffi-dev"
+  },
   "libfont-ttf-perl": {
     "apt": "libfont-ttf-perl"
+  },
+  "liblzma-dev": {
+    "apt": "liblzma-dev"
+  },
+  "libncursesw5-dev": {
+    "apt": "libncursesw5-dev"
   },
   "libpng-dev": {
     "apt": "libpng-dev"
@@ -126,6 +138,21 @@
   },
   "libpoppler-private-dev": {
     "apt": "libpoppler-private-dev"
+  },
+  "libreadline-dev": {
+    "apt": "libreadline-dev"
+  },
+  "libsqlite3-dev": {
+    "apt": "libsqlite3-dev"
+  },
+  "libssl-dev": {
+    "apt": "libssl-dev"
+  },
+  "libxml2-dev": {
+    "apt": "libxml2-dev"
+  },
+  "libxmlsec1-dev": {
+    "apt": "libxmlsec1-dev"
   },
   "llvm": {
     "apt": "llvm",
@@ -213,6 +240,9 @@
     "apt": "stow",
     "cmd": "stow"
   },
+  "tk-dev": {
+    "apt": "tk-dev"
+  },
   "vim-nox": {
     "apt": "vim-nox",
     "cmd": "vim"
@@ -220,6 +250,12 @@
   "wget": {
     "apt": "wget",
     "cmd": "wget"
+  },
+  "xz-utils": {
+    "apt": "xz-utils"
+  },
+  "zlib1g-dev": {
+    "apt": "zlib1g-dev"
   },
   "zoxide": {
     "apt": "zoxide",
