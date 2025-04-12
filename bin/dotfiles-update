@@ -73,6 +73,8 @@ PYENV_ROOT="${HOME}/.pyenv"
 PATH="${PYENV_ROOT}/bin:${PATH}"
 eval "$(pyenv init -)"
 
+cd "${DOTFILES}"
+
 pyenv install -s "${pyversion}"
 pip3 install --upgrade pip
 
