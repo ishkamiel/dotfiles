@@ -209,6 +209,16 @@
     "apt": "python3-pytest",
     "cmd": "pytest"
   },
+  "fonts-firacode": {
+    "apt": "fonts-firacode",
+    "ubuntu": true,
+    "gnome": true
+  },
+  "fonts-hack": {
+    "apt": "fonts-hack",
+    "ubuntu": true,
+    "gnome": true
+  },
   "pytest-xdist": {
     "apt": "python3-pytest-xdist"
   },
