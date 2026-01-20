@@ -97,16 +97,15 @@ fi
 # NOTE: Load order matters! (e.g., fzf breaks list is sorted
 #
 plugins=(
-  docker
+  command-not-found
   direnv
+  docker
+  fzf
+  nvim
+  nvm
+  pyenv
   rvm
   vi-mode
-  command-not-found
-  nvim
-  fzf
-  # golang
-  # nvm
-  # rust
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -166,7 +165,7 @@ export PAGER='less -X -F'
 # Use bat, if available (even if installed as batcat)
 command -v batcat >/dev/null 2>&1 && alias bat="batcat"
 if command -v bat >/dev/null 2>&1; then
-  alias cat='bat'
+  alias cat='bat -p'
 fi
 
 # Load system vendor-completionns
@@ -223,8 +222,9 @@ command -v opam >/dev/null 2>&1 && eval "$(opam env)"
 
 # Use eza instead of ls, if available
 if command -v eza >/dev/null 2>&1; then
-  alias ls="eza --color=always --git"
+  alias ls="eza --color=always"
   alias tree="eza --tree --color=always"
+  alias ll="eza --color=always -lh --git --git-repos"
 fi
 
 # Ass source highlighting to LESSOPEN, if available
