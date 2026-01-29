@@ -1,0 +1,30 @@
+$include /etc/inputrc
+Control-x: glob-expand-word
+
+
+# If set to ‘on’, Readline performs filename matching and completion in a case-insensitive fashion.
+# The default value is ‘off’.
+# set completion-ignore-case on
+
+# If set to ‘on’, completed names which are symbolic links to directories have a slash appended
+# (subject to the value of mark-directories). The default is ‘off’.
+set mark-symlinked-directories on
+
+# If set to ‘on’, Readline will undo all changes to history lines before returning when accept-line
+# is executed. By default, history lines can be modified and retain individual undo lists across
+# calls to readline. The default is ‘off’.
+set revert-all-at-newline on
+
+# This alters the default behavior of the completion functions. If set to ‘on’, words which have
+# more than one possible completion cause the matches to be listed immediately instead of ringing
+# the bell. The default value is ‘off’.
+# set show-all-if-ambiguous on
+
+# If set to ‘on’, a character denoting a file's type is appended to the filename when listing
+# possible completions. The default is ‘off’.
+set visible-stats on
+
+# vi everywhere!
+set editing-mode vi
+set keymap vi
+set convert-meta off
