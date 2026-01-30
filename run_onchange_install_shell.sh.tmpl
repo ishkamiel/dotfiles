@@ -1,0 +1,40 @@
+{{ if eq .chezmoi.os "windows" -}}
+# Do nothing
+
+{{ else -}}
+#!/usr/bin/env bash
+{{ template "install_helpers.sh" . }}
+
+{{ if eq .chezmoi.osRelease.id "ubuntu" -}}
+# Ubuntu -----------------------------------------------------------------------
+
+apt_packages=(
+    zsh
+    tmux
+    neovim
+)
+install_apt_pkgs "${apt_packages[@]}"
+{{ else if eq .chezmoi.osRelease.id "fedora" -}}
+# Fedora ----------------------------------------------------------------------
+dnf_packages=(
+    zsh
+    tmux
+    neovim
+)
+install_dnf_pkgs "${dnf_packages[@]}"
+
+{{- else if (eq .chezmoi.os "darwin") }}
+# MacOS -----------------------------------------------------------------------
+
+# Nothing to do?
+
+{{ end -}}
+# Unix-like -------------------------------------------------------------------
+
+if ! install_pkg "starship" "starship"; then
+    curl -sS https://starship.rs/install.sh | sh
+fi
+
+{{ end -}}
+
+# vim: set ft=bash:

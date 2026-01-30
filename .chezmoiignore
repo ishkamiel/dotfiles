@@ -1,4 +1,4 @@
-{{- if ne .chezmoi.os "linux" "darwin" }}
+{{- if not (or (ne .chezmoi.os "linux") (ne .chezmoi.os "darwin")) }}
 .bashrc
 .gitconfig_common
 .inputrc
