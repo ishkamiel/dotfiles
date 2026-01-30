@@ -32,8 +32,8 @@ setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_DUPS
 setopt HIST_FIND_NO_DUPS
 setopt HIST_REDUCE_BLANKS
-setopt CORRECT
-setopt CORRECT_ALL
+# setopt CORRECT
+# setopt CORRECT_ALL
 HISTSIZE=10000
 SAVEHIST=10000
 
@@ -62,7 +62,8 @@ fi
 command -v fzf >/dev/null 2>&1 && source <(fzf --zsh)
 export HIST_STAMPS="yyyy-mm-dd"
 
-export EDITOR=vim
+export EDITOR=vi
+command -v vim >/dev/null 2>&1 && export EDITOR=vim
 export PAGER='less -X -F'
 
 __prepend_to_PATH "${HOME}/.dotfiles/bin"
@@ -81,7 +82,10 @@ alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
 command -v pytest >/dev/null 2>&1 && alias pytestj="pytest -d -n$(__get_nproc)"
 
 # Use nvim as vim, if available
-command -v nvim >/dev/null 2>&1 && alias vim="nvim"
+if command -v nvim >/dev/null 2>&1; then
+    alias vim="nvim"
+    export EDITOR=nvim
+fi
 
 # bat
 command -v batcat >/dev/null 2>&1 && alias bat="batcat -p"
