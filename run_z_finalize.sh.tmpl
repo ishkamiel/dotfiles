@@ -17,6 +17,8 @@
 {{ template "install_helpers.sh" . }}
 
 if [[ -e "${ERROR_LOG}" ]]; then
+    echo
+    echo
     echo "Encountered errors:"
     echo
     cat "${ERROR_LOG}"

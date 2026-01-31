@@ -16,14 +16,44 @@
 #!/usr/bin/env bash
 {{ template "install_helpers.sh" . }}
 
-{{ if eq .chezmoi.osRelease.id "ubuntu" -}}
+{{ if hasPrefix .chezmoi.osRelease.id "ubuntu" -}}
 {{- /* ----------------------------------------------------------- Ubuntu */ -}}
 
-apt_packages=(
+packages=(
     autoconf
     automake
     build-essential
-    cargo-update
+    ccache
+    clang
+    clang-format
+    cmake
+    editorconfig
+    exuberant-ctags
+    g++
+    gcc
+    git
+    libcriticism-perl
+    llvm
+    make
+    markdown
+    markdownlint
+    ninja-build
+    pkg-config
+    pre-commit
+    pylint
+    rbenv
+    rustup
+    shellcheck
+)
+install_apt_pkgs "${packages[@]}"
+
+{{ else if hasPrefix .chezmoi.osRelease.id "fedora" -}}
+{{- /* ----------------------------------------------------------- Fedora */ -}}
+
+packages=(
+    autoconf
+    automake
+    build-essential
     ccache
     clang
     clang-format
@@ -47,12 +77,7 @@ apt_packages=(
     rustup
     shellcheck
 )
-install_apt_pkgs "${apt_packages[@]}"
-
-{{ else if eq .chezmoi.osRelease.id "fedora" -}}
-{{- /* ----------------------------------------------------------- Fedora */ -}}
-
-# ...
+install_dnf_pkgs "${packages[@]}"
 
 {{- else if (eq .chezmoi.os "darwin") }}
 {{- /* ------------------------------------------------------------ MacOS */ -}}

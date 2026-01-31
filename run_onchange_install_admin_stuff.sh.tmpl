@@ -19,17 +19,20 @@
 {{ if eq .chezmoi.osRelease.id "ubuntu" -}}
 {{- /* ----------------------------------------------------------- Ubuntu */ -}}
 
-apt_packages=(
+packages=(
     apt-file
     aptitude
     git
 )
-install_apt_pkgs "${apt_packages[@]}"
+install_apt_pkgs "${packages[@]}"
 
-{{ else if eq .chezmoi.osRelease.id "fedora" -}}
+{{ else if hasPrefix .chezmoi.osRelease.id "fedora" -}}
 {{- /* ----------------------------------------------------------- Fedora */ -}}
 
-# ...
+packages=(
+    git
+)
+install_dnf_pkgs "${packages[@]}"
 
 {{- else if (eq .chezmoi.os "darwin") }}
 {{- /* ------------------------------------------------------------ MacOS */ -}}

@@ -14,8 +14,9 @@
 {{ else -}}
 {{- /* ----------------------------------------------------- Linux-like --*/ -}}
 #!/usr/bin/env bash
+{{ template "install_helpers.sh" . }}
 
-echo "DISABLED: run_onchange_ubuntu_keybindings.sh.tmpl"
+log_error "DISABLED: run_onchange_ubuntu_keybindings.sh.tmpl"
 exit 0
 
 set -e

@@ -14,13 +14,13 @@ log_error() {
 is_installed_apt() {
     local pkg="$1"
 
-    if dpkg -l | grep -q "^ii  ${pkg} "; then
+    if dpkg -l | grep -q "^ii  ${pkg}[:\s]"; then
         return 0
     fi
     return 1
 }
 
-is_instgalled_dnf() {
+is_installed_dnf() {
     local pkg="$1"
 
     if rpm -q "${pkg}" > /dev/null 2>&1; then
@@ -29,7 +29,9 @@ is_instgalled_dnf() {
     return 1
 }
 
-install_apt_pkgs() {
+__install_apt_pkgs() {
+    local do_log_error="$1"
+    shift
     local pkgs=("$@")
     local to_install=()
 
@@ -37,7 +39,7 @@ install_apt_pkgs() {
         if ! is_installed_apt "${pkg}"; then
             if apt-cache show "${pkg}" > /dev/null 2>&1; then
                 to_install+=("${pkg}")
-            else
+            elif [[ ${do_log_error} == 1 ]]; then
                 log_error "Cannot find pkg to install: ${pkg} (apt)"
             fi
         else
@@ -49,6 +51,14 @@ install_apt_pkgs() {
         echo "Installing apt packages ${to_install[*]}"
         sudo apt install -y "${to_install[@]}"
     fi
+}
+
+install_apt_pkgs() {
+    __install_apt_pkgs 1 "$@"
+}
+
+install_apt_pkgs_noerr() {
+    __install_apt_pkgs 0 "$@"
 }
 
 install_dnf_pkgs() {

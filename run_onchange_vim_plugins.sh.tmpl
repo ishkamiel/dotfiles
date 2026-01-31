@@ -14,8 +14,9 @@
 {{ else -}}
 {{- /* ----------------------------------------------------- Linux-like --*/ -}}
 #!/usr/bin/env bash
+{{ template "install_helpers.sh" . }}
 
-echo "DISABLED: run_onchange_vim_plugins.sh.tmpl"
+log_error "DISABLED: run_onchange_vim_plugins.sh.tmpl"
 exit 0
 
 set -euo pipefail

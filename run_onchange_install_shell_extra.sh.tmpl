@@ -16,12 +16,38 @@
 #!/usr/bin/env bash
 {{ template "install_helpers.sh" . }}
 
-{{ if eq .chezmoi.osRelease.id "ubuntu" -}}
+{{ if hasPrefix .chezmoi.osRelease.id "ubuntu" -}}
 {{- /* ----------------------------------------------------------- Ubuntu */ -}}
 
 # FIXUP: fzf starship
 
-apt_packages=(
+packages=(
+    curl
+    btop
+    direnv
+    eza
+    fd-find
+    fzf
+    git
+    ipython3
+    locate
+    git-crypt
+    python-is-python3
+    silversearcher-ag
+    wget
+)
+install_apt_pkgs "${packages[@]}"
+packages=(
+    batcat
+    du-dust
+    starship
+)
+install_apt_pkgs_noerr "${packages[@]}"
+
+{{ else if hasPrefix .chezmoi.osRelease.id "fedora" -}}
+{{- /* ----------------------------------------------------------- Fedora */ -}}
+
+packages=(
     batcat
     curl
     btop
@@ -39,20 +65,21 @@ apt_packages=(
     starship
     wget
 )
-install_apt_pkgs "${apt_packages[@]}"
-
-{{ else if eq .chezmoi.osRelease.id "fedora" -}}
-{{- /* ----------------------------------------------------------- Fedora */ -}}
-
-# ...
+install_dnf_pkgs "${packages[@]}"
 
 {{- else if (eq .chezmoi.os "darwin") }}
 {{- /* ------------------------------------------------------------ MacOS */ -}}
 
-# ...
+if ! command -v starship >/dev/null 2>&1; then
+    if ! curl -sS https://starship.rs/install.sh | sh; then
+        log_error "Failed to install: starship"
+    fi
+fi
 
 {{ end -}}
 {{- /* -------------------------------------------------------- Unix-like */ -}}
+
+
 
 # ...
 
