@@ -19,23 +19,32 @@
 {{ if eq .chezmoi.osRelease.id "ubuntu" -}}
 {{- /* ----------------------------------------------------------- Ubuntu */ -}}
 
+# FIXUP: fzf starship
+
 apt_packages=(
+    batcat
+    curl
+    btop
+    direnv
+    du-dust
+    eza
+    fd-find
+    fzf
     git
-    neovim
-    tmux
-    zsh
+    ipython3
+    locate
+    git-crypt
+    python-is-python3
+    silversearcher-ag
+    starship
+    wget
 )
 install_apt_pkgs "${apt_packages[@]}"
 
 {{ else if eq .chezmoi.osRelease.id "fedora" -}}
 {{- /* ----------------------------------------------------------- Fedora */ -}}
 
-dnf_packages=(
-    neovim
-    tmux
-    zsh
-)
-install_dnf_pkgs "${dnf_packages[@]}"
+# ...
 
 {{- else if (eq .chezmoi.os "darwin") }}
 {{- /* ------------------------------------------------------------ MacOS */ -}}

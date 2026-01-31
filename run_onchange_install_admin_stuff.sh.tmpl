@@ -11,31 +11,25 @@
 
 # ...
 
-{{ else -}}
+{{ else }}
 {{- /* -------------------------------------------------------- Unix-like */ -}}
 #!/usr/bin/env bash
-{{ template "install_helpers.sh" . }}
+# {{ template "install_helpers.sh" . }}
 
 {{ if eq .chezmoi.osRelease.id "ubuntu" -}}
 {{- /* ----------------------------------------------------------- Ubuntu */ -}}
 
 apt_packages=(
+    apt-file
+    aptitude
     git
-    neovim
-    tmux
-    zsh
 )
 install_apt_pkgs "${apt_packages[@]}"
 
 {{ else if eq .chezmoi.osRelease.id "fedora" -}}
 {{- /* ----------------------------------------------------------- Fedora */ -}}
 
-dnf_packages=(
-    neovim
-    tmux
-    zsh
-)
-install_dnf_pkgs "${dnf_packages[@]}"
+# ...
 
 {{- else if (eq .chezmoi.os "darwin") }}
 {{- /* ------------------------------------------------------------ MacOS */ -}}

@@ -20,22 +20,39 @@
 {{- /* ----------------------------------------------------------- Ubuntu */ -}}
 
 apt_packages=(
+    autoconf
+    automake
+    build-essential
+    cargo-update
+    ccache
+    clang
+    clang-format
+    cmake
+    editorconfig
+    exuberant-ctags
+    g++
+    gcc
     git
-    neovim
-    tmux
-    zsh
+    libcriticism-perl
+    llvm
+    make
+    markdown
+    markdown-cli
+    markdownlint
+    ninja-build
+    pkg-config
+    pre-commit
+    pylint
+    rbenv
+    rustup
+    shellcheck
 )
 install_apt_pkgs "${apt_packages[@]}"
 
 {{ else if eq .chezmoi.osRelease.id "fedora" -}}
 {{- /* ----------------------------------------------------------- Fedora */ -}}
 
-dnf_packages=(
-    neovim
-    tmux
-    zsh
-)
-install_dnf_pkgs "${dnf_packages[@]}"
+# ...
 
 {{- else if (eq .chezmoi.os "darwin") }}
 {{- /* ------------------------------------------------------------ MacOS */ -}}

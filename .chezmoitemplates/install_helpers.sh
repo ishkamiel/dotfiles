@@ -1,4 +1,15 @@
 #!/usr/bin/env bash
+#
+# Author: Hans Liljestrand <hans@liljestrand.dev>
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+#
+# Distributed under terms of the MIT license.
+
+readonly ERROR_LOG="${HOME}/.chezmoi_error.log"
+
+log_error() {
+    echo "[!!]: $1" | tee -a "${ERROR_LOG}"
+}
 
 is_installed_apt() {
     local pkg="$1"
@@ -24,7 +35,11 @@ install_apt_pkgs() {
 
     for pkg in "${pkgs[@]}"; do
         if ! is_installed_apt "${pkg}"; then
-            to_install+=("${pkg}")
+            if apt-cache show "${pkg}" > /dev/null 2>&1; then
+                to_install+=("${pkg}")
+            else
+                log_error "Cannot find pkg to install: ${pkg} (apt)"
+            fi
         else
             echo "Found ${pkg} (apt)"
         fi

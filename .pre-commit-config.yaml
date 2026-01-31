@@ -1,0 +1,48 @@
+exclude: ipython_config.py
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+    -   id: check-ast
+    -   id: check-case-conflict
+    -   id: check-executables-have-shebangs
+    -   id: check-json
+    -   id: check-merge-conflict
+    -   id: check-toml
+    -   id: check-yaml
+    -   id: detect-private-key
+    -   id: end-of-file-fixer
+    -   id: fix-byte-order-marker
+    -   id: fix-encoding-pragma
+    -   id: mixed-line-ending
+    -   id: pretty-format-json
+        args: ['--autofix']
+    -   id: trailing-whitespace
+-   repo: https://github.com/psf/black
+    rev: 24.8.0
+    hooks:
+    -   id: black
+-   repo: https://github.com/crate-ci/typos
+    rev: v1.24.6
+    hooks:
+      - id: typos
+-   repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.5.1
+    hooks:
+      - id: insert-license
+        exclude: vim-templates/.*
+        name: insert-license-shell
+        files: \.(sh|py)$
+        args:
+          - --use-current-year
+          - --license-filepath
+          - .LICENSE_HEADER
+      - id: insert-license
+        name: insert-license-chezmoi
+        files: \.(tmpl)$
+        args:
+          - --use-current-year
+          - --license-filepath
+          - .LICENSE_HEADER
+          - --comment-style
+          - "{{- /*||*/ -}}"
