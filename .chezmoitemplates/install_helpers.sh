@@ -14,7 +14,7 @@ log_error() {
 is_installed_apt() {
     local pkg="$1"
 
-    if dpkg -l | grep -q "^ii  ${pkg}[:\s]"; then
+    if dpkg -l | grep -q "^ii  ${pkg}[: ]"; then
         return 0
     fi
     return 1
