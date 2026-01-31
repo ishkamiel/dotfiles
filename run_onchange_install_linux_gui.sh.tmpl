@@ -17,14 +17,14 @@
 #!/usr/bin/env bash
 {{ template "install_helpers.sh" . }}
 
-{{ if hasPrefix .chezmoi.osRelease.id "ubuntu" -}}
+{{ if eq .chezmoi.osRelease.id "ubuntu" -}}
 {{- /* ----------------------------------------------------------- Ubuntu */ -}}
 
 # fonts?
 # gnome-tweaks
 # ...
 
-{{ else if hasPrefix .chezmoi.osRelease.id "fedora" -}}
+{{ else if hasPrefix "fedora" .chezmoi.osRelease.id -}}
 {{- /* ----------------------------------------------------------- Fedora */ -}}
 
 # ...

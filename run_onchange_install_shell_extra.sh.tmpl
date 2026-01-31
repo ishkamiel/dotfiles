@@ -16,10 +16,8 @@
 #!/usr/bin/env bash
 {{ template "install_helpers.sh" . }}
 
-{{ if hasPrefix .chezmoi.osRelease.id "ubuntu" -}}
+{{ if eq .chezmoi.osRelease.id "ubuntu" -}}
 {{- /* ----------------------------------------------------------- Ubuntu */ -}}
-
-# FIXUP: fzf starship
 
 packages=(
     curl
@@ -44,11 +42,11 @@ packages=(
 )
 install_apt_pkgs_noerr "${packages[@]}"
 
-{{ else if hasPrefix .chezmoi.osRelease.id "fedora" -}}
+{{ else if hasPrefix "fedora" .chezmoi.osRelease.id -}}
 {{- /* ----------------------------------------------------------- Fedora */ -}}
 
 packages=(
-    batcat
+    bat
     curl
     btop
     direnv
@@ -78,8 +76,6 @@ fi
 
 {{ end -}}
 {{- /* -------------------------------------------------------- Unix-like */ -}}
-
-
 
 # ...
 

@@ -29,6 +29,22 @@ is_installed_dnf() {
     return 1
 }
 
+is_installable_apt() {
+    local pkg="$1"
+    if apt-cache show "${pkg}" > /dev/null 2>&1; then
+        return 0
+    fi
+    return 1
+}
+
+is_installable_dnf() {
+    local pkg="$1"
+    if dnf list --available "${pkg}" > /dev/null 2>&1; then
+        return 0
+    fi
+    return 1
+}
+
 __install_apt_pkgs() {
     local do_log_error="$1"
     shift
@@ -37,7 +53,7 @@ __install_apt_pkgs() {
 
     for pkg in "${pkgs[@]}"; do
         if ! is_installed_apt "${pkg}"; then
-            if apt-cache show "${pkg}" > /dev/null 2>&1; then
+            if is_installable_apt "${pkg}"; then
                 to_install+=("${pkg}")
             elif [[ ${do_log_error} == 1 ]]; then
                 log_error "Cannot find pkg to install: ${pkg} (apt)"
@@ -61,13 +77,17 @@ install_apt_pkgs_noerr() {
     __install_apt_pkgs 0 "$@"
 }
 
-install_dnf_pkgs() {
+__install_dnf_pkgs() {
     local pkgs=("$@")
     local to_install=()
 
     for pkg in "${pkgs[@]}"; do
         if ! is_installed_dnf "${pkg}"; then
-            to_install+=("${pkg}")
+            if is_installable_dnf "${pkg}"; then
+                to_install+=("${pkg}")
+            elif [[ ${do_log_error} == 1 ]]; then
+                log_error "Cannot find pkg to install: ${pkg} (dnf)"
+            fi
         else
             echo "Found ${pkg} (dnf)"
         fi
@@ -77,6 +97,14 @@ install_dnf_pkgs() {
         echo "Installing dnf packages ${to_install[*]}"
         sudo dnf install -y "${to_install[@]}"
     fi
+}
+
+install_dnf_pkgs() {
+    __install_dnf_pkgs 1 "$@"
+}
+
+install_dnf_pkgs_noerr() {
+    __install_dnf_pkgs 0 "$@"
 }
 
 install_apt() {
