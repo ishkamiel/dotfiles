@@ -174,4 +174,14 @@ install_pkg() {
     return $?
 }
 
+running_gnome() {
+    local old_val=$(shopt -p nocasematch)
+    local retval=-1
+
+    shopt -s nocasematch
+    [[ "${XDG_CURRENT_DESKTOP}" =~ gnome ]] && retval=0
+    ${old_val}
+    return ${retval}
+}
+
 # vim: set ft=bash:
