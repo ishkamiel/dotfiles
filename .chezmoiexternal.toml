@@ -1,0 +1,6 @@
+
+[".config/zsh/plugins/fzf-tab"]
+    type = "git-repo"
+    url = "https://github.com/Aloxaf/fzf-tab.git"
+    revision = "01dad759c4466600b639b442ca24aebd5178e799"
+    # refreshPeriod = "168h" # Optional: Only check for updates once a week
