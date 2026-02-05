@@ -50,6 +50,8 @@ command -v vim >/dev/null 2>&1 && export EDITOR=vim
 # # Pager
 # export PAGER='less -X -F'
 
+zstyle ':omz:update' mode disabled
+
 plugins=(
     eza
     direnv
