@@ -4,6 +4,7 @@
 .config/omz-custom
 .config/starship.toml
 .fzf
+.gdbinit
 .gitconfig_common
 .gitignore_global
 .inputrc
