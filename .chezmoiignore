@@ -1,7 +1,7 @@
 {{- if eq .chezmoi.os "windows" }}
 .bashrc
-.config/nvim
-.config/omz-custom
+.config/nvim/**
+.config/omz-custom/**
 .config/starship.toml
 .fzf
 .gdbinit
