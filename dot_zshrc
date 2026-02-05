@@ -3,46 +3,65 @@
 
 export DEFAULT_USER=ishkamiel
 export DOTFILES="${HOME}/.dotfiles"
+export ZSH="${HOME}/.oh-my-zsh"
+export ZSH_CUSTOM="${HOME}/.config/omz-custom"
 
-__prepend_to_PATH() {
-  local new_path="$1"
-  if [[ -d "$new_path" ]]; then
-    # Remove new_path from PATH if it already exists
-    PATH=$(echo "$PATH" | sed -e "s;:$new_path;;" -e "s;$new_path:;;" -e "s;$new_path;;")
-    # Prepend new_path to PATH
-    export PATH="$new_path:$PATH"
-  fi
-  return 0
-}
+# Load some local overrides, if they exist
+[[ -e "${HOME}/.zshrc_local" ]] && source "${HOME}/.zshrc_local"
 
-__get_nproc() {
-  if command -v nproc >/dev/null 2>&1; then
-    nproc
-  elif command -v sysctl >/dev/null 2>&1; then
-    sysctl -n hw.ncpu
-  fi
-}
+# Load basic helper functions
+source "${ZSH_CUSTOM}/helper_functions.zsh"
+VI_MODE_SET_CURSOR=true
 
-# ZSH
-export HISTFILE="$HOME"/.zhistory
-setopt SHARE_HISTORY
-setopt APPEND_HISTORY
-setopt HIST_IGNORE_SPACE
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_DUPS
-setopt HIST_FIND_NO_DUPS
-setopt HIST_REDUCE_BLANKS
-# setopt CORRECT
-# setopt CORRECT_ALL
-HISTSIZE=10000
-SAVEHIST=10000
+# Set vi mode
 bindkey -v
 bindkey '^?' backward-delete-char
+VI_MODE_SET_CURSOR=true
+VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
 
+# Prompt fixes
 export ZLE_RPROMPT_INDENT=0
 
-autoload -U compinit; compinit
-source ${HOME}/.config/zsh/plugins/fzf-tab/fzf-tab.plugin.zsh
+# pyenv
+export PYENV_ROOT="${HOME}/.pyenv"
+__prepend_to_PATH "${PYENV_ROOT}/bin"
+command -v pyenv >/dev/null 2>&1 && eval "$(pyenv init --path)"
+# go
+export GOPATH="${HOME}/go"
+# rust
+__prepend_to_PATH "${HOME}/.cargo/bin"
+
+# fzf
+__prepend_to_PATH "${HOME}/.fzf/bin"
+command -v fzf >/dev/null 2>&1 && eval "$(fzf --zsh)"
+
+# More PATHs
+__prepend_to_PATH "${HOME}/.local/bin"
+__prepend_to_PATH "${HOME}/bin"
+__prepend_to_PATH "/opt/homebrew/bin"
+__prepend_to_PATH "${HOME}/opt/go/bin"
+__prepend_to_PATH "${HOME}/go/bin"
+
+# Editor fixes
+export EDITOR=vi
+command -v nvim >/dev/null 2>&1 && alias vim=nvim
+command -v vim >/dev/null 2>&1 && export EDITOR=vim
+
+# # Pager
+# export PAGER='less -X -F'
+
+plugins=(
+    eza
+    direnv
+    fzf
+    fzf-tab
+    pyenv
+    vi-mode
+)
+
+source "$ZSH/oh-my-zsh.sh"
+
+# Configure fzf-tab
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
 # set descriptions format to enable group support
@@ -51,47 +70,11 @@ zstyle ':completion:*:descriptions' format '[%d]'
 # set list-colors to enable filename colorizing
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
-zstyle ':completion:*' menu no
+ zstyle ':completion:*' menu no
 # preview directory's content with eza when completing cd
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
-# custom fzf flags
-# NOTE: fzf-tab does not follow FZF_DEFAULT_OPTS by default
 zstyle ':fzf-tab:*' fzf-flags --color=fg:1,fg+:2 --bind=tab:accept
-# To make fzf-tab follow FZF_DEFAULT_OPTS.
-# NOTE: This may lead to unexpected behavior since some flags break this plugin. See Aloxaf/fzf-tab#455.
-zstyle ':fzf-tab:*' use-fzf-default-opts yes
-# switch group using `<` and `>`
-zstyle ':fzf-tab:*' switch-group '<' '>'
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-
-# Load some local overrides, if they exist
-[[ -e "$HOME/.zshrc_local" ]] && source "$HOME/.zshrc_local"
-
-# Homebrew for MacOS
-__prepend_to_PATH "/opt/homebrew/bin"
-
-# pyenv
-export PYENV_ROOT="${HOME}/.pyenv"
-__prepend_to_PATH "${PYENV_ROOT}/bin"
-command -v pyenv >/dev/null 2>&1 && eval "$(pyenv init -)"
-
-# fzf
-if [[ -e ${DOTFILES}/external/fzf/bin/fzf ]]; then
-  export FZF_BASE=${DOTFILES}/external/fzf
-  __prepend_to_PATH "${DOTFILES}/external/fzf/bin"
-elif [[ -e /opt/local/share/fzf ]]; then
-  export FZF_BASE=/opt/local/share/fzf
-fi
-command -v fzf >/dev/null 2>&1 && source <(fzf --zsh)
-export HIST_STAMPS="yyyy-mm-dd"
-
-export EDITOR=vi
-command -v vim >/dev/null 2>&1 && export EDITOR=vim
-export PAGER='less -X -F'
-
-__prepend_to_PATH "${HOME}/.dotfiles/bin"
-__prepend_to_PATH "${HOME}/.local/bin"
-__prepend_to_PATH "${HOME}/bin"
 
 # Aliases
 alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --color"
@@ -102,84 +85,16 @@ alias mv="mv -i"
 alias makej="make -j$(__get_nproc)"
 alias umakej="unbuffer make -j$(__get_nproc)"
 alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
-command -v pytest >/dev/null 2>&1 && alias pytestj="pytest -d -n$(__get_nproc)"
-
-# Use nvim as vim, if available
-if command -v nvim >/dev/null 2>&1; then
-    alias vim="nvim"
-    export EDITOR=nvim
-fi
-
-# bat
+# batcat
 command -v batcat >/dev/null 2>&1 && alias bat="batcat -p"
 command -v bat >/dev/null 2>&1 && alias cat='bat -p'
-
-# Load system vendor-completionns
-fpath=($fpath /usr/share/zsh/vendor-completions)
-compinit
-
-# Configure Go (golang) stuff
-__prepend_to_PATH "${HOME}/opt/go/bin"
-__prepend_to_PATH "${HOME}/go/bin"
-export GOPATH="${HOME}/go"
-
-# Configure Rust stuff
-__prepend_to_PATH "${HOME}/.cargo/bin"
-
-# rvm
-__prepend_to_PATH "${HOME}/.rvm/bin"
-[[ -e "${HOME}/.rvm/scripts/rvm" ]] && source "${HOME}/.rvm/scripts/rvm"
-
-# Node.js
-if [[ -e "/opt/local/share/nvm/nvm.sh" ]]; then
-    # Set up nvm from MacPorts
-    [ -z "$NVM_DIR" ] && export NVM_DIR="$HOME/.nvm"
-    # "nvm exec" and certain 3rd party scripts expect "nvm.sh" and "nvm-exec" to exist under $NVM_DIR
-    [ -e "$NVM_DIR" ] || mkdir -p "$NVM_DIR"
-    [ -e "$NVM_DIR/nvm.sh" ] || ln -s /opt/local/share/nvm/nvm.sh "$NVM_DIR/nvm.sh"
-    [ -e "$NVM_DIR/nvm-exec" ] || ln -s /opt/local/share/nvm/nvm-exec "$NVM_DIR/nvm-exec"
-fi
-export NVM_DIR="$HOME/.nvm"
-# Load NVM, if found
-if [[ -e "$HOME/.nvm" ]]; then
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-fi
-
-# RISC-V toolchain
-export RISCV="${HOME}/opt/riscv"
-
-# Configure OCaml stuff (OCamml Package Manager, opam)
-command -v opam >/dev/null 2>&1 && eval "$(opam env)"
-
-# Use eza instead of ls, if available
-if command -v eza >/dev/null 2>&1; then
-  alias ls="eza --color=always"
-  alias tree="eza --tree --color=always"
-  alias ll="eza --color=always -lh --git --git-repos"
-fi
-
-# Ass source highlighting to LESSOPEN, if available
-src_highlight_lesspipe="/usr/share/source-highlight/src-hilite-lesspipe.sh"
-command -v "${src_highlight_lesspipe}" >/dev/null 2>&1 && export LESSOPEN="| ${src_highlight_lesspipe} %s"
-
-# Use dust instead of du, if available
+# dust
 command -v dust >/dev/null 2>&1 && alias du="dust"
+# eza
+command -v eza >/dev/null 2>&1 && alias tree="eza --tree --color=always"
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/ishkamiel/opt/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/ishkamiel/opt/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/ishkamiel/opt/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/ishkamiel/opt/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
+# fzf fixup
+bindkey '^R' fzf-history-widget
 
-command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
+# Starship
 command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"

@@ -79,5 +79,9 @@ fi
 
 # ...
 
+pushd "${HOME}/.fzf"
+./install --key-bindings --completion --no-update-rc --no-bash --no-zsh
+popd
+
 {{ end -}}
 # vim: set ft=bash:

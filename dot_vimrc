@@ -11,7 +11,7 @@ endif
 call plug#begin() " {{{
 
 Plug 'bling/vim-airline'
-  Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'drewtempelmeyer/palenight.vim' " Colroscheme

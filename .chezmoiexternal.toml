@@ -1,6 +1,15 @@
-
-[".config/zsh/plugins/fzf-tab"]
+[".fzf"]
+    type = "git-repo"
+    url = "https://github.com/junegunn/fzf.git"
+    revision = "2ab923f3ae04d5e915e5ff4a9cd3bd515bfd1ea5"
+    # refreshPeriod = "168h" # Optional: Only check for updates once a week
+[".config/omz-custom/plugins/fzf-tab"]
     type = "git-repo"
     url = "https://github.com/Aloxaf/fzf-tab.git"
     revision = "01dad759c4466600b639b442ca24aebd5178e799"
+    # refreshPeriod = "168h" # Optional: Only check for updates once a week
+[".oh-my-zsh"]
+    type = "git-repo"
+    url = "https://github.com/ohmyzsh/ohmyzsh.git"
+    revision = "9df4ea095fe27ccd0ee95f2d34bab884c4a75585"
     # refreshPeriod = "168h" # Optional: Only check for updates once a week
