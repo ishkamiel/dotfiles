@@ -1,7 +1,13 @@
 {{- if not (or (ne .chezmoi.os "linux") (ne .chezmoi.os "darwin")) }}
 .bashrc
+.config/nvim
+.config/omz-custom
+.config/starship.toml
+.fzf
 .gitconfig_common
+.gitignore_global
 .inputrc
+.oh-my-zsh
 .profile
 .tmux.conf
 .vimrc
@@ -10,5 +16,6 @@
 {{- end }}
 
 {{- if ne .chezmoi.os "windows" }}
+AppData/Local/Microsoft/Windows Terminal/
 Documents/WindowsTerminal/settings.json
 {{- end }}
