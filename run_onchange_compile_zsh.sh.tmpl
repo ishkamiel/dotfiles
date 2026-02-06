@@ -1,0 +1,35 @@
+{{- /*
+ SPDX-License-Identifier: MIT
+ Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+*/ -}}
+
+{{ if ne .chezmoi.os "windows" -}}
+{{- /* ----------------------------------------------------- Linux-like --*/ -}}
+#!/usr/bin/env zsh
+
+zcompile_if_exists() {
+    local f="$1"
+
+    if [[ -e "${f}" ]]; then
+        echo "zcompile $f"
+        zcompile "${f}"
+    fi
+}
+
+echo "Compiling zsh files"
+if command -v zcompile >/dev/null 2>&1; then
+    zcompile_if_exists "${HOME}/.zshrc"
+    zcompile_if_exists "${HOME}/.zcompdump"
+    zcompile_if_exists "${HOME}/.zprofile"
+    zcompile_if_exists "${HOME}/.oh-my-zsh/oh-my-zsh.sh"
+
+    if [[ -e "${HOME}/.oh-my-zsh" ]]; then
+        for f in ~/.oh-my-zsh/**/*.zsh; do
+            echo "zcompile $f"
+            zcompile "$f"
+        done
+    fi
+fi
+
+{{ end -}}
+# vim: set ft=zsh shiftwidth=2 tabstop=2:

@@ -1,3 +1,0 @@
-#!/usr/bin/bash
-
-exec tmux -t $(hostname) -A

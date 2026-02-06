@@ -1,27 +1,32 @@
-# vim: fdm=marker foldlevel=0 shiftwidth=4 tabstop=4
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
 
 __prepend_to_PATH() {
-    case ":$PATH:" in
-        *:$1:*)
-            # echo "$1 already in path, skipping"
-            ;; # already in PATH, doing nothing
-        *)
-            # [ -e "$1" ] || echo "$1 not found, skipping"
-            [ -e "$1" ] && export PATH="$1:${PATH}"
-            ;;
-    esac
+    if [ -e "$1" ]; then
+        case ":$PATH:" in
+            *:$1:*)
+                # echo "$1 already in path, skipping"
+                ;; # already in PATH, doing nothing
+            *)
+                # [ -e "$1" ] || echo "$1 not found, skipping"
+                [ -e "$1" ] && export PATH="$1:${PATH}"
+                ;;
+        esac
+    fi
 }
 
 __prepend_to_MANPATH() {
-    case ":$MANPATH:" in
-        *:$1:*)
-            # echo "$1 already in path, skipping"
-            ;; # already in PATH, doing nothing
-        *)
-            # [ -e "$1" ] || echo "$1 not found, skipping"
-            [ -e "$1" ] && export MANPATH="$1:${MANPATH}"
-            ;;
-    esac
+    if [ -e "$1" ]; then
+        case ":$MANPATH:" in
+            *:$1:*)
+                # echo "$1 already in path, skipping"
+                ;; # already in PATH, doing nothing
+            *)
+                # [ -e "$1" ] || echo "$1 not found, skipping"
+                [ -e "$1" ] && export MANPATH="$1:${MANPATH}"
+                ;;
+        esac
+    fi
 }
 
 __append_to_PATH() {
@@ -36,48 +41,28 @@ __append_to_PATH() {
     esac
 }
 
-export DOTFILES="${HOME}/.dotfiles"
 __prepend_to_PATH "${HOME}/bin"
 __prepend_to_PATH "${HOME}/.local/bin"
-__prepend_to_PATH "$HOME/.cargo/bin"
-__prepend_to_PATH "$HOME/.emacs.d/bin"
-__prepend_to_PATH "${HOME}/opt/cmake/install/bin"
-__prepend_to_PATH "${HOME}/opt/nasm/install/bin"
-__prepend_to_PATH "${HOME}/localhome/bin"
-__prepend_to_PATH "/opt/coverity/analysis/bin"
-__prepend_to_PATH "/opt/local/bin"
-__prepend_to_PATH "/opt/local/sbin"
-
-__prepend_to_MANPATH "/opt/local/share/man"
 
 # Fix for intellj IDEs: https://youtrack.jetbrains.com/issue/IDEA-78860
 export IBUS_ENABLE_SYNC_MODE=1
 
-# Load Intel SGX SDK environment, if available
-# shellcheck disable=SC1091
-[ -e /opt/intel/sgxsdk/environment ] && . /opt/intel/sgxsdk/environment
-
-if [ -e "/dev/shm" ]; then
-    dir="/dev/shm/${USER}-tmp"
-    hdir="${HOME}/tmp"
-    [ -e "$dir" ]  || mkdir "$dir"
-    [ -e "$hdir" ] || ln -s "$dir" "$hdir"
-fi
-
-# shellcheck disable=SC1090 disable=SC1091
-[ -e "${HOME}/.profile_local" ] && . "${HOME}/.profile_local"
 
 # Load .Xresources if we have xrdb and it exists
 command -v xrdb >/dev/null 2>&1 && \
     [ -n "$XDG_SESSION_TYPE" ] && [ "$XDG_SESSION_TYPE" != "tty" ] &&\
     [ -e "${HOME}/.Xresources" ] && xrdb -merge "${HOME}/.Xresources"
 
-command -v vi >/dev/null 2>&1 && \
-    export EDITOR=vi
-
-command -v vim >/dev/null 2>&1 && \
-    export EDITOR=vim
+# Configure vim and EDITOR
+command -v vi >/dev/null 2>&1 && export EDITOR=vi
+command -v nvim >/dev/null 2>&1 && alias vim=nvim
+command -v vim >/dev/null 2>&1 && export EDITOR=vim
 
 # Load cargo environment
 # shellcheck disable=SC1091
 [ -e "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+
+# shellcheck disable=SC1090 disable=SC1091
+[ -e "${HOME}/.profile_local" ] && . "${HOME}/.profile_local"
+
+# vim: ft=bash shiftwidth=2 tabstop=2

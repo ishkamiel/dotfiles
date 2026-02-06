@@ -1,2 +1,28 @@
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+
 [ -e ~/.profile ] && . ~/.profile
-[ -e ~/.zprofile_local ] && . ~/.zprofile_local
+
+__get_nproc() {
+  if command -v nproc >/dev/null 2>&1; then
+    nproc
+  elif command -v sysctl >/dev/null 2>&1; then
+    sysctl -n hw.ncpu
+  fi
+}
+
+export NPROC=$(__get_nproc)
+
+# pyenv
+export PYENV_ROOT="${HOME}/.pyenv"
+__prepend_to_PATH "${PYENV_ROOT}/bin"
+command -v pyenv >/dev/null 2>&1 && eval "$(pyenv init --path)"
+
+# fzf
+__prepend_to_PATH "${HOME}/.fzf/bin"
+command -v fzf >/dev/null 2>&1 && eval "$(fzf --zsh)"
+
+# direnv
+command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
+
+# vim: ft=zsh shiftwidth=2 tabstop=2

@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
 
 __prepend_to_PATH() {
     case ":$PATH:" in
@@ -22,3 +23,5 @@ __prepend_to_PATH "${HOME}/.rbenv/bin"
 command -v rbenv >/dev/null 2>&1 && eval "$(rbenv init -)"
 
 command -v starship >/dev/null 2>&1 && eval "$(starship init bash)"
+
+# vim: ft=bash shiftwidth=2 tabstop=2

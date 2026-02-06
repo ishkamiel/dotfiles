@@ -32,7 +32,7 @@ repos:
       - id: insert-license
         exclude: vim-templates/.*
         name: insert-license-shell
-        files: \.(sh|py)$
+        files: (dot_tmux\.conf|dot_zshrc|dot_zprofile|dot_profile|dot_bashrc|\.(sh|zsh|py))$
         args:
           - --use-current-year
           - --license-filepath
