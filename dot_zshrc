@@ -71,9 +71,6 @@ zstyle ':fzf-tab:*' fzf-flags \
   --color=fg:1,fg+:2 \
   --tiebreak=length
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
-if [[ -n $TMUX ]]; then
-  zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-fi
 # --- fzf for history -----------------
 bindkey '^R' fzf-history-widget
 
