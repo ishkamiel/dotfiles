@@ -85,7 +85,7 @@ alias umakej="unbuffer make -j${NPROC}"
 alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
 # --- batcat --------------------------
 if command -v batcat >/dev/null 2>&1; then
-  alias cat='bat -p'
+  alias cat='batcat -p'
 elif  command -v bat >/dev/null 2>&1; then
   alias cat='bat -p'
 fi
