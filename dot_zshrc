@@ -28,31 +28,19 @@ setopt HIST_REDUCE_BLANKS
 HISTSIZE=10000
 SAVEHIST=10000
 
+export ZLE_RPROMPT_INDENT=0 # Fix for prompt issues
+export GOPATH="${HOME}/go" # Set go home
+
 # Load some local overrides, if they exist
 [[ -e "${HOME}/.zshrc_local" ]] && source "${HOME}/.zshrc_local"
 
-# Set vi mode
+####### vi mode ################################################################
 bindkey -v
 bindkey '^?' backward-delete-char
 VI_MODE_SET_CURSOR=true
 VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
 
-# Prompt fixes
-export ZLE_RPROMPT_INDENT=0
-
-# go
-export GOPATH="${HOME}/go"
-# rust
-__prepend_to_PATH "${HOME}/.cargo/bin"
-
-# More PATHs
-__prepend_to_PATH "${HOME}/.local/bin"
-__prepend_to_PATH "${HOME}/bin"
-__prepend_to_PATH "/opt/homebrew/bin"
-__prepend_to_PATH "${HOME}/opt/go/bin"
-__prepend_to_PATH "${HOME}/go/bin"
-
-# Disable oh-my-zsh autoupdates
+####### oh-my-zsh ##############################################################
 zstyle ':omz:update' mode disabled
 
 plugins=(
@@ -60,42 +48,36 @@ plugins=(
     eza
     fzf
     fzf-tab
-    pyenv
     ssh-agent
     vi-mode
 )
 
 source "$ZSH/oh-my-zsh.sh"
 
-# Configure fzf-tab
-# disable sort when completing `git checkout`
-zstyle ':completion:*:git-checkout:*' sort false
-# set descriptions format to enable group support
-# NOTE: don't use escape sequences (like '%F{red}%d%f') here, fzf-tab will ignore them
-zstyle ':completion:*:descriptions' format '[%d]'
-# set list-colors to enable filename colorizing
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-# force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
- zstyle ':completion:*' menu no
-# preview directory's content with eza when completing cd
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
-zstyle ':fzf-tab:*' fzf-flags --color=fg:1,fg+:2 --bind=tab:accept
-zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-# Force case-sensitivity for fzf-tab
-zstyle ':fzf-tab:*' fzf-flags --no-smart-case
-# Force case-sensitivity everywhere
-# export FZF_DEFAULT_OPTS="--no-smart-case"
-# Ensure a slash is added when completing directories
-zstyle ':completion:*' directories 'yes'
-# (Optional) Prevents the slash from being removed if you type a space after it
-# setopt NO_AUTO_REMOVE_SLASH
-
-
-zstyle ':fzf-tab:*' fzf-flags --no-smart-case
+####### fzf ####################################################################
+# --- Zsh Core Options ----------------
 setopt AUTO_PARAM_SLASH
+# --- Base settings -------------------
+zstyle ':completion:*' matcher-list ''
+zstyle ':completion:*' accept-exact-dirs true
+zstyle ':completion:*' menu select
+# --- Visuals and sorting -------------
+zstyle ':completion:*:git-checkout:*' sort false
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# --- fzf-tab configuration -----------
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
+zstyle ':fzf-tab:*' fzf-flags \
+  --color=fg:1,fg+:2 \
+  --tiebreak=length
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+if [[ -n $TMUX ]]; then
+  zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+fi
+# --- fzf for history -----------------
+bindkey '^R' fzf-history-widget
 
-
-# Aliases
+####### aliases ################################################################
 alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --color"
 alias git-dc="git diff --color-words --color"
 alias cp="cp -i"
@@ -104,21 +86,19 @@ alias mv="mv -i"
 alias makej="make -j${NPROC}"
 alias umakej="unbuffer make -j${NPROC}"
 alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
-# batcat
+# --- batcat --------------------------
 if command -v batcat >/dev/null 2>&1; then
   alias cat='bat -p'
 elif  command -v bat >/dev/null 2>&1; then
   alias cat='bat -p'
 fi
-# dust
+# --- dust ----------------------------
 command -v dust >/dev/null 2>&1 && alias du="dust"
-# eza
+# --- eza -----------------------------
 command -v eza >/dev/null 2>&1 && alias tree="eza --tree --color=always"
 
-# fzf fixup
-bindkey '^R' fzf-history-widget
 
-# Starship
+####### starship ###############################################################
 command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
 
 # vim: ft=zsh shiftwidth=2 tabstop=2
