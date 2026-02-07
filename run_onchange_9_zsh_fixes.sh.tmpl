@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 # SPDX-License-Identifier: MIT
 # Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
 
@@ -13,23 +13,33 @@ zcompile_if_exists() {
     fi
 }
 
-if command -v zsh >/dev/null 2>&1; then
-	zsh -ic build-fzf-tab-module
-fi
-
-# echo "Compiling zsh files"
-if command -v zcompile >/dev/null 2>&1; then
+zcompile_all() {
+  if command -v zcompile >/dev/null 2>&1; then
     zcompile_if_exists "${HOME}/.zshrc"
     zcompile_if_exists "${HOME}/.zcompdump"
     zcompile_if_exists "${HOME}/.zprofile"
     zcompile_if_exists "${HOME}/.oh-my-zsh/oh-my-zsh.sh"
 
     if [[ -e "${HOME}/.oh-my-zsh" ]]; then
-        for f in ~/.oh-my-zsh/**/*.zsh; do
-            echo "zcompile $f"
-            zcompile "$f"
-        done
+      for f in ~/.oh-my-zsh/**/*.zsh; do
+        zsh -ic "zcompile \"$f\""
+      done
     fi
-fi
+  fi
+}
 
-# vim: set ft=zsh shiftwidth=2 tabstop=2:
+build_fzf_tab() {
+  FZF_TAB_DIR="${HOME}/.config/omz-custom/plugins/fzf-tab"
+  if [[ -d "$FZF_TAB_DIR" ]]; then
+    if [[ -z $(find "$FZF_TAB_DIR/modules" -name "*.so" -print -quit) ]]; then
+      if command -v zsh >/dev/null 2>&1; then
+        zsh -ic build-fzf-tab-module
+      fi
+    fi
+  fi
+}
+
+zcompile_all
+build_fzf_tab
+
+# vim: set ft=bash shiftwidth=2 tabstop=2:
