@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+#
+#{{ template "install_helpers.sh" . }}
+
+packages=()
+packages+=(
+  neovim
+  tmux
+  vim-nox
+  zsh
+)
+packages+=(
+  btop
+  curl
+  direnv
+  eza
+  fd-find
+  fzf
+  git
+  git-crypt
+  ipython3
+  locate
+  python-is-python3
+  silversearcher-ag
+  wget
+)
+packages+=(
+  apt-file
+  aptitude
+)
+packages+=(
+  dconf-cli
+)
+packages+=(
+  autoconf
+  automake
+  build-essential
+  ccache
+  clang
+  clang-format
+  cmake
+  editorconfig
+  exuberant-ctags
+  flang
+  g++
+  gcc
+  git
+  libcriticism-perl
+  libxml2-dev
+  lld
+  llvm
+  make
+  markdown
+  markdownlint
+  ninja-build
+  pkg-config
+  pre-commit
+  pylint
+  rbenv
+  rustup
+  shellcheck
+)
+install_apt_pkgs "${packages[@]}"
+
+packages_noerr=(
+  batcat
+  du-dust
+  starship
+)
+install_apt_pkgs_noerr "${packages_noerr[@]}"
+
+snap_packages=()
+
+sudo snap install tldr
+
+# vim: set ft=bash shiftwidth=2 tabstop=2:

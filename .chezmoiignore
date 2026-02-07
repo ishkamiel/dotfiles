@@ -1,6 +1,11 @@
-{{- if eq .chezmoi.os "windows" }}
+{{- /*
+ SPDX-License-Identifier: MIT
+ Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+*/ -}}
+
+{{ if eq .chezmoi.os "windows" }}
+{{- /* ------------------------------------------------------- Linux-like */ -}}
 .bashrc
-bin/**
 .config/nvim/**
 .config/omz-custom/**
 .config/starship.toml
@@ -15,9 +20,30 @@ bin/**
 .vimrc
 .zprofile
 .zshrc
-{{- end }}
+bin/**
+0_init.sh
+2_install_fzf.sh
+2_install_starship.sh
+9_config_gnome_shell.sh
+9_vim_plugins.sh
+9_zsh_fixes.sh
+z_finalize.sh
+{{ end }}
 
-{{- if ne .chezmoi.os "windows" }}
+{{ if or (ne .chezmoi.os "linux") (ne .chezmoi.osRelease.id "ubuntu") }}
+{{- /* ----------------------------------------------------------- Ubuntu */ -}}
+0_install_apt.sh
+9_config_gnome_shell.sh
+{{ end }}
+
+{{ if or (ne .chezmoi.os "linux") (not (hasPrefix "fedora" .chezmoi.osRelease.id)) }}
+{{- /* ----------------------------------------------------------- Fedora */ -}}
+0_install_dnf.sh
+{{ end }}
+
+{{ if ne .chezmoi.os "windows" }}
+{{- /* ---------------------------------------------------------- Windows */ -}}
 AppData/Local/Microsoft/Windows Terminal/
 Documents/WindowsTerminal/settings.json
-{{- end }}
+0_install_winget.sh
+{{ end }}

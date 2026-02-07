@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+#
+#{{ template "install_helpers.sh" . }}
+
+if ! command -v starship >/dev/null 2>&1; then
+  if ! curl -sS https://starship.rs/install.sh | sh; then
+    log_error "Failed to install: starship"
+  fi
+fi
+
+# vim: set ft=bash shiftwidth=2 tabstop=2:

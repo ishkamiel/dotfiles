@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
-#
-# Author: Hans Liljestrand <hans@liljestrand.dev>
+# SPDX-License-Identifier: MIT
 # Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
-#
-# Distributed under terms of the MIT license.
 
 readonly ERROR_LOG="${HOME}/.chezmoi_error.log"
 
@@ -22,12 +19,21 @@ is_installed_apt() {
 
 is_installed_dnf() {
     local pkg="$1"
+    if snap list "${pkg}" &>/dev/null; then
+        return 0
+    fi
+    return 1
+}
+
+is_installed_snap() {
+    local pkg="$1"
 
     if rpm -q "${pkg}" > /dev/null 2>&1; then
         return 0
     fi
     return 1
 }
+
 
 is_installable_apt() {
     local pkg="$1"
@@ -40,6 +46,14 @@ is_installable_apt() {
 is_installable_dnf() {
     local pkg="$1"
     if dnf list --available "${pkg}" > /dev/null 2>&1; then
+        return 0
+    fi
+    return 1
+}
+
+is_installable_snap() {
+    local pkg="$1"
+    if snap info "${pkg}" &>/dev/null; then
         return 0
     fi
     return 1
@@ -105,6 +119,36 @@ install_dnf_pkgs() {
 
 install_dnf_pkgs_noerr() {
     __install_dnf_pkgs 0 "$@"
+}
+
+__install_snap_pkgs() {
+    local pkgs=("$@")
+    local to_install=()
+
+    for pkg in "${pkgs[@]}"; do
+        if ! is_installed_snap "${pkg}"; then
+            if is_installable_snap "${pkg}"; then
+                to_install+=("${pkg}")
+            elif [[ ${do_log_error} == 1 ]]; then
+                log_error "Cannot find pkg to install: ${pkg} (snap)"
+            fi
+        else
+            echo "Found ${pkg} (snap)"
+        fi
+    done
+
+    if [ ${#to_install[@]} -ne 0 ]; then
+        echo "Installing snap packages ${to_install[*]}"
+        sudo snap install -y "${to_install[@]}"
+    fi
+}
+
+install_snap_pkgs() {
+    __install_snap_pkgs 1 "$@"
+}
+
+install_snap_pkgs_noerr() {
+    __install_snap_pkgs 0 "$@"
 }
 
 install_apt() {

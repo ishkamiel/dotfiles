@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+#
+#{{ template "install_helpers.sh" . }}
+
+set -euo pipefail
+
+__do_dconf() {
+  if command -v dconf >/dev/null 2>&1; then
+    dconf write /org/gnome/desktop/background/show-desktop-icons true
+    dconf write /org/gnome/desktop/interface/monospace-font-name "'Hack 12'"
+    dconf write /org/gnome/mutter/dynamic-workspaces false
+    dconf write /org/gnome/desktop/wm/preferences/num-workspaces 4
+    dconf write /org/gnome/shell/extensions/dash-to-dock/dock-fixed false
+    dconf write /org/gnome/shell/extensions/dash-to-dock/isolate-workspaces true
+    dconf write /org/gnome/shell/extensions/tiling-assistant/tiling-popup-all-workspace false
+    dconf write /org/gnome/desktop/sound/event-sounds false
+  fi
+}
+
+__do_gsettings() {
+  if command -v gsettings >/dev/null 2>&1; then
+    gsettings set org.gnome.desktop.interface enable-animations false
+    gsettings set org.gnome.desktop.interface enable-hot-corners false
+    gsettings set org.gnome.desktop.calendar show-weekdate true
+    gsettings set org.gnome.desktop.input-sources xkb-options '["caps:escape"]'
+  fi
+}
+
+__do_dconf
+__do_gsettings
+
+log_error "PARTIALLY DISABLED: $0 (no keybindings)"
+exit 0
+
+set -e
+DOTFILES=${DOTFILES:-"${HOME}/.dotfiles"}
+# shellcheck source=../lib/checks.sh
+. "${DOTFILES}/lib/checks.sh"
+# shellcheck source=../lib/debug.sh
+. "${DOTFILES}/lib/debug.sh"
+
+SUMFILE="${DOTFILES}/.keybindings.md5"
+KEYFILE="${DOTFILES}/ubuntu_keybindings"
+PYSCRIPT="${DOTFILES}/lib/keybindings.pl"
+
+if ! running_ubuntu; then
+    say "skipped, not on ubuntu\n"
+    exit 0
+fi
+
+if ! running_gnome; then
+    say "skipped, not running gnome\n"
+    exit 0
+fi
+
+if ! md5sum --check --quiet "${SUMFILE}" > /dev/null 2>&1; then
+    echo "applying"
+    "${PYSCRIPT}" -i "${KEYFILE}"
+    md5sum "${KEYFILE}" > "${SUMFILE}"
+else
+    echo "Already applied"
+fi
+
+# vim: set ft=bash shiftwidth=2 tabstop=2:

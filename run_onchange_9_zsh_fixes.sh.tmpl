@@ -1,22 +1,23 @@
-{{- /*
- SPDX-License-Identifier: MIT
- Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
-*/ -}}
-
-{{ if ne .chezmoi.os "windows" -}}
-{{- /* ----------------------------------------------------- Linux-like --*/ -}}
 #!/usr/bin/env zsh
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+
+set -euo pipefail
 
 zcompile_if_exists() {
     local f="$1"
 
     if [[ -e "${f}" ]]; then
-        echo "zcompile $f"
+        # echo "zcompile $f"
         zcompile "${f}"
     fi
 }
 
-echo "Compiling zsh files"
+if command -v zsh >/dev/null 2>&1; then
+	zsh -ic build-fzf-tab-module
+fi
+
+# echo "Compiling zsh files"
 if command -v zcompile >/dev/null 2>&1; then
     zcompile_if_exists "${HOME}/.zshrc"
     zcompile_if_exists "${HOME}/.zcompdump"
@@ -31,5 +32,4 @@ if command -v zcompile >/dev/null 2>&1; then
     fi
 fi
 
-{{ end -}}
 # vim: set ft=zsh shiftwidth=2 tabstop=2:

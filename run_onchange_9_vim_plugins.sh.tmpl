@@ -1,20 +1,8 @@
-{{- /*
-
- Author: Hans Liljestrand <hans@liljestrand.dev>
- Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
-
- Distributed under terms of the MIT license.
-*/ -}}
-
-{{ if eq .chezmoi.os "windows" -}}
-{{- /* -------------------------------------------------------- Windows --*/ -}}
-
-# ...
-
-{{ else -}}
-{{- /* ----------------------------------------------------- Linux-like --*/ -}}
 #!/usr/bin/env bash
-{{ template "install_helpers.sh" . }}
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+#
+#{{ template "install_helpers.sh" . }}
 
 set -euo pipefail
 
@@ -41,5 +29,4 @@ if command -v nvim >/dev/null 2>&1; then
 	[[ -e ${FN_NEOVIM} ]] && nvim +PlugInstall +qall
 fi
 
-{{ end -}}
-# vim: set ft=bash:
+# vim: set ft=bash shiftwidth=2 tabstop=2:

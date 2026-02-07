@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+#
+#{{ template "install_helpers.sh" . }}
+
+if [[ -e "${HOME}/.fzf" ]]; then
+  pushd "${HOME}/.fzf"
+  ./install --key-bindings --completion --no-update-rc --no-bash --no-zsh
+  popd
+fi
+
+# vim: set ft=bash shiftwidth=2 tabstop=2:

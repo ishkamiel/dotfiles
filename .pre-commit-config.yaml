@@ -32,14 +32,14 @@ repos:
       - id: insert-license
         exclude: vim-templates/.*
         name: insert-license-shell
-        files: (dot_tmux\.conf|dot_zshrc|dot_zprofile|dot_profile|dot_bashrc|\.(sh|zsh|py))$
+        files: (dot_tmux\.conf|dot_zshrc|dot_zprofile|dot_profile|dot_bashrc|\.(sh.tmpl|zsh.tmpl|sh|zsh|py))$
         args:
           - --use-current-year
           - --license-filepath
           - .LICENSE_HEADER
       - id: insert-license
         name: insert-license-chezmoi
-        files: \.(tmpl)$
+        files: (.chezmoiignore)$
         args:
           - --use-current-year
           - --license-filepath

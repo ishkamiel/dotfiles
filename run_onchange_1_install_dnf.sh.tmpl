@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+#
+#{{ template "install_helpers.sh" . }}
+
+packages=(
+  git
+  neovim
+  tmux
+  vim-enhanced
+  zsh
+)
+packages+=(
+  bat
+  btop
+  curl
+  direnv
+  du-dust
+  eza
+  fd-find
+  fzf
+  git
+  git-crypt
+  ipython3
+  locate
+  python-is-python3
+  starship
+  the_silver_searcher
+  tldr
+  wget
+)
+packages+=(
+  dconf
+)
+packages+=(
+  autoconf
+  automake
+  build-essential
+  ccache
+  clang
+  clang-format
+  cmake
+  editorconfig
+  exuberant-ctags
+  g++
+  gcc
+  git
+  flang
+  libcriticism-perl
+  libxml2-devel
+  lld
+  llvm
+  make
+  markdown
+  markdown-cli
+  markdownlint
+  ninja-build
+  pkg-config
+  pre-commit
+  pylint
+  rbenv
+  rustup
+  shellcheck
+)
+install_dnf_pkgs "${packages[@]}"
+
+# vim: set ft=bash:
