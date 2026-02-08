@@ -5,6 +5,7 @@
 #{{ template "install_helpers.sh" . }}
 
 packages=(
+  git
   neovim
   tmux
   vim-nox
@@ -12,34 +13,35 @@ packages=(
 #{{ if ne .machineType "min" }}
   apt-file
   aptitude
+  btop
+  curl
+  dconf-cli
+  eza
+  fd-find
+  fzf
+  git-crypt
+  ipython3
+  locate
+  shellcheck
+  wget
+#{{ if .needBuildTools }}
   autoconf
   automake
-  btop
   build-essential
   ccache
   clang
   clang-format
   cmake
-  curl
-  dconf-cli
   direnv
   editorconfig
   exuberant-ctags
-  eza
-  fd-find
   flang
-  fzf
   g++
   gcc
-  git
-  git
-  git-crypt
-  ipython3
   libcriticism-perl
   libxml2-dev
   lld
   llvm
-  locate
   make
   markdown
   markdownlint
@@ -50,24 +52,26 @@ packages=(
   python-is-python3
   rbenv
   rustup
-  shellcheck
-  silversearcher-ag
-  wget
+#{{ end }}
 #{{ end }}
 )
-install_apt_pkgs "${packages[@]}"
+# install_apt_pkgs "${packages[@]}"
 
 packages_noerr=(
+  starship
+#{{ if ne .machineType "min" }}
   batcat
   du-dust
-  starship
+#{{ end }}
 )
-install_apt_pkgs_noerr "${packages_noerr[@]}"
+# install_apt_pkgs_noerr "${packages_noerr[@]}"
 
 snap_packages=()
+#{{ if ne .machineType "min" }}
 if ! command -v tldr >/dev/null 2>&1; then
   snap_packages+=(tldr)
 fi
+#{{ end }}
 
 install_snap_pkgs "${snap_packages[@]}"
 

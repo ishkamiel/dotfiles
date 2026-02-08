@@ -10,11 +10,11 @@ packages=(
   tmux
   vim-enhanced
   zsh
-)
-packages+=(
+#{{ if ne .machineType "min" }}
   bat
   btop
   curl
+  dconf
   direnv
   du-dust
   eza
@@ -25,15 +25,11 @@ packages+=(
   ipython3
   locate
   python-is-python3
+  ripgrep
   starship
-  the_silver_searcher
   tldr
   wget
-)
-packages+=(
-  dconf
-)
-packages+=(
+#{{ if .needBuildTools }}
   autoconf
   automake
   build-essential
@@ -62,6 +58,8 @@ packages+=(
   rbenv
   rustup
   shellcheck
+#{{ end }}
+#{{ end }}
 )
 install_dnf_pkgs "${packages[@]}"
 

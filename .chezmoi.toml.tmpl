@@ -20,3 +20,4 @@
     name = "Hans Liljestrand"
     machineType = {{ $machineType | quote }}
     isWork = {{ promptBoolOnce . "isWork" "Is this a work machine?" }}
+    needBuildTools = {{ promptBoolOnce . "needBuildTools" "Should build tools be installed?" }}

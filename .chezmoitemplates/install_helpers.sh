@@ -95,6 +95,8 @@ __install_apt_pkgs() {
                 to_install+=("${pkg}")
             elif [[ ${do_log_error} == 1 ]]; then
                 log_error "Cannot find pkg to install: ${pkg} (apt)"
+            else
+                echo "Skipping, cannot find ${pkg} (apt)"
             fi
         else
             echo "Found ${pkg} (apt)"
@@ -116,6 +118,8 @@ install_apt_pkgs_noerr() {
 }
 
 __install_dnf_pkgs() {
+    local do_log_error="$1"
+    shift
     local pkgs=("$@")
     local to_install=()
 
@@ -125,6 +129,8 @@ __install_dnf_pkgs() {
                 to_install+=("${pkg}")
             elif [[ ${do_log_error} == 1 ]]; then
                 log_error "Cannot find pkg to install: ${pkg} (dnf)"
+            else
+                echo "Skipping, cannot find ${pkg} (dnf)"
             fi
         else
             echo "Found ${pkg} (dnf)"
@@ -146,6 +152,8 @@ install_dnf_pkgs_noerr() {
 }
 
 __install_snap_pkgs() {
+    local do_log_error="$1"
+    shift
     local pkgs=("$@")
     local to_install=()
 
@@ -155,6 +163,8 @@ __install_snap_pkgs() {
                 to_install+=("${pkg}")
             elif [[ ${do_log_error} == 1 ]]; then
                 log_error "Cannot find pkg to install: ${pkg} (snap)"
+            else
+                echo "Skipping, cannot find ${pkg} (snap)"
             fi
         else
             echo "Found ${pkg} (snap)"
