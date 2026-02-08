@@ -1,0 +1,39 @@
+<#
+SPDX-License-Identifier: MIT
+Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+#>
+
+$ErrorActionPreference = "Stop"
+$ProgressPreference = "SilentlyContinue"
+{{ template "install_helpers.ps1" . }}
+
+if (-not $IsWindows) {
+    Write-Host "Skipping winget install on $($PSVersionTable.OS)"
+    exit 0
+}
+
+if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
+    Write-ErrorLog "winget not available; install App Installer from Microsoft Store and rerun."
+    exit 1
+}
+
+$packages = @(
+    "Git.Git"
+    "Neovim.Neovim"
+    "Starship.Starship"
+    "sharkdp.fd"
+    "sharkdp.bat"
+    "BurntSushi.ripgrep.MSVC"
+    "junegunn.fzf"
+    "eza-community.eza"
+    "Microsoft.WindowsTerminal"
+)
+Install-WingetPackageList -Ids $packages
+
+$optionalPackages = @(
+    "Python.Python.3.12"
+    "Gerardog.gsudo"
+)
+Install-WingetPackageList -Ids $optionalPackages -Optional
+
+# vim: set filetype=ps1:

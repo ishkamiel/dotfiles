@@ -1,0 +1,16 @@
+<#
+SPDX-License-Identifier: MIT
+Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+#>
+
+$ErrorActionPreference = "Stop"
+$ProgressPreference = "SilentlyContinue"
+
+$logPath = if ($env:CHEZMOI_ERROR_LOG) { $env:CHEZMOI_ERROR_LOG } else { Join-Path $HOME ".chezmoi_error.log" }
+$env:CHEZMOI_ERROR_LOG = $logPath
+
+if (Test-Path $logPath) {
+    Remove-Item $logPath -Force -ErrorAction SilentlyContinue
+}
+
+# vim: set filetype=ps1:

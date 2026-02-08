@@ -1,0 +1,23 @@
+<#
+SPDX-License-Identifier: MIT
+Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+#>
+
+$ErrorActionPreference = "Stop"
+$ProgressPreference = "SilentlyContinue"
+
+$logPath = if ($env:CHEZMOI_ERROR_LOG) { $env:CHEZMOI_ERROR_LOG } else { Join-Path $HOME ".chezmoi_error.log" }
+$env:CHEZMOI_ERROR_LOG = $logPath
+
+if (Test-Path $logPath) {
+    Write-Host ""
+    Write-Host ""
+    Write-Host "Encountered errors:"
+    Write-Host ""
+    Get-Content $logPath
+    Remove-Item $logPath -Force -ErrorAction SilentlyContinue
+} else {
+    Write-Host "All ok"
+}
+
+# vim: set filetype=ps1:

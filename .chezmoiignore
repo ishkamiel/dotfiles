@@ -22,28 +22,27 @@
 .zprofile
 .zshrc
 bin/**
-0_init.sh
-2_install_fzf.sh
-2_install_starship.sh
-9_config_gnome_shell.sh
-9_vim_plugins.sh
-9_zsh_fixes.sh
-z_finalize.sh
+scripts/unix-like/**
 {{ end }}
 
 {{ if or (ne .chezmoi.os "linux") (ne .chezmoi.osRelease.id "ubuntu") }}
 {{- /* ----------------------------------------------------------- Ubuntu */ -}}
-1_install_apt.sh
+scripts/unix-like/1_install_apt.sh
 {{ end }}
 
 {{ if or (ne .chezmoi.os "linux") (not (hasPrefix "fedora" .chezmoi.osRelease.id)) }}
 {{- /* ----------------------------------------------------------- Fedora */ -}}
-1_install_dnf.sh
+scripts/unix-like/1_install_dnf.sh
+{{ end }}
+
+{{ if ne .chezmoi.os "darwin" }}
+{{- /* ---------------------------------------------------------- Windows */ -}}
+scripts/unix-like/1_install_brew.sh
 {{ end }}
 
 {{ if ne .chezmoi.os "windows" }}
 {{- /* ---------------------------------------------------------- Windows */ -}}
 AppData/Local/Microsoft/Windows Terminal/
 Documents/WindowsTerminal/settings.json
-1_install_winget.sh
+scripts/windows/**
 {{ end }}

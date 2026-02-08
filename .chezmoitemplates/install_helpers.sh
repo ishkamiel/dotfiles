@@ -4,6 +4,13 @@
 
 readonly ERROR_LOG="${HOME}/.chezmoi_error.log"
 
+readonly CHEZMOI_OS="{{ .chezmoi.os }}"
+{{ if eq .chezmoi.os "linux" }}
+readonly CHEZMOI_OSRELEASE="{{ .chezmoi.osRelease.id }}"
+{{ else }}
+readonly CHEZMOI_OSRELEASE=""
+{{ end }}
+
 log_error() {
     echo "[!!]: $1" | tee -a "${ERROR_LOG}"
 }
@@ -284,16 +291,24 @@ install_brew() {
 install_pkg() {
     local cmd=$1
     local pkg=${2:-$1}
-    {{ if eq .chezmoi.os "darwin" -}}
-    install_brew "${cmd}" "${pkg}"
-    {{ else if eq .chezmoi.osRelease.id "ubuntu" -}}
-    install_apt "${cmd}" "${pkg}"
-    {{ else if eq .chezmoi.osRelease.id "fedora" -}}
-    install_dnf "${cmd}" "${pkg}"
-    {{ else if eq .chezmoi.os "windows" -}}
-    install_winget "${cmd}" "${pkg}"
-    {{ end -}}
-    return $?
+
+    if [[ ${CHEZMOI_OS} == "linux" ]]; then
+        if [[ ${CHEZMOI_OSRELEASE} == "ubuntu" ]]; then
+            install_apt "${cmd}" "${pkg}"
+            return $?
+        elif [[ ${CHEZMOI_OSRELEASE} =~ ^fedora ]]; then
+            install_dnf "${cmd}" "${pkg}"
+            return $?
+        fi
+    elif [[ ${CHEZMOI_OS} == "darwin" ]]; then
+        install_brew "${cmd}" "${pkg}"
+        return $?
+    elif [[ ${CHEZMOI_OS} == "windows" ]]; then
+        install_winget "${cmd}" "${pkg}"
+        return $?
+    else
+        log_error "Cannot determine installer in install_pkg"
+    fi
 }
 
 downloadFile() {
