@@ -58,7 +58,7 @@ source "$ZSH/oh-my-zsh.sh"
 # --- Zsh Core Options ----------------
 setopt AUTO_PARAM_SLASH
 # --- Base settings -------------------
-zstyle ':completion:*' matcher-list ''
+zstyle ':completion:*' matcher-list '' 'l:|=* r:|=*' 'm:{a-z}={A-Z}' 'r:|[._-]=* r:|=*'
 zstyle ':completion:*' accept-exact-dirs true
 zstyle ':completion:*' menu select
 # --- Visuals and sorting -------------
