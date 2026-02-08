@@ -38,7 +38,9 @@ scripts/unix-like/1_install_brew.sh
 
 {{ if ne .chezmoi.os "windows" }}
 {{- /* ---------------------------------------------------------- Windows */ -}}
-AppData/Local/Microsoft/Windows Terminal/
+.config/powershell
+.config/powershell/**
+AppData/**
 Documents/WindowsTerminal/settings.json
 scripts/windows/**
 {{ end }}
