@@ -1,0 +1,19 @@
+[include]
+    path = ~/.gitconfig_local
+[user]
+    name = {{ .name | quote }}
+    email = {{ .email | quote }}
+[credential]
+    helper = store
+[core]
+    fsmonitor = true
+    untrackedcache = true
+    excludesfile = ~/.config/git/ignore
+[diff]
+    tool = vimdiff
+[alias]
+    co = checkout
+    dname = diff --name-status
+    dwords = diff --color-words
+    fpush = push --force-with-lease
+    lg = log --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(white)%s%C(reset) %C(bold green)(%ar)%C(reset) %C(cyan)<%an>%C(reset)%C(bold yellow)%d%C(reset)'
