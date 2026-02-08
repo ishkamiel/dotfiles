@@ -14,22 +14,35 @@ if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
 }
 
 $packages = @(
+    "AutoHotkey.AutoHotkey"
     "BurntSushi.ripgrep.MSVC"
     "Git.Git"
     "Microsoft.PowerShell"
+    "Microsoft.PowerToys"
     "Microsoft.VisualStudioCode"
     "Microsoft.WindowsTerminal"
     "Neovim.Neovim"
+    "Obsidian.Obsidian"
     "Starship.Starship"
     "eza-community.eza"
     "junegunn.fzf"
     "sharkdp.bat"
     "sharkdp.fd"
+{{ if .isWork }}
+    "Google.Chrome"
+{{ else }}
+    "Brave.Brave"
+{{ end }}
+{{ if eq .machineType "personal" }}
+    "AgileBits.1Password"
+    "Dropbox.Dropbox"
+    "EpicGames.EpicGamesLauncher"
+    "GOG.Galaxy"
+    "Neovim.Neovim"
+    "Playnite.Playnite"
+    "Valve.Steam"
+{{ end }}
 )
 Install-WingetPackageList -Ids $packages
-
-$optionalPackages = @(
-)
-Install-WingetPackageList -Ids $optionalPackages -Optional
 
 # vim: set filetype=ps1:

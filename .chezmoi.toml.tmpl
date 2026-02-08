@@ -6,8 +6,12 @@
  Distributed under terms of the MIT license.
 */ -}}
 
+{{- $machineType := promptString "Machine type (min/def/personal)" "def" -}}
+
 [diff]
     exclude = ["scripts"]
 [data]
     email = "hans@liljestrand.dev"
     name = "Hans Liljestrand"
+    machineType = {{ $machineType | quote }}
+    isWork = {{ promptBoolOnce . "isWork" "Is this a work machine?" }}
