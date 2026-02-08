@@ -2,25 +2,30 @@
 SPDX-License-Identifier: MIT
 Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
 #>
-
-$script:ChezmoiErrorLog = if ($env:CHEZMOI_ERROR_LOG) { $env:CHEZMOI_ERROR_LOG } else { Join-Path $HOME ".chezmoi_error.log" }
-$env:CHEZMOI_ERROR_LOG = $script:ChezmoiErrorLog
-
-function Write-ErrorLog {
-    param([string]$Message)
-    "[!!]: $Message" | Tee-Object -FilePath $script:ChezmoiErrorLog -Append
-}
+{{ template "windows/logger.ps1" . }}
 
 function Test-WingetInstalled {
-    param([string]$Id)
-    $output = winget list --id $Id --source winget --accept-source-agreements --accept-package-agreements 2>$null
-    return ($LASTEXITCODE -eq 0 -and $output -match [regex]::Escape($Id))
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$Id
+    )
+    $result = winget list --id $Id --exact 2>$null
+    if ($result -match $Id) {
+        return $true
+    }
+    return $false
 }
 
-function Test-WingetInstallable {
-    param([string]$Id)
-    winget show --id $Id --source winget --accept-source-agreements --accept-package-agreements >$null 2>&1
-    return ($LASTEXITCODE -eq 0)
+function Test-WingetAvailable {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$Id
+    )
+    $result = winget search --id $Id --exact 2>$null
+    if ($result -match $Id) {
+        return $true
+    }
+    return $false
 }
 
 function Install-WingetPackage {
@@ -34,7 +39,7 @@ function Install-WingetPackage {
         return
     }
 
-    if (-not (Test-WingetInstallable -Id $Id)) {
+    if (-not (Test-WingetAvailable -Id $Id)) {
         if (-not $Optional) {
             Write-ErrorLog "Cannot find pkg to install: $Id (winget)"
         }

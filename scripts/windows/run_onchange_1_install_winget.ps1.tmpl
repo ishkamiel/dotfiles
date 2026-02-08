@@ -5,12 +5,8 @@ Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
 
 $ErrorActionPreference = "Stop"
 $ProgressPreference = "SilentlyContinue"
-{{ template "install_helpers.ps1" . }}
-
-if (-not $IsWindows) {
-    Write-Host "Skipping winget install on $($PSVersionTable.OS)"
-    exit 0
-}
+{{ template "windows/install_helpers.ps1" . }}
+{{ template "windows/logger.ps1" . }}
 
 if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
     Write-ErrorLog "winget not available; install App Installer from Microsoft Store and rerun."
@@ -18,21 +14,20 @@ if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
 }
 
 $packages = @(
+    "BurntSushi.ripgrep.MSVC"
     "Git.Git"
+    "Microsoft.VisualStudioCode"
+    "Microsoft.WindowsTerminal"
     "Neovim.Neovim"
     "Starship.Starship"
-    "sharkdp.fd"
-    "sharkdp.bat"
-    "BurntSushi.ripgrep.MSVC"
-    "junegunn.fzf"
     "eza-community.eza"
-    "Microsoft.WindowsTerminal"
+    "junegunn.fzf"
+    "sharkdp.bat"
+    "sharkdp.fd"
 )
 Install-WingetPackageList -Ids $packages
 
 $optionalPackages = @(
-    "Python.Python.3.12"
-    "Gerardog.gsudo"
 )
 Install-WingetPackageList -Ids $optionalPackages -Optional
 
