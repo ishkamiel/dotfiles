@@ -1,0 +1,74 @@
+<#
+SPDX-License-Identifier: MIT
+Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+#>
+
+$rawJson = [Console]::In.ReadToEnd()
+if ([string]::IsNullOrWhiteSpace($rawJson)) {
+    Write-Error "No stdin received"
+    exit 1
+}
+
+# Make sure we run in PowerShell 7 or newer
+if ($PSVersionTable.PSVersion.Major -lt 7) {
+    if (Get-Command pwsh -ErrorAction SilentlyContinue) {
+        $rawJson | & pwsh -NoProfile -ExecutionPolicy Bypass -File "$PSCommandPath"
+        exit $LASTEXITCODE
+    } else {
+        Write-Error "PowerShell 7 (pwsh) is required for this script but was not found."
+        exit 1
+    }
+}
+
+{{ template "windows/json_helpers.ps1" . }}
+{{ template "windows/logger.ps1" . }}
+
+$defaultsJson = @'
+{
+    "alwaysOnTop": true,
+    "autoHideWindow": true,
+    "copyOnSelect": false,
+    "disableAnimations": true,
+    "profiles": 
+    {
+        "defaults": 
+        {
+            "bellSound": 
+            [
+                "False"
+            ],
+            "cursorShape": "filledBox",
+            "font": 
+            {
+                "face": "FiraCode Nerd Font Mono",
+                "features": 
+                {
+                    "liga": 1
+                },
+                "size": 12
+            },
+            "padding": "0, 0, 0, 0",
+            "scrollbarState": "hidden"
+        }
+    }
+}
+'@
+
+try {
+    $cleanJson = $rawJson -replace "(?m)^\s*//.*$",""
+    $currentConfig = $cleanJson | ConvertFrom-Json
+    $defaults = $defaultsJson | ConvertFrom-Json
+}
+catch {
+    Write-ErrorLog "Failed to parse Windows Terminal settings."
+    exit 1
+}
+
+Merge-WindowsTerminalJSON -target $currentConfig -source $defaults
+$jsonString = $currentConfig | ConvertTo-Json -Depth 99
+[System.Text.Json.JsonSerializer]::Serialize(
+    [System.Text.Json.JsonDocument]::Parse($jsonString),
+    [System.Text.Json.JsonSerializerOptions]@{ WriteIndented = $true }
+)
+
+exit 0
