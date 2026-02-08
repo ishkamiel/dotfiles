@@ -6,6 +6,7 @@
 {{ if eq .chezmoi.os "windows" }}
 {{- /* ------------------------------------------------------- Linux-like */ -}}
 .bashrc
+.config
 .config/nvim/**
 .config/omz-custom/**
 .config/starship.toml
