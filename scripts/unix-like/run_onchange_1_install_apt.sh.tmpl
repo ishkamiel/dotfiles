@@ -4,53 +4,42 @@
 #
 #{{ template "install_helpers.sh" . }}
 
-packages=()
-packages+=(
+packages=(
   neovim
   tmux
   vim-nox
   zsh
-)
-packages+=(
-  btop
-  curl
-  direnv
-  eza
-  fd-find
-  fzf
-  git
-  git-crypt
-  ipython3
-  locate
-  python-is-python3
-  silversearcher-ag
-  wget
-)
-packages+=(
+#{{ if ne .machineType "min" }}
   apt-file
   aptitude
-)
-packages+=(
-  dconf-cli
-)
-packages+=(
   autoconf
   automake
+  btop
   build-essential
   ccache
   clang
   clang-format
   cmake
+  curl
+  dconf-cli
+  direnv
   editorconfig
   exuberant-ctags
+  eza
+  fd-find
   flang
+  fzf
   g++
   gcc
   git
+  git
+  git-crypt
+  ipython3
   libcriticism-perl
   libxml2-dev
   lld
   llvm
+  locate
   make
   markdown
   markdownlint
@@ -58,9 +47,13 @@ packages+=(
   pkg-config
   pre-commit
   pylint
+  python-is-python3
   rbenv
   rustup
   shellcheck
+  silversearcher-ag
+  wget
+#{{ end }}
 )
 install_apt_pkgs "${packages[@]}"
 
@@ -72,7 +65,6 @@ packages_noerr=(
 install_apt_pkgs_noerr "${packages_noerr[@]}"
 
 snap_packages=()
-
 if ! command -v tldr >/dev/null 2>&1; then
   snap_packages+=(tldr)
 fi

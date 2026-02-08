@@ -7,6 +7,11 @@
 */ -}}
 
 {{- $machineType := promptString "Machine type (min/def/personal)" "def" -}}
+{{- /* Validation Logic */ -}}
+{{- if not (contains $machineType "min def personal") -}}
+{{-   writeToStdout (printf "\nERROR: Invalid machine type '%s'\n" $machineType) -}}
+{{-   exit 1 -}}
+{{- end -}}
 
 [diff]
     exclude = ["scripts"]
