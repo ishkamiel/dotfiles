@@ -7,10 +7,10 @@
 {{- /* ------------------------------------------------------- Linux-like */ -}}
 .bashrc
 .config/omz-custom
-.config/omz-custom/**
 .fzf
 .gdbinit
 .inputrc
+.local/bin/fnm
 .oh-my-zsh
 .profile
 .tmux.conf

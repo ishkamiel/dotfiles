@@ -28,6 +28,9 @@ setopt HIST_REDUCE_BLANKS
 HISTSIZE=10000
 SAVEHIST=10000
 
+
+DISABLE_MAGIC_FUNCTIONS=true
+
 export ZLE_RPROMPT_INDENT=0 # Fix for prompt issues
 export GOPATH="${HOME}/go" # Set go home
 
@@ -44,13 +47,21 @@ VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
 zstyle ':omz:update' mode disabled
 
 plugins=(
-    direnv
-    eza
-    fzf
-    fzf-tab
-    ssh-agent
-    vi-mode
+  chezmoi
+  command-not-found
+  direnv
+  eza
+  fnm
+  fzf
+  ssh-agent
+  starship
+  vi-mode
 )
+
+zstyle ':omz:plugins:eza' 'git-status' yes
+zstyle ':omz:plugins:eza' 'header' no
+zstyle ':omz:plugins:eza' 'show-group' no
+zstyle ':omz:plugins:eza' 'icons' yes
 
 source "$ZSH/oh-my-zsh.sh"
 
@@ -98,6 +109,6 @@ command -v eza >/dev/null 2>&1 && alias tree="eza --tree --color=always"
 
 
 ####### starship ###############################################################
-command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
+# command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
 
 # vim: ft=zsh shiftwidth=2 tabstop=2

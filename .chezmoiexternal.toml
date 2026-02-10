@@ -13,3 +13,30 @@
     url = "https://github.com/ohmyzsh/ohmyzsh.git"
     revision = "9df4ea095fe27ccd0ee95f2d34bab884c4a75585"
     # refreshPeriod = "168h" # Optional: Only check for updates once a week
+#
+# -----------------------------------------------------------------------------
+#
+# - fnm - https://github.com/Schniz/fnm
+#
+{{- $fnmVersion := "1.38.1" -}}
+{{- $fnmChecksums := dict
+    "linux_amd64"  "b69e5c9a05c1e17e4a7de9a17df14ba430d049f2591af791a6f850a170296069"
+    "linux_arm64"  "69feda9455931c26c84be9f95f5e6f69e8b64686e68069fab7cfc34756cd2944"
+    "darwin_arm64" "80deb3db3db45598f25aea594c10936a7658f70826104fe37e33b4072a5e11f9"
+-}}
+{{- $fnmFilenames := dict
+    "linux_amd64" "fnm-linux.zip"
+    "linux_arm64" "fnm-arm64.zip"
+    "darwin_arm64" "fnm-macos.zip"
+-}}
+{{- $archKey := printf "%s_%s" .chezmoi.os .chezmoi.arch -}}
+{{- $fnmF := get $fnmFilenames $archKey}}
+{{- $fnmC := get $fnmChecksums $archKey}}
+{{- if and $fnmF $fnmC }}
+[".local/bin/fnm"]
+    type = "archive-file"
+    path = "fnm"
+    executable = true
+    url = "https://github.com/Schniz/fnm/releases/download/v{{ $fnmVersion }}/{{ $fnmF }}"
+    checksum.sha256 = {{ $fnmC | quote }}
+{{- end }}
