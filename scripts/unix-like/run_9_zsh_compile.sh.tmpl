@@ -1,0 +1,33 @@
+#!/usr/bin/env zsh
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+
+set -euo pipefail
+
+zcompile_if_exists() {
+    local f="$1"
+    if [[ -e "${f}" ]]; then
+      zrecompile -p -q "${f}"
+    fi
+}
+
+zcompile_all() {
+  if command -v zcompile >/dev/null 2>&1; then
+    autoload -U zrecompile
+
+    zcompile_if_exists "${HOME}/.oh-my-zsh/oh-my-zsh.sh"
+    zcompile_if_exists "${HOME}/.zprofile"
+    zcompile_if_exists "${HOME}/.zshrc"
+    zcompile_if_exists "${HOME}/.zcompdump"
+
+    if [[ -e "${HOME}/.oh-my-zsh" ]]; then
+      for f in ~/.oh-my-zsh/**/*.zsh; do
+        zrecompile -p -q "${f}"
+      done
+    fi
+  fi
+}
+
+zcompile_all
+
+# vim: set ft=zsh shiftwidth=2 tabstop=2:

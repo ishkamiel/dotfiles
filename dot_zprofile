@@ -18,11 +18,14 @@ export PYENV_ROOT="${HOME}/.pyenv"
 __prepend_to_PATH "${PYENV_ROOT}/bin"
 command -v pyenv >/dev/null 2>&1 && eval "$(pyenv init --path)"
 
-# fzf
+# --- fzf -----------------------------
 __prepend_to_PATH "${HOME}/.fzf/bin"
 command -v fzf >/dev/null 2>&1 && eval "$(fzf --zsh)"
 
-# direnv
+# --- direnv --------------------------
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
+
+# --- fnm -----------------------------
+command -v fnm >/dev/null 2>&1 && eval "$(fnm env --use-on-cd)"
 
 # vim: ft=zsh shiftwidth=2 tabstop=2

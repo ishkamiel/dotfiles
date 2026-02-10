@@ -28,9 +28,6 @@ setopt HIST_REDUCE_BLANKS
 HISTSIZE=10000
 SAVEHIST=10000
 
-# --- fnm -----------------------------
-command -v fnm >/dev/null 2>&1 && eval "$(fnm env --use-on-cd)"
-
 DISABLE_MAGIC_FUNCTIONS=true
 
 export ZLE_RPROMPT_INDENT=0 # Fix for prompt issues
@@ -55,6 +52,7 @@ plugins=(
   eza
   fnm
   fzf
+  fzf-tab
   ssh-agent
   starship
   vi-mode
@@ -63,7 +61,7 @@ plugins=(
 zstyle ':omz:plugins:eza' 'git-status' yes
 zstyle ':omz:plugins:eza' 'header' no
 zstyle ':omz:plugins:eza' 'show-group' no
-zstyle ':omz:plugins:eza' 'icons' yes
+zstyle ':omz:plugins:eza' 'icons' no
 
 source "$ZSH/oh-my-zsh.sh"
 
@@ -108,9 +106,5 @@ command -v nvim >/dev/null 2>&1 && alias vim=nvim
 command -v dust >/dev/null 2>&1 && alias du="dust"
 # --- eza -----------------------------
 command -v eza >/dev/null 2>&1 && alias tree="eza --tree --color=always"
-
-
-####### starship ###############################################################
-# command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
 
 # vim: ft=zsh shiftwidth=2 tabstop=2
