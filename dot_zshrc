@@ -28,6 +28,8 @@ setopt HIST_REDUCE_BLANKS
 HISTSIZE=10000
 SAVEHIST=10000
 
+# --- fnm -----------------------------
+command -v fnm >/dev/null 2>&1 && eval "$(fnm env --use-on-cd)"
 
 DISABLE_MAGIC_FUNCTIONS=true
 
