@@ -89,6 +89,8 @@ if command -v batcat >/dev/null 2>&1; then
 elif  command -v bat >/dev/null 2>&1; then
   alias cat='bat -p'
 fi
+# --- nvim ----------------------------
+command -v nvim >/dev/null 2>&1 && alias vim=nvim
 # --- dust ----------------------------
 command -v dust >/dev/null 2>&1 && alias du="dust"
 # --- eza -----------------------------

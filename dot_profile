@@ -58,7 +58,6 @@ command -v xrdb >/dev/null 2>&1 && \
 
 # Configure vim and EDITOR
 command -v vi >/dev/null 2>&1 && export EDITOR=vi
-command -v nvim >/dev/null 2>&1 && alias vim=nvim
 command -v vim >/dev/null 2>&1 && export EDITOR=vim
 
 # Load cargo environment
