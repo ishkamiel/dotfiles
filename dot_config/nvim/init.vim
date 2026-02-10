@@ -5,41 +5,15 @@ scriptencoding utf-8
 " Plugins {{{
 call plug#begin()
 
-" Status / tool line
-" Plug 'bling/vim-airline'
-
-" GitHub CoPilot
 Plug 'github/copilot.vim'
-
-" Utilities
+Plug 'bling/vim-airline'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
 Plug 'ntpeters/vim-better-whitespace'
-
-" Colorschemes
-" Plug 'flazz/vim-colorschemes'
+Plug 'drewtempelmeyer/palenight.vim' " Colroscheme
+Plug 'w0rp/ale'                      " Syntax checking
+Plug 'editorconfig/editorconfig-vim'
 Plug 'drewtempelmeyer/palenight.vim'
-
-" file type specific stuff
-" Plug 'sheerun/vim-polyglot'
-" let g:polyglot_disabled = ['latex']
-" Plug 'tpope/vim-liquid'                                   " Liquid / Jekyll
-" Plug 'lervag/vimtex', { 'for': 'tex' }                    " LaTeX
-" Plug 'aklt/plantuml-syntax'                               " plantuml
-
-" FIXME: Crashes on MacOS using ports
-" Autocompletion - deoplete.nvim
-" if has('nvim')
-"     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" else
-"     Plug 'Shougo/deoplete.nvim'
-"     Plug 'roxma/nvim-yarp'
-"     Plug 'roxma/vim-hug-neovim-rpc'
-" endif
-" Plug 'zchee/deoplete-clang'
-
-" FIXME: Crashes on MacOS using ports
-" Syntax checking
-" Plug 'dense-analysis/ale'
 
 call plug#end() " }}}
 " Basic config {{{
@@ -75,7 +49,6 @@ set t_vb=
 " let &textwidth=s:pd_textwidth
 set noautochdir                 " change the current working directory
 set secure                      " secure loading of non-default vimrc
-set pastetoggle=<F9>            " Toggle pasting mode (disables indenting)
 set scrolloff=10                " Keep this many lines visible below cursor
 set completeopt-=preview        " remove extended preview from autoinserts (scratch window)
 set hlsearch                    " highlight searches

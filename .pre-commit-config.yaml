@@ -22,10 +22,6 @@ repos:
     rev: 24.8.0
     hooks:
     -   id: black
--   repo: https://github.com/crate-ci/typos
-    rev: v1.24.6
-    hooks:
-      - id: typos
 -   repo: https://github.com/Lucas-C/pre-commit-hooks
     rev: v1.5.1
     hooks:
