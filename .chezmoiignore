@@ -3,6 +3,9 @@
  Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
 */ -}}
 
+pytest.ini
+tests/**
+
 {{ if eq .chezmoi.os "windows" }}
 {{- /* ------------------------------------------------------- Linux-like */ -}}
 .bashrc

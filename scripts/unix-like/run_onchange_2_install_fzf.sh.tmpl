@@ -5,9 +5,15 @@
 #{{ template "install_helpers.sh" . }}
 
 if [[ -e "${HOME}/.fzf" ]]; then
-  pushd "${HOME}/.fzf"
-  ./install --key-bindings --completion --no-update-rc --no-bash --no-zsh
-  popd
+  if [[ "$(which fzf)" != "${HOME}/.fzf/bin/fzf" ]]; then
+    pushd "${HOME}/.fzf" || return 1
+    ./install --key-bindings --completion --no-update-rc --no-bash --no-zsh
+    popd || return 1
+  else
+    verbose_echo "fzf is already installed"
+  fi
+else
+  log_error "Cannot find ~/.fzf"
 fi
 
 # vim: set ft=bash shiftwidth=2 tabstop=2:

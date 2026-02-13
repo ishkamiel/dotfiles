@@ -34,33 +34,33 @@ __do_gsettings
 log_error "PARTIALLY DISABLED: $0 (no keybindings)"
 exit 0
 
-set -e
-DOTFILES=${DOTFILES:-"${HOME}/.dotfiles"}
-# shellcheck source=../lib/checks.sh
-. "${DOTFILES}/lib/checks.sh"
-# shellcheck source=../lib/debug.sh
-. "${DOTFILES}/lib/debug.sh"
+# set -e
+# DOTFILES=${DOTFILES:-"${HOME}/.dotfiles"}
+# # shellcheck source=../lib/checks.sh
+# . "${DOTFILES}/lib/checks.sh"
+# # shellcheck source=../lib/debug.sh
+# . "${DOTFILES}/lib/debug.sh"
 
-SUMFILE="${DOTFILES}/.keybindings.md5"
-KEYFILE="${DOTFILES}/ubuntu_keybindings"
-PYSCRIPT="${DOTFILES}/lib/keybindings.pl"
+# SUMFILE="${DOTFILES}/.keybindings.md5"
+# KEYFILE="${DOTFILES}/ubuntu_keybindings"
+# PYSCRIPT="${DOTFILES}/lib/keybindings.pl"
 
-if ! running_ubuntu; then
-    say "skipped, not on ubuntu\n"
-    exit 0
-fi
+# if ! running_ubuntu; then
+#     say "skipped, not on ubuntu\n"
+#     exit 0
+# fi
 
-if ! running_gnome; then
-    say "skipped, not running gnome\n"
-    exit 0
-fi
+# if ! running_gnome; then
+#     say "skipped, not running gnome\n"
+#     exit 0
+# fi
 
-if ! md5sum --check --quiet "${SUMFILE}" > /dev/null 2>&1; then
-    echo "applying"
-    "${PYSCRIPT}" -i "${KEYFILE}"
-    md5sum "${KEYFILE}" > "${SUMFILE}"
-else
-    echo "Already applied"
-fi
+# if ! md5sum --check --quiet "${SUMFILE}" > /dev/null 2>&1; then
+#     echo "applying"
+#     "${PYSCRIPT}" -i "${KEYFILE}"
+#     md5sum "${KEYFILE}" > "${SUMFILE}"
+# else
+#     echo "Already applied"
+# fi
 
 # vim: set ft=bash shiftwidth=2 tabstop=2:

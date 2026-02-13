@@ -42,3 +42,11 @@ repos:
           - .LICENSE_HEADER
           - --comment-style
           - "{{- /*||*/ -}}"
+-   repo: local
+    hooks:
+    -   id: pytest
+        name: pytest
+        entry: pytest --dist=load --numprocesses=logical
+        language: system
+        pass_filenames: false
+        require_serial: true

@@ -3,6 +3,8 @@
 # Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
 #
 #{{ template "install_helpers.sh" . }}
+#{{ template "install_helpers_apt.sh" . }}
+#{{ template "install_helpers_snap.sh" . }}
 
 packages=(
   git
@@ -55,24 +57,21 @@ packages=(
 #{{ end }}
 #{{ end }}
 )
-# install_apt_pkgs "${packages[@]}"
+apt_install "${packages[@]}"
 
-packages_noerr=(
-  starship
+packages=()
+command -v starship >/dev/null 2>&1 || packages+=(starship)
 #{{ if ne .machineType "min" }}
-  batcat
-  du-dust
+command -v batcat >/dev/null 2>&1 || packages+=(batcat)
+command -v du >/dev/null 2>&1 || packages+=(du-dust)
 #{{ end }}
-)
-# install_apt_pkgs_noerr "${packages_noerr[@]}"
+apt_install 1 "${packages[@]}"
 
-snap_packages=()
+packages=()
 #{{ if ne .machineType "min" }}
-if ! command -v tldr >/dev/null 2>&1; then
-  snap_packages+=(tldr)
-fi
+command -v tldr >/dev/null 2>&1 || packages+=(tldr)
 #{{ end }}
 
-install_snap_pkgs "${snap_packages[@]}"
+snap_install "${packages[@]}"
 
 # vim: set ft=bash shiftwidth=2 tabstop=2:
