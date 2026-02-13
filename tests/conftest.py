@@ -65,11 +65,17 @@ def _src_files_for_shell(root: Path, shell: str) -> list[Path]:
 
 
 def _src_files_bash(root: Path) -> list[Path]:
-    return _src_files_for_shell(root, "bash")
+    return _src_files_for_shell(root, "bash") + [
+        root / "dot_bashrc",
+        root / "dot_profile",
+    ]
 
 
 def _src_files_zsh(root: Path) -> list[Path]:
-    return _src_files_for_shell(root, "zsh")
+    return _src_files_for_shell(root, "zsh") + [
+        root / "dot_zshrc",
+        root / "dot_zprofile",
+    ]
 
 
 def _src_files_sh(root: Path) -> list[Path]:

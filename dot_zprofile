@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: MIT
 # Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
 
+# shellcheck source=dot_profile
 [ -e ~/.profile ] && . ~/.profile
 
 __get_nproc() {
@@ -11,7 +12,8 @@ __get_nproc() {
   fi
 }
 
-export NPROC=$(__get_nproc)
+NPROC="$(__get_nproc)"
+export NPROC
 
 # pyenv
 export PYENV_ROOT="${HOME}/.pyenv"

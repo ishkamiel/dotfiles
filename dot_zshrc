@@ -17,7 +17,7 @@ __prepend_to_PATH() {
 }
 
 # Configure history
-export HISTFILE="$HOME"/.zhistory
+export HISTFILE="${HOME}/.zhistory"
 setopt SHARE_HISTORY
 setopt APPEND_HISTORY
 setopt HIST_IGNORE_SPACE
@@ -25,26 +25,34 @@ setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_DUPS
 setopt HIST_FIND_NO_DUPS
 setopt HIST_REDUCE_BLANKS
+# shellcheck disable=SC2034
 HISTSIZE=10000
+# shellcheck disable=SC2034
 SAVEHIST=10000
 
+# shellcheck disable=SC2034
 DISABLE_MAGIC_FUNCTIONS=true
+# shellcheck disable=SC2034
+ZLE_RPROMPT_INDENT=0 # Fix for prompt issues
 
-export ZLE_RPROMPT_INDENT=0 # Fix for prompt issues
 export GOPATH="${HOME}/go" # Set go home
 
 # Load some local overrides, if they exist
+# shellcheck disable=SC1090,SC1091
 [[ -e "${HOME}/.zshrc_local" ]] && source "${HOME}/.zshrc_local"
 
 ####### vi mode ################################################################
 bindkey -v
 bindkey '^?' backward-delete-char
+# shellcheck disable=SC2034
 VI_MODE_SET_CURSOR=true
+# shellcheck disable=SC2034
 VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
 
 ####### oh-my-zsh ##############################################################
 zstyle ':omz:update' mode disabled
 
+# shellcheck disable=SC2034
 plugins=(
   chezmoi
   command-not-found
@@ -53,6 +61,7 @@ plugins=(
   fnm
   fzf
   fzf-tab
+  gitignore
   ssh-agent
   starship
   vi-mode
@@ -63,6 +72,7 @@ zstyle ':omz:plugins:eza' 'header' no
 zstyle ':omz:plugins:eza' 'show-group' no
 zstyle ':omz:plugins:eza' 'icons' no
 
+# shellcheck disable=SC1090,SC1091
 source "$ZSH/oh-my-zsh.sh"
 
 ####### fzf ####################################################################
@@ -75,13 +85,14 @@ zstyle ':completion:*' menu select
 # --- Visuals and sorting -------------
 zstyle ':completion:*:git-checkout:*' sort false
 zstyle ':completion:*:descriptions' format '[%d]'
+# shellcheck disable=SC2296,SC2086
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # --- fzf-tab configuration -----------
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
 zstyle ':fzf-tab:*' fzf-flags \
   --color=fg:1,fg+:2 \
   --tiebreak=length
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview "eza -1 --color=always \$realpath"
 # --- fzf for history -----------------
 bindkey '^R' fzf-history-widget
 
@@ -91,7 +102,9 @@ alias git-dc="git diff --color-words --color"
 alias cp="cp -i"
 alias rm="rm -i"
 alias mv="mv -i"
+# shellcheck disable=SC2139
 alias makej="make -j${NPROC}"
+# shellcheck disable=SC2139
 alias umakej="unbuffer make -j${NPROC}"
 alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
 # --- batcat --------------------------
