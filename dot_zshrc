@@ -110,8 +110,10 @@ alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
 # --- batcat --------------------------
 if command -v batcat >/dev/null 2>&1; then
   alias cat='batcat -p'
+  export PAGER="batcat -p"
 elif  command -v bat >/dev/null 2>&1; then
   alias cat='bat -p'
+  export PAGER="bat -p"
 fi
 # --- nvim ----------------------------
 command -v nvim >/dev/null 2>&1 && alias vim=nvim
