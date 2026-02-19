@@ -28,39 +28,26 @@ __do_gsettings() {
   fi
 }
 
+__keyboard_shortcuts() {
+  local sum_file="${chezmoi_root}/.keybindings.md5"
+  local keys="${chezmoi_root}/ubuntu_keybindings"
+  local script="${chezmoi_root}/lib/keybindings.pl"
+
+  if ! running_gnome; then
+    verbose_echo "Skipping Gnome keyboard shortcuts, not running Gnome"
+    return
+  fi
+
+  if ! md5sum --check --quiet "${sum_file}" > /dev/null 2>&1; then
+    "${script}" -i "${keys}"
+    md5sum "${keys}" > "${sum_file}"
+  else
+    verbose_echo "Skipping Gnome keyboard shortcuts, already applied"
+  fi
+}
+
 __do_dconf
 __do_gsettings
-
-log_error "PARTIALLY DISABLED: $0 (no keybindings)"
-exit 0
-
-# set -e
-# DOTFILES=${DOTFILES:-"${HOME}/.dotfiles"}
-# # shellcheck source=../lib/checks.sh
-# . "${DOTFILES}/lib/checks.sh"
-# # shellcheck source=../lib/debug.sh
-# . "${DOTFILES}/lib/debug.sh"
-
-# SUMFILE="${DOTFILES}/.keybindings.md5"
-# KEYFILE="${DOTFILES}/ubuntu_keybindings"
-# PYSCRIPT="${DOTFILES}/lib/keybindings.pl"
-
-# if ! running_ubuntu; then
-#     say "skipped, not on ubuntu\n"
-#     exit 0
-# fi
-
-# if ! running_gnome; then
-#     say "skipped, not running gnome\n"
-#     exit 0
-# fi
-
-# if ! md5sum --check --quiet "${SUMFILE}" > /dev/null 2>&1; then
-#     echo "applying"
-#     "${PYSCRIPT}" -i "${KEYFILE}"
-#     md5sum "${KEYFILE}" > "${SUMFILE}"
-# else
-#     echo "Already applied"
-# fi
+__keyboard_shortcuts
 
 # vim: set ft=bash shiftwidth=2 tabstop=2:

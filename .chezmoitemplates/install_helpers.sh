@@ -5,6 +5,10 @@
 readonly ERROR_LOG="${HOME}/.chezmoi_error.log"
 script_name="$(basename "$0" | sed -E 's/^[[:digit:]]+\.//')"
 readonly script_name
+export script_name
+chezmoi_root="{{ .chezmoi.workingTree }}"
+readonly chezmoi_root
+export chezmoi_root
 
 log_error() {
     echo "[!!] ${script_name}: $*" | tee -a "${ERROR_LOG}"
@@ -70,13 +74,14 @@ downloadFile() {
 }
 
 running_gnome() {
-    local old_val
     local retval=-1
-    old_val=$(shopt -p nocasematch)
+    local old_nocasematch
 
+    old_nocasematch=$(shopt -p nocasematch)
     shopt -s nocasematch
-    [[ "${XDG_CURRENT_DESKTOP}" =~ gnome ]] && retval=0
-    ${old_val}
+    [[ "${XDG_CURRENT_DESKTOP:-}" =~ gnome ]] && retval=0
+    ${old_nocasematch}
+
     return ${retval}
 }
 

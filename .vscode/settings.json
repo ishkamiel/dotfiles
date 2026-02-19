@@ -1,4 +1,12 @@
 {
+  "cSpell.words": [
+    "chezmoi",
+    "dconf",
+    "gsettings",
+    "nocasematch",
+    "shiftwidth",
+    "weekdate"
+  ],
   "files.associations": {
     "*.ps1.tmpl": "powershell"
   }

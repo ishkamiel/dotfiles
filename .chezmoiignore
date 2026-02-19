@@ -3,8 +3,10 @@
  Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
 */ -}}
 
-pytest.ini
+data/**
+lib/**
 tests/**
+pytest.ini
 
 {{ if eq .chezmoi.os "windows" }}
 {{- /* ------------------------------------------------------- Linux-like */ -}}
@@ -21,22 +23,22 @@ tests/**
 .zprofile
 .zshrc
 bin/**
-scripts/unix-like/**
+.chezmoiscripts/unix-like/**
 {{ end }}
 
 {{ if or (ne .chezmoi.os "linux") (ne .chezmoi.osRelease.id "ubuntu") }}
 {{- /* ----------------------------------------------------------- Ubuntu */ -}}
-scripts/unix-like/1_install_apt.sh
+.chezmoiscripts/unix-like/1_install_apt.sh
 {{ end }}
 
 {{ if or (ne .chezmoi.os "linux") (not (hasPrefix "fedora" .chezmoi.osRelease.id)) }}
 {{- /* ----------------------------------------------------------- Fedora */ -}}
-scripts/unix-like/1_install_dnf.sh
+.chezmoiscripts/unix-like/1_install_dnf.sh
 {{ end }}
 
 {{ if ne .chezmoi.os "darwin" }}
 {{- /* ------------------------------------------------------------ MacOS */ -}}
-scripts/unix-like/1_install_brew.sh
+.chezmoiscripts/unix-like/1_install_brew.sh
 {{ end }}
 
 {{ if ne .chezmoi.os "windows" }}
@@ -45,5 +47,5 @@ scripts/unix-like/1_install_brew.sh
 .config/powershell/**
 AppData/**
 Documents/WindowsTerminal/settings.json
-scripts/windows/**
+.chezmoiscripts/windows/**
 {{ end }}
