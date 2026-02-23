@@ -25,7 +25,7 @@ $conda\
 [](fg:color_bg3 bg:color_bg1)\
 $time\
 [ ](fg:color_bg1)\
-$line_break$character"""
+$line_break${custom.chezmoi}$character"""
 
 palette = 'gruvbox_dark'
 
@@ -171,6 +171,13 @@ disabled = false
 time_format = "%R"
 style = "bg:color_bg1"
 format = '[[  $time ](fg:color_fg0 bg:color_bg1)]($style)'
+
+[custom.chezmoi]
+description = "In chezmoi source directory"
+symbol = " "
+when = 'case "$PWD" in "$HOME/.local/share/chezmoi"|"$HOME/.local/share/chezmoi/"*) true;; *) false;; esac'
+format = '[$symbol chezmoi ]($style)'
+style = "bold fg:color_purple"
 
 [line_break]
 disabled = false

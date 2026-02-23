@@ -8,6 +8,7 @@
     "weekdate"
   ],
   "files.associations": {
-    "*.ps1.tmpl": "powershell"
+    "*.ps1.tmpl": "powershell",
+    "*.sh.tmpl": "shellscript"
   }
 }
