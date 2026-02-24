@@ -1,0 +1,19 @@
+layout_python3() {
+    local python=${1:-python3}
+
+    # Get the Python version without using the deprecated pkgutil
+    local pyversion=$($python -c "import platform; print(platform.python_version())")
+    local venv_dir="$(direnv_layout_dir)/python-$pyversion"
+
+    if [[ -z $VIRTUAL_ENV ]]; then
+        export VIRTUAL_ENV=$venv_dir
+    fi
+
+    # Create the virtual environment if it doesn't exist
+    if [[ ! -d $VIRTUAL_ENV ]]; then
+        $python -m venv "$VIRTUAL_ENV"
+    fi
+
+    # Add the venv to your PATH
+    PATH_add "$VIRTUAL_ENV/bin"
+}

@@ -9,7 +9,6 @@ set -euo pipefail
 __do_dconf() {
   if command -v dconf >/dev/null 2>&1; then
     dconf write /org/gnome/desktop/background/show-desktop-icons true
-    dconf write /org/gnome/desktop/interface/monospace-font-name "'FiraCode Nerd Font Retina'"
     dconf write /org/gnome/mutter/dynamic-workspaces false
     dconf write /org/gnome/desktop/wm/preferences/num-workspaces 4
     dconf write /org/gnome/shell/extensions/dash-to-dock/dock-fixed false
@@ -17,6 +16,7 @@ __do_dconf() {
     dconf write /org/gnome/shell/extensions/tiling-assistant/tiling-popup-all-workspace false
     dconf write /org/gnome/desktop/sound/event-sounds false
   fi
+  # Note, we'll configure fonts in separate font script
 }
 
 __do_gsettings() {
