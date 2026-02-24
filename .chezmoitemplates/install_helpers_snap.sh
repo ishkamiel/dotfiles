@@ -23,6 +23,6 @@ snap_install_packages() {
 }
 
 snap_install() {
-    __install_packages "snap"
+    __install_packages "snap" "$@"
     return 0
 }

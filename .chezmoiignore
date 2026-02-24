@@ -3,11 +3,12 @@
  Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
 */ -}}
 
+README.md
 data/**
 lib/**
-tests/**
-README.md
 pytest.ini
+requirements.txt
+tests/**
 
 {{ if eq .chezmoi.os "windows" }}
 {{- /* ------------------------------------------------------- Linux-like */ -}}

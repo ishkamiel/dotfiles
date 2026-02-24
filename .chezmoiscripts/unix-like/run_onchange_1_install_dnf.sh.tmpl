@@ -5,6 +5,8 @@
 #{{ template "install_helpers.sh" . }}
 #{{ template "install_helpers_dnf.sh" . }}
 
+echo Howdy
+
 packages=(
   git
   neovim
@@ -29,17 +31,16 @@ packages=(
   ripgrep
   starship
   tldr
-  wget
+  wget2-wget
 #{{ if .needBuildTools }}
   autoconf
   automake
-  build-essential
   ccache
   clang
   clang-format
   cmake
   editorconfig
-  exuberant-ctags
+  ctags
   g++
   gcc
   git

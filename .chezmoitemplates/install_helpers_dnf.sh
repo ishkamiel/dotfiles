@@ -4,6 +4,7 @@
 
 dnf_is_installed() {
     local pkg="$1"
+    echo "Checking $pkg"
     if rpm -q "${pkg}" > /dev/null 2>&1; then
         return 0
     fi
@@ -23,6 +24,6 @@ dnf_install_packages() {
 }
 
 dnf_install() {
-    __install_packages "dnf"
+    __install_packages "dnf" "$@"
     return 0
 }
