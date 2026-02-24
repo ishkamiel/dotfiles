@@ -5,7 +5,7 @@
 #{{ template "install_helpers.sh" . }}
 
 if ! command -v starship >/dev/null 2>&1; then
-  if ! curl -sS https://starship.rs/install.sh | sh; then
+  if ! curl -sS https://starship.rs/install.sh | sh -s -- -b "${HOME}/bin" -y; then
     log_error "Failed to install: starship"
   fi
 fi

@@ -24,6 +24,7 @@ packages=(
   git-crypt
   ipython3
   locate
+  ripgrep
   shellcheck
   wget
 #{{ if .needBuildTools }}
@@ -64,6 +65,12 @@ command -v starship >/dev/null 2>&1 || packages+=(starship)
 #{{ if ne .machineType "min" }}
 command -v batcat >/dev/null 2>&1 || packages+=(batcat)
 command -v du >/dev/null 2>&1 || packages+=(du-dust)
+
+if running_gnome; then
+  packages+=(guake gnome-tweaks)
+  command -v dconf >/dev/null 2>&1 || packages+=(dconf-cli)
+fi
+
 #{{ end }}
 apt_install 1 "${packages[@]}"
 

@@ -3,6 +3,7 @@
     "chezmoi",
     "dconf",
     "gsettings",
+    "guake",
     "nocasematch",
     "shiftwidth",
     "weekdate"

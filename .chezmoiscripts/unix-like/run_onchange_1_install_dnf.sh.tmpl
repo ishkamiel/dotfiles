@@ -64,4 +64,15 @@ packages=(
 )
 dnf_install "${packages[@]}"
 
+packages=()
+
+#{{ if ne .machineType "min" }}
+if running_gnome; then
+  packages+=(guake gnome-tweaks)
+  command -v dconf >/dev/null 2>&1 || packages+=(dconf-cli)
+fi
+#{{ end }}
+
+dnf_install 1 "${packages[@]}"
+
 # vim: set ft=bash:
