@@ -175,7 +175,12 @@ format = '[[  $time ](fg:color_fg0 bg:color_bg1)]($style)'
 [custom.chezmoi]
 description = "In chezmoi source directory"
 symbol = " "
+{{- if eq .chezmoi.os "windows" }}
+when = '$d = "{{ .chezmoi.sourceDir }}".Replace("/","\"); if ($PWD.Path -eq $d -or $PWD.Path.StartsWith($d + "\")) { exit 0 } else { exit 1 }'
+shell = ["pwsh.exe", "-NoProfile", "-Command"]
+{{- else }}
 when = 'case "$PWD" in "$HOME/.local/share/chezmoi"|"$HOME/.local/share/chezmoi/"*) true;; *) false;; esac'
+{{- end }}
 format = '[$symbol chezmoi ]($style)'
 style = "bold fg:color_purple"
 
