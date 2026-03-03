@@ -13,6 +13,10 @@
     url = "https://github.com/ohmyzsh/ohmyzsh.git"
     revision = "9df4ea095fe27ccd0ee95f2d34bab884c4a75585"
     # refreshPeriod = "168h" # Optional: Only check for updates once a week
+[".pyenv"]
+    type = "git-repo"
+    url = "https://github.com/pyenv/pyenv.git"
+    revision = "82f4de559302c8d517c09cc92390e824007e705f"
 #
 # -----------------------------------------------------------------------------
 #
