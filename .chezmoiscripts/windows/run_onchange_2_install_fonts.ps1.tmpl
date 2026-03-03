@@ -1,0 +1,108 @@
+
+<#
+SPDX-License-Identifier: MIT
+Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+#>
+
+{{ template "windows/install_helpers.ps1" . }}
+{{ template "windows/logger.ps1" . }}
+
+function Test-FontInstalled {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$FontFileName
+    )
+    
+    # Check in Windows Fonts registry (system-wide)
+    $fontRegistryPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"
+    $registryValues = Get-ItemProperty -Path $fontRegistryPath -ErrorAction SilentlyContinue
+    
+    if ($registryValues) {
+        foreach ($property in $registryValues.PSObject.Properties) {
+            if ($property.Value -eq $FontFileName -or $property.Value -like "*\$FontFileName") {
+                return $true
+            }
+        }
+    }
+    
+    # Check in user fonts registry
+    $userFontRegistryPath = "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"
+    $userRegistryValues = Get-ItemProperty -Path $userFontRegistryPath -ErrorAction SilentlyContinue
+    
+    if ($userRegistryValues) {
+        foreach ($property in $userRegistryValues.PSObject.Properties) {
+            if ($property.Value -eq $FontFileName -or $property.Value -like "*\$FontFileName") {
+                return $true
+            }
+        }
+    }
+    
+    # Also check if file exists in Fonts folder
+    $fontsFolder = [System.Environment]::GetFolderPath('Fonts')
+    $destinationPath = Join-Path $fontsFolder $FontFileName
+    if (Test-Path $destinationPath) {
+        return $true
+    }
+    
+    return $false
+}
+
+function Install-Font {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$FontPath
+    )
+    
+    if (-not (Test-Path $FontPath)) {
+        Write-ErrorLog "Font file not found: $FontPath"
+        return
+    }
+    
+    $fontFileName = Split-Path $FontPath -Leaf
+    
+    # Check if font is already installed using registry check
+    if (Test-FontInstalled -FontFileName $fontFileName) {
+        Write-Host "Font already installed: $fontFileName"
+        return
+    }
+    
+    try {
+        Write-Host "Installing font: $fontFileName"
+        
+        # Use Shell.Application COM object to install font properly
+        $shell = New-Object -ComObject Shell.Application
+        $fontsFolder = $shell.Namespace(0x14)  # 0x14 = Fonts folder
+        # 0x10 = respond "Yes to All", 0x04 = do not display progress dialog
+        $fontsFolder.CopyHere($FontPath, 0x14)
+        
+        Write-Host "Successfully installed: $fontFileName"
+    }
+    catch {
+        Write-ErrorLog "Failed to install font: $fontFileName - $_"
+    }
+}
+
+# Find the fonts directory using chezmoi source directory
+$fontsSourceDir = Join-Path "{{ .chezmoi.sourceDir }}" "dot_local\share\fonts"
+
+if (-not (Test-Path $fontsSourceDir)) {
+    Write-ErrorLog "Fonts source directory not found: $fontsSourceDir"
+    exit 1
+}
+
+Write-Host "Searching for fonts in: $fontsSourceDir"
+
+# Find all font files (.ttf, .otf)
+$fontFiles = Get-ChildItem -Path $fontsSourceDir -Recurse -Include "*.ttf","*.otf" -File
+
+if ($fontFiles.Count -eq 0) {
+    Write-Host "No font files found"
+} else {
+    Write-Host "Found $($fontFiles.Count) font file(s)"
+    foreach ($font in $fontFiles) {
+        Install-Font -FontPath $font.FullName
+    }
+}
+
+# vim: set filetype=ps1:
+

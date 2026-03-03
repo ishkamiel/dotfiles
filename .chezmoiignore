@@ -23,6 +23,7 @@ tests/**
 .local/share/fonts/FiraCode
 .oh-my-zsh
 .profile
+.pyenv
 .tmux.conf
 .vimrc
 .zprofile
