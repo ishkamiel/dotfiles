@@ -1,13 +1,22 @@
 {
   "cSpell.words": [
     "chezmoi",
+    "chezmoiexternal",
+    "chezmoiignore",
+    "chezmoiscripts",
+    "chezmoitemplates",
     "dconf",
+    "direnv",
     "Fira",
     "firacode",
     "gsettings",
     "guake",
     "nocasematch",
+    "nvim",
+    "pyenv",
+    "shellcheck",
     "shiftwidth",
+    "vimrc",
     "weekdate"
   ],
   "files.associations": {
