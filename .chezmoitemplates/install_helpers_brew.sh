@@ -3,8 +3,11 @@
 # Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
 
 brew_is_installed() {
-    log_error "brew_is_installed not implemented"
-    return 0
+    local pkg="$1"
+    if brew list "${pkg}" > /dev/null 2>&1; then
+        return 0
+    fi
+    return 1
 }
 
 brew_is_available() {

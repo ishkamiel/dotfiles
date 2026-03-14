@@ -57,7 +57,6 @@ packages=(
   pkg-config
   pre-commit
   pylint
-  python-is-python3
   rbenv
   rustup
 #{{ end }}
@@ -69,7 +68,7 @@ packages=()
 command -v starship >/dev/null 2>&1 || packages+=(starship)
 #{{ if ne .machineType "min" }}
 command -v batcat >/dev/null 2>&1 || packages+=(batcat)
-command -v du >/dev/null 2>&1 || packages+=(du-dust)
+command -v dust >/dev/null 2>&1 || packages+=(du-dust)
 
 if running_gnome; then
   packages+=(guake gnome-tweaks)

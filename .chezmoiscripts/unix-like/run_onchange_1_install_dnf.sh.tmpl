@@ -5,8 +5,6 @@
 #{{ template "install_helpers.sh" . }}
 #{{ template "install_helpers_dnf.sh" . }}
 
-echo Howdy
-
 packages=(
   git
   neovim
@@ -23,16 +21,15 @@ packages=(
   eza
   fd-find
   fzf
-  git
   git-crypt
   ipython3
   locate
   ripgrep
+  shellcheck
   starship
   tldr
   wget2-wget
 # Python stuff
-  ipython3
   lbzip2
   lzma
   python-is-python3
@@ -48,7 +45,6 @@ packages=(
   ctags
   g++
   gcc
-  git
   flang
   libcriticism-perl
   libxml2-devel
@@ -64,7 +60,6 @@ packages=(
   pylint
   rbenv
   rustup
-  shellcheck
 #{{ end }}
 #{{ end }}
 )

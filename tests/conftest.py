@@ -15,7 +15,10 @@ import pytest
 
 
 def _source_candidates(root: Path) -> list[Path]:
-    directories: tuple[Path, Path] = (root / ".chezmoitemplates", root / "scripts")
+    directories: tuple[Path, ...] = (
+        root / ".chezmoitemplates",
+        root / ".chezmoiscripts",
+    )
     source_files: list[Path] = []
 
     for directory in directories:
@@ -25,6 +28,17 @@ def _source_candidates(root: Path) -> list[Path]:
         source_files.extend(directory.rglob("*.sh.tmpl"))
 
     return sorted(source_files)
+
+
+def _install_helper_files(root: Path) -> list[Path]:
+    return sorted((root / ".chezmoitemplates").glob("install_helpers_*.sh"))
+
+
+def _install_script_files(root: Path) -> list[Path]:
+    scripts_dir = root / ".chezmoiscripts"
+    if not scripts_dir.exists():
+        return []
+    return sorted(scripts_dir.rglob("*.sh.tmpl")) + sorted(scripts_dir.rglob("*.sh"))
 
 
 def _read_firs_line(path: Path) -> str | None:
@@ -119,3 +133,13 @@ def pytest_generate_tests(metafunc) -> None:
         src_files_sh: list[Path] = _src_files_sh(root_path)
         ids_sh: list[str] = [str(fn.relative_to(root_path)) for fn in src_files_sh]
         metafunc.parametrize("src_file_sh", src_files_sh, ids=ids_sh)
+
+    if "install_helper_file" in metafunc.fixturenames:
+        helper_files: list[Path] = _install_helper_files(root_path)
+        ids: list[str] = [str(fn.relative_to(root_path)) for fn in helper_files]
+        metafunc.parametrize("install_helper_file", helper_files, ids=ids)
+
+    if "install_script_file" in metafunc.fixturenames:
+        script_files: list[Path] = _install_script_files(root_path)
+        ids = [str(fn.relative_to(root_path)) for fn in script_files]
+        metafunc.parametrize("install_script_file", script_files, ids=ids)

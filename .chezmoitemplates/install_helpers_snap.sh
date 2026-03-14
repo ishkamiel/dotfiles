@@ -2,15 +2,15 @@
 # SPDX-License-Identifier: MIT
 # Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
 
-is_installed_snap() {
+snap_is_installed() {
     local pkg="$1"
-    if rpm -q "${pkg}" > /dev/null 2>&1; then
+    if snap list "${pkg}" > /dev/null 2>&1; then
         return 0
     fi
     return 1
 }
 
-is_installable_snap() {
+snap_is_available() {
     local pkg="$1"
     if snap info "${pkg}" &>/dev/null; then
         return 0
@@ -19,7 +19,7 @@ is_installable_snap() {
 }
 
 snap_install_packages() {
-    sudo snap install -y "$@"
+    sudo snap install "$@"
 }
 
 snap_install() {
