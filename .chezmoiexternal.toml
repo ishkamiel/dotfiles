@@ -1,46 +1,20 @@
 [".fzf"]
     type = "git-repo"
     url = "https://github.com/junegunn/fzf.git"
-    revision = "2ab923f3ae04d5e915e5ff4a9cd3bd515bfd1ea5"
-    # refreshPeriod = "168h" # Optional: Only check for updates once a week
+    revision = "v0.70.0"
+    refreshPeriod = "168h"
 [".config/omz-custom/plugins/fzf-tab"]
     type = "git-repo"
     url = "https://github.com/Aloxaf/fzf-tab.git"
-    revision = "01dad759c4466600b639b442ca24aebd5178e799"
-    # refreshPeriod = "168h" # Optional: Only check for updates once a week
+    revision = "v1.2.0"
+    refreshPeriod = "168h"
 [".oh-my-zsh"]
     type = "git-repo"
     url = "https://github.com/ohmyzsh/ohmyzsh.git"
-    revision = "9df4ea095fe27ccd0ee95f2d34bab884c4a75585"
-    # refreshPeriod = "168h" # Optional: Only check for updates once a week
+    revision = "7de13621b376ab5e616dbc3729b52fbfde92d0e1"
+    refreshPeriod = "168h"
 [".pyenv"]
     type = "git-repo"
     url = "https://github.com/pyenv/pyenv.git"
-    revision = "82f4de559302c8d517c09cc92390e824007e705f"
-#
-# -----------------------------------------------------------------------------
-#
-# - fnm - https://github.com/Schniz/fnm
-#
-{{- $fnmVersion := "1.38.1" -}}
-{{- $fnmChecksums := dict
-    "linux_amd64"  "b69e5c9a05c1e17e4a7de9a17df14ba430d049f2591af791a6f850a170296069"
-    "linux_arm64"  "69feda9455931c26c84be9f95f5e6f69e8b64686e68069fab7cfc34756cd2944"
-    "darwin_arm64" "80deb3db3db45598f25aea594c10936a7658f70826104fe37e33b4072a5e11f9"
--}}
-{{- $fnmFilenames := dict
-    "linux_amd64" "fnm-linux.zip"
-    "linux_arm64" "fnm-arm64.zip"
-    "darwin_arm64" "fnm-macos.zip"
--}}
-{{- $archKey := printf "%s_%s" .chezmoi.os .chezmoi.arch -}}
-{{- $fnmF := get $fnmFilenames $archKey}}
-{{- $fnmC := get $fnmChecksums $archKey}}
-{{- if and $fnmF $fnmC }}
-[".local/bin/fnm"]
-    type = "archive-file"
-    path = "fnm"
-    executable = true
-    url = "https://github.com/Schniz/fnm/releases/download/v{{ $fnmVersion }}/{{ $fnmF }}"
-    checksum.sha256 = {{ $fnmC | quote }}
-{{- end }}
+    revision = "v2.6.26"
+    refreshPeriod = "168h"

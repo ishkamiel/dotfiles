@@ -25,6 +25,8 @@ zcompile_all() {
         zrecompile -p -q "${f}"
       done
     fi
+  else
+    log_error "zcompile not found, skipping zsh compilation"
   fi
 }
 

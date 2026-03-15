@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+#
+#{{ template "install_helpers.sh" . }}
+#{{ template "install_helpers_cargo.sh" . }}
+
+if ! command -v cargo >/dev/null 2>&1; then
+  verbose_echo "cargo not found, skipping cargo package installs"
+  exit 0
+fi
+
+packages=(
+  fnm
+)
+
+cargo_install "${packages[@]}"
+
+# vim: set ft=bash shiftwidth=2 tabstop=2:

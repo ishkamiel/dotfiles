@@ -9,6 +9,7 @@
     "direnv",
     "Fira",
     "firacode",
+    "fzftab",
     "gsettings",
     "guake",
     "nocasematch",
@@ -16,8 +17,12 @@
     "pyenv",
     "shellcheck",
     "shiftwidth",
+    "tmpl",
     "vimrc",
-    "weekdate"
+    "weekdate",
+    "zcompdump",
+    "zcompile",
+    "zrecompile"
   ],
   "files.associations": {
     "*.ps1.tmpl": "powershell",

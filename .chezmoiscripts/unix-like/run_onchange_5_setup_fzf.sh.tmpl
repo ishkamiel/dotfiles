@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+#
+# fzf-revision: v0.70.0  # keep in sync with .chezmoiexternal.toml (update-externals.sh)
+#
+#{{ template "install_helpers.sh" . }}
+
+if [[ ! -e "${HOME}/.fzf" ]]; then
+  log_error "Cannot find ~/.fzf"
+  exit 1
+fi
+
+pushd "${HOME}/.fzf" || exit 1
+./install --key-bindings --completion --no-update-rc --no-bash --no-zsh
+popd || exit 1
+
+# vim: set ft=bash shiftwidth=2 tabstop=2:
