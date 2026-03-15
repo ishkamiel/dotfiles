@@ -12,3 +12,5 @@ cmake-build-debug
 # Windows stuff
 **/~$*
 **/.gdb_history
+# Claude
+**/.claude/settings.local.json

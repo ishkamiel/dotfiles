@@ -97,4 +97,4 @@ The project uses direnv (`.envrc`) and a `.python-version` file; activate the vi
 - Prefer editing existing scripts/configs over creating new ones
 - When adding a new managed tool, add it to the appropriate install script and update `.chezmoiexternal.toml` if it needs a binary/repo pulled externally
 - When adding OS-conditional logic, mirror the pattern in `.chezmoiignore` to exclude irrelevant files from non-matching OSes
-- Script numbering: `0` = init, `1` = package installs, `2-8` = tool setup, `9` = post-install config, `z` = finalize
+- Script numbering: `0` = init, `1` = package installs, `2-8` = custom installs and tool setup, `9` = post-install config, `z` = finalize
