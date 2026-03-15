@@ -73,6 +73,13 @@ downloadFile() {
     return 0
 }
 
+confirm_action() {
+    local prompt="$1"
+    local response
+    read -r -p "${prompt} [y/N] " response
+    [[ "${response,,}" == "y" ]]
+}
+
 running_gnome() {
     local retval=-1
     local old_nocasematch

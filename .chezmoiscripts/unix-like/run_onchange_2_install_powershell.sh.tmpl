@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+#
+#{{ template "install_helpers.sh" . }}
+
+if command -v pwsh >/dev/null 2>&1; then
+  verbose_echo "PowerShell already installed"
+  exit 0
+fi
+
+#{{ if eq .chezmoi.os "linux" }}
+#{{ if eq .chezmoi.osRelease.id "ubuntu" }}
+#{{ template "install_helpers_apt.sh" . }}
+# shellcheck source=/dev/null
+source /etc/os-release
+apt_add_key \
+  "https://packages.microsoft.com/keys/microsoft.asc" \
+  "/etc/apt/trusted.gpg.d/microsoft.asc" || exit 0
+apt_add_repo \
+  "deb [arch=amd64,arm64,armhf] https://packages.microsoft.com/ubuntu/${VERSION_ID}/prod ${VERSION_CODENAME} main" \
+  "/etc/apt/sources.list.d/microsoft-ubuntu-prod.list" || exit 0
+apt_install_packages powershell
+#{{ else if hasPrefix "fedora" .chezmoi.osRelease.id }}
+#{{ template "install_helpers_dnf.sh" . }}
+_ms_repo_content="[packages-microsoft-com-prod]
+name=packages-microsoft-com-prod
+baseurl=https://packages.microsoft.com/rhel/8/prod/
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.microsoft.com/keys/microsoft.asc"
+
+dnf_import_key "https://packages.microsoft.com/keys/microsoft.asc" "Microsoft" || exit 0
+dnf_add_repo "/etc/yum.repos.d/microsoft-prod.repo" "${_ms_repo_content}" || exit 0
+dnf_install_packages powershell
+#{{ else }}
+log_error "PowerShell installation not supported on this Linux distro: {{ .chezmoi.osRelease.id }}"
+#{{ end }}
+#{{ end }}
+
+# vim: set ft=bash shiftwidth=2 tabstop=2:
