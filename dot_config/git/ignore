@@ -7,8 +7,9 @@
 cmake-build-debug
 /.ccls-cache
 /vscode-build
-.vscode
-**/.vscode
+**/.vscode/*
+!**/.vscode/settings.json
+!**/.vscode/extensions.json
 # Windows stuff
 **/~$*
 **/.gdb_history
