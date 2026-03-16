@@ -17,13 +17,12 @@ packages=(
   curl
   dconf
   direnv
-  du-dust
   eza
   fd-find
   fzf
   git-crypt
-  ipython3
-  locate
+  python3-ipython
+  plocate
   ripgrep
   shellcheck
   starship
@@ -31,8 +30,8 @@ packages=(
   wget2-wget
 # Python stuff
   lbzip2
-  lzma
-  python-is-python3
+  xz-lzma-compat
+  python-unversioned-command
   python3-pip
 #{{ if .needBuildTools }}
   autoconf
@@ -41,19 +40,15 @@ packages=(
   clang
   clang-format
   cmake
-  editorconfig
   ctags
-  g++
+  gcc-c++
   gcc
   flang
-  libcriticism-perl
   libxml2-devel
   lld
   llvm
   make
-  markdown
-  markdown-cli
-  markdownlint
+  python3-markdown
   ninja-build
   pkg-config
   pre-commit
