@@ -20,7 +20,7 @@ dnf_is_available() {
 
 dnf_install_packages() {
     confirm_action "run: sudo dnf install -y $*?" || return 1
-    sudo dnf install -y "$@"
+    sudo dnf install --skip-broken -y "$@"
 }
 
 dnf_install() {
