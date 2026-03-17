@@ -13,6 +13,11 @@ __prepend_to_PATH() {
     esac
 }
 
+if command -v nvim >/dev/null 2>&1; then
+  export EDITOR=nvim
+  alias vim=nvim
+fi
+
 # pyenv
 export PYENV_ROOT="${HOME}/.pyenv"
 __prepend_to_PATH "${PYENV_ROOT}/bin"

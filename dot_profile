@@ -61,6 +61,10 @@ export PAGER="less -F"
 # Configure vim and EDITOR
 command -v vi >/dev/null 2>&1 && export EDITOR=vi
 command -v vim >/dev/null 2>&1 && export EDITOR=vim
+if command -v nvim >/dev/null 2>&1; then
+  alias vim=nvim
+  export EDITOR=nvim
+fi
 
 # Load cargo environment
 # shellcheck disable=SC1091
