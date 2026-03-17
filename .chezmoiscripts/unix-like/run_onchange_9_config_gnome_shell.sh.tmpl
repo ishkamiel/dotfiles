@@ -20,6 +20,10 @@ __do_dconf() {
 }
 
 __do_gsettings() {
+  if ! running_gnome; then
+    verbose_echo "Skipping Gnome settings, not running Gnome"
+    return
+  fi
   if command -v gsettings >/dev/null 2>&1; then
     gsettings set org.gnome.desktop.interface enable-animations false
     gsettings set org.gnome.desktop.interface enable-hot-corners false

@@ -6,31 +6,48 @@
 #{{ template "install_helpers_apt.sh" . }}
 #{{ template "install_helpers_snap.sh" . }}
 
-# Required packages (log error if unavailable)
+# PPAs and required packages (non-GUI) ---------------------------------------
+#{{ template "ppa_list.tmpl" (dict "gui_only" false "ctx" .) }}
 packages=(
 #{{ template "package_list.tmpl" (dict "mgr" "apt" "optional" false "ctx" .) }}
 )
 apt_install "${packages[@]}"
 
-# Optional packages (errors suppressed; may not be in all repo versions)
+# Optional packages (errors suppressed; may not be in all repo versions) -----
 packages=(
 #{{ template "package_list.tmpl" (dict "mgr" "apt" "optional" true "ctx" .) }}
 )
 apt_install 0 "${packages[@]}"
 
-#{{ if ne .machineType "min" }}
-# GNOME-specific packages (runtime check required)
-packages=()
-if running_gnome; then
-  packages+=(guake gnome-tweaks)
-  command -v dconf >/dev/null 2>&1 || packages+=(dconf-cli)
+# GUI-only packages (runtime check required) ---------------------------------
+if running_gui; then
+#{{ template "ppa_list.tmpl" (dict "gui_only" true "ctx" .) }}
+  packages=(
+#{{ template "package_list.tmpl" (dict "mgr" "apt" "optional" false "gui_only" true "ctx" .) }}
+  )
+  apt_install "${packages[@]}"
+  packages=(
+#{{ template "package_list.tmpl" (dict "mgr" "apt" "optional" true "gui_only" true "ctx" .) }}
+  )
+  apt_install 0 "${packages[@]}"
 fi
-apt_install 1 "${packages[@]}"
 
-# Snap packages
+# GNOME-specific packages (runtime check required) ---------------------------
+if running_gnome; then
+#{{ template "ppa_list.tmpl" (dict "gnome_only" true "ctx" .) }}
+  packages=(
+#{{ template "package_list.tmpl" (dict "mgr" "apt" "optional" false "gnome_only" true "ctx" .) }}
+  )
+  apt_install "${packages[@]}"
+  packages=(
+#{{ template "package_list.tmpl" (dict "mgr" "apt" "optional" true "gnome_only" true "ctx" .) }}
+  )
+  apt_install 0 "${packages[@]}"
+fi
+
+# Snap packages --------------------------------------------------------------
 packages=()
 command -v tldr >/dev/null 2>&1 || packages+=(tldr)
 snap_install "${packages[@]}"
-#{{ end }}
 
 # vim: set ft=bash shiftwidth=2 tabstop=2:

@@ -80,6 +80,10 @@ confirm_action() {
     [[ "${response,,}" == "y" ]]
 }
 
+running_gui() {
+    [[ -n "${DISPLAY:-}" ]] || [[ -n "${WAYLAND_DISPLAY:-}" ]] || [[ -n "${XDG_CURRENT_DESKTOP:-}" ]]
+}
+
 running_gnome() {
     local retval=-1
     local old_nocasematch

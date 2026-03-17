@@ -6,7 +6,7 @@ argument-hint: "<logical-name> [apt=<pkg>] [dnf=<pkg>] [winget=<id>] [cargo=<cra
 
 # Add Package to .chezmoidata.toml
 
-Add one or more packages to `.chezmoidata.toml`, then verify with tests.
+Add one or more packages to `.chezmoidata.toml`, then verify with tests. Add package to all dnf, apt, and winget when available, even if user only mentioned one manager. If the user only mentioned a package name without manager-specific names, look them up or ask the user.
 
 ## Arguments
 

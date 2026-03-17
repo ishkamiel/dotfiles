@@ -5,25 +5,40 @@
 #{{ template "install_helpers.sh" . }}
 #{{ template "install_helpers_dnf.sh" . }}
 
-# Required packages (log error if unavailable)
+# Required packages (log error if unavailable) -------------------------------
 packages=(
 #{{ template "package_list.tmpl" (dict "mgr" "dnf" "optional" false "ctx" .) }}
 )
 dnf_install "${packages[@]}"
 
-# Optional packages (errors suppressed)
+# Optional packages (errors suppressed) --------------------------------------
 packages=(
 #{{ template "package_list.tmpl" (dict "mgr" "dnf" "optional" true "ctx" .) }}
 )
 dnf_install 0 "${packages[@]}"
 
-#{{ if ne .machineType "min" }}
-# GNOME-specific packages (runtime check required)
-packages=()
-if running_gnome; then
-  packages+=(guake gnome-tweaks)
+# GUI-only packages (runtime check required) ---------------------------------
+if running_gui; then
+  packages=(
+#{{ template "package_list.tmpl" (dict "mgr" "dnf" "optional" false "gui_only" true "ctx" .) }}
+  )
+  dnf_install "${packages[@]}"
+  packages=(
+#{{ template "package_list.tmpl" (dict "mgr" "dnf" "optional" true "gui_only" true "ctx" .) }}
+  )
+  dnf_install 0 "${packages[@]}"
 fi
-dnf_install 1 "${packages[@]}"
-#{{ end }}
+
+# GNOME-specific packages (runtime check required) ---------------------------
+if running_gnome; then
+  packages=(
+#{{ template "package_list.tmpl" (dict "mgr" "dnf" "optional" false "gnome_only" true "ctx" .) }}
+  )
+  dnf_install "${packages[@]}"
+  packages=(
+#{{ template "package_list.tmpl" (dict "mgr" "dnf" "optional" true "gnome_only" true "ctx" .) }}
+  )
+  dnf_install 0 "${packages[@]}"
+fi
 
 # vim: set ft=bash:

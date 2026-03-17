@@ -59,6 +59,8 @@ def _expected(
     mgr: str,
     *,
     optional: bool = False,
+    gui_only: bool = False,
+    gnome_only: bool = False,
     machine_type: str = "def",
     need_build_tools: bool = False,
     is_work: bool = False,
@@ -71,6 +73,10 @@ def _expected(
         if not pkg_name:
             continue
         if bool(pkg.get("optional")) != optional:
+            continue
+        if bool(pkg.get("gui-only")) != gui_only:
+            continue
+        if bool(pkg.get("gnome-only")) != gnome_only:
             continue
         if pkg.get("min"):
             result.add(pkg_name)
@@ -102,6 +108,8 @@ def _render(
     mgr: str,
     *,
     optional: bool = False,
+    gui_only: bool = False,
+    gnome_only: bool = False,
     machine_type: str = "def",
     need_build_tools: bool = False,
     is_work: bool = False,
@@ -121,7 +129,7 @@ def _render(
     )
     tmpl = (
         f'{{{{ template "package_list.tmpl"'
-        f' (dict "mgr" "{mgr}" "optional" {b(optional)} "ctx" {ctx}) }}}}'
+        f' (dict "mgr" "{mgr}" "optional" {b(optional)} "gui_only" {b(gui_only)} "gnome_only" {b(gnome_only)} "ctx" {ctx}) }}}}'
     )
     r = subprocess.run(
         ["chezmoi", "execute-template", tmpl],
@@ -169,8 +177,12 @@ def test_optional_and_required_are_disjoint(packages):
 @pytest.mark.parametrize("profile", PROFILES)
 def test_template_matches_data(packages, mgr, optional, profile):
     """Template output must exactly match the Python reference implementation."""
-    expected = _expected(packages, mgr, optional=optional, **profile)
-    actual = _render(mgr, optional=optional, **profile)
+    expected = _expected(
+        packages, mgr, optional=optional, gui_only=False, gnome_only=False, **profile
+    )
+    actual = _render(
+        mgr, optional=optional, gui_only=False, gnome_only=False, **profile
+    )
     missing = expected - actual
     extra = actual - expected
     assert not missing and not extra, (

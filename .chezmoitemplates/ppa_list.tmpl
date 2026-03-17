@@ -1,0 +1,27 @@
+{{- /*
+ SPDX-License-Identifier: MIT
+ Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+
+ Generates apt_add_ppa calls for packages with an ubuntu-ppa field.
+
+ Call with a dict:
+   {{ template "ppa_list.tmpl" (dict "gui_only" false "ctx" .) }}
+
+ Parameters:
+   gui_only   - true = emit only gui-only package PPAs; false = non-gui-only PPAs
+   gnome_only - true = emit only gnome-only package PPAs; false = non-gnome-only PPAs
+   ctx        - the full chezmoi template context (pass ".")
+
+ Output: one apt_add_ppa call per line, starting with a newline.
+*/ -}}
+{{- $ctx        := .ctx -}}
+{{- $guiOnly    := not (not (index . "gui_only")) -}}
+{{- $gnomeOnly  := not (not (index . "gnome_only")) -}}
+{{- range $name, $pkg := $ctx.packages -}}
+{{-   $ppa          := index $pkg "ubuntu-ppa" -}}
+{{-   $pkgGuiOnly   := not (not (index $pkg "gui-only")) -}}
+{{-   $pkgGnomeOnly := not (not (index $pkg "gnome-only")) -}}
+{{-   if and $ppa (eq $pkgGuiOnly $guiOnly) (eq $pkgGnomeOnly $gnomeOnly) }}
+apt_add_ppa {{ printf "%q" $ppa }}
+{{-   end -}}
+{{- end -}}

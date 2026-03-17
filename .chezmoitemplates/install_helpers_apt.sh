@@ -45,6 +45,20 @@ apt_add_key() {
     fi
 }
 
+# apt_add_ppa PPA
+# Adds an Ubuntu PPA if not already present, with confirmation.
+apt_add_ppa() {
+    local ppa="$1"
+    local ppa_name="${ppa#ppa:}"
+    if grep -rqs "${ppa_name}" /etc/apt/sources.list /etc/apt/sources.list.d/ 2>/dev/null; then
+        verbose_echo "PPA already present: ${ppa}"
+        return 0
+    fi
+    confirm_action "Add PPA ${ppa}?" || return 1
+    sudo add-apt-repository -y "${ppa}"
+    sudo apt-get update -q
+}
+
 # apt_add_repo REPO_LINE LIST_FILE
 # Adds an apt repository source file if not already present, with confirmation.
 apt_add_repo() {

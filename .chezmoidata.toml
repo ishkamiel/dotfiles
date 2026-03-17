@@ -152,6 +152,32 @@
   dnf = "wget2-wget"
 
 # ---------------------------------------------------------------------------
+# Linux GUI-only packages
+# ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# Linux Gnome-only packages
+# ---------------------------------------------------------------------------
+
+[packages.ulauncher]
+  gnome-only = true
+  optional = true
+  apt = "ulauncher"
+  ubuntu-ppa = "ppa:agornostal/ulauncher"
+  dnf = "ulauncher"
+
+[packages.guake]
+  gnome-only = true
+  apt = "guake"
+  dnf = "guake"
+
+[packages.gnome_tweaks]
+  gnome-only = true
+  apt = "gnome-tweaks"
+  dnf = "gnome-tweaks"
+
+
+# ---------------------------------------------------------------------------
 # Windows only
 # ---------------------------------------------------------------------------
 
