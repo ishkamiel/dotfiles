@@ -16,6 +16,7 @@ dot_config/              # ~/.config/* (nvim, git, starship, direnv, powershell)
 dot_local/               # ~/.local/* (bins, fonts)
 dot_*/                   # Other dotfiles (zshrc, vimrc, tmux.conf, etc.)
 tests/                   # pytest tests for script syntax and shellcheck
+run_pytest.sh            # Helper script to run pytest, passes args as-is to pytest
 ```
 
 ## Chezmoi File Naming Conventions
