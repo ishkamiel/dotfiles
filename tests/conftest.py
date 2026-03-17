@@ -143,3 +143,27 @@ def pytest_generate_tests(metafunc) -> None:
         script_files: list[Path] = _install_script_files(root_path)
         ids = [str(fn.relative_to(root_path)) for fn in script_files]
         metafunc.parametrize("install_script_file", script_files, ids=ids)
+
+    if "src_file_bash_tmpl" in metafunc.fixturenames:
+        files = [p for p in _src_files_bash(root_path) if p.suffix == ".tmpl"]
+        metafunc.parametrize(
+            "src_file_bash_tmpl",
+            files,
+            ids=[str(f.relative_to(root_path)) for f in files],
+        )
+
+    if "src_file_zsh_tmpl" in metafunc.fixturenames:
+        files = [p for p in _src_files_zsh(root_path) if p.suffix == ".tmpl"]
+        metafunc.parametrize(
+            "src_file_zsh_tmpl",
+            files,
+            ids=[str(f.relative_to(root_path)) for f in files],
+        )
+
+    if "src_file_sh_tmpl" in metafunc.fixturenames:
+        files = [p for p in _src_files_sh(root_path) if p.suffix == ".tmpl"]
+        metafunc.parametrize(
+            "src_file_sh_tmpl",
+            files,
+            ids=[str(f.relative_to(root_path)) for f in files],
+        )
