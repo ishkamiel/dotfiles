@@ -13,38 +13,16 @@ if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
     exit 1
 }
 
+# Required packages (log error if unavailable)
 $packages = @(
-    "AutoHotkey.AutoHotkey"
-    "BurntSushi.ripgrep.MSVC"
-    "Git.Git"
-    "Microsoft.PowerShell"
-    "Microsoft.PowerToys"
-    "Microsoft.VisualStudioCode"
-    "Microsoft.WindowsTerminal"
-    "Neovim.Neovim"
-    "Obsidian.Obsidian"
-    "Starship.Starship"
-    "eza-community.eza"
-    "junegunn.fzf"
-    "sharkdp.bat"
-    "sharkdp.fd"
-{{ if .isWork }}
-    "Google.Chrome"
-{{ else }}
-    "Brave.Brave"
-{{ end }}
-{{ if eq .machineType "personal" }}
-    "AgileBits.1Password"
-    "Dropbox.Dropbox"
-    "EpicGames.EpicGamesLauncher"
-    "GOG.Galaxy"
-    "Neovim.Neovim"
-    "OpenRGB.OpenRGB"
-    "Playnite.Playnite"
-    "Rem0o.FanControl"
-    "Valve.Steam"
-{{ end }}
+#{{ template "package_list.tmpl" (dict "mgr" "winget" "optional" false "ctx" . "quote" true) }}
 )
 Install-WingetPackageList -Ids $packages
+
+# Optional packages (errors suppressed)
+$packages = @(
+#{{ template "package_list.tmpl" (dict "mgr" "winget" "optional" true "ctx" . "quote" true) }}
+)
+Install-WingetPackageList -Ids $packages -Optional
 
 # vim: set filetype=ps1:

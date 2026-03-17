@@ -10,10 +10,16 @@ if ! command -v cargo >/dev/null 2>&1; then
   exit 0
 fi
 
+# Required packages (log error if unavailable)
 packages=(
-  fnm
+#{{ template "package_list.tmpl" (dict "mgr" "cargo" "optional" false "ctx" .) }}
 )
-
 cargo_install "${packages[@]}"
+
+# Optional packages (errors suppressed)
+packages=(
+#{{ template "package_list.tmpl" (dict "mgr" "cargo" "optional" true "ctx" .) }}
+)
+cargo_install 0 "${packages[@]}"
 
 # vim: set ft=bash shiftwidth=2 tabstop=2:

@@ -20,7 +20,7 @@ import pytest
 
 ROOT = Path(__file__).parent.parent
 
-MANAGERS = ["apt", "dnf"]
+MANAGERS = ["apt", "dnf", "cargo", "winget"]
 
 # All profiles that exercise distinct branches of the selection logic.
 PROFILES = [
@@ -82,7 +82,13 @@ def _expected(
             result.add(pkg_name)
         elif pkg.get("gaming") and is_gaming:
             result.add(pkg_name)
-        elif not any(pkg.get(f) for f in ("build_tools", "work", "gaming")):
+        elif pkg.get("no_work") and not is_work:
+            result.add(pkg_name)
+        elif pkg.get("personal") and machine_type == "personal":
+            result.add(pkg_name)
+        elif not any(
+            pkg.get(f) for f in ("build_tools", "work", "gaming", "no_work", "personal")
+        ):
             result.add(pkg_name)
     return result
 

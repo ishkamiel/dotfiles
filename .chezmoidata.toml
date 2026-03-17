@@ -7,10 +7,14 @@
 #   apt         = package name for apt (omit if not available on this manager)
 #   dnf         = package name for dnf (omit if not available on this manager)
 #   brew        = package name for brew (omit if not available on this manager)
+#   cargo       = crate name for cargo (omit if not available via cargo)
+#   winget      = package ID for winget (omit if not available on this manager)
 #   min         = true → install on all machine types including "min" (default: false)
 #   build_tools = true → only install when needBuildTools is set (default: false)
 #   work        = true → only install when isWork is set (default: false)
+#   no_work     = true → only install when isWork is NOT set (default: false)
 #   gaming      = true → only install when isGaming is set (default: false)
+#   personal    = true → only install when machineType == "personal" (default: false)
 #   optional    = true → suppress errors if package unavailable (default: false)
 
 # ---------------------------------------------------------------------------
@@ -20,11 +24,13 @@
 [packages.git]
   apt = "git"
   dnf = "git"
+  winget = "Git.Git"
   min = true
 
 [packages.neovim]
   apt = "neovim"
   dnf = "neovim"
+  winget = "Neovim.Neovim"
   min = true
 
 [packages.tmux]
@@ -55,6 +61,7 @@
 [packages.bat]
   apt = "batcat"
   dnf = "bat"
+  winget = "sharkdp.bat"
   optional = true
 
 [packages.btop]
@@ -79,14 +86,20 @@
 [packages.eza]
   apt = "eza"
   dnf = "eza"
+  winget = "eza-community.eza"
 
 [packages.fd_find]
   apt = "fd-find"
   dnf = "fd-find"
+  winget = "sharkdp.fd"
+
+[packages.fnm]
+  cargo = "fnm"
 
 [packages.fzf]
   apt = "fzf"
   dnf = "fzf"
+  winget = "junegunn.fzf"
 
 [packages.git_crypt]
   apt = "git-crypt"
@@ -119,6 +132,7 @@
 [packages.ripgrep]
   apt = "ripgrep"
   dnf = "ripgrep"
+  winget = "BurntSushi.ripgrep.MSVC"
 
 [packages.shellcheck]
   apt = "shellcheck"
@@ -127,6 +141,7 @@
 [packages.starship]
   apt = "starship"
   dnf = "starship"
+  winget = "Starship.Starship"
   optional = true
 
 [packages.tldr]
@@ -135,6 +150,33 @@
 [packages.wget]
   apt = "wget"
   dnf = "wget2-wget"
+
+# ---------------------------------------------------------------------------
+# Windows only
+# ---------------------------------------------------------------------------
+
+[packages.autohotkey]
+  winget = "AutoHotkey.AutoHotkey"
+
+[packages.brave]
+  winget = "Brave.Brave"
+  no_work = true
+
+[packages.obsidian]
+  winget = "Obsidian.Obsidian"
+
+[packages.powershell]
+  winget = "Microsoft.PowerShell"
+
+[packages.powertoys]
+  winget = "Microsoft.PowerToys"
+
+[packages.vscode]
+  winget = "Microsoft.VisualStudioCode"
+
+[packages.windows_terminal]
+  winget = "Microsoft.WindowsTerminal"
+
 
 # ---------------------------------------------------------------------------
 # Build tools  (build_tools = true, only when needBuildTools is set)
@@ -265,10 +307,46 @@
 # Work packages  (work = true, only when isWork is set)
 # ---------------------------------------------------------------------------
 
-# (add work-specific packages here)
+[packages.chrome]
+  winget = "Google.Chrome"
+  work = true
 
 # ---------------------------------------------------------------------------
 # Gaming packages  (gaming = true, only when isGaming is set)
 # ---------------------------------------------------------------------------
 
-# (add gaming-specific packages here)
+[packages.epic_games]
+  winget = "EpicGames.EpicGamesLauncher"
+  gaming = true
+
+[packages.gog_galaxy]
+  winget = "GOG.Galaxy"
+  gaming = true
+
+[packages.playnite]
+  winget = "Playnite.Playnite"
+  gaming = true
+
+[packages.steam]
+  winget = "Valve.Steam"
+  gaming = true
+
+# ---------------------------------------------------------------------------
+# Personal packages  (personal = true, only when machineType == "personal")
+# ---------------------------------------------------------------------------
+
+[packages.dropbox]
+  winget = "Dropbox.Dropbox"
+  personal = true
+
+[packages.fancontrol]
+  winget = "Rem0o.FanControl"
+  personal = true
+
+[packages.one_password]
+  winget = "AgileBits.1Password"
+  personal = true
+
+[packages.openrgb]
+  winget = "OpenRGB.OpenRGB"
+  personal = true

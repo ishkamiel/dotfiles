@@ -4,21 +4,23 @@
 
  Generates a list of package names for a given package manager, filtered by
  the current machine profile.  Designed to be called as a chezmoi template
- from within a bash packages=(...) array literal.
+ from within a bash packages=(...) or PowerShell @(...) array literal.
 
  Call with a dict:
    {{ template "package_list.tmpl" (dict "mgr" "apt" "optional" false "ctx" .) }}
 
  Parameters:
-   mgr      - package manager key: "apt", "dnf", or "brew"
+   mgr      - package manager key: "apt", "dnf", "brew", "cargo", or "winget"
    optional - true = emit only optional packages; false = emit only required ones
    ctx      - the full chezmoi template context (pass ".")
+   quote    - true = wrap each name in double quotes (for PowerShell arrays)
 
- Output: one indented package name per line, suitable for a bash array literal.
+ Output: one indented package name per line, suitable for a bash or PS array literal.
 */ -}}
 {{- $ctx     := .ctx -}}
 {{- $mgr     := .mgr -}}
 {{- $wantOpt := not (not .optional) -}}
+{{- $quote   := not (not (index . "quote")) -}}
 {{- range $name, $pkg := $ctx.packages -}}
 {{-   $pkgName := index $pkg $mgr -}}
 {{-   $pkgOpt  := not (not (index $pkg "optional")) -}}
@@ -32,11 +34,15 @@
 {{-       $include = true -}}
 {{-     else if and (index $pkg "gaming") $ctx.isGaming (ne $ctx.machineType "min") -}}
 {{-       $include = true -}}
-{{-     else if and (not (index $pkg "build_tools")) (not (index $pkg "work")) (not (index $pkg "gaming")) (ne $ctx.machineType "min") -}}
+{{-     else if and (index $pkg "no_work") (not $ctx.isWork) (ne $ctx.machineType "min") -}}
+{{-       $include = true -}}
+{{-     else if and (index $pkg "personal") (eq $ctx.machineType "personal") -}}
+{{-       $include = true -}}
+{{-     else if and (not (index $pkg "build_tools")) (not (index $pkg "work")) (not (index $pkg "gaming")) (not (index $pkg "no_work")) (not (index $pkg "personal")) (ne $ctx.machineType "min") -}}
 {{-       $include = true -}}
 {{-     end -}}
 {{-   end -}}
 {{-   if $include }}
-  {{ $pkgName }}
+  {{ if $quote }}"{{ $pkgName }}"{{ else }}{{ $pkgName }}{{ end }}
 {{-   end -}}
 {{- end -}}
