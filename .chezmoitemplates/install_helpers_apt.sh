@@ -39,10 +39,11 @@ apt_add_key() {
         return 0
     fi
     confirm_action "Add GPG key to ${dest}?" || return 1
-    if ! curl -sSL "${url}" | sudo tee "${dest}" > /dev/null; then
+    if ! curl -sSL "${url}" | gpg --dearmor | sudo tee "${dest}" > /dev/null; then
         log_error "Failed to download GPG key from ${url}"
         return 1
     fi
+    sudo chmod a+r "${dest}"
 }
 
 # apt_add_ppa PPA
