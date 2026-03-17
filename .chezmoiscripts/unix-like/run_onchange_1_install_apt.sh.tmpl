@@ -6,83 +6,31 @@
 #{{ template "install_helpers_apt.sh" . }}
 #{{ template "install_helpers_snap.sh" . }}
 
+# Required packages (log error if unavailable)
 packages=(
-  git
-  neovim
-  tmux
-  vim-nox
-  zsh
-#{{ if ne .machineType "min" }}
-  apt-file
-  aptitude
-  btop
-  curl
-  dconf-cli
-  eza
-  fd-find
-  fzf
-  git-crypt
-  locate
-  ripgrep
-  shellcheck
-  wget
-# Python stuff
-  ipython3
-  lbzip2
-  lzma
-  python-is-python3
-  python3-pip
-#{{ if .needBuildTools }}
-  autoconf
-  automake
-  build-essential
-  ccache
-  clang
-  clang-format
-  cmake
-  direnv
-  editorconfig
-  exuberant-ctags
-  flang
-  g++
-  gcc
-  libcriticism-perl
-  libxml2-dev
-  lld
-  llvm
-  make
-  markdown
-  markdownlint
-  ninja-build
-  pkg-config
-  pre-commit
-  pylint
-  rbenv
-  rustup
-#{{ end }}
-#{{ end }}
+#{{ template "package_list.tmpl" (dict "mgr" "apt" "optional" false "ctx" .) }}
 )
 apt_install "${packages[@]}"
 
-packages=()
-command -v starship >/dev/null 2>&1 || packages+=(starship)
-#{{ if ne .machineType "min" }}
-command -v batcat >/dev/null 2>&1 || packages+=(batcat)
-command -v dust >/dev/null 2>&1 || packages+=(du-dust)
+# Optional packages (errors suppressed; may not be in all repo versions)
+packages=(
+#{{ template "package_list.tmpl" (dict "mgr" "apt" "optional" true "ctx" .) }}
+)
+apt_install 0 "${packages[@]}"
 
+#{{ if ne .machineType "min" }}
+# GNOME-specific packages (runtime check required)
+packages=()
 if running_gnome; then
   packages+=(guake gnome-tweaks)
   command -v dconf >/dev/null 2>&1 || packages+=(dconf-cli)
 fi
-
-#{{ end }}
 apt_install 1 "${packages[@]}"
 
+# Snap packages
 packages=()
-#{{ if ne .machineType "min" }}
 command -v tldr >/dev/null 2>&1 || packages+=(tldr)
-#{{ end }}
-
 snap_install "${packages[@]}"
+#{{ end }}
 
 # vim: set ft=bash shiftwidth=2 tabstop=2:

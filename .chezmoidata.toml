@@ -1,0 +1,274 @@
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+
+# Package definitions for cross-platform installation.
+#
+# Fields per entry:
+#   apt         = package name for apt (omit if not available on this manager)
+#   dnf         = package name for dnf (omit if not available on this manager)
+#   brew        = package name for brew (omit if not available on this manager)
+#   min         = true → install on all machine types including "min" (default: false)
+#   build_tools = true → only install when needBuildTools is set (default: false)
+#   work        = true → only install when isWork is set (default: false)
+#   gaming      = true → only install when isGaming is set (default: false)
+#   optional    = true → suppress errors if package unavailable (default: false)
+
+# ---------------------------------------------------------------------------
+# Core / minimum packages  (min = true, installed on all machine types)
+# ---------------------------------------------------------------------------
+
+[packages.git]
+  apt = "git"
+  dnf = "git"
+  min = true
+
+[packages.neovim]
+  apt = "neovim"
+  dnf = "neovim"
+  min = true
+
+[packages.tmux]
+  apt = "tmux"
+  dnf = "tmux"
+  min = true
+
+[packages.vim]
+  apt = "vim-nox"
+  dnf = "vim-enhanced"
+  min = true
+
+[packages.zsh]
+  apt = "zsh"
+  dnf = "zsh"
+  min = true
+
+# ---------------------------------------------------------------------------
+# Non-minimum packages  (installed when machineType != "min")
+# ---------------------------------------------------------------------------
+
+[packages.apt_file]
+  apt = "apt-file"
+
+[packages.aptitude]
+  apt = "aptitude"
+
+[packages.bat]
+  apt = "batcat"
+  dnf = "bat"
+  optional = true
+
+[packages.btop]
+  apt = "btop"
+  dnf = "btop"
+
+[packages.curl]
+  apt = "curl"
+  dnf = "curl"
+
+[packages.dconf]
+  dnf = "dconf"
+
+[packages.direnv]
+  apt = "direnv"
+  dnf = "direnv"
+
+[packages.du_dust]
+  apt = "du-dust"
+  optional = true
+
+[packages.eza]
+  apt = "eza"
+  dnf = "eza"
+
+[packages.fd_find]
+  apt = "fd-find"
+  dnf = "fd-find"
+
+[packages.fzf]
+  apt = "fzf"
+  dnf = "fzf"
+
+[packages.git_crypt]
+  apt = "git-crypt"
+  dnf = "git-crypt"
+
+[packages.ipython]
+  apt = "ipython3"
+  dnf = "python3-ipython"
+
+[packages.lbzip2]
+  apt = "lbzip2"
+  dnf = "lbzip2"
+
+[packages.locate]
+  apt = "locate"
+  dnf = "plocate"
+
+[packages.lzma]
+  apt = "lzma"
+  dnf = "xz-lzma-compat"
+
+[packages.python_cmd]
+  apt = "python-is-python3"
+  dnf = "python-unversioned-command"
+
+[packages.python3_pip]
+  apt = "python3-pip"
+  dnf = "python3-pip"
+
+[packages.ripgrep]
+  apt = "ripgrep"
+  dnf = "ripgrep"
+
+[packages.shellcheck]
+  apt = "shellcheck"
+  dnf = "shellcheck"
+
+[packages.starship]
+  apt = "starship"
+  dnf = "starship"
+  optional = true
+
+[packages.tldr]
+  dnf = "tldr"
+
+[packages.wget]
+  apt = "wget"
+  dnf = "wget2-wget"
+
+# ---------------------------------------------------------------------------
+# Build tools  (build_tools = true, only when needBuildTools is set)
+# ---------------------------------------------------------------------------
+
+[packages.autoconf]
+  apt = "autoconf"
+  dnf = "autoconf"
+  build_tools = true
+
+[packages.automake]
+  apt = "automake"
+  dnf = "automake"
+  build_tools = true
+
+[packages.build_essential]
+  apt = "build-essential"
+  build_tools = true
+
+[packages.ccache]
+  apt = "ccache"
+  dnf = "ccache"
+  build_tools = true
+
+[packages.clang]
+  apt = "clang"
+  dnf = "clang"
+  build_tools = true
+
+[packages.clang_format]
+  apt = "clang-format"
+  dnf = "clang-format"
+  build_tools = true
+
+[packages.cmake]
+  apt = "cmake"
+  dnf = "cmake"
+  build_tools = true
+
+[packages.ctags]
+  apt = "exuberant-ctags"
+  dnf = "ctags"
+  build_tools = true
+
+[packages.editorconfig]
+  apt = "editorconfig"
+  build_tools = true
+
+[packages.flang]
+  apt = "flang"
+  dnf = "flang"
+  build_tools = true
+
+[packages.gcc]
+  apt = "gcc"
+  dnf = "gcc"
+  build_tools = true
+
+[packages.gpp]
+  apt = "g++"
+  dnf = "gcc-c++"
+  build_tools = true
+
+[packages.libcriticism_perl]
+  apt = "libcriticism-perl"
+  build_tools = true
+
+[packages.libxml2_dev]
+  apt = "libxml2-dev"
+  dnf = "libxml2-devel"
+  build_tools = true
+
+[packages.lld]
+  apt = "lld"
+  dnf = "lld"
+  build_tools = true
+
+[packages.llvm]
+  apt = "llvm"
+  dnf = "llvm"
+  build_tools = true
+
+[packages.make]
+  apt = "make"
+  dnf = "make"
+  build_tools = true
+
+[packages.markdown]
+  apt = "markdown"
+  dnf = "python3-markdown"
+  build_tools = true
+
+[packages.markdownlint]
+  apt = "markdownlint"
+  build_tools = true
+
+[packages.ninja_build]
+  apt = "ninja-build"
+  dnf = "ninja-build"
+  build_tools = true
+
+[packages.pkg_config]
+  apt = "pkg-config"
+  dnf = "pkg-config"
+  build_tools = true
+
+[packages.pre_commit]
+  apt = "pre-commit"
+  dnf = "pre-commit"
+  build_tools = true
+
+[packages.pylint]
+  apt = "pylint"
+  dnf = "pylint"
+  build_tools = true
+
+[packages.rbenv]
+  apt = "rbenv"
+  dnf = "rbenv"
+  build_tools = true
+
+[packages.rustup]
+  apt = "rustup"
+  dnf = "rustup"
+  build_tools = true
+
+# ---------------------------------------------------------------------------
+# Work packages  (work = true, only when isWork is set)
+# ---------------------------------------------------------------------------
+
+# (add work-specific packages here)
+
+# ---------------------------------------------------------------------------
+# Gaming packages  (gaming = true, only when isGaming is set)
+# ---------------------------------------------------------------------------
+
+# (add gaming-specific packages here)

@@ -1,0 +1,42 @@
+{{- /*
+ SPDX-License-Identifier: MIT
+ Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+
+ Generates a list of package names for a given package manager, filtered by
+ the current machine profile.  Designed to be called as a chezmoi template
+ from within a bash packages=(...) array literal.
+
+ Call with a dict:
+   {{ template "package_list.tmpl" (dict "mgr" "apt" "optional" false "ctx" .) }}
+
+ Parameters:
+   mgr      - package manager key: "apt", "dnf", or "brew"
+   optional - true = emit only optional packages; false = emit only required ones
+   ctx      - the full chezmoi template context (pass ".")
+
+ Output: one indented package name per line, suitable for a bash array literal.
+*/ -}}
+{{- $ctx     := .ctx -}}
+{{- $mgr     := .mgr -}}
+{{- $wantOpt := not (not .optional) -}}
+{{- range $name, $pkg := $ctx.packages -}}
+{{-   $pkgName := index $pkg $mgr -}}
+{{-   $pkgOpt  := not (not (index $pkg "optional")) -}}
+{{-   $include := false -}}
+{{-   if and $pkgName (eq $pkgOpt $wantOpt) -}}
+{{-     if index $pkg "min" -}}
+{{-       $include = true -}}
+{{-     else if and (index $pkg "build_tools") $ctx.needBuildTools (ne $ctx.machineType "min") -}}
+{{-       $include = true -}}
+{{-     else if and (index $pkg "work") $ctx.isWork (ne $ctx.machineType "min") -}}
+{{-       $include = true -}}
+{{-     else if and (index $pkg "gaming") $ctx.isGaming (ne $ctx.machineType "min") -}}
+{{-       $include = true -}}
+{{-     else if and (not (index $pkg "build_tools")) (not (index $pkg "work")) (not (index $pkg "gaming")) (ne $ctx.machineType "min") -}}
+{{-       $include = true -}}
+{{-     end -}}
+{{-   end -}}
+{{-   if $include }}
+  {{ $pkgName }}
+{{-   end -}}
+{{- end -}}
