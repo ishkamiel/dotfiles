@@ -25,6 +25,8 @@ __do_gsettings() {
     gsettings set org.gnome.desktop.interface enable-hot-corners false
     gsettings set org.gnome.desktop.calendar show-weekdate true
     gsettings set org.gnome.desktop.input-sources xkb-options '["caps:escape"]'
+    gsettings set org.gnome.desktop.interface clock-format '24h'
+    gsettings set org.gnome.shell.app-switcher current-workspace-only true
   fi
 }
 
