@@ -18,3 +18,8 @@
     url = "https://github.com/pyenv/pyenv.git"
     revision = "v2.6.26"
     refreshPeriod = "168h"
+[".tmux/plugins/tpm"]
+    type = "git-repo"
+    url = "https://github.com/tmux-plugins/tpm.git"
+    revision = "v3.1.0"
+    refreshPeriod = "168h"
