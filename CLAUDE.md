@@ -50,8 +50,11 @@ run_pytest.sh            # Helper script to run pytest, passes args as-is to pyt
 
 Scripts include shared helpers via `{{ template "..." . }}`:
 
-- `install_helpers.sh` — `log_error`, `verbose_echo`, `__install_packages`, `downloadFile`, `running_gnome`
-- `install_helpers_apt.sh`, `_dnf.sh`, `_brew.sh`, `_snap.sh` — per-manager install functions
+- `install_helpers.sh` — `log_error`, `verbose_echo`, `__install_packages`, `downloadFile`, `running_gui`, `running_gnome`
+- `install_helpers_apt.sh` — `apt_install`, `apt_add_ppa`, `apt_add_repo`, `apt_add_key`
+- `install_helpers_dnf.sh`, `install_helpers_brew.sh`, `install_helpers_snap.sh` — per-manager install functions
+- `package_list.tmpl` — generates package names for a manager, filtered by profile flags (see below)
+- `ppa_list.tmpl` — generates `apt_add_ppa` calls for packages with `ubuntu-ppa` field
 - `windows/logger.ps1`, `windows/install_helpers.ps1`, `windows/json_helpers.ps1`
 
 ## Error Handling Pattern
@@ -93,9 +96,52 @@ pre-commit run --all-files      # Run all hooks manually
 
 The project uses direnv (`.envrc`) and a `.python-version` file; activate the virtualenv before running tests.
 
+## Package Data (`.chezmoidata.toml`)
+
+All packages are declared in `.chezmoidata.toml` under `[packages.<key>]`. Each entry can have:
+
+| Field | Description |
+|---|---|
+| `apt`, `dnf`, `brew`, `cargo`, `winget` | Package name for that manager (omit if unavailable) |
+| `ubuntu-ppa` | PPA to add before installing (apt only, e.g. `"ppa:foo/bar"`) |
+| `min = true` | Install on all machine types including `min` |
+| `build_tools = true` | Only when `needBuildTools` is set |
+| `work = true` | Only when `isWork` is set |
+| `no_work = true` | Only when `isWork` is NOT set |
+| `gaming = true` | Only when `isGaming` is set |
+| `personal = true` | Only when `machineType == "personal"` |
+| `gui-only = true` | Runtime-checked: only installed when a GUI/display is detected |
+| `gnome-only = true` | Runtime-checked: only installed when GNOME is the desktop |
+| `optional = true` | Suppress install errors if unavailable |
+
+Packages without any profile flag are installed on all non-`min` machines. Machine type filtering is handled entirely by `package_list.tmpl` — install scripts do not need `#{{ if ne .machineType "min" }}` wrappers.
+
+### Install script structure (apt and dnf)
+
+```
+PPAs + required packages (non-GUI)
+optional packages (non-GUI)
+if running_gui; then   ← PPAs + required + optional gui-only packages
+if running_gnome; then ← PPAs + required + optional gnome-only packages
+```
+
+`package_list.tmpl` parameters: `mgr`, `optional`, `gui_only`, `gnome_only`, `ctx` (and `quote` for PowerShell).
+`ppa_list.tmpl` parameters: `gui_only`, `gnome_only`, `ctx`.
+
+## `#{{ }}` Template Directive Pattern
+
+In `.tmpl` bash scripts, Go template actions are written as `#{{ action }}` so the source file is valid bash (the `#` makes the line a comment). Key behaviour:
+
+- `#{{ range/if/end ... }}` — the `#` is **literal output**; the action controls flow but produces no text itself
+- `#{{ template "foo.tmpl" . }}` — outputs `#\n<template content>`; since template content starts with `\n`, the `#` lands on its own blank comment line and the content follows on subsequent lines — this is how `package_list.tmpl` and `ppa_list.tmpl` work
+- **Never** use `#{{ printf "cmd %q" $var }}` to emit bash commands — it outputs `#cmd ...` which is a comment, not a command
+- `-}}` strips the following newline; chaining `#{{ ... -}}` lines concatenates their `#` characters — avoid in loops
+- Standalone `if ... then ... fi` blocks must have non-comment content in the `then` clause; merge PPA template calls into blocks that also contain `packages=(...)` code
+
 ## Key Conventions
 
 - Prefer editing existing scripts/configs over creating new ones
-- When adding a new managed tool, add it to the appropriate install script and update `.chezmoiexternal.toml` if it needs a binary/repo pulled externally
+- When adding a new package, add it to `.chezmoidata.toml` (use the `add-package` skill)
+- When adding a managed tool that needs an external binary/repo, also update `.chezmoiexternal.toml`
 - When adding OS-conditional logic, mirror the pattern in `.chezmoiignore` to exclude irrelevant files from non-matching OSes
 - Script numbering: `0` = init, `1` = package installs, `2-8` = custom installs and tool setup, `9` = post-install config, `z` = finalize
