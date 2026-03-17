@@ -81,10 +81,25 @@ For chezmoi template files (`.tmpl`), the header uses Go comment style:
 ## Testing
 
 ```bash
-pytest                          # Run all tests
-pytest tests/test_shellcheck_bash.py   # Shellcheck on bash scripts
-pytest tests/test_script_syntax.py    # Syntax checks
+./run_pytest.sh                                      # Run all tests (preferred — activates venv)
+./run_pytest.sh tests/test_shellcheck_bash.py        # Shellcheck on bash scripts
+./run_pytest.sh tests/test_script_syntax.py          # Syntax checks (raw + rendered templates)
+./run_pytest.sh tests/test_chezmoi_templates.py      # Template output vs. reference data
+./run_pytest.sh tests/test_helper_conventions.py     # Helper script conventions
+./run_pytest.sh tests/test_package_lists.py          # Package list integrity
 ```
+
+### Test files
+
+| File | What it tests |
+|---|---|
+| `test_script_syntax.py` | `bash/zsh/sh -n` on source files **and** on `chezmoi execute-template`-rendered `.sh.tmpl` output |
+| `test_shellcheck_bash.py` | `shellcheck` on bash scripts and helper templates |
+| `test_chezmoi_templates.py` | `package_list.tmpl` / `ppa_list.tmpl` output across profiles vs. Python reference |
+| `test_helper_conventions.py` | Naming and structure conventions for helper scripts |
+| `test_package_lists.py` | `.chezmoidata.toml` integrity (no duplicates, etc.) |
+
+`tests/conftest.py` holds all shared fixtures and `pytest_generate_tests` parametrisation. Add new file collections there; add new test functions to the appropriate test file.
 
 Tests run via pre-commit on every commit. The pre-commit config also enforces: trailing whitespace, JSON/YAML/TOML validity, no private keys, and license header insertion.
 
