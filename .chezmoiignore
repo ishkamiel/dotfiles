@@ -5,6 +5,7 @@
 
 .local/share/fonts/FiraCode/LICENSE
 .local/share/fonts/FiraCode/README.md
+CLAUDE.md
 README.md
 data/**
 lib/**
