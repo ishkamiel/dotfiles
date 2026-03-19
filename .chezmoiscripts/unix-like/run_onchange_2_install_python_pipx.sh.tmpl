@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+#
+# Setup pyenv python and pipx packages.
+# Triggered by python version: {{ include ".python-version" | trim }}
+#
+#{{ template "install_helpers.sh" . }}
+#{{ template "install_helpers_pipx.sh" . }}
+
+PYENV_ROOT="${PYENV_ROOT:-${HOME}/.pyenv}"
+PYTHON_VERSION='{{ include ".python-version" | trim }}'
+
+if [[ ! -x "${PYENV_ROOT}/bin/pyenv" ]]; then
+  log_error "pyenv not found at ${PYENV_ROOT}/bin/pyenv, skipping python/pipx setup"
+  exit 0
+fi
+
+export PYENV_ROOT
+export PATH="${PYENV_ROOT}/bin:${PATH}"
+eval "$(pyenv init -)"
+
+# Install the target Python version if not already installed
+if ! pyenv versions --bare | grep -qxF "${PYTHON_VERSION}"; then
+  echo "Installing Python ${PYTHON_VERSION} via pyenv..."
+  if ! pyenv install "${PYTHON_VERSION}"; then
+    log_error "Failed to install Python ${PYTHON_VERSION} via pyenv"
+    exit 1
+  fi
+fi
+
+# Set as global default
+pyenv global "${PYTHON_VERSION}"
+
+# Install pipx if not present
+export PATH="${HOME}/.local/bin:${PATH}"
+if ! command -v pipx >/dev/null 2>&1; then
+  echo "Installing pipx..."
+  if ! "${PYENV_ROOT}/versions/${PYTHON_VERSION}/bin/python" -m pip install --user pipx; then
+    log_error "Failed to install pipx"
+    exit 1
+  fi
+fi
+
+# Ensure pipx uses the current pyenv python
+pipx reinstall-all --python "${PYENV_ROOT}/versions/${PYTHON_VERSION}/bin/python" >/dev/null 2>&1 || true
+
+# Required packages
+packages=(
+#{{ template "package_list.tmpl" (dict "mgr" "pipx" "optional" false "ctx" .) }}
+)
+pipx_install "${packages[@]}"
+
+# Optional packages (errors suppressed)
+packages=(
+#{{ template "package_list.tmpl" (dict "mgr" "pipx" "optional" true "ctx" .) }}
+)
+pipx_install 0 "${packages[@]}"
+
+# vim: set ft=bash shiftwidth=2 tabstop=2:

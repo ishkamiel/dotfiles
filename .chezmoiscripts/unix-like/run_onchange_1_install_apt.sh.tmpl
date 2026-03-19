@@ -4,7 +4,6 @@
 #
 #{{ template "install_helpers.sh" . }}
 #{{ template "install_helpers_apt.sh" . }}
-#{{ template "install_helpers_snap.sh" . }}
 
 # PPAs and required packages (non-GUI) ---------------------------------------
 #{{ template "ppa_list.tmpl" (dict "gui_only" false "ctx" .) }}
@@ -44,10 +43,5 @@ if running_gnome; then
   )
   apt_install 0 "${packages[@]}"
 fi
-
-# Snap packages --------------------------------------------------------------
-packages=()
-command -v tldr >/dev/null 2>&1 || packages+=(tldr)
-snap_install "${packages[@]}"
 
 # vim: set ft=bash shiftwidth=2 tabstop=2:

@@ -5,10 +5,14 @@
 #{{ template "install_helpers.sh" . }}
 #{{ template "install_helpers_cargo.sh" . }}
 
-if ! command -v cargo >/dev/null 2>&1; then
-  verbose_echo "cargo not found, skipping cargo package installs"
+if ! command -v rustup >/dev/null 2>&1; then
+  log_error "rustup not found, skipping cargo package installs"
   exit 0
 fi
+
+verbose_echo "Updating Rust stable toolchain via rustup"
+rustup update stable
+rustup default stable
 
 # Required packages (log error if unavailable)
 packages=(

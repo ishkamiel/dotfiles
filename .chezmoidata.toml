@@ -84,8 +84,7 @@
   optional = true
 
 [packages.eza]
-  apt = "eza"
-  dnf = "eza"
+  cargo = "eza"
   winget = "eza-community.eza"
 
 [packages.fd_find]
@@ -134,9 +133,13 @@
   dnf = "ripgrep"
   winget = "BurntSushi.ripgrep.MSVC"
 
+[packages.rustup]
+  apt = "rustup"
+  dnf = "rustup"
+
 [packages.shellcheck]
   apt = "shellcheck"
-  dnf = "shellcheck"
+  dnf = "ShellCheck"
 
 [packages.starship]
   apt = "starship"
@@ -145,7 +148,7 @@
   optional = true
 
 [packages.tldr]
-  dnf = "tldr"
+  pipx = "tldr"
 
 [packages.wget]
   apt = "wget"
@@ -324,11 +327,6 @@
   dnf = "rbenv"
   build_tools = true
 
-[packages.rustup]
-  apt = "rustup"
-  dnf = "rustup"
-  build_tools = true
-
 # ---------------------------------------------------------------------------
 # Work packages  (work = true, only when isWork is set)
 # ---------------------------------------------------------------------------
@@ -376,3 +374,5 @@
 [packages.openrgb]
   winget = "OpenRGB.OpenRGB"
   personal = true
+
+# vim: set ft=toml shiftwidth=2 tabstop=2:
