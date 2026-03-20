@@ -1,6 +1,5 @@
 {
   "cSpell.words": [
-    "Fira",
     "agornostal",
     "autohotkey",
     "batcat",
@@ -13,6 +12,7 @@
     "dconf",
     "direnv",
     "fancontrol",
+    "Fira",
     "firacode",
     "flang",
     "fzftab",
@@ -20,8 +20,8 @@
     "guake",
     "ipython",
     "junegunn",
-    "libcriticism",
     "lbzip",
+    "libcriticism",
     "lzma",
     "msvc",
     "nocasematch",
@@ -34,6 +34,7 @@
     "powertoys",
     "pyenv",
     "pylint",
+    "rustc",
     "rustup",
     "sharkdp",
     "shellcheck",

@@ -5,6 +5,15 @@
 #{{ template "install_helpers.sh" . }}
 #{{ template "install_helpers_cargo.sh" . }}
 
+# This is required for Fedora, Ubuntu links rustc to rustup
+if command -v rustup-init >/dev/null 2>&1; then
+  if [[ ! -f "${HOME}/.rustup/settings.toml" ]]; then
+    rustup-init -q -y --no-modify-path
+    # shellcheck disable=SC1091
+    . "${HOME}/.cargo/env"
+  fi
+fi
+
 if ! command -v rustup >/dev/null 2>&1; then
   log_error "rustup not found, skipping cargo package installs"
   exit 0

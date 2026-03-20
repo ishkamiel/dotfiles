@@ -16,6 +16,13 @@ __prepend_to_PATH() {
   return 0
 }
 
+# Update here (in addition to ~/.profile)
+__prepend_to_PATH "${HOME}/bin"
+__prepend_to_PATH "${HOME}/.local/bin"
+__prepend_to_PATH "${HOME}/.cargo/bin"
+__prepend_to_PATH "${HOME}/go/bin"
+__prepend_to_PATH "/opt/homebrew/bin"
+
 # Configure history
 export HISTFILE="${HOME}/.zhistory"
 setopt SHARE_HISTORY

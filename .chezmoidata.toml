@@ -237,7 +237,11 @@
 
 [packages.clang_format]
   apt = "clang-format"
-  dnf = "clang-format"
+  dnf = "clang-tools-extra"
+  build_tools = true
+
+[packages.clang_format_git]
+  dnf = "git-clang-format"
   build_tools = true
 
 [packages.cmake]
@@ -309,7 +313,7 @@
 
 [packages.pkg_config]
   apt = "pkg-config"
-  dnf = "pkg-config"
+  dnf = "pkgconf-pkg-config"
   build_tools = true
 
 [packages.pre_commit]
