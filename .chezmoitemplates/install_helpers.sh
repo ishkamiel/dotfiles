@@ -20,6 +20,13 @@ verbose_echo() {
     fi
 }
 
+exit_with_error() {
+    local exit_code="$1"; shift
+    local msg="$*"
+    log_error "$msg"
+    exit "$exit_code"
+}
+
 __install_packages() {
     local manager="$1"; shift
     local do_log_error=1
@@ -29,15 +36,20 @@ __install_packages() {
     fi
     local pkgs=("$@")
 
-    local is_installed_fn="${manager}_is_installed"; shift
-    local is_available_fn="${manager}_is_available"; shift
-    local install_packages="${manager}_install_packages"; shift
+    verbose_echo "__install_packages ${manager} packages: ${pkgs[*]}"
+
+    local is_installed_fn="${manager}_is_installed"
+    local is_available_fn="${manager}_is_available"
+    local install_packages="${manager}_install_packages"
+
+    verbose_echo "Checking for ${manager} package manager functions"
 
     declare -F "$is_installed_fn" >/dev/null || return 2
     declare -F "$is_available_fn" >/dev/null || return 2
     declare -F "$install_packages" >/dev/null || return 2
 
     local to_install=()
+    verbose_echo "Checking which ${manager} packages need to be installed"
     for pkg in "${pkgs[@]}"; do
         if ! "$is_installed_fn" "$pkg"; then
             if "$is_available_fn" "$pkg"; then
@@ -52,7 +64,9 @@ __install_packages() {
         fi
     done
 
+    verbose_echo "Packages to install for ${manager}: ${to_install[*]}"
     ((${#to_install[@]})) && "$install_packages" "${to_install[@]}"
+    return 0
 }
 
 downloadFile() {

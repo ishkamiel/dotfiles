@@ -5,10 +5,12 @@
 #{{ template "install_helpers.sh" . }}
 #{{ template "install_helpers_cargo.sh" . }}
 
+set -euo pipefail
+
 # This is required for Fedora, Ubuntu links rustc to rustup
 if command -v rustup-init >/dev/null 2>&1; then
   if [[ ! -f "${HOME}/.rustup/settings.toml" ]]; then
-    rustup-init -q -y --no-modify-path
+    rustup-init -q -y --no-modify-path || exit_with_error 1 "Failed to install rustup"
     # shellcheck disable=SC1091
     . "${HOME}/.cargo/env"
   fi
@@ -20,8 +22,12 @@ if ! command -v rustup >/dev/null 2>&1; then
 fi
 
 verbose_echo "Updating Rust stable toolchain via rustup"
-rustup update stable
-rustup default stable
+
+output="$(rustup -q show active-toolchain 2>&1)" || \
+  exit_with_error 1 "Failed to get active Rust toolchain: ${output}"
+
+output="$(rustup -q default stable 2>&1)" || \
+  exit_with_error 1 "Failed to set Rust default toolchain to stable: ${output}"
 
 # Required packages (log error if unavailable)
 packages=(
@@ -35,4 +41,5 @@ packages=(
 )
 cargo_install 0 "${packages[@]}"
 
+verbose_echo "Done"
 # vim: set ft=bash shiftwidth=2 tabstop=2:

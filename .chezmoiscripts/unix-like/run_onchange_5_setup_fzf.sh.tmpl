@@ -6,13 +6,16 @@
 #
 #{{ template "install_helpers.sh" . }}
 
+set -euo pipefail
+
 if [[ ! -e "${HOME}/.fzf" ]]; then
   log_error "Cannot find ~/.fzf"
   exit 1
 fi
 
-pushd "${HOME}/.fzf" || exit 1
-./install --key-bindings --completion --no-update-rc --no-bash --no-zsh
-popd || exit 1
+pushd "${HOME}/.fzf" > /dev/null || exit 1
+output="$(./install --key-bindings --completion --no-update-rc --no-bash --no-zsh --no-fish 2>&1)" || \
+  exit_with_error 1 "Failed to install fzf: ${output}"
+popd > /dev/null || exit 1
 
 # vim: set ft=bash shiftwidth=2 tabstop=2:
