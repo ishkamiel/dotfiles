@@ -6,6 +6,9 @@
 
 set -euo pipefail
 
+# Silently skip a gsettings key if it doesn't exist in the schema
+__gset() { gsettings writable "$1" "$2" 2>/dev/null | grep -q true && gsettings set "$1" "$2" "$3" || true; }
+
 __do_guake() {
   if ! running_gnome; then
     verbose_echo "Skipping Guake settings, not running Gnome"
@@ -22,57 +25,69 @@ __do_guake() {
     return
   fi
 
-  # --- Keyboard shortcuts ---
-  # Global: toggle show/hide
-  gsettings set org.guake.keybindings.global show-hide 'F12'
-  # Local tab management
-  gsettings set org.guake.keybindings.local new-tab '<Primary>t'
-  gsettings set org.guake.keybindings.local close-tab '<Primary>w'
-  gsettings set org.guake.keybindings.local next-tab '<Primary>Page_Down'
-  gsettings set org.guake.keybindings.local previous-tab '<Primary>Page_Up'
-  gsettings set org.guake.keybindings.local rename-current-tab '<Primary>F2'
-  gsettings set org.guake.keybindings.local move-tab-left '<Primary><Shift>Page_Up'
-  gsettings set org.guake.keybindings.local move-tab-right '<Primary><Shift>Page_Down'
-  # Local splits
-  gsettings set org.guake.keybindings.local split-tab-vertical '<Primary><Shift>e'
-  gsettings set org.guake.keybindings.local split-tab-horizontal '<Primary><Shift>o'
+  # --- Global toggle: use GNOME custom keybinding, disable Guake's own ---
+  gsettings set org.guake.keybindings.global show-hide ''
 
-  # --- Window dimensions ---
-  # Height as percentage of screen (0-100)
-  gsettings set org.guake window-height 50
-  # Width as percentage of screen (0-100); 100 = full width
-  gsettings set org.guake window-width 100
-  # Horizontal alignment: 0=left, 1=center, 2=right
+  local guake_kb='org.gnome.settings-daemon.plugins.media-keys.custom-keybinding'
+  local guake_kb_path='/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/guake/'
+  local media_keys='org.gnome.settings-daemon.plugins.media-keys'
+  local current_list
+  current_list=$(gsettings get "${media_keys}" custom-keybindings)
+  if [[ "${current_list}" != *"${guake_kb_path}"* ]]; then
+    if [[ "${current_list}" == '@as []' || "${current_list}" == '[]' ]]; then
+      gsettings set "${media_keys}" custom-keybindings "['${guake_kb_path}']"
+    else
+      gsettings set "${media_keys}" custom-keybindings "${current_list%']'}, '${guake_kb_path}']"
+    fi
+  fi
+  gsettings set "${guake_kb}:${guake_kb_path}" name    'Guake Toggle'
+  gsettings set "${guake_kb}:${guake_kb_path}" command 'guake -t'
+  gsettings set "${guake_kb}:${guake_kb_path}" binding '<Alt>section'
+
+  # --- Local keybindings: disable all, keep only copy/paste ---
+  local local_keys=(
+    new-tab close-tab next-tab previous-tab rename-current-tab
+    move-tab-left move-tab-right
+    split-tab-vertical split-tab-horizontal
+    focus-terminal-left focus-terminal-right focus-terminal-up focus-terminal-down
+    toggle-fullscreen zoom-in zoom-out zoom-in-alt reset-terminal close-terminal
+    switch-tab1 switch-tab2 switch-tab3 switch-tab4 switch-tab5
+    switch-tab6 switch-tab7 switch-tab8 switch-tab9 switch-tab10
+  )
+  for key in "${local_keys[@]}"; do
+    __gset org.guake.keybindings.local "${key}" ''
+  done
+  gsettings set org.guake.keybindings.local copy-clipboard  '<Primary>c'
+  gsettings set org.guake.keybindings.local paste-clipboard '<Primary>v'
+
+  # --- Window: full screen drop-down ---
+  gsettings set org.guake window-height    100
+  gsettings set org.guake window-width     100
   gsettings set org.guake window-halignment 0
-  # Keep on top
-  gsettings set org.guake window-ontop true
-  # Do not hide on focus loss (set true to auto-hide)
+  gsettings set org.guake window-ontop     true
   gsettings set org.guake window-losefocus false
 
-  # --- Tab / terminal appearance ---
-  gsettings set org.guake.style use-default-font false
-  gsettings set org.guake.style font 'Monospace 12'
-  # Show/hide tab bar
-  gsettings set org.guake show-tab-names true
-  # Enable bold
-  gsettings set org.guake.style.font allow-bold true
+  # --- Tab bar: hidden ---
+  __gset org.guake show-tab-names false
+  __gset org.guake show-tabs      false
+
+  # --- Font: follow GNOME system monospace font (set by configure_fonts script) ---
+  gsettings set org.guake.style use-default-font true
 
   # --- Color scheme: Solarized Dark ---
-  # Foreground (base0 #839496), Background (base03 #002b36)
   gsettings set org.guake.style.font foreground-color '#839496'
   gsettings set org.guake.style.font background-color '#002b36'
-  # 16-color palette: Solarized Dark
-  # base02, red, green, yellow, blue, magenta, cyan, base2,
-  # base03, orange, base01, base00, base0, violet, base1, base3
+  # base02 red green yellow blue magenta cyan base2 / base03 orange base01 base00 base0 violet base1 base3 / fg bg
   gsettings set org.guake.style.font palette \
     '#073642:#dc322f:#859900:#b58900:#268bd2:#d33682:#2aa198:#eee8d5:#002b36:#cb4b16:#586e75:#657b83:#839496:#6c71c4:#93a1a1:#fdf6e3:#839496:#002b36'
   gsettings set org.guake.style.font palette-name 'Solarized Dark'
+  __gset org.guake.style.font allow-bold true
 
   # --- Miscellaneous ---
-  gsettings set org.guake restore-tabs-notify false
+  gsettings set org.guake restore-tabs-notify  false
   gsettings set org.guake restore-tabs-startup false
-  gsettings set org.guake scroll-output true
-  gsettings set org.guake history-size 4096
+  gsettings set org.guake scroll-output        true
+  gsettings set org.guake history-size         4096
 }
 
 __do_guake
