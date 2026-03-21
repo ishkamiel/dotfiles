@@ -53,11 +53,11 @@ __do_guake() {
     toggle-fullscreen zoom-in zoom-out zoom-in-alt reset-terminal close-terminal
     switch-tab1 switch-tab2 switch-tab3 switch-tab4 switch-tab5
     switch-tab6 switch-tab7 switch-tab8 switch-tab9 switch-tab10
+    copy-clipboard
   )
   for key in "${local_keys[@]}"; do
     __gset org.guake.keybindings.local "${key}" ''
   done
-  gsettings set org.guake.keybindings.local copy-clipboard  '<Primary>c'
   gsettings set org.guake.keybindings.local paste-clipboard '<Primary>v'
 
   # --- Window: full screen drop-down ---
