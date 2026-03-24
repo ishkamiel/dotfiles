@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+#
+# Configure Kitty as a GNOME drop-down terminal via tdrop.
+# Registers a custom GNOME keybinding (Alt+§) that runs:
+#   tdrop -ma -w 100% -h 100% -y 0 kitty
+#
+#{{ template "install_helpers.sh" . }}
+
+set -euo pipefail
+
+__do_kitty_dropdown() {
+  if ! running_gnome; then
+    verbose_echo "Skipping kitty-dropdown setup, not running GNOME"
+    return
+  fi
+
+  if ! command -v gsettings >/dev/null 2>&1; then
+    verbose_echo "Skipping kitty-dropdown setup, gsettings not available"
+    return
+  fi
+
+  local kb='org.gnome.settings-daemon.plugins.media-keys.custom-keybinding'
+  local kb_path='/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/kitty-dropdown/'
+  local media_keys='org.gnome.settings-daemon.plugins.media-keys'
+  local current_list
+
+  # Remove legacy guake keybinding path if still present
+  current_list=$(gsettings get "${media_keys}" custom-keybindings)
+  local guake_path='/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/guake/'
+  if [[ "${current_list}" == *"${guake_path}"* ]]; then
+    current_list="${current_list/\'${guake_path}\', /}"
+    current_list="${current_list/\', \'${guake_path}\'/}"
+    current_list="${current_list/\'${guake_path}\'/}"
+    gsettings set "${media_keys}" custom-keybindings "${current_list}"
+    verbose_echo "Removed legacy guake keybinding from custom-keybindings list"
+  fi
+
+  # Add kitty-dropdown keybinding path if not already present
+  current_list=$(gsettings get "${media_keys}" custom-keybindings)
+  if [[ "${current_list}" != *"${kb_path}"* ]]; then
+    if [[ "${current_list}" == '@as []' || "${current_list}" == '[]' ]]; then
+      gsettings set "${media_keys}" custom-keybindings "['${kb_path}']"
+    else
+      gsettings set "${media_keys}" custom-keybindings "${current_list%']'}, '${kb_path}']"
+    fi
+  fi
+
+  gsettings set "${kb}:${kb_path}" name    'Kitty dropdown'
+  gsettings set "${kb}:${kb_path}" command 'tdrop -ma -w 100% -h 100% -y 0 kitty'
+  gsettings set "${kb}:${kb_path}" binding '<Alt>section'
+}
+
+__do_kitty_dropdown
+
+# vim: set ft=bash shiftwidth=2 tabstop=2:

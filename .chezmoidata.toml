@@ -179,10 +179,16 @@
   ubuntu-ppa = "ppa:agornostal/ulauncher"
   dnf = "ulauncher"
 
-[packages.guake]
+
+[packages.kitty]
+  gui-only = true
+  apt = "kitty"
+  dnf = "kitty"
+
+[packages.tdrop]
   gnome-only = true
-  apt = "guake"
-  dnf = "guake"
+  apt = "tdrop"
+  dnf = "tdrop"
 
 [packages.gnome_tweaks]
   gnome-only = true
