@@ -188,7 +188,6 @@
 [packages.tdrop]
   gnome-only = true
   apt = "tdrop"
-  dnf = "tdrop"
 
 [packages.gnome_tweaks]
   gnome-only = true
