@@ -2,8 +2,7 @@
 # SPDX-License-Identifier: MIT
 # Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
 #
-# Shared font-resolution helpers.  Include via:
-#   #{{ template "font_helpers.sh" . }}
+# Shared font-resolution helpers.
 
 readonly monospace_fonts=(
     "FiraCode Nerd Font Mono,FiraCode Nerd Font Mono Ret"
