@@ -185,10 +185,6 @@
   apt = "kitty"
   dnf = "kitty"
 
-[packages.tdrop]
-  gnome-only = true
-  apt = "tdrop"
-
 [packages.gnome_tweaks]
   gnome-only = true
   apt = "gnome-tweaks"
