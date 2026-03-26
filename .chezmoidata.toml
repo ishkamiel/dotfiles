@@ -38,6 +38,16 @@
   dnf = "tmux"
   min = true
 
+[packages.wl-clipboard]
+  apt = "wl-clipboard"
+  dnf = "wl-clipboard"
+  gui-only = true
+
+[packages.xclip]
+  apt = "xclip"
+  dnf = "xclip"
+  gui-only = true
+
 [packages.vim]
   apt = "vim-nox"
   dnf = "vim-enhanced"
@@ -169,10 +179,16 @@
   ubuntu-ppa = "ppa:agornostal/ulauncher"
   dnf = "ulauncher"
 
-[packages.guake]
+
+[packages.kitty]
+  gui-only = true
+  apt = "kitty"
+  dnf = "kitty"
+
+[packages.gnome_extensions_app]
   gnome-only = true
-  apt = "guake"
-  dnf = "guake"
+  apt = "gnome-extensions-app"
+  dnf = "gnome-extensions-app"
 
 [packages.gnome_tweaks]
   gnome-only = true
