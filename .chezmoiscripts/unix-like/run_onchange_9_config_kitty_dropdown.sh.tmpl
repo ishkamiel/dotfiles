@@ -28,9 +28,8 @@ __cleanup_legacy_keybindings() {
     '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/kitty-dropdown/'
   do
     if [[ "${current_list}" == *"${legacy_path}"* ]]; then
-      current_list="${current_list/\'${legacy_path}\', /}"
-      current_list="${current_list/\', \'${legacy_path}\'/}"
-      current_list="${current_list/\'${legacy_path}\'/}"
+      current_list=$(printf '%s' "${current_list}" \
+        | sed "s|, '${legacy_path}'||; s|'${legacy_path}', ||; s|'${legacy_path}'||")
       verbose_echo "Removed legacy keybinding: ${legacy_path}"
     fi
   done
