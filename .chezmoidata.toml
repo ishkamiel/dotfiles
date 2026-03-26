@@ -185,6 +185,11 @@
   apt = "kitty"
   dnf = "kitty"
 
+[packages.gnome_extensions_app]
+  gnome-only = true
+  apt = "gnome-extensions-app"
+  dnf = "gnome-extensions-app"
+
 [packages.gnome_tweaks]
   gnome-only = true
   apt = "gnome-tweaks"
