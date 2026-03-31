@@ -107,7 +107,6 @@ open(path, 'w').write(result)
 echo "Fetching latest versions..."
 
 fzf_rev=$(latest_release "junegunn/fzf")
-fzftab_rev=$(latest_tag "Aloxaf/fzf-tab")
 pyenv_rev=$(latest_release "pyenv/pyenv")
 omz_rev=$(latest_commit "ohmyzsh/ohmyzsh" "master")
 tpm_rev=$(latest_release "tmux-plugins/tpm")
@@ -115,7 +114,6 @@ tpm_rev=$(latest_release "tmux-plugins/tpm")
 echo ""
 echo "Updating ${EXTERNAL}:"
 set_revision "https://github.com/junegunn/fzf.git"           "${fzf_rev}"
-set_revision "https://github.com/Aloxaf/fzf-tab.git"         "${fzftab_rev}"
 set_revision "https://github.com/pyenv/pyenv.git"            "${pyenv_rev}"
 set_revision "https://github.com/ohmyzsh/ohmyzsh.git"        "${omz_rev}"
 set_revision "https://github.com/tmux-plugins/tpm.git"       "${tpm_rev}"
@@ -125,9 +123,6 @@ echo "Updating run_onchange scripts:"
 set_script_revision \
     ".chezmoiscripts/unix-like/run_onchange_2_setup_fzf.sh.tmpl" \
     "fzf-revision" "${fzf_rev}"
-set_script_revision \
-    ".chezmoiscripts/unix-like/run_onchange_6_setup_fzf_tab.sh.tmpl" \
-    "fzf-tab-revision" "${fzftab_rev}"
 
 if [[ "${DRY_RUN}" == 1 ]]; then
     echo ""

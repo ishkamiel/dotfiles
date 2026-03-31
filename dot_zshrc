@@ -67,7 +67,6 @@ plugins=(
   eza
   fnm
   fzf
-  fzf-tab
   gitignore
   rust
   ssh-agent
@@ -95,12 +94,6 @@ zstyle ':completion:*:git-checkout:*' sort false
 zstyle ':completion:*:descriptions' format '[%d]'
 # shellcheck disable=SC2296,SC2086
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-# --- fzf-tab configuration -----------
-zstyle ':fzf-tab:*' use-fzf-default-opts yes
-zstyle ':fzf-tab:*' fzf-flags \
-  --color=fg:1,fg+:2 \
-  --tiebreak=length
-zstyle ':fzf-tab:complete:cd:*' fzf-preview "eza -1 --color=always \$realpath"
 # --- fzf for history -----------------
 bindkey '^R' fzf-history-widget
 
