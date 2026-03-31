@@ -35,8 +35,8 @@ bin/**
 .chezmoiscripts/unix-like/**
 {{ end }}
 
-{{ if or (ne .chezmoi.os "linux") (ne .chezmoi.osRelease.id "ubuntu") }}
-{{- /* ----------------------------------------------------------- Ubuntu */ -}}
+{{ if not .isDebianLike }}
+{{- /* ---------------------------------------------------- Debian/Ubuntu */ -}}
 .chezmoiscripts/unix-like/1_install_apt.sh
 {{ end }}
 

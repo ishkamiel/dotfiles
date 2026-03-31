@@ -10,6 +10,7 @@ set -euo pipefail
 __configure_gnome_font() {
   if command -v dconf >/dev/null 2>&1; then
     local monospace_font
+    # shellcheck disable=SC2154  # monospace_fonts defined in font_helpers.sh template
     monospace_font=$(__find_first_available_font "${monospace_fonts[@]}")
 
     if [[ -n "$monospace_font" ]]; then
@@ -23,6 +24,7 @@ __configure_kitty_font() {
   [[ -d "$kitty_conf_dir" ]] || return 0
 
   local monospace_font
+  # shellcheck disable=SC2154  # monospace_fonts defined in font_helpers.sh template
   monospace_font=$(__find_first_available_font "${monospace_fonts[@]}")
   [[ -n "$monospace_font" ]] || return 0
 

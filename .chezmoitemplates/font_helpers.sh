@@ -10,6 +10,7 @@ readonly monospace_fonts=(
     "Ubuntu Mono"
     "Courier"
 )
+export monospace_fonts
 
 # Usage: __find_first_available_font "Font One" "Font Two" ...
 # Prints the first argument that matches an available monospace font,
