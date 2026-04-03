@@ -27,8 +27,11 @@ jobs:
       - name: Add chezmoi to PATH
         run: echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
-      - name: Initialize chezmoi
-        run: chezmoi init --source="$GITHUB_WORKSPACE"
+      - name: Configure chezmoi source
+        run: |
+          mkdir -p "$HOME/.config/chezmoi" "$HOME/.local/share"
+          printf '[data]\n  machineType = "def"\n  isWork = false\n  isGaming = false\n  needBuildTools = false\n  isDebianLike = true\n  email = "ci@test"\n  name = "CI"\n' > "$HOME/.config/chezmoi/chezmoi.toml"
+          ln -s "$GITHUB_WORKSPACE" "$HOME/.local/share/chezmoi"
 
       - name: Install shellcheck
         run: |
