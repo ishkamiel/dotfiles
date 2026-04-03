@@ -2,7 +2,6 @@ name: Tests
 
 on:
   push:
-    branches: [main]
   pull_request:
     branches: [main]
 
@@ -28,6 +27,9 @@ jobs:
       - name: Add chezmoi to PATH
         run: echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
+      - name: Initialize chezmoi
+        run: chezmoi init --source="$GITHUB_WORKSPACE"
+
       - name: Install shellcheck
         run: |
           if [ "$RUNNER_OS" = "Linux" ]; then
@@ -40,4 +42,4 @@ jobs:
         run: pip install pytest pytest-xdist
 
       - name: Run tests
-        run: pytest --dist=load --numprocesses=logical
+        run: pytest
