@@ -51,7 +51,7 @@ update-externals.sh      # Script to refresh external repo versions
 
 - `.chezmoiscripts/unix-like/` — bash scripts for Linux/macOS; excluded on Windows via `.chezmoiignore`
 - `.chezmoiscripts/windows/` — PowerShell scripts; excluded on non-Windows
-- OS-specific package scripts (`install_apt`, `install_dnf`, `install_brew`, `install_winget`) are each excluded on non-matching OSes
+- OS-specific package scripts (`install_apt`, `install_dnf`, `install_winget`) are each excluded on non-matching OSes via `.chezmoiignore`
 
 ## Template Helpers
 
