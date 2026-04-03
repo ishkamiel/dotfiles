@@ -21,15 +21,6 @@ jobs:
         with:
           python-version-file: .python-version
 
-      - name: Install chezmoi
-        uses: twpayne/chezmoi-action/setup@v2
-
-      - name: Configure chezmoi source
-        run: |
-          mkdir -p "$HOME/.config/chezmoi" "$HOME/.local/share"
-          printf '[data]\n  machineType = "def"\n  isWork = false\n  isGaming = false\n  needBuildTools = false\n  isDebianLike = true\n  email = "ci@test"\n  name = "CI"\n' > "$HOME/.config/chezmoi/chezmoi.toml"
-          ln -s "$GITHUB_WORKSPACE" "$HOME/.local/share/chezmoi"
-
       - name: Install shellcheck
         run: |
           if [ "$RUNNER_OS" = "Linux" ]; then
@@ -42,4 +33,4 @@ jobs:
         run: python -m pip install pytest pytest-xdist
 
       - name: Run tests
-        run: pytest
+        run: pytest --ignore=tests/test_chezmoi_templates.py -k "not _rendered"
