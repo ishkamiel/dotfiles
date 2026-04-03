@@ -13,7 +13,7 @@ This is a [chezmoi](https://www.chezmoi.io/) dotfiles repository for Hans Liljes
   windows/               # PowerShell install/config scripts for Windows
 .chezmoitemplates/       # Shared template snippets included by scripts
 dot_config/              # ~/.config/* (nvim, git, starship, direnv, kitty, powershell)
-dot_local/               # ~/.local/* (fonts/FiraCode)
+dot_local/               # ~/.local/* (share/fonts/FiraCode)
 dot_*/                   # Other dotfiles (zshrc, bashrc, vimrc, tmux.conf, gitconfig, etc.)
 bin/                     # User scripts (~/.local/bin or ~/bin): tm, vncstart
 data/                    # Data files (e.g., gnome_keybindings)
