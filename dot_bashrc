@@ -18,6 +18,9 @@ if command -v nvim >/dev/null 2>&1; then
   alias vim=nvim
 fi
 
+eval "$(pyenv init -)"
+eval "$(direnv hook bash)"
+
 # pyenv
 export PYENV_ROOT="${HOME}/.pyenv"
 __prepend_to_PATH "${PYENV_ROOT}/bin"
