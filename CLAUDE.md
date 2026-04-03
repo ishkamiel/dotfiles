@@ -7,16 +7,21 @@ This is a [chezmoi](https://www.chezmoi.io/) dotfiles repository for Hans Liljes
 ```
 .chezmoi.toml.tmpl       # chezmoi config template (machine type, user data)
 .chezmoiignore           # OS-conditional ignore rules
-.chezmoiexternal.toml    # External git repos and archives (fzf, oh-my-zsh, pyenv, fnm)
+.chezmoiexternal.toml    # External git repos and archives (fzf, oh-my-zsh, pyenv, tpm)
 .chezmoiscripts/
   unix-like/             # Bash install/config scripts for Linux & macOS
   windows/               # PowerShell install/config scripts for Windows
 .chezmoitemplates/       # Shared template snippets included by scripts
-dot_config/              # ~/.config/* (nvim, git, starship, direnv, powershell)
-dot_local/               # ~/.local/* (bins, fonts)
-dot_*/                   # Other dotfiles (zshrc, vimrc, tmux.conf, etc.)
+dot_config/              # ~/.config/* (nvim, git, starship, direnv, kitty, powershell)
+dot_local/               # ~/.local/* (share/fonts/FiraCode)
+dot_*/                   # Other dotfiles (zshrc, bashrc, vimrc, tmux.conf, gitconfig, etc.)
+bin/                     # User scripts (~/.local/bin or ~/bin): tm, vncstart
+data/                    # Data files (e.g., gnome_keybindings)
+lib/                     # Helper scripts (e.g., keybindings.pl)
 tests/                   # pytest tests for script syntax and shellcheck
+.claude/skills/          # Claude Code custom skills (add-package, add-test, run-tests)
 run_pytest.sh            # Helper script to run pytest, passes args as-is to pytest
+update-externals.sh      # Script to refresh external repo versions
 ```
 
 ## Chezmoi File Naming Conventions
@@ -35,7 +40,9 @@ run_pytest.sh            # Helper script to run pytest, passes args as-is to pyt
 |---|---|---|
 | `.machineType` | `min`, `def`, `personal` | Minimum, default, or personal workstation |
 | `.isWork` | bool | Work machine (affects which apps are installed) |
+| `.isGaming` | bool | Gaming machine (installs Steam, etc.) |
 | `.needBuildTools` | bool | Install compilers, CMake, LLVM, Rust, etc. |
+| `.isDebianLike` | bool (derived) | True when `.chezmoi.osRelease.id` is `ubuntu` or `debian` |
 | `.chezmoi.os` | `linux`, `darwin`, `windows` | Target OS |
 | `.chezmoi.osRelease.id` | `ubuntu`, `fedora`, etc. | Linux distro |
 | `.chezmoi.arch` | `amd64`, `arm64` | CPU architecture |
@@ -44,7 +51,7 @@ run_pytest.sh            # Helper script to run pytest, passes args as-is to pyt
 
 - `.chezmoiscripts/unix-like/` — bash scripts for Linux/macOS; excluded on Windows via `.chezmoiignore`
 - `.chezmoiscripts/windows/` — PowerShell scripts; excluded on non-Windows
-- OS-specific package scripts (`install_apt`, `install_dnf`, `install_brew`, `install_winget`) are each excluded on non-matching OSes
+- OS-specific package scripts (`install_apt`, `install_dnf`, `install_winget`) are each excluded on non-matching OSes via `.chezmoiignore`
 
 ## Template Helpers
 
@@ -53,6 +60,9 @@ Scripts include shared helpers via `{{ template "..." . }}`:
 - `install_helpers.sh` — `log_error`, `verbose_echo`, `__install_packages`, `downloadFile`, `running_gui`, `running_gnome`
 - `install_helpers_apt.sh` — `apt_install`, `apt_add_ppa`, `apt_add_repo`, `apt_add_key`
 - `install_helpers_dnf.sh`, `install_helpers_brew.sh`, `install_helpers_snap.sh` — per-manager install functions
+- `install_helpers_cargo.sh` — cargo-specific install functions
+- `install_helpers_pipx.sh` — pipx-specific install functions
+- `font_helpers.sh` — font installation helpers
 - `package_list.tmpl` — generates package names for a manager, filtered by profile flags (see below)
 - `ppa_list.tmpl` — generates `apt_add_ppa` calls for packages with `ubuntu-ppa` field
 - `windows/logger.ps1`, `windows/install_helpers.ps1`, `windows/json_helpers.ps1`
@@ -117,7 +127,7 @@ All packages are declared in `.chezmoidata.toml` under `[packages.<key>]`. Each 
 
 | Field | Description |
 |---|---|
-| `apt`, `dnf`, `brew`, `cargo`, `winget` | Package name for that manager (omit if unavailable) |
+| `apt`, `dnf`, `brew`, `cargo`, `pipx`, `winget` | Package name for that manager (omit if unavailable) |
 | `ubuntu-ppa` | PPA to add before installing (apt only, e.g. `"ppa:foo/bar"`) |
 | `min = true` | Install on all machine types including `min` |
 | `build_tools = true` | Only when `needBuildTools` is set |
