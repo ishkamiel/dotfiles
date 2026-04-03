@@ -94,6 +94,8 @@
   optional = true
 
 [packages.eza]
+  apt = "eza"
+  dnf = "eza"
   cargo = "eza"
   winget = "eza-community.eza"
 
