@@ -32,3 +32,11 @@ tests
 
 # bin/ uses executable_ prefix which ishfiles doesn't handle yet
 bin
+
+# Dev and direnv stuff
+**/*.pyc
+**/__pycache__
+.direnv
+.venv
+.vscode
+requirements.txt
