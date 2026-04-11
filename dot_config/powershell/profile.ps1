@@ -1,3 +1,7 @@
+# __ISH__
+# only_on = ["windows"]
+# __ISH__
+
 # VI mode
 Set-PSReadLineOption -EditMode Vi
 

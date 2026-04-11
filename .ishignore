@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: MIT
 # Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
 
+# Empty directory placeholders
+.gitkeep
+
 # Chezmoi-specific files and directories
 .chezmoi.toml.tmpl
 .chezmoidata.toml
@@ -29,6 +32,9 @@ ishlib
 data
 lib
 tests
+
+# LICENSE and other files we want in repo but not in home
+dot_local/share/fonts/FiraCode/LICENSE
 
 # bin/ uses executable_ prefix which ishfiles doesn't handle yet
 bin
