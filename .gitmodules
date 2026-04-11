@@ -1,0 +1,3 @@
+[submodule "ishlib"]
+	path = ishlib
+	url = git@github.com:ishkamiel/ishlib.git
