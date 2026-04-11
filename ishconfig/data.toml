@@ -1,0 +1,37 @@
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+
+# Data template for ishfiles.
+# Each table defines a variable that ishfiles will prompt for if not already
+# set in ~/.config/ishfiles/config.toml under [data].
+#
+# Keys:
+#   prompt  - the question shown to the user
+#   default - value used when the user presses Enter without typing
+
+[machineType]
+prompt = "Machine type (min/def/personal)"
+default = "def"
+
+[email]
+prompt = "Email address"
+default = "hans@liljestrand.dev"
+
+[name]
+prompt = "Full name"
+default = "Hans Liljestrand"
+
+[isWork]
+prompt = "Is this a work machine?"
+default = false
+type = "bool"
+
+[isGaming]
+prompt = "Is this a gaming machine?"
+default = false
+type = "bool"
+
+[needBuildTools]
+prompt = "Install build tools?"
+default = false
+type = "bool"

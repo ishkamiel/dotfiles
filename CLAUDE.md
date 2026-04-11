@@ -113,6 +113,27 @@ For chezmoi template files (`.tmpl`), the header uses Go comment style:
 
 Tests run via pre-commit on every commit. The pre-commit config also enforces: trailing whitespace, JSON/YAML/TOML validity, no private keys, and license header insertion.
 
+### ishfiles manual testing
+
+**Never run `ishfiles apply`, `install`, or `runscripts` against the real home directory.** These commands modify files and install packages. Only use `ishfiles diff` for manual testing, and always point to safe temporary directories:
+
+```bash
+TEST_HOME=$(mktemp -d)
+TEST_CONFIG="$TEST_HOME/.config/ishfiles/config.toml"
+mkdir -p "$(dirname "$TEST_CONFIG")"
+
+# Safe: diff only, temp home, temp config
+./ishlib/bin/ishfiles --home "$TEST_HOME" -s "$(pwd)" -c "$TEST_CONFIG" diff
+
+# Inspect results
+cat "$TEST_CONFIG"
+
+# Clean up
+rm -rf "$TEST_HOME"
+```
+
+The `--home`, `-s` (source), and `-c` (config) flags redirect all file operations away from `$HOME`. Unit tests in `ishlib/` use temp directories and are always safe to run.
+
 ## Pre-commit
 
 ```bash
