@@ -1,0 +1,34 @@
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+
+# Chezmoi-specific files and directories
+.chezmoi.toml.tmpl
+.chezmoidata.toml
+.chezmoiexternal.toml
+.chezmoiignore
+.chezmoiscripts
+.chezmoitemplates
+
+# Template files (not static — need migration to @ish directives later)
+*.tmpl
+
+# Repository infrastructure (not dotfiles)
+.claude
+.vscode
+.envrc
+.LICENSE_HEADER
+.pre-commit-config.yaml
+.python-version
+.gitmodules
+CLAUDE.md
+README.md
+pytest.ini
+run_pytest.sh
+update-externals.sh
+ishlib
+data
+lib
+tests
+
+# bin/ uses executable_ prefix which ishfiles doesn't handle yet
+bin
