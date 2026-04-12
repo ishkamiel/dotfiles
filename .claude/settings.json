@@ -2,8 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(mpyp *)",
+      "Base(make verify *)",
       "Bash(pre-commit run *)",
+      "Bash(pytest *)",
       "Bash(python -m mpyp *)",
+      "Bash(python -m pytest *)",
       "Read"
     ],
     "deny": [
