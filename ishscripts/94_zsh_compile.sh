@@ -6,6 +6,10 @@
 
 : <<'__ISH__'
 run_when = "onchange"
+
+[packages]
+bat  = {apt = "bat",  dnf = "bat",  optional = true}
+tldr = {apt = "tldr", dnf = "tldr", optional = true}
 __ISH__
 
 set -euo pipefail

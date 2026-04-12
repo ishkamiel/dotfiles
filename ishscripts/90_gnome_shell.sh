@@ -7,6 +7,9 @@
 : <<'__ISH__'
 tags = ["isGnome"]
 run_when = "onchange"
+
+[packages]
+ulauncher = {apt = "ulauncher", dnf = "ulauncher", optional = true}
 __ISH__
 
 set -euo pipefail
@@ -41,8 +44,8 @@ __do_gsettings() {
 }
 
 __keyboard_shortcuts() {
-  # ISHFILES_SCRIPTS_DIR is exported by the script launcher.
-  local _scripts_dir="${ISHFILES_SCRIPTS_DIR:-$(dirname "$0")}"
+  # shellcheck disable=SC2154  # __ish_scripts_dir is substituted by the @ish preprocessor
+  local _scripts_dir="${__ish_scripts_dir}"
   local _keys="${_scripts_dir}/data/gnome_keybindings"
   local _script="${_scripts_dir}/lib/keybindings.pl"
 

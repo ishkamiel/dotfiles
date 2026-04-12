@@ -36,6 +36,7 @@ bin
 # Dev and direnv stuff
 **/*.pyc
 **/__pycache__
+.cache
 .direnv
 .venv
 .vscode

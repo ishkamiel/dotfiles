@@ -70,7 +70,7 @@ only_on = ["debian"]
 tags = ["def"]
 
 [bat]
-apt = "batcat"
+apt = "bat"
 dnf = "bat"
 optional = true
 tags = ["def"]
@@ -167,11 +167,6 @@ dnf = "starship"
 optional = true
 tags = ["def"]
 
-[tldr]
-apt = "tldr"
-dnf = "tldr"
-optional = true
-tags = ["def"]
 
 [wget]
 apt = "wget"
@@ -211,12 +206,6 @@ apt = "gnome-tweaks"
 dnf = "gnome-tweaks"
 tags = ["isGnome"]
 
-[ulauncher]
-apt = "ulauncher"
-dnf = "ulauncher"
-ubuntu-ppa = "ppa:agornostal/ulauncher"
-tags = ["isGnome"]
-optional = true
 
 # ---------------------------------------------------------------------------
 # Build tools  (tags = ["needBuildTools"])
