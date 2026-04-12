@@ -173,42 +173,43 @@ dnf = "wget2-wget"
 tags = ["def"]
 
 # ---------------------------------------------------------------------------
-# GUI packages  (tags = ["def"] — GUI detection to be reintroduced later)
+# GUI packages  (tags = ["isGui"])
 # ---------------------------------------------------------------------------
 
 [kitty]
 apt = "kitty"
 dnf = "kitty"
-tags = ["def"]
+tags = ["isGui"]
 
 [wl_clipboard]
 apt = "wl-clipboard"
 dnf = "wl-clipboard"
-tags = ["def"]
+tags = ["isGui"]
 
 [xclip]
 apt = "xclip"
 dnf = "xclip"
-tags = ["def"]
+tags = ["isGui"]
 
 # ---------------------------------------------------------------------------
-# GNOME packages  (tags = ["def"] — GNOME detection to be reintroduced later)
+# GNOME packages  (tags = ["isGnome"])
 # ---------------------------------------------------------------------------
 
 [gnome_extensions_app]
 apt = "gnome-extensions-app"
 dnf = "gnome-extensions-app"
-tags = ["def"]
+tags = ["isGnome"]
 
 [gnome_tweaks]
 apt = "gnome-tweaks"
 dnf = "gnome-tweaks"
-tags = ["def"]
+tags = ["isGnome"]
 
 [ulauncher]
 apt = "ulauncher"
 dnf = "ulauncher"
-tags = ["def"]
+ubuntu-ppa = "ppa:agornostal/ulauncher"
+tags = ["isGnome"]
 optional = true
 
 # ---------------------------------------------------------------------------

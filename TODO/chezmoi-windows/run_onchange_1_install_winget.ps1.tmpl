@@ -1,0 +1,28 @@
+<#
+SPDX-License-Identifier: MIT
+Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+#>
+
+$ErrorActionPreference = "Stop"
+$ProgressPreference = "SilentlyContinue"
+{{ template "windows/install_helpers.ps1" . }}
+{{ template "windows/logger.ps1" . }}
+
+if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
+    Write-ErrorLog "winget not available; install App Installer from Microsoft Store and rerun."
+    exit 1
+}
+
+# Required packages (log error if unavailable)
+$packages = @(
+#{{ template "package_list.tmpl" (dict "mgr" "winget" "optional" false "ctx" . "quote" true) }}
+)
+Install-WingetPackageList -Ids $packages
+
+# Optional packages (errors suppressed)
+$packages = @(
+#{{ template "package_list.tmpl" (dict "mgr" "winget" "optional" true "ctx" . "quote" true) }}
+)
+Install-WingetPackageList -Ids $packages -Optional
+
+# vim: set filetype=ps1:

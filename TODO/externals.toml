@@ -1,0 +1,20 @@
+[".fzf"]
+    type = "git-repo"
+    url = "https://github.com/junegunn/fzf.git"
+    revision = "v0.70.0"
+    refreshPeriod = "168h"
+[".oh-my-zsh"]
+    type = "git-repo"
+    url = "https://github.com/ohmyzsh/ohmyzsh.git"
+    revision = "7de13621b376ab5e616dbc3729b52fbfde92d0e1"
+    refreshPeriod = "168h"
+[".pyenv"]
+    type = "git-repo"
+    url = "https://github.com/pyenv/pyenv.git"
+    revision = "v2.6.26"
+    refreshPeriod = "168h"
+[".tmux/plugins/tpm"]
+    type = "git-repo"
+    url = "https://github.com/tmux-plugins/tpm.git"
+    revision = "v3.1.0"
+    refreshPeriod = "168h"

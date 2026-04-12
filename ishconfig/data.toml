@@ -34,3 +34,11 @@ default = false
 prompt = "Install build tools?"
 type = "bool"
 default = false
+
+[isGui]
+type = "bool"
+default = false
+
+[isGnome]
+type = "bool"
+default = false

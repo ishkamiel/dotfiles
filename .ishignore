@@ -15,6 +15,10 @@
 # Template files (not static — need migration to @ish directives later)
 *.tmpl
 
+# Deferred items (in git but not applied to home)
+TODO
+TODO.md
+
 # Repository infrastructure (not dotfiles)
 .claude
 .vscode
