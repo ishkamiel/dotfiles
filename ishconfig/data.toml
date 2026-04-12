@@ -10,7 +10,8 @@
 #   default - value used when the user presses Enter without typing
 
 [machineType]
-prompt = "Machine type (min/def/personal)"
+type = "ordered_tags"
+values = ["min", "def", "personal"]
 default = "def"
 
 [email]
@@ -22,16 +23,14 @@ prompt = "Full name"
 default = "Hans Liljestrand"
 
 [isWork]
-prompt = "Is this a work machine?"
-default = false
 type = "bool"
+default = false
 
 [isGaming]
-prompt = "Is this a gaming machine?"
-default = false
 type = "bool"
+default = false
 
 [needBuildTools]
 prompt = "Install build tools?"
-default = false
 type = "bool"
+default = false

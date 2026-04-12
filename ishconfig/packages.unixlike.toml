@@ -1,0 +1,341 @@
+#
+# Author: Hans Liljestrand <hans@liljestrand.dev>
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+#
+# Distributed under terms of the MIT license.
+#
+# Unix-like package configuration for ishfiles.
+#
+# All packages in this file implicitly have only_on = ["unixlike"] applied,
+# meaning they are only installed on Linux and macOS (not Windows).
+#
+# Packages with an explicit only_on are further restricted: the file-level
+# tag is prepended, so only_on = ["debian"] here becomes effectively
+# only_on = ["unixlike", "debian"] — i.e. Debian-family Linux only.
+#
+# Fields: see packages.toml for field documentation.
+#
+# Tags use data variable names from ishconfig/data.toml:
+#   min, def, personal  — via machineType (ordered_tags)
+#   needBuildTools      — build tool packages (bool)
+#   isWork              — work-only packages (bool)
+#   !isWork             — personal/non-work packages (bool, negated)
+#   isGaming            — gaming packages (bool)
+#
+# GUI/GNOME packages that were previously tagged gui/gnome are now tagged
+# "def" so they install on all non-min machines. Runtime GUI detection
+# will be reintroduced as a separate mechanism later.
+
+# ---------------------------------------------------------------------------
+# Core / minimum packages  (tags = ["min"], installed on all machine types)
+# ---------------------------------------------------------------------------
+
+[git]
+apt = "git"
+dnf = "git"
+tags = ["min"]
+
+[neovim]
+apt = "neovim"
+dnf = "neovim"
+tags = ["min"]
+
+[tmux]
+apt = "tmux"
+dnf = "tmux"
+tags = ["min"]
+
+[vim]
+apt = "vim-nox"
+dnf = "vim-enhanced"
+tags = ["min"]
+
+[zsh]
+apt = "zsh"
+dnf = "zsh"
+tags = ["min"]
+
+# ---------------------------------------------------------------------------
+# Default packages  (tags = ["def"], installed when machineType != "min")
+# ---------------------------------------------------------------------------
+
+[apt_file]
+apt = "apt-file"
+only_on = ["debian"]
+tags = ["def"]
+
+[aptitude]
+apt = "aptitude"
+only_on = ["debian"]
+tags = ["def"]
+
+[bat]
+apt = "batcat"
+dnf = "bat"
+optional = true
+tags = ["def"]
+
+[btop]
+apt = "btop"
+dnf = "btop"
+tags = ["def"]
+
+[curl]
+apt = "curl"
+dnf = "curl"
+tags = ["def"]
+
+[dconf]
+dnf = "dconf"
+only_on = ["fedora"]
+tags = ["def"]
+
+[direnv]
+apt = "direnv"
+dnf = "direnv"
+tags = ["def"]
+
+[du_dust]
+apt = "du-dust"
+optional = true
+only_on = ["debian"]
+tags = ["def"]
+
+[fd_find]
+apt = "fd-find"
+dnf = "fd-find"
+tags = ["def"]
+
+[fzf]
+apt = "fzf"
+dnf = "fzf"
+tags = ["def"]
+
+[git_crypt]
+apt = "git-crypt"
+dnf = "git-crypt"
+tags = ["def"]
+
+[ipython]
+apt = "ipython3"
+dnf = "python3-ipython"
+tags = ["def"]
+
+[lbzip2]
+apt = "lbzip2"
+dnf = "lbzip2"
+tags = ["def"]
+
+[locate]
+apt = "locate"
+dnf = "plocate"
+tags = ["def"]
+
+[lzma]
+apt = "lzma"
+dnf = "xz-lzma-compat"
+tags = ["def"]
+
+[python_cmd]
+apt = "python-is-python3"
+dnf = "python-unversioned-command"
+tags = ["def"]
+
+[python3_pip]
+apt = "python3-pip"
+dnf = "python3-pip"
+tags = ["def"]
+
+[ripgrep]
+apt = "ripgrep"
+dnf = "ripgrep"
+tags = ["def"]
+
+[rustup]
+apt = "rustup"
+dnf = "rustup"
+tags = ["def"]
+
+[shellcheck]
+apt = "shellcheck"
+dnf = "ShellCheck"
+tags = ["def"]
+
+[starship]
+apt = "starship"
+dnf = "starship"
+optional = true
+tags = ["def"]
+
+[wget]
+apt = "wget"
+dnf = "wget2-wget"
+tags = ["def"]
+
+# ---------------------------------------------------------------------------
+# GUI packages  (tags = ["def"] — GUI detection to be reintroduced later)
+# ---------------------------------------------------------------------------
+
+[kitty]
+apt = "kitty"
+dnf = "kitty"
+tags = ["def"]
+
+[wl_clipboard]
+apt = "wl-clipboard"
+dnf = "wl-clipboard"
+tags = ["def"]
+
+[xclip]
+apt = "xclip"
+dnf = "xclip"
+tags = ["def"]
+
+# ---------------------------------------------------------------------------
+# GNOME packages  (tags = ["def"] — GNOME detection to be reintroduced later)
+# ---------------------------------------------------------------------------
+
+[gnome_extensions_app]
+apt = "gnome-extensions-app"
+dnf = "gnome-extensions-app"
+tags = ["def"]
+
+[gnome_tweaks]
+apt = "gnome-tweaks"
+dnf = "gnome-tweaks"
+tags = ["def"]
+
+[ulauncher]
+apt = "ulauncher"
+dnf = "ulauncher"
+tags = ["def"]
+optional = true
+
+# ---------------------------------------------------------------------------
+# Build tools  (tags = ["needBuildTools"])
+# ---------------------------------------------------------------------------
+
+[autoconf]
+apt = "autoconf"
+dnf = "autoconf"
+tags = ["needBuildTools"]
+
+[automake]
+apt = "automake"
+dnf = "automake"
+tags = ["needBuildTools"]
+
+[build_essential]
+apt = "build-essential"
+only_on = ["debian"]
+tags = ["needBuildTools"]
+
+[ccache]
+apt = "ccache"
+dnf = "ccache"
+tags = ["needBuildTools"]
+
+[clang]
+apt = "clang"
+dnf = "clang"
+tags = ["needBuildTools"]
+
+[clang_format]
+apt = "clang-format"
+dnf = "clang-tools-extra"
+tags = ["needBuildTools"]
+
+[clang_format_git]
+dnf = "git-clang-format"
+only_on = ["fedora"]
+tags = ["needBuildTools"]
+
+[cmake]
+apt = "cmake"
+dnf = "cmake"
+tags = ["needBuildTools"]
+
+[ctags]
+apt = "exuberant-ctags"
+dnf = "ctags"
+tags = ["needBuildTools"]
+
+[editorconfig]
+apt = "editorconfig"
+only_on = ["debian"]
+tags = ["needBuildTools"]
+
+[flang]
+apt = "flang"
+dnf = "flang"
+tags = ["needBuildTools"]
+
+[gcc]
+apt = "gcc"
+dnf = "gcc"
+tags = ["needBuildTools"]
+
+[gpp]
+apt = "g++"
+dnf = "gcc-c++"
+tags = ["needBuildTools"]
+
+[libcriticism_perl]
+apt = "libcriticism-perl"
+only_on = ["debian"]
+tags = ["needBuildTools"]
+
+[libxml2_dev]
+apt = "libxml2-dev"
+dnf = "libxml2-devel"
+tags = ["needBuildTools"]
+
+[lld]
+apt = "lld"
+dnf = "lld"
+tags = ["needBuildTools"]
+
+[llvm]
+apt = "llvm"
+dnf = "llvm"
+tags = ["needBuildTools"]
+
+[make]
+apt = "make"
+dnf = "make"
+tags = ["needBuildTools"]
+
+[markdown]
+apt = "markdown"
+dnf = "python3-markdown"
+tags = ["needBuildTools"]
+
+[markdownlint]
+apt = "markdownlint"
+only_on = ["debian"]
+tags = ["needBuildTools"]
+
+[ninja_build]
+apt = "ninja-build"
+dnf = "ninja-build"
+tags = ["needBuildTools"]
+
+[pkg_config]
+apt = "pkg-config"
+dnf = "pkgconf-pkg-config"
+tags = ["needBuildTools"]
+
+[pre_commit]
+apt = "pre-commit"
+dnf = "pre-commit"
+tags = ["needBuildTools"]
+
+[pylint]
+apt = "pylint"
+dnf = "pylint"
+tags = ["needBuildTools"]
+
+[rbenv]
+apt = "rbenv"
+dnf = "rbenv"
+tags = ["needBuildTools"]

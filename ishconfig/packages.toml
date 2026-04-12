@@ -1,0 +1,32 @@
+#
+# Author: Hans Liljestrand <hans@liljestrand.dev>
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+#
+# Distributed under terms of the MIT license.
+#
+# Cross-platform package configuration for ishfiles.
+#
+# This file contains packages available on all platforms (or with their own
+# only_on filtering).  Platform-specific packages live in tagged files:
+#   packages.unixlike.toml  — apt/dnf packages (implicit only_on = ["unixlike"])
+#
+# Fields per entry:
+#   apt, dnf, brew, cargo, winget  — package manager names
+#   tags     — category list: min, build_tools, work, gaming, personal, gui, gnome
+#              (no tags = installed on all non-min machines)
+#   only_on  — ALL listed OS tags must match (AND). e.g. ["debian"] or ["unixlike"]
+#   ignore_on — ANY listed OS tag matching triggers skip (OR)
+#   optional — suppress errors if package unavailable
+#   cmd      — command name used to check if already installed (via which)
+#   pref     — preferred installer order
+#
+# ---------------------------------------------------------------------------
+# Cargo-only packages (cross-platform via rustup/cargo)
+# ---------------------------------------------------------------------------
+
+[eza]
+cargo = "eza"
+winget = "eza-community.eza"
+
+[fnm]
+cargo = "fnm"
