@@ -30,7 +30,8 @@ TODO.md
 CLAUDE.md
 README.md
 pytest.ini
-run_pytest.sh
+requirements.txt
+requirements-dev.txt
 update-externals.sh
 ishlib
 data
