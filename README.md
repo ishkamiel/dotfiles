@@ -1,11 +1,17 @@
-# Dotfiles using chezmoi (for personal use)
+# dotfiles
+
+Personal dotfiles managed by [ishfiles](https://github.com/ishkamiel/ishlib).
+
+## Setup
+
+Clone the repository to the default source location:
 
 ```bash
-#!/usr/bin/env bash
-set -euo pipefail
+git clone --recurse-submodules https://github.com/ishkamiel/dotfiles ~/.local/share/ishfiles
+```
 
-git clone https://github.com/twpayne/chezmoi.git "${HOME}/opt/chezmoi"
-cd "${HOME}/opt/chezmoi" || exit
-git checkout e2e3d1d416604bfe97ff2abfd14d197b79359e5b
-make -j$(nproc)" install-from-git-working-copy
+Run apply:
+
+```bash
+~/.local/share/ishfiles/ishlib/bin/ishfiles apply
 ```
