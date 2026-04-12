@@ -40,7 +40,7 @@ color_green = '#98971a'
 color_orange = '#061d9e'
 #@ish else
 color_orange = '#d65d0e'
-#@ish endif
+#@ish fi
 color_purple = '#b16286'
 color_red = '#cc241d'
 color_yellow = '#d79921'
