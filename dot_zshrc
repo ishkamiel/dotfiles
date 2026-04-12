@@ -61,7 +61,6 @@ zstyle ':omz:update' mode disabled
 
 # shellcheck disable=SC2034
 plugins=(
-  chezmoi
   command-not-found
   direnv
   eza

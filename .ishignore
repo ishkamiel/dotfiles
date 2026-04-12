@@ -4,17 +4,6 @@
 # Empty directory placeholders
 .gitkeep
 
-# Chezmoi-specific files and directories
-.chezmoi.toml.tmpl
-.chezmoidata.toml
-.chezmoiexternal.toml
-.chezmoiignore
-.chezmoiscripts
-.chezmoitemplates
-
-# Template files (not static — need migration to @ish directives later)
-*.tmpl
-
 # Deferred items (in git but not applied to home)
 TODO
 TODO.md
@@ -29,14 +18,11 @@ TODO.md
 .gitmodules
 CLAUDE.md
 README.md
-pytest.ini
 requirements.txt
 requirements-dev.txt
-update-externals.sh
 ishlib
 data
 lib
-tests
 
 # LICENSE and other files we want in repo but not in home
 dot_local/share/fonts/FiraCode/LICENSE

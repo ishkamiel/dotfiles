@@ -167,6 +167,12 @@ dnf = "starship"
 optional = true
 tags = ["def"]
 
+[tldr]
+apt = "tldr"
+dnf = "tldr"
+optional = true
+tags = ["def"]
+
 [wget]
 apt = "wget"
 dnf = "wget2-wget"

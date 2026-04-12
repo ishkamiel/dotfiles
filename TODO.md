@@ -1,9 +1,8 @@
 # TODO — Deferred Items
 
-This file documents work that was intentionally deferred from the
-chezmoi → ishfiles migration. None of it is urgent; the system is fully
-functional without it. Each section states what was deferred, why, and
-where to pick it up.
+This file documents work that was intentionally deferred. None of it is
+urgent; the system is fully functional without it. Each section states what
+was deferred, why, and where to pick it up.
 
 ---
 
@@ -40,41 +39,6 @@ where to pick it up.
 
 ---
 
-## External git repos / archives (fzf, oh-my-zsh, pyenv, tpm)
-
-**File:** `TODO/externals.toml` (verbatim copy of `.chezmoiexternal.toml`)
-
-**What they manage:**
-
-| Repo | Version pinned | Purpose |
-|---|---|---|
-| `~/.fzf` | v0.70.0 | Fuzzy finder; `ishscripts/50_setup_fzf.sh` depends on it |
-| `~/.oh-my-zsh` | latest main | Zsh framework |
-| `~/.pyenv` | latest master | Python version manager |
-| `~/.tmux/plugins/tpm` | latest master | Tmux plugin manager |
-
-**Why deferred:**
-
-- Externals (cloned git repos / downloaded archives) are a distinct
-  subsystem that cross-cuts apply ordering — they must run before scripts
-  that depend on them (e.g., `50_setup_fzf.sh` needs `~/.fzf`).
-- chezmoi's `external` mechanism is tightly coupled to its state model;
-  replicating it cleanly in ishfiles is a larger piece of work.
-
-**How to pick up:**
-
-1. Add an `ishexternals/` directory or a `externals.toml` config file.
-2. Implement an `externals` subcommand (or phase in `apply`) that clones /
-   updates pinned repos before scripts run.
-3. Re-enable `50_setup_fzf.sh` fully once `~/.fzf` is guaranteed to exist.
-4. Track pinned revisions via `update-externals.sh` or an equivalent tool.
-
-**Current state:** `50_setup_fzf.sh` issues `ish_warn` if `~/.fzf` is
-missing rather than erroring, so the rest of the apply succeeds on machines
-where the external hasn't been manually cloned yet.
-
----
-
 ## rustup on older distros
 
 **Why noted:** `apt = "rustup"` / `dnf = "rustup"` works on recent distros
@@ -84,10 +48,3 @@ The upstream `rustup-init` script is the portable fallback.
 **How to pick up:** Add a custom installer `ishinstallers/install_rustup.sh`
 that falls back to `curl https://sh.rustup.rs | sh` when the distro package
 is unavailable.
-
----
-
-## pyenv
-
-Depends on the external (see above). Listed here as a reminder that pyenv
-setup scripts may be needed once externals are in place.
