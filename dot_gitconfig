@@ -1,6 +1,6 @@
 [user]
-    name = ${__ish_name}
-    email = ${__ish_email}
+    name = "${__ish_name}"
+    email = "${__ish_email}"
 [credential]
     helper = store
 [core]
