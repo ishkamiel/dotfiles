@@ -9,20 +9,23 @@ TODO
 TODO.md
 
 # Repository infrastructure (not dotfiles)
-.claude
-.vscode
-.envrc
 .LICENSE_HEADER
+.claude
+.envrc
+.github
+.gitmodules
 .pre-commit-config.yaml
 .python-version
-.gitmodules
+.vscode
 CLAUDE.md
 README.md
-requirements.txt
-requirements-dev.txt
-ishlib
 data
+ishlib
 lib
+pytest.ini
+requirements-dev.txt
+requirements.txt
+tests
 
 # LICENSE and other files we want in repo but not in home
 dot_local/share/fonts/FiraCode/LICENSE

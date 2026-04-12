@@ -30,7 +30,7 @@ jobs:
           fi
 
       - name: Install Python dependencies
-        run: python -m pip install pytest pytest-xdist
+        run: python -m pip install pytest pytest-xdist "tomli; python_version < '3.11'"
 
       - name: Run tests
-        run: pytest --ignore=tests/test_chezmoi_templates.py -k "not _rendered"
+        run: pytest tests/
