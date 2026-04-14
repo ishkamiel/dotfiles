@@ -187,11 +187,6 @@ apt = "kitty"
 dnf = "kitty"
 tags = ["isGui"]
 
-[wl_clipboard]
-apt = "wl-clipboard"
-dnf = "wl-clipboard"
-tags = ["isGui"]
-
 [xclip]
 apt = "xclip"
 dnf = "xclip"
