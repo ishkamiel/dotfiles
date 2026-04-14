@@ -15,7 +15,7 @@
 #
 # Fields: see packages.toml for field documentation.
 #
-# Tags use data variable names from ishconfig/data.toml:
+# Tags use data variable names from ishconfig/config-local.toml:
 #   min, def, personal  — via machineType (ordered_tags)
 #   needBuildTools      — build tool packages (bool)
 #   isWork              — work-only packages (bool)

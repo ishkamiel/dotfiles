@@ -10,7 +10,8 @@ and documentation are in `ishlib/CLAUDE.md`.
 
 ```
 ishconfig/
-  data.toml            # User-specific variables (machineType, email, isWork, …); each entry may carry isholate = <value> used when `ishfiles apply --isholate` is in effect
+  config.toml          # Repo-level settings (e.g. default_shell); lower priority than ~/.config/ishfiles/config.toml
+  config-local.toml    # Per-machine prompted variables (machineType, email, isWork, …); each entry may carry isholate = <value> used when `ishfiles apply --isholate` is in effect
   externals.toml       # External git repos pinned by tag (fzf, oh-my-zsh, pyenv, tpm)
   packages.toml        # Cross-platform packages (cargo, winget)
   packages.unixlike.toml  # Unix-only packages (apt, dnf, brew) — implicit only_on=unixlike
@@ -72,7 +73,7 @@ hash changes (analogous to chezmoi's `run_onchange_*`).
 
 Preprocessor variables (`${__ish_<name>}`) and `@ish if` conditionals are
 available in both dotfiles and ishscripts; variables come from
-`cfg.context.as_dict()`, seeded by `ishconfig/data.toml` + platform
+`cfg.context.as_dict()`, seeded by `ishconfig/config-local.toml` + platform
 detection. See `ishlib/CLAUDE.md` §DotfileContext for details.
 
 ## Logging in ishscripts

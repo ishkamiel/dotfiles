@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: MIT
+# Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
+
+# Repo-level ishfiles config. Applied on every checkout of this dotfiles repo,
+# with lower priority than ~/.config/ishfiles/config.toml.
+# See: ishlib/src/schema/ishfiles_repo_config.json for allowed keys.
+
+[ishfiles]
+default_shell = "zsh"

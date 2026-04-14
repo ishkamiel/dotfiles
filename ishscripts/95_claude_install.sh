@@ -21,7 +21,12 @@ if ! command -v curl &>/dev/null; then
   exit 0
 fi
 
+if ! command -v bash &>/dev/null; then
+  ish_warn "bash not found — cannot install claude"
+  exit 0
+fi
+
 ish_info "Installing Claude Code..."
-curl -fsSL https://claude.ai/install.sh | sh
+curl -fsSL https://claude.ai/install.sh | bash
 
 ish_info "Claude Code installed: $(claude --version 2>/dev/null || echo 'ok')"
