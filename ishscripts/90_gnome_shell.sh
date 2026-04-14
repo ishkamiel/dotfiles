@@ -7,9 +7,6 @@
 : <<'__ISH__'
 tags = ["isGnome"]
 run_when = "onchange"
-
-[packages]
-ulauncher = {apt = "ulauncher", dnf = "ulauncher", optional = true}
 __ISH__
 
 set -euo pipefail

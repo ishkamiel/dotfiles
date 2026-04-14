@@ -21,6 +21,8 @@ if ! ./install --key-bindings --completion --no-update-rc --no-bash --no-zsh --n
   ish_error "Failed to run fzf install"
   popd > /dev/null || true
   exit 1
+else
+  ish_info "fzf install script executed successfully"
 fi
 popd > /dev/null || true
 

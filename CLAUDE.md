@@ -10,7 +10,7 @@ and documentation are in `ishlib/CLAUDE.md`.
 
 ```
 ishconfig/
-  data.toml            # User-specific variables (machineType, email, isWork, …)
+  data.toml            # User-specific variables (machineType, email, isWork, …); each entry may carry isholate = <value> used when `ishfiles apply --isholate` is in effect
   externals.toml       # External git repos pinned by tag (fzf, oh-my-zsh, pyenv, tpm)
   packages.toml        # Cross-platform packages (cargo, winget)
   packages.unixlike.toml  # Unix-only packages (apt, dnf, brew) — implicit only_on=unixlike
@@ -41,6 +41,9 @@ Subcommands in `ishlib/src/pyishlib/ishfiles/commands/`:
 | `external list` | Show pinned revisions and cache status |
 | `git` | Run git on the source tree |
 | `log` | Show script run history |
+| `pd` | Print the dotfiles source directory path |
+| `cd` | Spawn a subshell in the dotfiles source directory (see `init` for a real cd) |
+| `init [--bash\|--zsh\|--sh]` | Print shell integration code; eval in your rc to make `ishfiles cd` do a real cwd change |
 
 ## dot_* Naming
 

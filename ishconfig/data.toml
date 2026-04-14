@@ -13,6 +13,7 @@
 type = "ordered_tags"
 values = ["min", "def", "personal"]
 default = "def"
+isholate = "min"
 
 [email]
 prompt = "Email address"
@@ -25,20 +26,25 @@ default = "Hans Liljestrand"
 [isWork]
 type = "bool"
 default = false
+isholate = false
 
 [isGaming]
 type = "bool"
 default = false
+isholate = false
 
 [needBuildTools]
 prompt = "Install build tools?"
 type = "bool"
 default = false
+isholate = false
 
 [isGui]
 type = "bool"
 default = false
+isholate = false
 
 [isGnome]
 type = "bool"
 default = false
+isholate = false

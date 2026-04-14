@@ -39,6 +39,57 @@ was deferred, why, and where to pick it up.
 
 ---
 
+## isholate: per-file opt-in host mounts
+
+**Context:** `--ro-home` was removed because it bind-mounted the entire
+host home over the container home, shadowing dotfiles written by
+`ishfiles apply` and making isolation pointless. The container always
+gets a fresh `$HOME` now.
+
+**Why deferred:** No concrete use case yet. When one arises (e.g., sharing
+`~/.ssh` or `~/.gitconfig` read-only), the right design is per-file opt-in
+flags like `--mount ~/.ssh:ro` rather than a whole-home mount.
+
+**How to pick up:** Add `--mount <src>:<mode>` (repeatable) to `cli.py`
+argparse, pass the list into `launch_and_exec`, and add individual
+`incus config device add … disk source=… path=… readonly=true shift=true`
+calls in step 5. Mount paths must land outside `/home/$username` or
+after provisioning to avoid shadowing generated dotfiles.
+
+---
+
+## isholate: `--network=host` escape hatch
+
+**Context:** When the Incus bridge has broken NAT (ufw/firewalld/sysctl), the
+container network pre-flight aborts with a diagnostic. A `--network=host` flag
+would let users bypass the bridge entirely and share the host's network stack.
+
+**Why deferred:** The incus way to do this is non-trivial and has security
+implications (full host network stack exposure, no NAT isolation).
+
+**How to pick up:** Expose `lxc.net.0.type = none` via `incus config set
+<name> raw.lxc` after `incus init`, add a `--network=host` flag to
+`src/pyishlib/isholate/cli.py`, and skip the pre-flight probe when host
+networking is active.
+
+---
+
+## isholate: `--apt-mirror` override
+
+**Context:** If the container can reach the internet but the default Ubuntu
+mirrors are slow or unreachable, users currently have no way to point apt at a
+custom mirror (e.g., a local apt-cacher-ng).
+
+**Why deferred:** Needs a way to rewrite `/etc/apt/sources.list` (or the
+`sources.list.d/*.list` variant in Ubuntu Noble) inside the container. Low
+urgency — the network pre-flight diagnostic handles the common case.
+
+**How to pick up:** Accept `--apt-mirror=<url>` in `cli.py`, pass it to
+`_provision`, and add a `sed` / `tee` step that replaces the archive URL in
+`/etc/apt/sources.list.d/ubuntu.sources` before the apt bootstrap.
+
+---
+
 ## rustup on older distros
 
 **Why noted:** `apt = "rustup"` / `dnf = "rustup"` works on recent distros

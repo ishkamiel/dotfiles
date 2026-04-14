@@ -125,4 +125,6 @@ command -v eza >/dev/null 2>&1 && alias tree="eza --tree --color=always"
 
 export ANTHROPIC_MODEL=opusplan
 
+command -v ishfiles >/dev/null 2>&1 && eval "$(ishfiles init --zsh)"
+
 # vim: ft=zsh shiftwidth=2 tabstop=2

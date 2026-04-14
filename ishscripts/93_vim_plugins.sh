@@ -14,33 +14,48 @@ readonly _FN_VIM="${HOME}/.vim/autoload/plug.vim"
 readonly _FN_NEOVIM="${HOME}/.config/nvim/autoload/plug.vim"
 readonly _URL_PLUG="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 
+if ! command -v curl >/dev/null 2>&1; then
+  ish_fatal "curl is required to download vim-plug"
+fi
+
 if command -v vim >/dev/null 2>&1; then
   if [[ ! -e "${_FN_VIM}" ]]; then
-    mkdir -p "$(dirname "${_FN_VIM}")"
+    _folder="$(dirname "${_FN_VIM}")"
+    ish_info "Creating ${_folder}"
+    mkdir -p "${_folder}"
     if ! curl -fsSL "${_URL_PLUG}" -o "${_FN_VIM}"; then
-      ish_error "Failed to download vim-plug for vim"
-      exit 1
+      ish_fatal "Failed to download vim-plug for vim"
     fi
     ish_info "vim-plug downloaded for vim"
   fi
   if [[ -e "${_FN_VIM}" ]]; then
-    vim +PlugInstall +qall
+    ish_info "Trying to install plugins..."
+    if ! vim -Es -u "${HOME}/.vimrc" +PlugInstall +qall! </dev/null; then
+      ish_warn "vim +PlugInstall returned non-zero (plugins may still be installed); continuing"
+    fi
     ish_info "vim plugins installed"
   fi
+else
+  ish_info "No vim found"
 fi
 
 if command -v nvim >/dev/null 2>&1; then
   if [[ ! -e "${_FN_NEOVIM}" ]]; then
     mkdir -p "$(dirname "${_FN_NEOVIM}")"
     if ! curl -fsSL "${_URL_PLUG}" -o "${_FN_NEOVIM}"; then
-      ish_error "Failed to download vim-plug for neovim"
-      exit 1
+      ish_fatal "Failed to download vim-plug for neovim"
     fi
     mkdir -p "${HOME}/.config/nvim/minisnip"
     ish_info "vim-plug downloaded for neovim"
   fi
   if [[ -e "${_FN_NEOVIM}" ]]; then
-    nvim +PlugInstall +qall
+    if ! nvim --headless +PlugInstall +qall! </dev/null; then
+      ish_warn "nvim +PlugInstall returned non-zero (plugins may still be installed); continuing"
+    fi
     ish_info "neovim plugins installed"
   fi
+else
+  ish_info "No nvim found"
 fi
+
+exit 0

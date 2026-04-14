@@ -34,4 +34,6 @@ command -v starship >/dev/null 2>&1 && eval "$(starship init bash)"
 
 export ANTHROPIC_MODEL=opusplan
 
+command -v ishfiles >/dev/null 2>&1 && eval "$(ishfiles init --bash)"
+
 # vim: ft=bash shiftwidth=2 tabstop=2

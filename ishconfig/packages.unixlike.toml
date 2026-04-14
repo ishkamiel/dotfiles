@@ -30,15 +30,20 @@
 # Core / minimum packages  (tags = ["min"], installed on all machine types)
 # ---------------------------------------------------------------------------
 
+[curl]
+apt = "curl"
+dnf = "curl"
+tags = ["min"]
+
 [git]
 apt = "git"
 dnf = "git"
 tags = ["min"]
 
-[neovim]
-apt = "neovim"
-dnf = "neovim"
-tags = ["min"]
+# [neovim]
+# apt = "neovim"
+# dnf = "neovim"
+# tags = ["min"]
 
 [tmux]
 apt = "tmux"
@@ -78,11 +83,6 @@ tags = ["def"]
 [btop]
 apt = "btop"
 dnf = "btop"
-tags = ["def"]
-
-[curl]
-apt = "curl"
-dnf = "curl"
 tags = ["def"]
 
 [dconf]
@@ -204,6 +204,12 @@ tags = ["isGnome"]
 [gnome_tweaks]
 apt = "gnome-tweaks"
 dnf = "gnome-tweaks"
+tags = ["isGnome"]
+
+[ulauncher]
+apt = "ulauncher"
+dnf = "ulauncher"
+optional = true
 tags = ["isGnome"]
 
 
