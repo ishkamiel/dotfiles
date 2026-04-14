@@ -40,6 +40,11 @@ apt = "git"
 dnf = "git"
 tags = ["min"]
 
+[jq]
+apt = "jq"
+dnf = "jq"
+tags = ["min"]
+
 # [neovim]
 # apt = "neovim"
 # dnf = "neovim"
