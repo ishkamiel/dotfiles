@@ -17,12 +17,12 @@ if command -v claude &>/dev/null; then
 fi
 
 if ! command -v curl &>/dev/null; then
-  ish_warn "curl not found — cannot install claude"
+  ish_warning "curl not found — cannot install claude"
   exit 0
 fi
 
 if ! command -v bash &>/dev/null; then
-  ish_warn "bash not found — cannot install claude"
+  ish_warning "bash not found — cannot install claude"
   exit 0
 fi
 

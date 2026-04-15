@@ -17,12 +17,12 @@ SETTINGS="${HOME}/.claude/settings.json"
 INSTALLED="${HOME}/.claude/plugins/installed_plugins.json"
 
 if [[ ! -f "${SETTINGS}" ]]; then
-  ish_warn "${HOME}/.claude/settings.json not found — skipping claude plugin check"
+  ish_warning "${HOME}/.claude/settings.json not found — skipping claude plugin check"
   exit 0
 fi
 
 if ! command -v jq &>/dev/null; then
-  ish_warn "jq not found — skipping claude plugin check"
+  ish_warning "jq not found — skipping claude plugin check"
   exit 0
 fi
 
@@ -37,8 +37,8 @@ done < <(jq -r '.enabledPlugins // {} | keys[]' "${SETTINGS}")
 if [[ ${#missing[@]} -eq 0 ]]; then
   ish_info "claude plugins: all enabled plugins are installed"
 else
-  ish_warn "claude plugins: the following plugins are enabled in settings.json but not installed:"
+  ish_warning "claude plugins: the following plugins are enabled in settings.json but not installed:"
   for p in "${missing[@]}"; do
-    ish_warn "  Run inside Claude Code: /plugin install ${p}"
+    ish_warning "  Run inside Claude Code: /plugin install ${p}"
   done
 fi

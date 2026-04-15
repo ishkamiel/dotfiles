@@ -86,7 +86,7 @@ __enable_quake_terminal() {
 }
 
 if ! command -v gsettings >/dev/null 2>&1; then
-  ish_warn "gsettings not available; skipping Quake Terminal setup"
+  ish_warning "gsettings not available; skipping Quake Terminal setup"
   exit 0
 fi
 

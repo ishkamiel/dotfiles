@@ -13,7 +13,7 @@ set -euo pipefail
 
 __do_dconf() {
   if ! command -v dconf >/dev/null 2>&1; then
-    ish_warn "dconf not available; skipping dconf settings"
+    ish_warning "dconf not available; skipping dconf settings"
     return 0
   fi
   dconf write /org/gnome/desktop/background/show-desktop-icons true
@@ -28,7 +28,7 @@ __do_dconf() {
 
 __do_gsettings() {
   if ! command -v gsettings >/dev/null 2>&1; then
-    ish_warn "gsettings not available; skipping gsettings"
+    ish_warning "gsettings not available; skipping gsettings"
     return 0
   fi
   gsettings set org.gnome.desktop.interface enable-animations false
@@ -47,16 +47,16 @@ __keyboard_shortcuts() {
   local _script="${_scripts_dir}/lib/keybindings.pl"
 
   if [[ ! -f "${_keys}" ]]; then
-    ish_warn "gnome_keybindings data file not found: ${_keys}"
+    ish_warning "gnome_keybindings data file not found: ${_keys}"
     return 0
   fi
   if [[ ! -f "${_script}" ]]; then
-    ish_warn "keybindings.pl not found: ${_script}"
+    ish_warning "keybindings.pl not found: ${_script}"
     return 0
   fi
 
   if ! command -v gsettings >/dev/null 2>&1; then
-    ish_warn "gsettings not available; skipping keyboard shortcuts"
+    ish_warning "gsettings not available; skipping keyboard shortcuts"
     return 0
   fi
 

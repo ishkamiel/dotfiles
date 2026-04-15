@@ -99,3 +99,25 @@ The upstream `rustup-init` script is the portable fallback.
 **How to pick up:** Add a custom installer `ishinstallers/install_rustup.sh`
 that falls back to `curl https://sh.rustup.rs | sh` when the distro package
 is unavailable.
+
+---
+
+## Missing ishlib helpers in install_powershell.sh
+
+**File:** `ishinstallers/install_powershell.sh` (lines 39, 44)
+
+**What:** The installer calls `ish_apt_add_key` and `ish_apt_add_repo`, two
+helpers that are not defined in the current `ishlib.sh`. The installer will
+fail at runtime on Debian-family systems when it reaches those calls.
+
+**Why deferred:** Discovered during a logging-alias sweep; fixing requires
+either adding the helpers back to `ishlib/src/sh/` (and rebuilding
+`ishlib.sh`) or rewriting the installer to inline the steps. That is a
+separate ishlib design decision.
+
+**How to pick up:** Either:
+1. Add `ish_apt_add_key <url> <name>` and `ish_apt_add_repo <name> <deb-line>`
+   to `ishlib/src/sh/` (rebuild with `make ishlib.sh`), or
+2. Rewrite the relevant section of `install_powershell.sh` to inline the
+   `curl | gpg --dearmor` key import and `/etc/apt/sources.list.d/*.list`
+   creation steps directly.

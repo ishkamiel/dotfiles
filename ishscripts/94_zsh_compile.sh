@@ -23,7 +23,7 @@ __zcompile_if_exists() {
 
 __zcompile_all() {
   if ! command -v zcompile >/dev/null 2>&1; then
-    ish_warn "zcompile not found; skipping zsh compilation"
+    ish_warning "zcompile not found; skipping zsh compilation"
     return 0
   fi
 

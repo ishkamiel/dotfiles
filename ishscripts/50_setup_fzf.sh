@@ -12,7 +12,7 @@ __ISH__
 set -euo pipefail
 
 if [[ ! -e "${HOME}/.fzf" ]]; then
-  ish_warn "Cannot find ~/.fzf — skipping fzf setup (externals not yet applied)"
+  ish_warning "Cannot find ~/.fzf — skipping fzf setup (externals not yet applied)"
   exit 0
 fi
 

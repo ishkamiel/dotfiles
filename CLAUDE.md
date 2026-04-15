@@ -76,19 +76,29 @@ available in both dotfiles and ishscripts; variables come from
 `cfg.context.as_dict()`, seeded by `ishconfig/config-local.toml` + platform
 detection. See `ishlib/CLAUDE.md` §DotfileContext for details.
 
-## Logging in ishscripts
+## Logging
 
-Scripts have access to three logging helpers (from `ishlib/ishlib.sh`, sourced
-by the runner):
+ishfiles, ishscripts, and ishlib.sh share a **unified logging pipeline** —
+see `ishlib/CLAUDE.md` §Logging for the definitive rules. Do not use
+`print()` or `echo >&2` for status output; route everything through the
+helpers below.
 
-| Function | Severity | Behaviour |
+### Logging helpers in ishscripts
+
+Scripts have access to the following helpers (from `ishlib/ishlib.sh`, sourced
+by the runner). They honour `ISHLIB_LOG_OUT` for structured capture; without
+it they print to stderr.
+
+| Function | Level | Behaviour |
 |---|---|---|
-| `ish_info "msg"` | Info | Printed; logged to run history |
-| `ish_warn "msg"` | Warning | Printed; does not stop apply |
-| `ish_error "msg"` | Error | Printed; exits script with error |
+| `ish_debug "msg"` | debug | Shown only with `--debug`; logged to run history |
+| `ish_info "msg"` | info | Shown with `-v`; logged to run history |
+| `ish_warning "msg"` | warning | Shown by default; does not stop apply |
+| `ish_error "msg"` | error | Shown by default; does not stop apply |
+| `ish_critical "msg"` | critical | Shown by default; exits 1 and aborts remaining scripts |
 
-Use `ish_warn` + `exit 0` for optional prerequisites that may not be present
-(e.g., "external not yet applied — skipping").
+Use `ish_warning` + `exit 0` for optional prerequisites that may not be
+present (e.g., "external not yet applied — skipping").
 
 ## Externals
 
