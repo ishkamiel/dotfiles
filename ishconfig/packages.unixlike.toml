@@ -161,6 +161,11 @@ apt = "python3-pip"
 dnf = "python3-pip"
 tags = ["def"]
 
+[python3_shtab]
+apt = "python3-shtab"
+dnf = "python3-shtab"
+tags = ["def"]
+
 [ripgrep]
 apt = "ripgrep"
 dnf = "ripgrep"
