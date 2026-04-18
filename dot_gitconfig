@@ -1,14 +1,31 @@
 [user]
     name = "${__ish_name}"
     email = "${__ish_email}"
-[credential]
-    helper = store
 [core]
     fsmonitor = true
     untrackedcache = true
     excludesfile = ~/.config/git/ignore
+[init]
+    defaultBranch = main
+[pull]
+    rebase = true
+[push]
+    autoSetupRemote = true
+    default = simple
+[fetch]
+    prune = true
+[rebase]
+    autosquash = true
+    autostash = true
+[rerere]
+    enabled = true
+[branch]
+    sort = -committerdate
+[column]
+    ui = auto
 [diff]
     tool = vimdiff
+    algorithm = histogram
 [alias]
     co = checkout
     dname = diff --name-status
