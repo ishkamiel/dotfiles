@@ -13,7 +13,6 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'drewtempelmeyer/palenight.vim' " Colroscheme
 Plug 'w0rp/ale'                      " Syntax checking
 Plug 'editorconfig/editorconfig-vim'
-Plug 'drewtempelmeyer/palenight.vim'
 
 call plug#end() " }}}
 " Basic config {{{

@@ -6,6 +6,26 @@
 use warnings;
 use strict;
 
+# Run a command, warning with the actual exit code (or exec error) on failure.
+sub _run {
+    my @cmd = @_;
+    my $rc = system(@cmd);
+    if ($rc == -1) {
+        warn "failed to exec @cmd: $!";
+    } elsif ($rc & 127) {
+        warn sprintf('%s died with signal %d', "@cmd", $rc & 127);
+    } elsif ($rc >> 8) {
+        warn sprintf('%s exited with status %d', "@cmd", $rc >> 8);
+    }
+}
+
+# Close a pipe and die loudly if the child failed; partial exports are worse than none.
+sub _close_pipe {
+    my ($fh, $what) = @_;
+    return if close($fh);
+    die sprintf('%s failed (exit %d): %s', $what, $? >> 8, $! || 'pipe close error');
+}
+
 my $action = '';
 my $filename = '-';
 
@@ -55,7 +75,11 @@ sub export(){
     open (my $fh, $filename) || die "Can't open file $filename: $!";
 
     for my $folder (@$gsettingsFolders){
-        my @keylist = split(/\n/, `gsettings list-recursively $folder->[0]`);
+        open(my $lsfh, '-|', 'gsettings', 'list-recursively', $folder->[0])
+            or die "Can't run gsettings: $!";
+        my @keylist = <$lsfh>;
+        _close_pipe($lsfh, "gsettings list-recursively $folder->[0]");
+        chomp @keylist;
         foreach my $line (@keylist){
             if ($line =~ /^([^ ]+) ([^ ]+)(?: \@[a-z]+)? (.*)/){
                 my ($path, $name, $value) = ($1,$2,$3);
@@ -72,21 +96,21 @@ sub export(){
                     }
                 }
             } else {
-                die "Could note parse $line";
+                die "Could not parse $line";
             }
         }
     }
 
     for my $folder (@$customBindings){
-        my $gs = `gsettings list-recursively org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$folder`;
-        my ($binding) = $gs =~ /org.gnome.settings-daemon.plugins.media-keys.custom-keybinding binding (\'[^\n]+\')/g;
-        my ($command) = $gs =~ /org.gnome.settings-daemon.plugins.media-keys.custom-keybinding command (\'[^\n]+\')/g;
-        my ($name) = $gs =~ /org.gnome.settings-daemon.plugins.media-keys.custom-keybinding name (\'[^\n]+\')/g;
-        $command =~ s/\"/\\\"/g;
-        $command =~ s/^'(.*)'$/$1/g;
-        $command =~ s/\'/\'\\\'\'/g;
-        $command = "\'$command\'";
-	$binding or $binding = q|''|;
+        my $schema = "org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$folder";
+        open(my $gsfh, '-|', 'gsettings', 'list-recursively', $schema)
+            or die "Can't run gsettings: $!";
+        my $gs = do { local $/; <$gsfh> };
+        _close_pipe($gsfh, "gsettings list-recursively $schema");
+        my ($binding) = $gs =~ /custom-keybinding binding (\'[^\n]+\')/g;
+        my ($command) = $gs =~ /custom-keybinding command (\'[^\n]+\')/g;
+        my ($name)    = $gs =~ /custom-keybinding name (\'[^\n]+\')/g;
+        $binding or $binding = q|''|;
         print $fh "custom\t$name\t$command\t$binding\n";
     }
 
@@ -107,14 +131,16 @@ sub import(){
             if ($v[0] eq 'custom'){
                 my ($custom, $name, $command, $binding) = @v;
                 print "Installing custom keybinding: $name\n";
-                print `gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom$customcount/ name \"$name\"`;
-                print `gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom$customcount/ command \"$command\"`;
-                print `gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom$customcount/ binding \"$binding\"`;
+                my $schema = "org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:"
+                    . "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom$customcount/";
+                _run('gsettings', 'set', $schema, 'name',    $name);
+                _run('gsettings', 'set', $schema, 'command', $command);
+                _run('gsettings', 'set', $schema, 'binding', $binding);
                 $customcount++;
             } else {
                 my ($path, $name, $value) = @v;
                 print "Importing $path $name\n";
-                print `gsettings set \"$path\" \"$name\" \"$value\"`;
+                _run('gsettings', 'set', $path, $name, $value);
             }
         }
     }
@@ -126,7 +152,9 @@ sub import(){
         }
         $customlist = "[$customlist]";
         print "Importing list of custom keybindings.\n";
-        print `gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings \"$customlist\"`;
+        _run('gsettings', 'set',
+             'org.gnome.settings-daemon.plugins.media-keys',
+             'custom-keybindings', $customlist);
     }
 
     close($fh);

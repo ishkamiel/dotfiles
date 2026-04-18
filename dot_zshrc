@@ -8,12 +8,10 @@ export ZSH_CUSTOM="${HOME}/.config/omz-custom"
 
 # Helper functions
 __prepend_to_PATH() {
-  local new_path="$1"
-  if [[ -d "$new_path" ]]; then
-    PATH=$(echo "$PATH" | sed -e "s;:$new_path;;" -e "s;$new_path:;;" -e "s;$new_path;;")
-    export PATH="$new_path:$PATH"
-  fi
-  return 0
+  case ":$PATH:" in
+    *:"$1":*) ;;
+    *) [[ -d "$1" ]] && export PATH="$1:${PATH}" ;;
+  esac
 }
 
 # Update here (in addition to ~/.profile)
@@ -28,7 +26,6 @@ export HISTFILE="${HOME}/.zhistory"
 setopt SHARE_HISTORY
 setopt APPEND_HISTORY
 setopt HIST_IGNORE_SPACE
-setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_DUPS
 setopt HIST_FIND_NO_DUPS
 setopt HIST_REDUCE_BLANKS
@@ -63,24 +60,18 @@ zstyle ':omz:update' mode disabled
 plugins=(
   command-not-found
   direnv
-  eza
   fnm
-  fzf
   gitignore
   pyenv
   rust
   ssh-agent
-  starship
   vi-mode
 )
 
-zstyle ':omz:plugins:eza' 'git-status' yes
-zstyle ':omz:plugins:eza' 'header' no
-zstyle ':omz:plugins:eza' 'show-group' no
-zstyle ':omz:plugins:eza' 'icons' no
-
 # shellcheck disable=SC1090,SC1091
 source "$ZSH/oh-my-zsh.sh"
+
+command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
 
 ####### fzf ####################################################################
 # --- Zsh Core Options ----------------
@@ -95,6 +86,9 @@ zstyle ':completion:*:descriptions' format '[%d]'
 # shellcheck disable=SC2296,SC2086
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # --- fzf for history -----------------
+# Source fzf's keybindings here too (zprofile only runs for login shells), so
+# fzf-history-widget exists in non-login interactive shells (e.g. inside tmux).
+command -v fzf >/dev/null 2>&1 && eval "$(fzf --zsh)"
 bindkey '^R' fzf-history-widget
 
 ####### aliases ################################################################
@@ -108,12 +102,13 @@ alias makej="make -j${NPROC}"
 # shellcheck disable=SC2139
 alias umakej="unbuffer make -j${NPROC}"
 alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
-# --- batcat --------------------------
+# --- bat/batcat ----------------------
+# Use `bcat` rather than shadowing `cat` so scripts that pipe into cat keep working.
 if command -v batcat >/dev/null 2>&1; then
-  alias cat='batcat -p'
+  alias bcat='batcat -p'
   export PAGER="batcat -p"
-elif  command -v bat >/dev/null 2>&1; then
-  alias cat='bat -p'
+elif command -v bat >/dev/null 2>&1; then
+  alias bcat='bat -p'
   export PAGER="bat -p"
 fi
 # --- nvim ----------------------------
@@ -121,7 +116,12 @@ command -v nvim >/dev/null 2>&1 && alias vim=nvim
 # --- dust ----------------------------
 command -v dust >/dev/null 2>&1 && alias du="dust"
 # --- eza -----------------------------
-command -v eza >/dev/null 2>&1 && alias tree="eza --tree --color=always"
+if command -v eza >/dev/null 2>&1; then
+  alias ls='eza --git'
+  alias ll='eza -l --git'
+  alias la='eza -la --git'
+  alias tree='eza --tree --color=always'
+fi
 
 export ANTHROPIC_MODEL=opusplan
 

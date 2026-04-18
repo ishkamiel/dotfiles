@@ -21,13 +21,23 @@ PACKAGE_FILES = list(ROOT.glob("ishconfig/packages*.toml"))
 
 @pytest.fixture(scope="session")
 def all_packages() -> dict[str, dict]:
-    """Merge all package entries from all packages*.toml files."""
+    """Merge all package entries from all packages*.toml files.
+
+    Fails fast if the same logical key appears in more than one file, since
+    that silently masks whichever copy was read last.
+    """
     merged: dict[str, dict] = {}
+    origin: dict[str, Path] = {}
     for path in PACKAGE_FILES:
         data = tomllib.loads(path.read_text(encoding="utf-8"))
         for key, entry in data.items():
             if isinstance(entry, dict):
+                if key in merged:
+                    raise AssertionError(
+                        f"duplicate package key '{key}' in {origin[key]} and {path}"
+                    )
                 merged[key] = entry
+                origin[key] = path
     return merged
 
 
