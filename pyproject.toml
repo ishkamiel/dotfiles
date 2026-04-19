@@ -1,0 +1,18 @@
+[dependency-groups]
+runtime = [
+  "tomli; python_version < '3.11'",
+  "shtab",
+]
+
+test = [
+  "pytest",
+  "pytest-xdist",
+]
+
+dev = [
+  {include-group = "runtime"},
+  {include-group = "test"},
+  "cerberus",
+  "jsonschema",
+  "mypy",
+]

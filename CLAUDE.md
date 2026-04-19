@@ -149,8 +149,8 @@ cd ishlib && make verify    # build + test
 cd ishlib && pytest         # tests only
 ```
 
-The repo root has a direnv-managed venv (`.envrc` reads `requirements-dev.txt`
-via `layout pyenv`). Pre-commit runs on every commit.
+The repo root has a direnv-managed venv (`.envrc` reads `pyproject.toml`'s `dev`
+dependency group via `layout pyenv`). Pre-commit runs on every commit.
 
 ```bash
 pre-commit run --all-files   # run all hooks manually
