@@ -38,6 +38,8 @@ bin
 **/__pycache__
 .cache
 .direnv
+.mcp.json
 .venv
 .vscode
+pyproject.toml
 requirements.txt
