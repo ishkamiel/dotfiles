@@ -1,8 +1,9 @@
 # SPDX-License-Identifier: MIT
 # Copyright (C) 2026 Hans Liljestrand <hans@liljestrand.dev>
 
-# Verify that each ishinstaller script contains a valid __ISH__ metadata
-# heredoc parseable as TOML.
+# If an ishinstaller script declares an __ISH__ metadata heredoc, the
+# contents must parse as valid TOML. Heredocs are optional — the installer
+# framework reads no metadata from the script body itself.
 
 import re
 import sys
@@ -25,15 +26,10 @@ def _extract_ish_metadata(path: Path) -> str | None:
     return m.group(1) if m else None
 
 
-def test_has_ish_metadata_block(ishinstaller_file: Path) -> None:
-    block = _extract_ish_metadata(ishinstaller_file)
-    assert block is not None, f"{ishinstaller_file.name}: missing __ISH__ metadata block"
-
-
 def test_ish_metadata_is_valid_toml(ishinstaller_file: Path) -> None:
     block = _extract_ish_metadata(ishinstaller_file)
     if block is None:
-        return  # caught by test_has_ish_metadata_block
+        return
     try:
         tomllib.loads(block)
     except Exception as exc:
