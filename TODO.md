@@ -90,18 +90,6 @@ urgency — the network pre-flight diagnostic handles the common case.
 
 ---
 
-## rustup on older distros
-
-**Why noted:** `apt = "rustup"` / `dnf = "rustup"` works on recent distros
-but older ones (e.g., Ubuntu 20.04) don't have rustup in their default repos.
-The upstream `rustup-init` script is the portable fallback.
-
-**How to pick up:** Add a custom installer `ishinstallers/install_rustup.sh`
-that falls back to `curl https://sh.rustup.rs | sh` when the distro package
-is unavailable.
-
----
-
 ## Missing ishlib helpers in install_powershell.sh
 
 **File:** `ishinstallers/install_powershell.sh` (lines 39, 44)
