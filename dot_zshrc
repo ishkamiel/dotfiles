@@ -99,8 +99,10 @@ alias rm="rm -i"
 alias mv="mv -i"
 # shellcheck disable=SC2139
 alias makej="make -j${NPROC}"
+alias doitj="doit -n${NPROC}"
 # shellcheck disable=SC2139
 alias umakej="unbuffer make -j${NPROC}"
+alias udoitj="unbuffer doit -n${NPROC}"
 alias whatsmyip="dig +short myip.opendns.com @resolver1.opendns.com"
 # --- bat/batcat ----------------------
 # Use `bcat` rather than shadowing `cat` so scripts that pipe into cat keep working.
