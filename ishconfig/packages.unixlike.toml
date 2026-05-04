@@ -100,6 +100,12 @@ apt = "direnv"
 dnf = "direnv"
 tags = ["def"]
 
+[doit]
+apt = "python3-doit"
+dnf = "python3-doit"
+brew = "doit"
+tags = ["def"]
+
 [du_dust]
 apt = "du-dust"
 optional = true
