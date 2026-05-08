@@ -35,3 +35,5 @@
     whatchanged = log --raw --no-merges
 [include]
     path = ~/.gitconfig_local
+[submodule]
+	fetchJobs = 8
