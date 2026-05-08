@@ -132,11 +132,6 @@ apt = "git-crypt"
 dnf = "git-crypt"
 tags = ["def"]
 
-[glow]
-apt = "glow"
-dnf = "glow"
-tags = ["def"]
-
 [ipython]
 apt = "ipython3"
 dnf = "python3-ipython"
