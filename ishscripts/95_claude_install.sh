@@ -5,6 +5,7 @@
 # Installs Claude Code via the official curl installer if not already present.
 
 : <<'__ISH__'
+tags = ["installClaude"]
 run_when = "onchange"
 only_on  = ["unixlike"]
 __ISH__

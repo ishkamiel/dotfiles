@@ -7,6 +7,7 @@
 # Cannot install them automatically — Claude Code has no shell-level install CLI.
 
 : <<'__ISH__'
+tags = ["installClaude"]
 run_when = "onchange"
 only_on  = ["unixlike"]
 __ISH__

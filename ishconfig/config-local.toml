@@ -48,3 +48,9 @@ isholate = false
 type = "bool"
 default = false
 isholate = false
+
+[installClaude]
+prompt = "Install Claude Code?"
+type = "bool"
+default = false
+isholate = false
