@@ -55,12 +55,6 @@ fi
 # shellcheck disable=SC1091
 [ -e "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
-# pyenv
-if [ -e "${HOME}/.pyenv" ]; then
-  export PYENV_ROOT="${HOME}/.pyenv"
-  __prepend_to_PATH "${PYENV_ROOT}/bin"
-fi
-
 # shellcheck disable=SC1090 disable=SC1091
 [ -e "${HOME}/.profile_local" ] && . "${HOME}/.profile_local"
 
