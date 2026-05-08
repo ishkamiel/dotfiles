@@ -57,11 +57,9 @@ VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
 zstyle ':omz:update' mode disabled
 
 if [ -e "${HOME}/.pyenv" ]; then
-  if ! command -v pyenv >/dev/null 2>&1; then
-    export PYENV_ROOT="${HOME}/.pyenv"
-    __prepend_to_PATH "${PYENV_ROOT}/bin"
-    command -v pyenv >/dev/null 2>&1 && eval "$(pyenv init --path)"
-  fi
+  export PYENV_ROOT="${HOME}/.pyenv"
+  __prepend_to_PATH "${PYENV_ROOT}/bin"
+  eval "$(pyenv init --path)"
 fi
 
 # shellcheck disable=SC2034
