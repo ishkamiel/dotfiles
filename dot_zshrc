@@ -7,12 +7,24 @@ export ZSH="${HOME}/.oh-my-zsh"
 export ZSH_CUSTOM="${HOME}/.config/omz-custom"
 
 # Helper functions
+#
 __prepend_to_PATH() {
   case ":$PATH:" in
     *:"$1":*) ;;
     *) [[ -d "$1" ]] && export PATH="$1:${PATH}" ;;
   esac
 }
+
+__get_nproc() {
+  if command -v nproc >/dev/null 2>&1; then
+    nproc
+  elif command -v sysctl >/dev/null 2>&1; then
+    sysctl -n hw.ncpu
+  fi
+}
+
+NPROC="$(__get_nproc)"
+export NPROC
 
 # Update here (in addition to ~/.profile)
 __prepend_to_PATH "${HOME}/bin"
@@ -56,11 +68,24 @@ VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
 ####### oh-my-zsh ##############################################################
 zstyle ':omz:update' mode disabled
 
+# --- pyenv ---------------------------
 if [ -e "${HOME}/.pyenv" ]; then
   export PYENV_ROOT="${HOME}/.pyenv"
   __prepend_to_PATH "${PYENV_ROOT}/bin"
   eval "$(pyenv init --path)"
 fi
+
+# --- fzf -----------------------------
+if [ -e "${HOME}/.fzf/bin" ]; then
+  __prepend_to_PATH "${HOME}/.fzf/bin"
+  eval "$(fzf --zsh)"
+fi
+
+# --- direnv --------------------------
+command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
+
+# --- fnm -----------------------------
+command -v fnm >/dev/null 2>&1 && eval "$(fnm env --use-on-cd)"
 
 # shellcheck disable=SC2034
 plugins=(

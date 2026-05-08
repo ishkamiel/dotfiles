@@ -4,30 +4,4 @@
 # shellcheck source=dot_profile
 [ -e ~/.profile ] && . ~/.profile
 
-__get_nproc() {
-  if command -v nproc >/dev/null 2>&1; then
-    nproc
-  elif command -v sysctl >/dev/null 2>&1; then
-    sysctl -n hw.ncpu
-  fi
-}
-
-NPROC="$(__get_nproc)"
-export NPROC
-
-# pyenv
-export PYENV_ROOT="${HOME}/.pyenv"
-__prepend_to_PATH "${PYENV_ROOT}/bin"
-command -v pyenv >/dev/null 2>&1 && eval "$(pyenv init --path)"
-
-# --- fzf -----------------------------
-__prepend_to_PATH "${HOME}/.fzf/bin"
-command -v fzf >/dev/null 2>&1 && eval "$(fzf --zsh)"
-
-# --- direnv --------------------------
-command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
-
-# --- fnm -----------------------------
-command -v fnm >/dev/null 2>&1 && eval "$(fnm env --use-on-cd)"
-
 # vim: ft=zsh shiftwidth=2 tabstop=2
