@@ -1,25 +1,35 @@
 {
-  "permissions": {
-    "allow": [
-      "Bash(mpyp *)",
-      "Bash(make verify *)",
-      "Bash(make verify * | grep *)",
-      "Bash(make verify * | head *)",
-      "Bash(make verify * | rg *)",
-      "Bash(make verify * | tail *)",
-      "Bash(pre-commit run *)",
-      "Bash(pytest *)",
-      "Bash(python -m mpyp *)",
-      "Bash(python -m pytest *)",
-      "Bash(python -m pytest * | grep *)",
-      "Bash(python -m pytest * | head *)",
-      "Bash(python -m pytest * | rg *)",
-      "Bash(python -m pytest * | tail *)",
-      "Read"
-    ],
-    "deny": [
-      "Bash(rm -rf *)",
-      "Bash(sudo *)"
+  "enabledPlugins": {
+    "clangd-lsp@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true,
+    "github@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "anthropic-agent-skills": {
+      "source": {
+        "repo": "anthropics/skills",
+        "source": "github"
+      }
+    }
+  },
+  "hooks": {
+    "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "command": "$HOME/.claude/hooks/nono-hook.sh",
+            "type": "command"
+          }
+        ],
+        "matcher": "Read|Write|Edit|Bash"
+      }
     ]
-  }
+  },
+  "model": "claude-fable-5[1m]",
+  "skipDangerousModePermissionPrompt": true,
+  "tui": "fullscreen"
 }
