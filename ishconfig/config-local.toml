@@ -37,7 +37,7 @@ isholate = false
 prompt = "Install build tools?"
 type = "bool"
 default = false
-isholate = false
+isholate = true
 
 [isGui]
 type = "bool"
@@ -53,4 +53,4 @@ isholate = false
 prompt = "Install Claude Code?"
 type = "bool"
 default = false
-isholate = false
+isholate = true
